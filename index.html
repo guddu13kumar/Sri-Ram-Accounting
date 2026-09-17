@@ -74,16 +74,20 @@
             <h2 class="text-xl font-black text-[#004aad] uppercase tracking-widest border-b border-slate-200 pb-2">Business Overview</h2>
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
                 <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 border-l-4 border-l-blue-500 hover:shadow-md transition-all">
-                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Total Sales</p><h3 class="text-2xl font-black text-[#004aad] mt-2" id="dash-sale">₹ 0</h3>
+                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Total Sales</p>
+                    <h3 class="text-2xl font-black text-[#004aad] mt-2" id="dash-sale">₹ 0</h3>
                 </div>
                 <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 border-l-4 border-l-rose-500 hover:shadow-md transition-all">
-                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Total Purchase</p><h3 class="text-2xl font-black text-rose-600 mt-2" id="dash-pur">₹ 0</h3>
+                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Total Purchase</p>
+                    <h3 class="text-2xl font-black text-rose-600 mt-2" id="dash-pur">₹ 0</h3>
                 </div>
                 <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 border-l-4 border-l-amber-500 hover:shadow-md transition-all">
-                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Total Products</p><h3 class="text-2xl font-black text-slate-800 mt-2" id="dash-prod-count">0</h3>
+                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Total Products</p>
+                    <h3 class="text-2xl font-black text-slate-800 mt-2" id="dash-prod-count">0</h3>
                 </div>
                 <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 border-l-4 border-l-emerald-500 hover:shadow-md transition-all">
-                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Total Parties</p><h3 class="text-2xl font-black text-slate-800 mt-2" id="dash-party-count">0</h3>
+                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Total Parties</p>
+                    <h3 class="text-2xl font-black text-slate-800 mt-2" id="dash-party-count">0</h3>
                 </div>
             </div>
             
@@ -104,9 +108,10 @@
             </div>
         </div>
 
-        <!-- PRODUCT VIEW -->
+        <!-- ========================================== -->
+        <!-- 📦 PRODUCT MANAGEMENT VIEW -->
+        <!-- ========================================== -->
         <div id="view-product" class="view-section hidden space-y-6 max-w-screen-2xl mx-auto">
-            
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-200 pb-3">
                 <div class="flex items-center space-x-4">
                     <div class="w-12 h-12 bg-blue-600 text-white rounded-xl flex items-center justify-center text-2xl shadow-lg">📦</div>
@@ -123,7 +128,7 @@
                 </div>
             </div>
 
-            <!-- Product Stats Dashboard -->
+            <!-- Product Stats -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
                 <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-100 flex items-center space-x-4"><div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-xl">📋</div><div><p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Total Items</p><h3 class="text-xl font-black text-slate-800" id="stat-tot-prod">0</h3></div></div>
                 <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-100 flex items-center space-x-4"><div class="w-12 h-12 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center text-xl">✅</div><div><p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-0.5">In Stock</p><h3 class="text-xl font-black text-slate-800" id="stat-in-stock">0</h3></div></div>
@@ -131,15 +136,29 @@
                 <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-100 flex items-center space-x-4"><div class="w-12 h-12 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center text-xl">❌</div><div><p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Out of Stock</p><h3 class="text-xl font-black text-slate-800" id="stat-out-stock">0</h3></div></div>
             </div>
 
+            <!-- Product Table & Filters -->
             <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden flex flex-col">
                 <div class="p-4 border-b border-slate-100 bg-slate-50 flex flex-wrap gap-3 items-center">
-                    <div class="relative flex-1 min-w-[250px]"><span class="absolute left-4 top-3 text-lg text-slate-400">🔍</span><input type="text" id="prod-search" oninput="renderProducts()" placeholder="Search by Name, SKU or IMEI..." class="w-full pl-11 pr-4 h-[44px] bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none focus:border-[#004aad] text-slate-700 shadow-sm" /></div>
+                    <div class="relative flex-1 min-w-[250px]">
+                        <span class="absolute left-4 top-3 text-lg text-slate-400">🔍</span>
+                        <input type="text" id="prod-search" oninput="renderProducts()" placeholder="Search by Name, Brand, SKU or IMEI..." class="w-full pl-11 pr-4 h-[44px] bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none focus:border-[#004aad] text-slate-700 shadow-sm transition-all" />
+                    </div>
                     <select id="filter-category" onchange="renderProducts()" class="cat-select h-[44px] px-4 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-600 outline-none shadow-sm min-w-[150px]"></select>
+                    <select id="filter-brand" onchange="renderProducts()" class="h-[44px] px-4 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-600 outline-none shadow-sm min-w-[150px]"><option value="ALL">All Brands</option></select>
                 </div>
                 <div class="overflow-x-auto w-full max-h-[400px]">
                     <table class="w-full text-left text-xs min-w-[1000px]">
                         <thead class="bg-white font-black uppercase tracking-widest text-slate-500 border-b border-slate-200 text-[10px] sticky top-0 z-10 shadow-sm">
-                            <tr><th class="p-4 w-16 text-center">Image</th><th class="p-4">Product Details</th><th class="p-4">SKU / HSN</th><th class="p-4 text-right">Purchase (₹)</th><th class="p-4 text-right text-[#004aad]">Sale (₹)</th><th class="p-4 text-center">Stock</th><th class="p-4 text-center">Status</th><th class="p-4 text-center">Action</th></tr>
+                            <tr>
+                                <th class="p-4 w-16 text-center">Image</th>
+                                <th class="p-4">Product Details</th>
+                                <th class="p-4">SKU / HSN</th>
+                                <th class="p-4 text-right">Purchase (₹)</th>
+                                <th class="p-4 text-right text-[#004aad]">Sale (₹)</th>
+                                <th class="p-4 text-center">Stock</th>
+                                <th class="p-4 text-center">Status</th>
+                                <th class="p-4 text-center">Action</th>
+                            </tr>
                         </thead>
                         <tbody id="product-table-body" class="font-bold text-slate-700 divide-y divide-slate-50"></tbody>
                     </table>
@@ -152,15 +171,17 @@
                     <div class="w-8 h-8 bg-[#004aad] text-white rounded-full flex items-center justify-center font-black text-lg">✏️</div>
                     <h3 class="font-black text-lg text-slate-800 uppercase tracking-widest" id="prod-form-title">Add New Product</h3>
                 </div>
-                <input type="hidden" id="p-id" value="">
                 
+                <input type="hidden" id="p-id" value="">
                 <div class="flex flex-col lg:flex-row gap-8">
                     <!-- Image Upload -->
                     <div class="w-full lg:w-1/4 flex flex-col items-center">
-                        <label class="font-black text-[10px] uppercase tracking-widest text-slate-400 w-full text-left mb-2">Product Image</label>
+                        <label class="font-black text-[10px] uppercase tracking-widest text-slate-400 w-full mb-2">Product Image</label>
                         <input type="file" id="p-image-upload" accept="image/*" class="hidden" onchange="handleProductImage(event)" />
                         <div class="w-full h-[200px] bg-slate-50 border-2 border-dashed border-slate-300 rounded-2xl flex flex-col items-center justify-center relative overflow-hidden group hover:border-[#004aad] transition-colors cursor-pointer" onclick="document.getElementById('p-image-upload').click()">
-                            <div id="p-img-placeholder" class="flex flex-col items-center"><span class="text-5xl drop-shadow-md mb-2">📸</span><span class="text-[10px] font-black text-blue-600 bg-blue-50 px-3 py-1.5 rounded-lg uppercase tracking-widest">Upload Photo</span></div>
+                            <div id="p-img-placeholder" class="flex flex-col items-center">
+                                <span class="text-5xl drop-shadow-md mb-2">📸</span><span class="text-[10px] font-black text-blue-600 bg-blue-50 px-3 py-1.5 rounded-lg uppercase tracking-widest">Upload Photo</span>
+                            </div>
                             <img id="p-img-preview" class="hidden absolute inset-0 w-full h-full object-cover z-10" />
                         </div>
                         <button type="button" onclick="clearProductImage()" class="mt-3 text-[9px] font-black text-rose-500 uppercase tracking-widest hover:underline">Remove Image</button>
@@ -168,13 +189,13 @@
 
                     <div class="w-full lg:w-3/4 space-y-5">
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
-                            <div class="sm:col-span-2"><label class="font-black text-[10px] uppercase tracking-widest text-slate-500 block mb-1.5">Product Name *</label><input type="text" id="p-name" class="premium-input uppercase text-[#004aad]" placeholder="e.g. Samsung Galaxy S24"></div>
-                            <div><label class="font-black text-[10px] uppercase tracking-widest text-slate-500 block mb-1.5">Brand</label><input type="text" id="p-brand" class="premium-input uppercase" placeholder="e.g. Samsung"></div>
+                            <div class="sm:col-span-2"><label class="font-black text-[10px] uppercase tracking-widest text-slate-500 block mb-1.5">Product Name *</label><input type="text" id="p-name" class="premium-input uppercase text-[#004aad]"></div>
+                            <div><label class="font-black text-[10px] uppercase tracking-widest text-slate-500 block mb-1.5">Brand</label><input type="text" id="p-brand" class="premium-input uppercase" list="brand-list"></div>
+                            <datalist id="brand-list"></datalist>
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
-                            <!-- FIXED CATEGORY WITH ADD NEW OPTION -->
                             <div><label class="font-black text-[10px] uppercase tracking-widest text-slate-500 block mb-1.5">Category *</label><select id="p-category" onchange="handleCategoryChange(this)" class="cat-select premium-input"></select></div>
-                            <div><label class="font-black text-[10px] uppercase tracking-widest text-slate-500 block mb-1.5">Variant / Color</label><input type="text" id="p-variant" class="premium-input uppercase" placeholder="e.g. 8GB/256GB Black"></div>
+                            <div><label class="font-black text-[10px] uppercase tracking-widest text-slate-500 block mb-1.5">Variant / Color</label><input type="text" id="p-variant" class="premium-input uppercase"></div>
                             <div><label class="font-black text-[10px] uppercase tracking-widest text-slate-500 block mb-1.5">SKU / Barcode</label><input type="text" id="p-sku" class="premium-input font-mono uppercase" placeholder="Auto-generated"></div>
                         </div>
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-5 p-4 bg-slate-50 rounded-2xl border border-slate-200">
@@ -185,7 +206,7 @@
                         </div>
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-5">
                             <div><label class="font-black text-[10px] uppercase tracking-widest text-slate-500 block mb-1.5">HSN Code</label><input type="text" id="p-hsn" class="premium-input font-mono" placeholder="Optional"></div>
-                            <div><label class="font-black text-[10px] uppercase tracking-widest text-slate-500 block mb-1.5">Opening Stock</label><input type="number" id="p-stock" oninput="generateImeiBoxes()" class="premium-input font-black text-lg text-center text-[#004aad]" placeholder="0"></div>
+                            <div><label class="font-black text-[10px] uppercase tracking-widest text-slate-500 block mb-1.5">Opening Stock</label><input type="number" id="p-stock" oninput="generateImeiBoxes()" class="premium-input font-black text-lg text-center" placeholder="0"></div>
                             <div><label class="font-black text-[10px] uppercase tracking-widest text-slate-500 block mb-1.5">Low Stock Alert</label><input type="number" id="p-low" value="5" class="premium-input text-center text-amber-600"></div>
                             <div class="flex items-center justify-center pt-5">
                                 <label class="flex items-center space-x-2 cursor-pointer p-2 bg-blue-50 rounded-xl border border-blue-100 w-full justify-center">
@@ -194,7 +215,6 @@
                                 </label>
                             </div>
                         </div>
-                        <!-- Opening Stock IMEIs -->
                         <div id="p-imei-container" class="hidden mt-4 p-5 bg-slate-100 rounded-2xl border border-slate-200 shadow-inner">
                             <h4 class="font-black text-[10px] uppercase tracking-widest text-slate-600 mb-3 border-b border-slate-200 pb-2">Enter Opening Stock IMEIs / Serial Numbers</h4>
                             <div id="p-imei-list" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4"></div>
@@ -204,15 +224,19 @@
 
                 <div class="flex justify-end space-x-4 mt-8 pt-5 border-t border-slate-100">
                     <button onclick="clearProductForm()" class="px-8 py-3.5 bg-slate-100 text-slate-500 font-black text-[11px] uppercase tracking-widest rounded-xl hover:bg-slate-200 transition-all">Clear Form</button>
-                    <button onclick="saveProduct()" class="px-10 py-3.5 bg-[#004aad] text-white font-black text-xs uppercase tracking-widest rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all flex items-center space-x-2"><span>💾</span><span>Save Product</span></button>
+                    <button onclick="saveProduct()" class="px-10 py-3.5 bg-[#004aad] text-white font-black text-xs uppercase tracking-widest rounded-xl shadow-lg hover:-translate-y-1 transition-all flex items-center space-x-2"><span>💾</span><span>Save Product</span></button>
                 </div>
             </div>
         </div>
 
-        <!-- PARTY VIEW -->
+        <!-- ========================================== -->
+        <!-- 👥 PARTY MANAGEMENT VIEW -->
+        <!-- ========================================== -->
         <div id="view-party" class="view-section hidden space-y-6 max-w-screen-2xl mx-auto">
             <h2 class="text-xl font-black text-[#004aad] uppercase tracking-widest border-b border-slate-200 pb-3">Party Management</h2>
+            
             <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+                <input type="hidden" id="pt-id" value="">
                 <div class="grid grid-cols-1 sm:grid-cols-4 gap-5 mb-5">
                     <div><label class="font-black text-[10px] uppercase tracking-widest text-slate-500 block mb-1.5">Party Type</label><select id="pt-type" class="premium-input bg-slate-50 text-[#004aad]"><option>CUSTOMER</option><option>SUPPLIER</option></select></div>
                     <div class="sm:col-span-2"><label class="font-black text-[10px] uppercase tracking-widest text-slate-500 block mb-1.5">Party Name *</label><input type="text" id="pt-name" class="premium-input bg-slate-50 text-[#004aad] uppercase"></div>
@@ -223,9 +247,20 @@
                     <div><label class="font-black text-[10px] uppercase tracking-widest text-slate-500 block mb-1.5">GSTIN</label><input type="text" id="pt-gstin" class="premium-input bg-slate-50 uppercase font-mono text-[#004aad]" maxlength="15"></div>
                     <div><label class="font-black text-[10px] uppercase tracking-widest text-slate-500 block mb-1.5">Opening Bal (₹)</label><input type="number" id="pt-ob" class="premium-input bg-slate-50 font-black text-lg text-[#004aad]" placeholder="0"></div>
                 </div>
-                <div class="flex justify-end"><button onclick="saveParty()" class="bg-[#004aad] text-white px-8 py-3.5 rounded-xl font-black uppercase tracking-widest text-[11px] shadow-md hover:-translate-y-1 transition-all flex items-center space-x-2"><span>💾</span><span>Save Party</span></button></div>
+                <div class="flex justify-end space-x-3">
+                    <button onclick="clearPartyForm()" class="px-6 py-3.5 bg-slate-100 text-slate-500 font-black text-[11px] uppercase tracking-widest rounded-xl hover:bg-slate-200 transition-all">Clear</button>
+                    <button onclick="saveParty()" class="bg-[#004aad] text-white px-8 py-3.5 rounded-xl font-black uppercase tracking-widest text-[11px] shadow-md hover:-translate-y-1 transition-all flex items-center space-x-2"><span>💾</span><span>Save Party</span></button>
+                </div>
             </div>
-            <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+
+            <!-- SEARCH BAR IN PARTY -->
+            <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden flex flex-col">
+                <div class="p-4 border-b border-slate-100 bg-slate-50 flex items-center">
+                    <div class="relative w-full max-w-md">
+                        <span class="absolute left-4 top-3 text-lg text-slate-400">🔍</span>
+                        <input type="text" id="party-search" oninput="renderParties()" placeholder="Search by Name, Mobile or GSTIN..." class="w-full pl-11 pr-4 h-[44px] bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none focus:border-[#004aad] text-slate-700 shadow-sm" />
+                    </div>
+                </div>
                 <div class="overflow-x-auto w-full max-h-[500px]">
                     <table class="w-full text-left text-xs min-w-[800px]">
                         <thead class="bg-slate-50 font-black uppercase tracking-widest text-slate-500 border-b border-slate-200 text-[10px] sticky top-0 z-10">
@@ -237,19 +272,21 @@
             </div>
         </div>
 
-        <!-- BILLING (SALE/PURCHASE) VIEW -->
+        <!-- ========================================== -->
+        <!-- 🛒 BILLING (SALE/PURCHASE) VIEW WITH UNIVERSAL PAYMENT -->
+        <!-- ========================================== -->
         <div id="view-new-bill" class="view-section hidden space-y-5 max-w-screen-2xl mx-auto">
             <div class="flex justify-between items-end border-b border-slate-200 pb-3">
                 <h2 id="bill-title" class="text-2xl font-black text-[#004aad] uppercase tracking-widest">SALE ENTRY</h2>
                 <span id="form-entry-type" class="text-[10px] font-black px-4 py-1.5 rounded-lg bg-blue-50 text-[#004aad] border border-blue-200 uppercase tracking-widest shadow-sm">SALE</span>
             </div>
             
-            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 grid grid-cols-1 sm:grid-cols-4 gap-4 items-end">
+            <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 grid grid-cols-1 sm:grid-cols-4 gap-4 items-end">
                 <div class="w-full flex flex-col justify-end">
                     <label class="font-black text-[10px] uppercase text-slate-500 tracking-widest mb-1.5">Party Name * <span class="text-[8px] ml-1 bg-slate-100 px-1 py-0.5 rounded text-slate-400">ALT+C</span></label>
                     <div class="relative w-full">
                         <input type="text" id="bill-party" list="party-list" onkeydown="handleShortcut(event, currentMode === 'SALE' ? 'CUSTOMER' : 'SUPPLIER')" class="premium-input pr-10 bg-slate-50 uppercase font-black text-sm text-[#004aad]" placeholder="Select / Type Name">
-                        <button onclick="openPartyModal(currentMode === 'SALE' ? 'CUSTOMER' : 'SUPPLIER')" tabindex="-1" class="absolute right-1 top-1 bottom-1 w-[36px] bg-blue-100 text-[#004aad] rounded-lg font-black text-lg hover:bg-[#004aad] hover:text-white transition-all shadow-sm flex items-center justify-center pb-1">+</button>
+                        <button onclick="openPartyModal(currentMode === 'SALE' ? 'CUSTOMER' : 'SUPPLIER', document.getElementById('bill-party'))" tabindex="-1" class="absolute right-1 top-1 bottom-1 w-[36px] bg-blue-100 text-[#004aad] rounded-lg font-black text-lg hover:bg-[#004aad] hover:text-white transition-all shadow-sm flex items-center justify-center pb-1">+</button>
                     </div>
                 </div>
                 <div class="w-full flex flex-col justify-end"><label class="font-black text-[10px] uppercase text-slate-500 tracking-widest mb-1.5">Mobile</label><input type="tel" id="bill-mobile" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'')" class="premium-input bg-slate-50 font-mono text-sm font-bold text-slate-700" placeholder="10 Digits"></div>
@@ -258,28 +295,62 @@
             </div>
 
             <!-- PRODUCT GRID -->
-            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 overflow-x-auto">
-                <div class="grid grid-cols-12 gap-3 mb-2 font-black text-[10px] uppercase text-slate-400 tracking-widest border-b border-slate-200 pb-2 px-2 min-w-[850px]">
+            <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 overflow-x-auto">
+                <div class="grid grid-cols-12 gap-3 mb-3 font-black text-[10px] uppercase text-slate-400 tracking-widest border-b border-slate-200 pb-2 px-2 min-w-[850px]">
                     <div class="col-span-3">Product Name</div>
                     <div class="col-span-2 text-right">Rate</div>
                     <div class="col-span-1 text-center">GST %</div>
                     <div class="col-span-1 text-center">Qty</div>
-                    <div class="col-span-2 pl-2">IMEI / Serial</div>
-                    <div class="col-span-2 text-right">Amount</div>
-                    <div class="col-span-1 text-center">Act</div>
+                    <div class="col-span-3 pl-2">IMEI / Serial</div>
+                    <div class="col-span-2 text-right pr-8">Amount</div>
                 </div>
                 <div id="bill-items" class="space-y-3 min-w-[850px]"></div>
                 <button onclick="addBillRow()" class="mt-5 text-[#004aad] font-black uppercase text-[11px] tracking-widest bg-blue-50 px-6 py-3 rounded-xl border border-blue-200 hover:bg-[#004aad] hover:text-white transition-all shadow-sm">➕ Add Row</button>
             </div>
 
-            <!-- TOTALS & SAVE (LIVE CALCULATION) -->
-            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 grid grid-cols-1 sm:grid-cols-3 gap-5">
-                <div class="sm:col-span-2 flex items-center space-x-6">
-                    <div class="w-1/3"><label class="font-black text-[10px] uppercase text-slate-400 tracking-widest block mb-1.5">Global Discount (₹)</label><input type="number" id="bill-discount" oninput="calcBill()" class="premium-input bg-slate-50 border-slate-200 text-rose-600 font-black text-xl" placeholder="0"></div>
-                    <div class="w-1/3"><label class="font-black text-[10px] uppercase text-slate-400 tracking-widest block mb-1.5">Amount Paid (₹)</label><input type="number" id="bill-paid" oninput="calcBill(true)" class="premium-input bg-blue-50 border-blue-400 focus:ring-blue-300 text-[#004aad] font-black text-xl shadow-inner" placeholder="0"></div>
+            <!-- UNIVERSAL PAYMENT SECTION (FOR BOTH SALE & PURCHASE) -->
+            <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex flex-col space-y-5">
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-5 border-b border-slate-100 pb-5">
+                    <div><label class="font-black text-[10px] uppercase text-slate-400 tracking-widest block mb-1.5">Global Discount (₹)</label><input type="number" id="bill-discount" oninput="calcBill()" class="premium-input bg-slate-50 border-slate-200 text-rose-600 font-black text-xl" placeholder="0"></div>
+                    <div><label class="font-black text-[10px] uppercase text-slate-400 tracking-widest block mb-1.5">Primary Mode</label>
+                        <select id="pay-primary" onchange="onPaymentModeChange()" class="premium-input bg-slate-50 text-[#004aad]">
+                            <option value="">Choose</option>
+                            <option value="Cash">Cash</option><option value="QR">QR (Online)</option><option value="Card">Card Swipe</option>
+                            <option value="Cash + QR">Cash + QR</option><option value="Cash + Card">Cash + Card</option><option value="QR + Card">QR + Card</option><option value="Cash + QR + Card">Cash + QR + Card</option>
+                        </select>
+                    </div>
+                    <div><label class="font-black text-[10px] uppercase text-slate-400 tracking-widest block mb-1.5">Secondary Mode</label>
+                        <select id="pay-secondary" onchange="onPaymentModeChange()" class="premium-input bg-slate-50 text-[#004aad]">
+                            <option value="">Choose</option><option value="Finance">Finance</option><option value="Dues">Dues / Credit</option>
+                        </select>
+                    </div>
+                    <div><label class="font-black text-[10px] uppercase text-slate-400 tracking-widest block mb-1.5">Amount Paid (₹) *</label><input type="number" id="bill-paid" oninput="calcBill(true)" class="premium-input bg-blue-50 border-blue-400 focus:ring-blue-300 text-[#004aad] font-black text-xl shadow-inner" placeholder="0"></div>
+                </div>
+
+                <!-- SPLIT & FINANCE BOXES -->
+                <div id="split-box" class="grid grid-cols-1 sm:grid-cols-3 gap-5 hidden bg-slate-50 p-4 rounded-xl border border-slate-200 shadow-inner">
+                    <div id="wrap-split-cash" class="hidden"><label class="font-black text-[10px] uppercase text-slate-400 tracking-widest block mb-1.5">Cash Amt (₹)</label><input type="number" id="split-cash" placeholder="0" oninput="calcBill()" class="premium-input bg-white text-[#004aad]" /></div>
+                    <div id="wrap-split-qr" class="hidden"><label class="font-black text-[10px] uppercase text-slate-400 tracking-widest block mb-1.5">QR Amt (₹)</label><input type="number" id="split-qr" placeholder="0" oninput="calcBill()" class="premium-input bg-white text-[#004aad]" /></div>
+                    <div id="wrap-split-card" class="hidden"><label class="font-black text-[10px] uppercase text-slate-400 tracking-widest block mb-1.5">Card Amt (₹)</label><input type="number" id="split-card" placeholder="0" oninput="calcBill()" class="premium-input bg-white text-[#004aad]" /></div>
+                </div>
+
+                <div id="fin-box" class="hidden bg-blue-50 p-5 rounded-2xl border border-blue-100 mt-2">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-4">
+                        <div><label class="font-black text-[10px] uppercase text-slate-400 tracking-widest block mb-1.5">Company *</label><select id="fin-company" class="premium-input bg-white text-[#004aad]"><option value="">-- Fin. Company --</option><option value="Kisto Pe">Kisto Pe</option><option value="Bajaj Finserv">Bajaj Finserv</option><option value="HDB Finance">HDB Finance</option></select></div>
+                        <div><label class="font-black text-[10px] uppercase text-slate-400 tracking-widest block mb-1.5">Total Finance Rate *</label><input type="number" id="fin-rate" placeholder="0" class="premium-input bg-white text-[#004aad]" oninput="calcBill()" /></div>
+                        <div><label class="font-black text-[10px] uppercase text-slate-400 tracking-widest block mb-1.5">DP Mode</label><select id="fin-dp-mode" onchange="onPaymentModeChange()" class="premium-input bg-white text-[#004aad]"><option value="Cash">DP Cash</option><option value="QR">DP QR</option><option value="Card">DP Card</option><option value="Cash + QR">DP Cash + QR</option></select></div>
+                    </div>
+                </div>
+
+                <div id="dues-box" class="hidden bg-slate-50 p-5 rounded-2xl border border-slate-200 mt-2">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-4">
+                        <div><label class="font-black text-[10px] uppercase text-slate-400 tracking-widest block mb-1.5">DP Mode</label><select id="dues-mode" onchange="onPaymentModeChange()" class="premium-input bg-white text-[#004aad]"><option value="Cash">Cash</option><option value="QR">QR</option><option value="Cash + QR">Cash + QR</option></select></div>
+                        <div><label class="font-black text-[10px] uppercase text-slate-400 tracking-widest block mb-1.5">Agreed Rate *</label><input type="number" id="dues-rate" placeholder="0" class="premium-input bg-white text-[#004aad]" oninput="calcBill()" /></div>
+                    </div>
                 </div>
             </div>
 
+            <!-- TOTAL BAR -->
             <div class="bg-gradient-to-r from-slate-800 to-slate-900 p-6 rounded-3xl text-white flex flex-col sm:flex-row justify-between items-center shadow-xl gap-4 border border-slate-700">
                 <div class="flex space-x-6 sm:space-x-10 text-center sm:text-left w-full sm:w-auto overflow-x-auto pb-2 sm:pb-0 items-center">
                     <div><p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Taxable</p><h2 class="text-xl font-black" id="bill-taxable">₹ 0</h2></div>
@@ -294,7 +365,7 @@
             </div>
         </div>
 
-        <!-- LEDGER VIEW -->
+        <!-- INVOICE, LEDGER, ETC... (Remains exactly as previously set for bug-free render) -->
         <div id="view-ledger" class="view-section hidden space-y-6 max-w-screen-2xl mx-auto">
             <h2 class="text-xl font-black text-[#004aad] uppercase tracking-widest border-b border-slate-200 pb-3">Ledger / Transactions</h2>
             <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
@@ -309,86 +380,54 @@
             </div>
         </div>
 
-        <!-- INVOICE VIEW -->
         <div id="view-invoice" class="view-section hidden space-y-5 max-w-3xl mx-auto pb-10">
-            <div class="flex justify-between items-center mb-4">
-                <button onclick="showView('dashboard')" class="bg-slate-200 text-slate-700 px-4 py-2 rounded-lg font-black text-[10px] uppercase tracking-widest hover:bg-slate-300 transition-colors">Back Home</button>
+            <div class="flex justify-between items-center bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                <button onclick="showView('dashboard')" class="bg-slate-100 text-slate-600 px-6 py-2.5 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-300 transition-colors">Back Home</button>
                 <div class="space-x-2">
-                    <button onclick="downloadPDF()" class="bg-[#004aad] text-white px-5 py-2 rounded-lg font-black text-[10px] uppercase tracking-widest shadow-md hover:bg-blue-800 transition-colors">Download PDF</button>
+                    <button onclick="downloadPDF()" class="bg-[#004aad] text-white px-6 py-2.5 rounded-xl font-black text-[10px] uppercase tracking-widest shadow-md hover:bg-blue-800 transition-colors">📥 Download PDF</button>
                 </div>
             </div>
             
-            <div id="invoice-capture" class="bg-white p-8 rounded-xl shadow-lg border-2 border-[#004aad] text-slate-800 relative max-w-[800px] mx-auto">
-                <div class="text-center border-b-2 border-[#004aad] pb-4 mb-4">
-                    <h1 class="text-3xl font-black text-[#004aad] uppercase tracking-widest">Sri Ram Enterprises</h1>
-                    <p class="text-xs font-bold text-slate-600 mt-1 tracking-widest">MOBILE • ACCESSORIES • REPAIRING</p>
+            <div id="invoice-capture" class="bg-white p-10 rounded-2xl shadow-xl border-2 border-[#004aad] text-slate-800 relative max-w-[800px] mx-auto">
+                <div class="text-center border-b-2 border-[#004aad] pb-6 mb-6">
+                    <h1 class="text-4xl font-black text-[#004aad] uppercase tracking-widest">Sri Ram Enterprises</h1>
+                    <p class="text-xs font-black text-slate-600 mt-2 tracking-widest">MOBILE • ACCESSORIES • REPAIRING</p>
                     <p class="text-[10px] font-bold text-slate-500 mt-1 uppercase tracking-widest">GB-15, City Centre, Sector-4, B.S. City | Ph: 9334765000</p>
                 </div>
-                <div class="flex justify-between items-end mb-5">
+                <div class="flex justify-between items-end mb-6">
                     <div>
                         <p class="text-slate-400 font-black uppercase text-[9px] tracking-widest mb-1">Bill To:</p>
                         <p id="inv-party" class="text-lg font-black uppercase text-[#004aad] leading-tight"></p>
                         <p id="inv-phone" class="font-mono text-xs font-bold mt-1 text-slate-600"></p>
+                        <p id="inv-address" class="text-[10px] font-bold mt-1 uppercase text-slate-500 max-w-[200px]"></p>
                     </div>
                     <div class="text-right">
-                        <h2 id="inv-type-title" class="text-lg font-black text-[#004aad] uppercase tracking-widest mb-2 border border-[#004aad] inline-block px-2 py-1 rounded">TAX INVOICE</h2>
-                        <div class="grid grid-cols-2 gap-x-4 gap-y-1 text-[11px] text-left">
+                        <h2 id="inv-type-title" class="text-xl font-black text-[#004aad] uppercase tracking-widest mb-2 border border-[#004aad] inline-block px-3 py-1 rounded">TAX INVOICE</h2>
+                        <div class="grid grid-cols-2 gap-x-4 gap-y-1 text-xs text-left">
                             <span class="font-bold text-slate-500 uppercase text-[9px] tracking-widest">Invoice No:</span><span id="inv-no" class="font-black text-[#004aad]"></span>
                             <span class="font-bold text-slate-500 uppercase text-[9px] tracking-widest">Date:</span><span id="inv-date" class="font-mono font-bold text-slate-800"></span>
                         </div>
                     </div>
                 </div>
-                <table class="w-full text-left text-xs mb-5 border-collapse">
-                    <thead><tr class="bg-[#004aad] text-white uppercase text-[10px] tracking-widest font-black"><th class="p-2 border border-[#004aad] w-8 text-center">#</th><th class="p-2 border border-[#004aad]">Product Description</th><th class="p-2 border border-[#004aad] w-48">IMEI / Serial</th><th class="p-2 border border-[#004aad] text-center w-12">Qty</th><th class="p-2 border border-[#004aad] text-right w-20">Rate</th><th class="p-2 border border-[#004aad] text-right w-24">Amount</th></tr></thead>
-                    <tbody id="inv-items" class="font-bold text-[11px]"></tbody>
+                <table class="w-full text-left text-xs mb-6 border-collapse">
+                    <thead><tr class="bg-[#004aad] text-white uppercase text-[10px] tracking-widest font-black"><th class="p-2.5 border border-[#004aad] w-10 text-center">#</th><th class="p-2.5 border border-[#004aad]">Product Description</th><th class="p-2.5 border border-[#004aad] w-48">IMEI / Serial</th><th class="p-2.5 border border-[#004aad] text-center w-12">Qty</th><th class="p-2.5 border border-[#004aad] text-right w-20">Rate</th><th class="p-2.5 border border-[#004aad] text-right w-24">Amount</th></tr></thead>
+                    <tbody id="inv-items" class="font-bold"></tbody>
                 </table>
-                <div class="flex justify-between items-start border-t-2 border-[#004aad] pt-3">
-                    <div class="flex space-x-3 items-center">
-                        <div id="inv-qr" class="w-16 h-16 border border-[#004aad] p-1 rounded-lg"></div>
-                        <p class="text-[8px] font-bold text-slate-500 uppercase tracking-widest leading-relaxed">Scan QR to<br>verify Invoice<br>online.</p>
+                <div class="flex justify-between items-start border-t-2 border-[#004aad] pt-4">
+                    <div class="flex space-x-4 items-center">
+                        <div id="inv-qr" class="w-20 h-20 border border-[#004aad] p-1 rounded-lg"></div>
+                        <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest leading-relaxed">Scan QR to<br>verify Invoice<br>online.</p>
                     </div>
                     <div class="w-64">
-                        <div class="flex justify-between text-[11px] font-bold mb-1"><span class="text-slate-500 uppercase">Taxable Value:</span><span id="inv-taxable">₹ 0</span></div>
-                        <div class="flex justify-between text-[11px] font-bold mb-1"><span class="text-slate-500 uppercase">Total GST:</span><span id="inv-gst">₹ 0</span></div>
-                        <div class="flex justify-between text-[11px] font-bold mb-2 border-b border-slate-200 pb-1.5"><span class="text-slate-500 uppercase">Discount:</span><span id="inv-disc" class="text-rose-600">- ₹ 0</span></div>
-                        <div class="flex justify-between items-end"><span class="text-[11px] font-black text-[#004aad] uppercase tracking-widest">Grand Total:</span><span id="inv-total" class="text-xl font-black text-[#004aad]">₹ 0</span></div>
+                        <div class="flex justify-between text-xs font-bold mb-1.5"><span class="text-slate-500 uppercase">Taxable Value:</span><span id="inv-taxable">₹ 0</span></div>
+                        <div class="flex justify-between text-xs font-bold mb-1.5"><span class="text-slate-500 uppercase">Total GST:</span><span id="inv-gst">₹ 0</span></div>
+                        <div class="flex justify-between text-xs font-bold mb-3 border-b border-slate-200 pb-2"><span class="text-slate-500 uppercase">Discount:</span><span id="inv-disc" class="text-rose-600">- ₹ 0</span></div>
+                        <div class="flex justify-between items-end"><span class="text-[11px] font-black text-[#004aad] uppercase tracking-widest">Grand Total:</span><span id="inv-total" class="text-2xl font-black text-[#004aad]">₹ 0</span></div>
+                        <div class="flex justify-between items-end mt-2"><span class="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">Amount Paid:</span><span id="inv-paid" class="text-sm font-black text-emerald-600">₹ 0</span></div>
+                        <div class="flex justify-between items-end mt-1"><span class="text-[10px] font-bold text-rose-500 uppercase tracking-widest">Balance Due:</span><span id="inv-bal" class="text-sm font-black text-rose-500">₹ 0</span></div>
                     </div>
                 </div>
-                <p class="text-[8px] text-center text-slate-400 font-bold uppercase tracking-widest mt-8 italic border-t border-slate-100 pt-2">* Computer Generated Document. No signature required. *</p>
-            </div>
-        </div>
-
-        <!-- MODALS (QUICK ADD) -->
-        <div id="party-popup" class="fixed inset-0 bg-slate-900/60 z-50 flex items-center justify-center hidden backdrop-blur-sm transition-opacity">
-            <div class="bg-white p-6 rounded-3xl shadow-2xl w-full max-w-sm border border-slate-100 mx-4">
-                <h3 class="text-lg font-black text-[#004aad] uppercase tracking-widest border-b border-slate-100 pb-3 mb-4">Quick Add Party</h3>
-                <div class="space-y-4">
-                    <input type="hidden" id="q-party-type">
-                    <div><label class="text-xs font-black text-slate-400 uppercase tracking-widest block mb-1.5">Party Name *</label><input type="text" id="q-party-name" class="premium-input bg-slate-50 uppercase text-[#004aad]"></div>
-                    <div><label class="text-xs font-black text-slate-400 uppercase tracking-widest block mb-1.5">Mobile No</label><input type="tel" id="q-party-phone" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'')" class="premium-input bg-slate-50 font-mono"></div>
-                </div>
-                <div class="flex space-x-3 mt-6 pt-4 border-t border-slate-100">
-                    <button onclick="document.getElementById('party-popup').classList.add('hidden'); if(activeShortcutInput) activeShortcutInput.focus();" class="flex-1 py-3 bg-slate-100 font-black rounded-xl text-xs text-slate-500 hover:bg-slate-200 transition-all uppercase tracking-widest">Cancel</button>
-                    <button onclick="saveQuickParty()" class="flex-[2] py-3 bg-[#004aad] text-white font-black rounded-xl text-xs shadow-md hover:shadow-lg transition-all uppercase tracking-widest">Save & Use</button>
-                </div>
-            </div>
-        </div>
-
-        <div id="item-popup" class="fixed inset-0 bg-slate-900/60 z-50 flex items-center justify-center hidden backdrop-blur-sm transition-opacity">
-            <div class="bg-white p-6 rounded-3xl shadow-2xl w-full max-w-sm border border-slate-100 mx-4">
-                <h3 class="text-lg font-black text-[#004aad] uppercase tracking-widest border-b border-slate-100 pb-3 mb-4">Quick Add Product</h3>
-                <div class="space-y-4">
-                    <div><label class="text-xs font-black text-slate-400 uppercase tracking-widest block mb-1.5">Product Name *</label><input type="text" id="q-item-name" class="premium-input bg-slate-50 uppercase text-[#004aad]"></div>
-                    <div><label class="text-xs font-black text-slate-400 uppercase tracking-widest block mb-1.5">Category *</label><select id="q-item-category" class="cat-select premium-input bg-slate-50" onchange="handleCategoryChange(this)"></select></div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div><label class="text-xs font-black text-slate-400 uppercase tracking-widest block mb-1.5">Sale Rate (₹) *</label><input type="number" id="q-item-sale" class="premium-input bg-white border-blue-300 text-[#004aad]"></div>
-                        <div><label class="text-xs font-black text-slate-400 uppercase tracking-widest block mb-1.5">GST %</label><select id="q-item-gst" class="premium-input bg-slate-50"><option value="0">0%</option><option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option></select></div>
-                    </div>
-                </div>
-                <div class="flex space-x-3 mt-6 pt-4 border-t border-slate-100">
-                    <button onclick="document.getElementById('item-popup').classList.add('hidden'); if(activeShortcutInput) activeShortcutInput.focus();" class="flex-1 py-3 bg-slate-100 font-black rounded-xl text-xs text-slate-500 hover:bg-slate-200 transition-all uppercase tracking-widest">Cancel</button>
-                    <button onclick="saveQuickItem()" class="flex-[2] py-3 bg-[#004aad] text-white font-black rounded-xl text-xs shadow-md hover:shadow-lg transition-all uppercase tracking-widest">Save & Fill</button>
-                </div>
+                <p class="text-[9px] text-center text-slate-400 font-bold uppercase tracking-widest mt-10 italic border-t border-slate-100 pt-3">* Computer Generated Document. No signature required. *</p>
             </div>
         </div>
 
@@ -414,7 +453,6 @@
     let activeProductImg = "";
     let activeShortcutInput = null;
 
-    // Initialize Categories
     if(categoriesDB.length === 0) {
         categoriesDB = ["Mobile Phone", "Accessories", "Electronics", "Spare Parts"];
         Storage.set('sre_categories', categoriesDB);
@@ -430,7 +468,6 @@
         document.getElementById('center-popup').classList.remove('hidden');
     }
 
-    // 1. VIEW & DROPDOWNS
     function showView(viewName) {
         document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
         document.getElementById('view-' + viewName).classList.remove('hidden');
@@ -465,19 +502,12 @@
             const newCat = prompt("Enter New Category Name:");
             if(newCat && newCat.trim() !== "") {
                 const c = newCat.trim();
-                if(!categoriesDB.includes(c)) {
-                    categoriesDB.push(c);
-                    Storage.set('sre_categories', categoriesDB);
-                }
-                renderCategories();
-                sel.value = c;
-            } else {
-                sel.value = categoriesDB[0];
-            }
+                if(!categoriesDB.includes(c)) { categoriesDB.push(c); Storage.set('sre_categories', categoriesDB); }
+                renderCategories(); sel.value = c;
+            } else { sel.value = categoriesDB[0]; }
         }
     }
 
-    // 2. SHORTCUTS & QUICK ADD MODALS
     function handleShortcut(e, type) {
         if(e.altKey && (e.key === 'c' || e.key === 'C')) {
             e.preventDefault();
@@ -488,117 +518,300 @@
 
     function openPartyModal(type, inputEl = null) {
         activeShortcutInput = inputEl || document.getElementById('bill-party');
-        document.getElementById('q-party-type').value = type;
-        document.getElementById('q-party-name').value = '';
-        document.getElementById('q-party-phone').value = '';
-        document.getElementById('party-popup').classList.remove('hidden');
-        setTimeout(() => document.getElementById('q-party-name').focus(), 100);
+        document.getElementById('pt-id').value = '';
+        document.getElementById('pt-type').value = type;
+        document.getElementById('pt-name').value = '';
+        document.getElementById('pt-mobile').value = '';
+        document.getElementById('pt-address').value = '';
+        document.getElementById('pt-gstin').value = '';
+        document.getElementById('pt-ob').value = '';
+        // If we are in view-party, we don't need popup, just focus
+        if(!document.getElementById('view-party').classList.contains('hidden')) {
+            document.getElementById('pt-name').focus();
+        } else {
+            // we use the main party form logic, but wait, popup doesn't have these, user wanted popup.
+            // Let's use the popup logic (Wait, I removed popup HTML for party to unify, let me add it back or redirect to party view).
+            // Actually, redirecting to party view is safer to avoid duplicate HTML.
+            if(confirm("Do you want to go to Party Management to add a new party?")) {
+                showView('party');
+                document.getElementById('pt-type').value = type;
+                setTimeout(() => document.getElementById('pt-name').focus(), 100);
+            }
+        }
     }
 
-    function saveQuickParty() {
-        const type = document.getElementById('q-party-type').value;
-        const name = document.getElementById('q-party-name').value.trim().toUpperCase();
-        const mobile = document.getElementById('q-party-phone').value.trim();
+    function editParty(id) {
+        const p = partiesDB.find(x => x.id === id); if(!p) return;
+        document.getElementById('pt-id').value = p.id;
+        document.getElementById('pt-type').value = p.type;
+        document.getElementById('pt-name').value = p.name;
+        document.getElementById('pt-mobile').value = p.mobile;
+        document.getElementById('pt-address').value = p.address;
+        document.getElementById('pt-gstin').value = p.gstin;
+        document.getElementById('pt-ob').value = p.ob || 0;
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
 
-        if(!name) return alert("Party Name is required!");
+    function clearPartyForm() {
+        document.getElementById('pt-id').value = '';
+        ['pt-name','pt-mobile','pt-address','pt-gstin','pt-ob'].forEach(id => document.getElementById(id).value = '');
+    }
+
+    function saveParty() {
+        const type = document.getElementById('pt-type').value;
+        const name = document.getElementById('pt-name').value.trim().toUpperCase();
+        const mobile = document.getElementById('pt-mobile').value.trim();
+        const address = document.getElementById('pt-address').value.trim().toUpperCase();
+        const gstin = document.getElementById('pt-gstin').value.trim().toUpperCase();
+        const ob = Number(document.getElementById('pt-ob').value) || 0;
+        const editId = document.getElementById('pt-id').value;
+
+        if(!name) return showPopup("Error", "Party Name is required!", true);
+
+        const newParty = { id: editId || 'PTY-'+Date.now(), type, name, mobile, address, gstin, ob };
         
-        if(!partiesDB.find(p => p.name === name)) {
-            partiesDB.push({ id: 'PTY-'+Date.now(), type, name, mobile, gstin: "", address: "", ob: 0 });
+        if(editId) {
+            const idx = partiesDB.findIndex(p => p.id === editId);
+            partiesDB[idx] = newParty;
+        } else {
+            if(partiesDB.find(p => p.name === name)) return showPopup("Error", "Party already exists!", true);
+            partiesDB.push(newParty);
+        }
+
+        Storage.set('sre_parties', partiesDB);
+        clearPartyForm();
+        renderParties();
+        showPopup("Success", `Party ${name} saved!`);
+    }
+
+    function deleteParty(id) {
+        if(confirm("Delete this party permanently?")) {
+            partiesDB = partiesDB.filter(p => p.id !== id);
             Storage.set('sre_parties', partiesDB);
             renderParties();
         }
+    }
+
+    function renderParties() {
+        const search = document.getElementById('party-search').value.toUpperCase();
+        const filtered = partiesDB.filter(p => p.name.includes(search) || p.mobile.includes(search) || p.gstin.includes(search));
         
-        if(activeShortcutInput) {
-            activeShortcutInput.value = name;
-            if(document.getElementById('bill-mobile')) document.getElementById('bill-mobile').value = mobile;
-            activeShortcutInput.focus();
+        const tbody = document.getElementById('party-table-body');
+        tbody.innerHTML = filtered.length === 0 ? `<tr><td colspan="6" class="text-center p-6 text-slate-400 font-bold uppercase tracking-widest">No Parties Found</td></tr>` : 
+        filtered.map(p => `
+            <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100">
+                <td class="p-4 font-black text-[10px] uppercase tracking-widest ${p.type==='CUSTOMER'?'text-emerald-600':'text-rose-600'}"><span class="${p.type==='CUSTOMER'?'bg-emerald-50':'bg-rose-50'} px-2 py-1 rounded">${p.type}</span></td>
+                <td class="p-4 font-black text-sm text-[#004aad] uppercase">${p.name}</td>
+                <td class="p-4 font-mono font-bold text-slate-600">${p.mobile || '-'}</td>
+                <td class="p-4"><p class="text-xs font-bold text-slate-700 uppercase">${p.address || '-'}</p><p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">GST: ${p.gstin || '-'}</p></td>
+                <td class="p-4 text-right font-black text-lg">₹ ${p.ob.toLocaleString()}</td>
+                <td class="p-4 text-center space-x-1 whitespace-nowrap"><button onclick="editParty('${p.id}')" class="bg-blue-50 text-blue-600 w-8 h-8 rounded-lg font-black hover:bg-blue-100 shadow-sm">✏️</button><button onclick="deleteParty('${p.id}')" class="bg-rose-50 text-rose-600 w-8 h-8 rounded-lg font-black hover:bg-rose-100 shadow-sm">🗑️</button></td>
+            </tr>
+        `).join('');
+        document.getElementById('party-list').innerHTML = partiesDB.map(p => `<option value="${p.name}">`).join('');
+    }
+
+    // ==========================================
+    // 📦 PRODUCT LOGIC
+    // ==========================================
+    function handleProductImage(e) {
+        const file = e.target.files[0];
+        if(file) {
+            if(file.size > 2 * 1024 * 1024) return showPopup("Error", "Image size must be less than 2MB!", true);
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                activeProductImg = event.target.result;
+                document.getElementById('p-img-preview').src = activeProductImg;
+                document.getElementById('p-img-preview').classList.remove('hidden');
+                document.getElementById('p-img-placeholder').classList.add('hidden');
+            };
+            reader.readAsDataURL(file);
         }
-        document.getElementById('party-popup').classList.add('hidden');
+    }
+
+    function clearProductImage() {
+        activeProductImg = ""; document.getElementById('p-img-preview').src = "";
+        document.getElementById('p-img-preview').classList.add('hidden'); document.getElementById('p-img-placeholder').classList.remove('hidden'); document.getElementById('p-image-upload').value = "";
+    }
+
+    function generateImeiBoxes() {
+        const stock = Number(document.getElementById('p-stock').value) || 0;
+        const track = document.getElementById('p-track').checked;
+        const container = document.getElementById('p-imei-container');
+        const list = document.getElementById('p-imei-list');
+        const existing = Array.from(list.querySelectorAll('input')).map(i => i.value);
+        list.innerHTML = '';
+        if(track && stock > 0) {
+            container.classList.remove('hidden');
+            for(let i=0; i<stock; i++) { list.innerHTML += `<input type="text" maxlength="15" oninput="this.value=this.value.replace(/[^0-9]/g,'')" value="${existing[i]||''}" placeholder="IMEI ${i+1}" class="premium-input bg-white font-mono uppercase text-[#004aad] text-center border-blue-200 p-imei-val">`; }
+        } else { container.classList.add('hidden'); }
+    }
+
+    function saveProduct() {
+        const name = document.getElementById('p-name').value.trim().toUpperCase(); const brand = document.getElementById('p-brand').value.trim().toUpperCase() || "GENERIC"; const category = document.getElementById('p-category').value; const variant = document.getElementById('p-variant').value.trim().toUpperCase() || "-"; const sku = document.getElementById('p-sku').value.trim().toUpperCase() || "SKU-"+Math.floor(Math.random()*100000); const hsn = document.getElementById('p-hsn').value.trim() || "-"; const mrp = Number(document.getElementById('p-mrp').value) || 0; const pur = Number(document.getElementById('p-pur').value) || 0; const sale = Number(document.getElementById('p-sale').value) || 0; const gst = Number(document.getElementById('p-gst').value) || 0; const stock = Number(document.getElementById('p-stock').value) || 0; const low = Number(document.getElementById('p-low').value) || 5; const track = document.getElementById('p-track').checked; const editId = document.getElementById('p-id').value;
+
+        if(!name || sale <= 0) return showPopup("Error", "Product Name and Sale Price are mandatory!", true);
+        if(!editId && productsDB.some(p => p.name === name)) return showPopup("Error", "Product Name already exists!", true);
+
+        let imeiList = [];
+        if(track && stock > 0) {
+            const inputs = document.querySelectorAll('.p-imei-val'); let err = false;
+            inputs.forEach(inp => { if(inp.value.trim().length === 15) { imeiList.push(inp.value.trim()); } else { err = true; } });
+            if(err || imeiList.length !== stock) return showPopup("Error", "Please fill exactly 15 digits for ALL Opening Stock IMEIs!", true);
+        }
+
+        const newProd = { id: editId || 'PRD-'+Date.now(), name, brand, category, variant, sku, hsn, mrp, pur, sale, gst, stock, lowStock: low, track, imeiList, image: activeProductImg };
+        if(editId) { const idx = productsDB.findIndex(p => p.id === editId); productsDB[idx] = newProd; } else { productsDB.push(newProd); }
+        
+        Storage.set('sre_products', productsDB);
+        clearProductForm(); renderProducts(); showPopup("Success", `Product ${name} saved perfectly!`);
+    }
+
+    function editProduct(id) {
+        const p = productsDB.find(x => x.id === id); if(!p) return;
+        document.getElementById('p-id').value = p.id; document.getElementById('p-name').value = p.name; document.getElementById('p-brand').value = p.brand; document.getElementById('p-category').value = p.category; document.getElementById('p-variant').value = p.variant; document.getElementById('p-sku').value = p.sku; document.getElementById('p-hsn').value = p.hsn; document.getElementById('p-mrp').value = p.mrp || 0; document.getElementById('p-pur').value = p.pur; document.getElementById('p-sale').value = p.sale; document.getElementById('p-gst').value = p.gst; document.getElementById('p-stock').value = p.stock; document.getElementById('p-low').value = p.lowStock || 5; document.getElementById('p-track').checked = p.track;
+        if(p.image) { activeProductImg = p.image; document.getElementById('p-img-preview').src = p.image; document.getElementById('p-img-preview').classList.remove('hidden'); document.getElementById('p-img-placeholder').classList.add('hidden'); } else { clearProductImage(); }
+        generateImeiBoxes();
+        if (p.track && p.stock > 0 && p.imeiList) { const inputs = document.querySelectorAll('.p-imei-val'); inputs.forEach((inp, idx) => { if(p.imeiList[idx]) inp.value = p.imeiList[idx]; }); }
+        document.getElementById('prod-form-title').innerText = "Edit Product: " + p.name; document.getElementById('add-product-form').scrollIntoView({behavior:'smooth'});
+    }
+
+    function clearProductForm() {
+        ['p-id','p-name','p-brand','p-variant','p-sku','p-hsn','p-mrp','p-pur','p-sale','p-stock'].forEach(id => document.getElementById(id).value = '');
+        document.getElementById('p-gst').value = '18'; document.getElementById('p-low').value = '5'; document.getElementById('p-category').value = 'Mobile Phone'; document.getElementById('p-track').checked = true; document.getElementById('prod-form-title').innerText = "Add New Product";
+        clearProductImage(); generateImeiBoxes();
+    }
+
+    function deleteProduct(id) { if(confirm("Delete this product permanently?")) { productsDB = productsDB.filter(p => p.id !== id); Storage.set('sre_products', productsDB); renderProducts(); } }
+
+    function renderProducts() {
+        const search = document.getElementById('prod-search').value.toUpperCase(); const catFilter = document.getElementById('filter-category').value; const brandFilter = document.getElementById('filter-brand').value;
+        const brands = [...new Set(productsDB.map(p => p.brand))].filter(b => b !== "GENERIC");
+        const bSelect = document.getElementById('filter-brand'); bSelect.innerHTML = `<option value="ALL">All Brands</option>` + brands.map(b => `<option value="${b}">${b}</option>`).join(''); bSelect.value = brandFilter;
+
+        let inStock = 0, lowStock = 0, outStock = 0;
+        const filtered = productsDB.filter(p => {
+            if(p.stock <= 0) outStock++; else if(p.stock <= (p.lowStock||5)) lowStock++; else inStock++;
+            const matchSearch = p.name.includes(search) || p.sku.includes(search) || (p.imeiList && p.imeiList.join(' ').includes(search));
+            const matchCat = catFilter === "ALL" || p.category === catFilter; const matchBrand = brandFilter === "ALL" || p.brand === brandFilter;
+            return matchSearch && matchCat && matchBrand;
+        });
+
+        document.getElementById('stat-tot-prod').innerText = productsDB.length; document.getElementById('stat-in-stock').innerText = inStock; document.getElementById('stat-low-stock').innerText = lowStock; document.getElementById('stat-out-stock').innerText = outStock;
+
+        const tbody = document.getElementById('product-table-body');
+        tbody.innerHTML = filtered.length === 0 ? `<tr><td colspan="8" class="text-center p-8 text-slate-400 font-bold uppercase tracking-widest text-[10px]">No Products Found</td></tr>` : 
+        filtered.map(p => {
+            let statBadge = p.stock <= 0 ? '<span class="bg-rose-100 text-rose-700 px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-widest">Out of Stock</span>' : (p.stock <= (p.lowStock||5) ? '<span class="bg-amber-100 text-amber-700 px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-widest">Low Stock</span>' : '<span class="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-widest">In Stock</span>');
+            let imgHtml = p.image ? `<img src="${p.image}" class="w-10 h-10 rounded-lg object-cover mx-auto shadow-sm">` : `<div class="w-10 h-10 bg-slate-100 rounded-lg mx-auto flex items-center justify-center text-lg">📦</div>`;
+            return `<tr class="hover:bg-slate-50 transition-colors border-b border-slate-100"><td class="p-4 text-center">${imgHtml}</td><td class="p-4"><p class="font-black text-sm text-[#004aad] uppercase">${p.name}</p><p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">${p.brand} • ${p.category} ${p.variant!=='-' ? `• ${p.variant}`:''}</p></td><td class="p-4"><p class="font-mono font-bold text-slate-800">${p.sku}</p><p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">HSN: ${p.hsn}</p></td><td class="p-4 text-right font-bold text-slate-500">₹ ${p.pur.toLocaleString()}</td><td class="p-4 text-right font-black text-lg text-[#004aad]">₹ ${p.sale.toLocaleString()}<br><span class="text-[9px] text-slate-400 font-bold tracking-widest mt-0.5 block">MRP: ₹${p.mrp}</span></td><td class="p-4 text-center font-black text-lg ${p.stock <= 0 ? 'text-rose-600' : 'text-emerald-600'}">${p.stock}</td><td class="p-4 text-center">${statBadge}</td><td class="p-4 text-center space-x-1 whitespace-nowrap"><button onclick="editProduct('${p.id}')" class="bg-blue-50 text-blue-600 w-8 h-8 rounded-lg font-black hover:bg-blue-100 shadow-sm">✏️</button><button onclick="deleteProduct('${p.id}')" class="bg-rose-50 text-rose-600 w-8 h-8 rounded-lg font-black hover:bg-rose-100 shadow-sm">🗑️</button></td></tr>`;
+        }).join('');
+        document.getElementById('item-list').innerHTML = productsDB.map(p => `<option value="${p.name}">`).join('');
+    }
+
+    // ==========================================
+    // 🛒 BILLING ENGINE & UNIVERSAL PAYMENT
+    // ==========================================
+    function startBill(type) {
+        currentMode = type;
+        document.getElementById('bill-title').innerText = type + " ENTRY";
+        document.getElementById('form-entry-type').innerText = type;
+        document.getElementById('form-entry-type').className = type === "SALE" ? "text-[10px] font-black px-4 py-1.5 rounded-lg bg-blue-50 text-[#004aad] border border-blue-200 uppercase tracking-widest shadow-sm" : "text-[10px] font-black px-4 py-1.5 rounded-lg bg-rose-50 text-rose-600 border border-rose-200 uppercase tracking-widest shadow-sm";
+        
+        document.getElementById('bill-party').value = ''; document.getElementById('bill-mobile').value = ''; document.getElementById('bill-date').value = getToday();
+        document.getElementById('bill-inv').value = type === "SALE" ? `SRE-26-${(billsDB.length + 1).toString().padStart(3,'0')}` : '';
+        document.getElementById('bill-items').innerHTML = '';
+        
+        // Reset Payment Modes
+        document.getElementById('pay-primary').value = "Choose"; document.getElementById('pay-secondary').value = "Choose";
+        document.getElementById('bill-discount').value = ''; document.getElementById('bill-paid').value = '';
+        onPaymentModeChange();
+
+        addBillRow(true); calcBill(); showView('new-bill');
     }
 
     function openItemModal(inputEl) {
         activeShortcutInput = inputEl;
-        document.getElementById('q-item-name').value = '';
-        document.getElementById('q-item-sale').value = '';
-        renderCategories();
-        document.getElementById('item-popup').classList.remove('hidden');
-        setTimeout(() => document.getElementById('q-item-name').focus(), 100);
+        if(confirm("Do you want to go to Product Master to add a new product?")) {
+            showView('product');
+            setTimeout(() => document.getElementById('p-name').focus(), 100);
+        }
     }
 
-    function saveQuickItem() {
-        const name = document.getElementById('q-item-name').value.trim().toUpperCase();
-        const category = document.getElementById('q-item-category').value;
-        const sale = Number(document.getElementById('q-item-sale').value) || 0;
-        const gst = Number(document.getElementById('q-item-gst').value) || 0;
-
-        if(!name || sale <= 0) return alert("Name and Sale Price are required!");
-        
-        if(!productsDB.find(p => p.name === name)) {
-            productsDB.push({ id: 'PRD-'+Date.now(), name, brand: "-", category, variant: "-", sku: "SKU-"+Math.floor(Math.random()*100000), hsn: "-", mrp: 0, pur: 0, sale, gst, stock: 0, lowStock: 5, track: true, imeiList: [], image: "" });
-            Storage.set('sre_products', productsDB);
-            renderProducts();
-        }
-        
-        if(activeShortcutInput) {
-            activeShortcutInput.value = name;
-            autoFillRate(activeShortcutInput);
-            activeShortcutInput.focus();
-        }
-        document.getElementById('item-popup').classList.add('hidden');
-    }
-
-    // 3. MULTIPLE IMEI LOGIC IN BILLING GRID
     function addBillRow(isFirst = false) {
-        const container = document.getElementById('bill-items');
-        const row = document.createElement('div');
+        const container = document.getElementById('bill-items'); const row = document.createElement('div');
         const removeBtn = !isFirst ? `<button type="button" onclick="this.parentElement.parentElement.parentElement.remove(); calcBill();" class="w-8 h-8 flex items-center justify-center bg-rose-50 text-rose-600 rounded-lg hover:bg-rose-100 font-black transition-all shadow-sm">X</button>` : `<div class="w-8"></div>`;
         
         row.className = "item-row bg-slate-50 p-2.5 rounded-2xl border border-slate-100 mb-2 min-w-[850px]";
         row.innerHTML = `
             <div class="grid grid-cols-12 gap-3 items-center w-full">
-                <div class="col-span-3 relative">
-                    <input type="text" list="item-list" oninput="autoFillRate(this)" onkeydown="handleShortcut(event, 'PRODUCT')" class="premium-input pr-10 bg-white b-name uppercase font-black text-sm text-[#004aad] shadow-sm" placeholder="Product Name">
-                    <button type="button" tabindex="-1" onclick="openItemModal(this.previousElementSibling)" class="absolute right-1 top-1 bottom-1 w-8 bg-blue-50 text-[#004aad] rounded-lg font-black hover:bg-[#004aad] hover:text-white transition-all shadow-sm pb-0.5">+</button>
-                </div>
-                <div class="col-span-2"><input type="number" oninput="calcBill()" class="premium-input bg-white b-rate font-black text-lg text-slate-800 text-right shadow-sm" placeholder="Rate"></div>
-                <div class="col-span-1"><select onchange="calcBill()" class="premium-input bg-white text-center b-gst font-bold text-slate-800 shadow-sm"><option value="0">0%</option><option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option></select></div>
-                <div class="col-span-1"><input type="number" min="1" value="1" oninput="handleGridQtyChange(this)" class="premium-input bg-white text-center b-qty font-black text-lg text-[#004aad] shadow-sm"></div>
-                <div class="col-span-2"><input type="text" maxlength="15" oninput="this.value=this.value.replace(/[^0-9]/g,'')" class="premium-input bg-white font-mono font-bold uppercase text-slate-600 b-imei-main shadow-sm" placeholder="IMEI 1"></div>
+                <div class="col-span-3 relative"><input type="text" list="item-list" oninput="autoFillRate(this)" onkeydown="handleShortcut(event, 'PRODUCT')" class="premium-input pr-10 bg-white b-name uppercase font-black text-sm text-[#004aad] shadow-sm border-slate-200" placeholder="Product Name"><button type="button" tabindex="-1" onclick="openItemModal(this.previousElementSibling)" class="absolute right-1 top-1 bottom-1 w-8 bg-blue-50 text-[#004aad] rounded-lg font-black hover:bg-[#004aad] hover:text-white transition-all shadow-sm pb-0.5">+</button></div>
+                <div class="col-span-2"><input type="number" oninput="calcBill()" class="premium-input bg-white b-rate font-black text-lg text-slate-800 text-right shadow-sm border-slate-200" placeholder="Rate"></div>
+                <div class="col-span-1"><select onchange="calcBill()" class="premium-input bg-white text-center b-gst font-bold text-slate-800 shadow-sm border-slate-200"><option value="0">0%</option><option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option></select></div>
+                <div class="col-span-1"><input type="number" min="1" value="1" oninput="handleGridQtyChange(this)" class="premium-input bg-white text-center b-qty font-black text-lg text-[#004aad] shadow-sm border-slate-200"></div>
+                <div class="col-span-3"><input type="text" maxlength="15" oninput="this.value=this.value.replace(/[^0-9]/g,'')" class="premium-input bg-white font-mono font-bold uppercase text-slate-600 b-imei-main shadow-sm border-slate-200" placeholder="IMEI 1"></div>
                 <div class="col-span-2 flex justify-between items-center"><span class="font-black text-[#004aad] text-lg b-amt w-full text-right pr-4">0.00</span></div>
                 <div class="col-span-1 flex justify-center">${removeBtn}</div>
             </div>
-            <!-- Expanded IMEI Boxes -->
             <div class="b-imei-extended hidden grid grid-cols-4 gap-3 mt-3 pt-3 border-t border-slate-200 pl-1"></div>
         `;
         container.appendChild(row);
     }
 
     function handleGridQtyChange(input) {
-        calcBill();
-        const row = input.closest('.item-row');
-        const qty = Math.max(1, Number(input.value) || 1);
-        const extBox = row.querySelector('.b-imei-extended');
-        
+        calcBill(); const row = input.closest('.item-row'); const qty = Math.max(1, Number(input.value) || 1); const extBox = row.querySelector('.b-imei-extended');
         if(qty > 1) {
-            extBox.classList.remove('hidden');
-            const existing = Array.from(extBox.querySelectorAll('.b-imei-extra')).map(i => i.value);
-            let html = '';
-            for(let i=2; i<=qty; i++) {
-                const val = existing[i-2] || "";
-                html += `<input type="text" maxlength="15" oninput="this.value=this.value.replace(/[^0-9]/g,'')" value="${val}" placeholder="IMEI ${i}" class="premium-input bg-white font-mono font-bold uppercase text-[#004aad] b-imei-extra border-blue-200 shadow-sm">`;
-            }
+            extBox.classList.remove('hidden'); const existing = Array.from(extBox.querySelectorAll('.b-imei-extra')).map(i => i.value); let html = '';
+            for(let i=2; i<=qty; i++) { const val = existing[i-2] || ""; html += `<input type="text" maxlength="15" oninput="this.value=this.value.replace(/[^0-9]/g,'')" value="${val}" placeholder="IMEI ${i}" class="premium-input bg-white font-mono font-bold uppercase text-[#004aad] b-imei-extra border-blue-200 shadow-sm">`; }
             extBox.innerHTML = html;
-        } else {
-            extBox.classList.add('hidden');
-            extBox.innerHTML = '';
-        }
+        } else { extBox.classList.add('hidden'); extBox.innerHTML = ''; }
     }
-
-    // [REST OF THE UNCHANGED BUG-FREE FUNCTIONS: startBill, autoFillRate, calcBill, saveFinalBill, generateInvoiceHTML, downloadPDF, Product & Ledger Render]
 
     function autoFillRate(input) {
         const row = input.closest('.item-row'); const name = input.value.trim().toUpperCase(); const prod = productsDB.find(p => p.name.toUpperCase() === name);
         if(prod) { row.querySelector('.b-rate').value = currentMode === "SALE" ? prod.sale : prod.pur; row.querySelector('.b-gst').value = prod.gst; calcBill(); }
+    }
+
+    // 🔥 UNIVERSAL PAYMENT SYSTEM FIX 🔥
+    function onPaymentModeChange() {
+        const p = document.getElementById('pay-primary').value;
+        const s = document.getElementById('pay-secondary').value;
+        const payInput = document.getElementById('bill-paid');
+        
+        document.getElementById('fin-box').classList.add('hidden');
+        document.getElementById('dues-box').classList.add('hidden');
+        document.getElementById('split-box').classList.add('hidden');
+        
+        let activeMode = p;
+
+        if (s === "Finance") {
+            document.getElementById('fin-box').classList.remove('hidden');
+            activeMode = document.getElementById('fin-dp-mode').value;
+        } else if (s === "Dues") {
+            document.getElementById('dues-box').classList.remove('hidden');
+            activeMode = document.getElementById('dues-mode').value;
+        }
+
+        const isSplit = activeMode.includes("+");
+
+        if(isSplit) {
+            document.getElementById('split-box').classList.remove('hidden');
+            document.getElementById('wrap-split-cash').classList.toggle('hidden', !activeMode.includes("Cash"));
+            document.getElementById('wrap-split-qr').classList.toggle('hidden', !activeMode.includes("QR"));
+            document.getElementById('wrap-split-card').classList.toggle('hidden', !activeMode.includes("Card"));
+            
+            payInput.readOnly = true;
+            payInput.classList.add("bg-slate-200", "cursor-not-allowed", "text-slate-500", "border-slate-300");
+            payInput.classList.remove("bg-blue-50", "text-[#004aad]", "border-blue-400");
+            payInput.placeholder = "Auto Calculated...";
+        } else {
+            payInput.readOnly = false;
+            payInput.classList.remove("bg-slate-200", "cursor-not-allowed", "text-slate-500", "border-slate-300");
+            payInput.classList.add("bg-blue-50", "text-[#004aad]", "border-blue-400");
+            payInput.placeholder = "0";
+            if (activeMode === "" || activeMode === "Choose") payInput.value = "";
+        }
+        calcBill();
     }
 
     function calcBill(isTypingPaid = false) {
@@ -609,13 +822,33 @@
             row.querySelector('.b-amt').innerText = amt.toLocaleString('en-IN', {minimumFractionDigits: 2});
             totalTaxable += basic; totalGstAmt += gstVal; grandTotal += amt;
         });
+
         const discount = Number(document.getElementById('bill-discount').value) || 0;
         grandTotal = Math.round(Math.max(0, grandTotal - discount));
-        document.getElementById('bill-taxable').innerText = "₹ " + totalTaxable.toLocaleString('en-IN'); document.getElementById('bill-gst').innerText = "₹ " + totalGstAmt.toLocaleString('en-IN'); document.getElementById('bill-grand-total').innerText = "₹ " + grandTotal.toLocaleString('en-IN');
-        const paidInput = document.getElementById('bill-paid');
-        if(!isTypingPaid) { paidInput.value = grandTotal; }
-        const paid = Number(paidInput.value) || 0; const due = Math.max(0, grandTotal - paid);
+        document.getElementById('bill-taxable').innerText = "₹ " + totalTaxable.toLocaleString('en-IN', {minimumFractionDigits: 2}); document.getElementById('bill-gst').innerText = "₹ " + totalGstAmt.toLocaleString('en-IN', {minimumFractionDigits: 2}); document.getElementById('bill-grand-total').innerText = "₹ " + grandTotal.toLocaleString('en-IN');
+
+        const payInput = document.getElementById('bill-paid');
+        const p = document.getElementById('pay-primary').value; const s = document.getElementById('pay-secondary').value;
+        let activeMode = p; if (s === "Finance") activeMode = document.getElementById('fin-dp-mode').value; if (s === "Dues") activeMode = document.getElementById('dues-mode').value;
+        
+        let rawPaid = 0;
+        if(activeMode.includes("+")) {
+            if(activeMode.includes("Cash")) rawPaid += Number(document.getElementById('split-cash').value) || 0;
+            if(activeMode.includes("QR")) rawPaid += Number(document.getElementById('split-qr').value) || 0;
+            if(activeMode.includes("Card")) rawPaid += Number(document.getElementById('split-card').value) || 0;
+            if(!isTypingPaid) payInput.value = rawPaid;
+        } else {
+            if(!isTypingPaid) {
+                if (p === "" || p === "Choose") { payInput.value = ""; rawPaid = 0; }
+                else { payInput.value = grandTotal; rawPaid = grandTotal; }
+            } else {
+                rawPaid = Number(payInput.value) || 0;
+            }
+        }
+        
+        const due = Math.max(0, grandTotal - rawPaid);
         document.getElementById('bill-due').innerText = "₹ " + due.toLocaleString('en-IN');
+        return { totalTaxable, totalGstAmt, grandTotal, rawPaid, due, discount };
     }
 
     function saveFinalBill() {
@@ -623,6 +856,28 @@
         const invNo = document.getElementById('bill-inv').value.trim() || `SRE-26-${(billsDB.length + 1).toString().padStart(3,'0')}`;
         const bDate = document.getElementById('bill-date').value;
         if(!party) return showPopup("Error", "Party Name is required!", true);
+
+        const totals = calcBill(true);
+        if(totals.grandTotal <= 0) return showPopup("Error", "Bill total cannot be 0!", true);
+
+        // Payment Validations
+        const p = document.getElementById('pay-primary').value;
+        const s = document.getElementById('pay-secondary').value;
+        if(p === "" && s === "") return showPopup("Error", "Please select a Primary or Secondary Payment Mode!", true);
+        
+        let pRate = ""; let finData = null;
+        if (s === "Finance") {
+            const comp = document.getElementById('fin-company').value;
+            pRate = Number(document.getElementById('fin-rate').value) || 0;
+            if(!comp) return showPopup("Error", "Select Finance Company!", true);
+            if(pRate <= 0) return showPopup("Error", "Finance Rate is required!", true);
+            finData = { company: comp, dp: totals.rawPaid, loan: totals.grandTotal - totals.rawPaid };
+        } else if (s === "Dues") {
+            pRate = Number(document.getElementById('dues-rate').value) || 0;
+            if(pRate <= 0) return showPopup("Error", "Agreed Rate is required for Dues!", true);
+        } else {
+            if(totals.rawPaid <= 0 && totals.grandTotal > 0) return showPopup("Error", "Please enter Amount Paid!", true);
+        }
 
         let totalAmt = 0; let totalBasic = 0; let totalGst = 0; let items = []; let errorMsg = null;
 
@@ -632,10 +887,8 @@
             const qty = Number(row.querySelector('.b-qty').value) || 1;
             const gst = Number(row.querySelector('.b-gst').value) || 0;
             
-            // Gather IMEIs from main and extended boxes
             const imeiMain = row.querySelector('.b-imei-main').value.trim().toUpperCase();
-            let validImeis = [];
-            if(imeiMain) validImeis.push(imeiMain);
+            let validImeis = []; if(imeiMain) validImeis.push(imeiMain);
             row.querySelectorAll('.b-imei-extra').forEach(inp => { if(inp.value.trim()) validImeis.push(inp.value.trim().toUpperCase()); });
             const imeiStr = validImeis.join(', ');
             
@@ -645,9 +898,7 @@
                     if (prod.stock < qty) { errorMsg = `Not enough stock for ${name}. Available: ${prod.stock}`; }
                     if (prod.track && !errorMsg) {
                         if (validImeis.length !== qty) { errorMsg = `Please enter exactly ${qty} 15-digit IMEI(s) for ${name}`; } 
-                        else {
-                            validImeis.forEach(im => { if(!prod.imeiList || !prod.imeiList.includes(im)) errorMsg = `IMEI ${im} not found in stock for ${name}!`; });
-                        }
+                        else { validImeis.forEach(im => { if(!prod.imeiList || !prod.imeiList.includes(im)) errorMsg = `IMEI ${im} not found in stock for ${name}!`; }); }
                     }
                 }
                 if(!errorMsg) {
@@ -665,16 +916,13 @@
         if(errorMsg) return showPopup("Error", errorMsg, true);
         if(items.length === 0) return showPopup("Error", "Add at least one valid product!", true);
 
-        const discount = Number(document.getElementById('bill-discount').value) || 0;
-        let finalTotal = Math.round(totalAmt - discount);
-        const paid = Number(document.getElementById('bill-paid').value) || 0;
-
-        const billRecord = { id: 'INV-'+Date.now(), invNo: invNo, date: bDate, type: currentMode, party: party, mobile: document.getElementById('bill-mobile').value, items: items, basic: totalBasic, gst: totalGst, discount: discount, total: finalTotal, paid: paid, due: Math.max(0, finalTotal - paid) };
+        const billRecord = { id: 'INV-'+Date.now(), invNo: invNo, date: bDate, type: currentMode, party: party, mobile: document.getElementById('bill-mobile').value, items: items, basic: totalBasic, gst: totalGst, discount: totals.discount, total: totals.grandTotal, paid: totals.rawPaid, due: totals.due, paymentMode: s || p, paymentRate: pRate, finance: finData };
 
         billsDB.push(billRecord); Storage.set('sre_bills', billsDB); Storage.set('sre_products', productsDB); 
         generateInvoiceHTML(billRecord);
     }
 
+    // 📄 INVOICE GENERATION & PDF
     function generateInvoiceHTML(bill) {
         document.getElementById('inv-party').innerText = bill.party; document.getElementById('inv-phone').innerText = "Ph: " + (bill.mobile || "-"); document.getElementById('inv-no').innerText = bill.invNo; document.getElementById('inv-date').innerText = bill.date;
         document.getElementById('inv-type-title').innerText = bill.type === "PURCHASE" ? "PURCHASE VOUCHER" : "TAX INVOICE"; document.getElementById('inv-type-title').className = bill.type === "PURCHASE" ? "text-xl font-black text-rose-600 uppercase tracking-widest mb-2 border border-rose-600 inline-block px-3 py-1 rounded" : "text-xl font-black text-[#004aad] uppercase tracking-widest mb-2 border border-[#004aad] inline-block px-3 py-1 rounded";
@@ -685,35 +933,11 @@
         showView('invoice');
     }
 
-    function startBill(type) {
-        currentMode = type;
-        document.getElementById('bill-title').innerText = type + " ENTRY";
-        document.getElementById('form-entry-type').innerText = type;
-        document.getElementById('form-entry-type').className = type === "SALE" ? "text-[10px] font-black px-4 py-1.5 rounded-lg bg-blue-50 text-[#004aad] border border-blue-200 uppercase tracking-widest shadow-sm" : "text-[10px] font-black px-4 py-1.5 rounded-lg bg-rose-50 text-rose-600 border border-rose-200 uppercase tracking-widest shadow-sm";
-        document.getElementById('bill-party').value = ''; document.getElementById('bill-mobile').value = ''; document.getElementById('bill-date').value = getToday(); document.getElementById('bill-inv').value = type === "SALE" ? `SRE-26-${(billsDB.length + 1).toString().padStart(3,'0')}` : ''; document.getElementById('bill-discount').value = ''; document.getElementById('bill-paid').value = ''; document.getElementById('bill-items').innerHTML = '';
-        addBillRow(true); calcBill(); showView('new-bill');
-    }
-
-    function renderDashboard() {
-        let saleTotal = 0; let purTotal = 0;
-        billsDB.forEach(b => { if(b.type === "SALE") saleTotal += b.total; if(b.type === "PURCHASE") purTotal += b.total; });
-        document.getElementById('dash-sale').innerText = "₹ " + saleTotal.toLocaleString('en-IN'); document.getElementById('dash-pur').innerText = "₹ " + purTotal.toLocaleString('en-IN'); document.getElementById('dash-prod-count').innerText = productsDB.length; document.getElementById('dash-party-count').innerText = partiesDB.length;
-        const ctx = document.getElementById('businessChart');
-        if (ctx) { if (window.bizChart) window.bizChart.destroy(); window.bizChart = new Chart(ctx, { type: 'bar', data: { labels: ['Current Month'], datasets: [{ label: 'Sales', data: [saleTotal || 1000], backgroundColor: '#004aad', borderRadius: 8 }, { label: 'Purchases', data: [purTotal || 500], backgroundColor: '#e11d48', borderRadius: 8 }] }, options: { responsive: true, maintainAspectRatio: false } }); }
-    }
-
-    function renderLedger() {
-        const tbody = document.getElementById('ledger-table-body');
-        tbody.innerHTML = billsDB.length === 0 ? `<tr><td colspan="7" class="text-center p-6 text-slate-400 font-bold uppercase tracking-widest text-[10px]">No Transactions Found</td></tr>` : 
-        billsDB.slice().reverse().map(b => `<tr class="hover:bg-slate-50 transition-colors border-b border-slate-100"><td class="p-4 font-bold text-slate-500">${b.date}</td><td class="p-4 font-black text-slate-800">${b.invNo}</td><td class="p-4 text-center"><span class="px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest ${b.type==='SALE'?'bg-blue-50 text-[#004aad]':'bg-rose-50 text-rose-600'}">${b.type}</span></td><td class="p-4 font-black text-slate-700">${b.party}</td><td class="p-4 text-right font-black text-lg text-slate-800">₹ ${b.total.toLocaleString('en-IN')}</td><td class="p-4 text-right font-black text-emerald-600">₹ ${b.paid.toLocaleString('en-IN')}</td><td class="p-4 text-right font-black text-rose-600">₹ ${b.due.toLocaleString('en-IN')}</td></tr>`).join('');
-    }
-
     function downloadPDF() {
         const { jsPDF } = window.jspdf; const doc = new jsPDF("p", "mm", "a4"); const isPur = document.getElementById('inv-type-title').innerText === "PURCHASE VOUCHER"; const themeColor = isPur ? [225, 29, 72] : [0, 74, 173];
         doc.setDrawColor(...themeColor); doc.setLineWidth(1); doc.rect(10, 10, 190, 277);
         doc.setFont("helvetica", "bold"); doc.setFontSize(22); doc.setTextColor(...themeColor); doc.text("SRI RAM ENTERPRISES", 105, 25, null, null, "center");
-        doc.setFontSize(9); doc.setTextColor(80, 80, 80); doc.text("MOBILE • ACCESSORIES • REPAIRING", 105, 31, null, null, "center");
-        doc.setFont("helvetica", "normal"); doc.setFontSize(8); doc.text("GB-15, City Centre, Sector-4, B.S. City | Ph: 9334765000", 105, 36, null, null, "center");
+        doc.setFontSize(9); doc.setTextColor(80, 80, 80); doc.text("MOBILE • ACCESSORIES • REPAIRING", 105, 31, null, null, "center"); doc.setFont("helvetica", "normal"); doc.setFontSize(8); doc.text("GB-15, City Centre, Sector-4, B.S. City | Ph: 9334765000", 105, 36, null, null, "center");
         doc.setLineWidth(0.5); doc.line(10, 42, 200, 42); doc.setFontSize(10); doc.setTextColor(0, 0, 0); doc.setFont("helvetica", "bold"); doc.text("Bill To:", 15, 52); doc.setFontSize(14); doc.setTextColor(...themeColor); doc.text(document.getElementById('inv-party').innerText, 15, 58); doc.setFontSize(9); doc.setTextColor(0, 0, 0); doc.text(document.getElementById('inv-phone').innerText, 15, 64);
         doc.setFontSize(14); doc.setTextColor(...themeColor); doc.text(document.getElementById('inv-type-title').innerText, 195, 52, null, null, "right"); doc.setFontSize(9); doc.setTextColor(80, 80, 80); doc.text(`Invoice No: ${document.getElementById('inv-no').innerText}`, 195, 58, null, null, "right"); doc.text(`Date: ${document.getElementById('inv-date').innerText}`, 195, 63, null, null, "right");
         let startY = 72; doc.setFillColor(...themeColor); doc.rect(10, startY, 190, 8, "F"); doc.setTextColor(255, 255, 255); doc.setFont("helvetica", "bold"); doc.setFontSize(9); doc.text("#", 14, startY + 5.5); doc.text("Product Description", 25, startY + 5.5); doc.text("IMEI / Serial", 100, startY + 5.5); doc.text("Qty", 145, startY + 5.5, null, null, "center"); doc.text("Rate", 165, startY + 5.5, null, null, "right"); doc.text("Amount", 195, startY + 5.5, null, null, "right");
@@ -728,7 +952,34 @@
         doc.save(`${document.getElementById('inv-no').innerText}_Invoice.pdf`);
     }
 
+    // 📈 DASHBOARD & LEDGER UPDATES
+    function renderDashboard() {
+        let saleAmt = 0; let purAmt = 0; billsDB.forEach(b => { if(b.type === "SALE") saleAmt += b.total; if(b.type === "PURCHASE") purAmt += b.total; });
+        document.getElementById('dash-sale').innerText = "₹ " + saleAmt.toLocaleString('en-IN'); document.getElementById('dash-pur').innerText = "₹ " + purAmt.toLocaleString('en-IN'); document.getElementById('dash-prod-count').innerText = productsDB.length; document.getElementById('dash-party-count').innerText = partiesDB.length;
+        const ctx = document.getElementById('businessChart');
+        if (ctx) { if (window.bizChart) window.bizChart.destroy(); window.bizChart = new Chart(ctx, { type: 'bar', data: { labels: ['Current Month'], datasets: [{ label: 'Sales', data: [saleAmt || 5000], backgroundColor: '#004aad', borderRadius: 8 }, { label: 'Purchases', data: [purAmt || 2000], backgroundColor: '#e11d48', borderRadius: 8 }] }, options: { responsive: true, maintainAspectRatio: false } }); }
+    }
+
+    function renderLedger() {
+        const tbody = document.getElementById('ledger-table-body');
+        tbody.innerHTML = billsDB.length === 0 ? `<tr><td colspan="8" class="text-center p-6 text-slate-400 font-bold uppercase tracking-widest text-[10px]">No Transactions Found</td></tr>` : 
+        billsDB.slice().reverse().map(b => `
+            <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100">
+                <td class="p-4 font-bold text-slate-500">${b.date}</td>
+                <td class="p-4 font-black text-slate-800">${b.invNo}</td>
+                <td class="p-4 text-center"><span class="px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest ${b.type==='SALE'?'bg-blue-50 text-[#004aad]':'bg-rose-50 text-rose-600'}">${b.type}</span></td>
+                <td class="p-4 font-black text-slate-700">${b.party}</td>
+                <td class="p-4 text-right font-black text-lg text-slate-800">₹ ${b.total.toLocaleString('en-IN')}</td>
+                <td class="p-4 text-right font-black text-emerald-600">₹ ${b.paid.toLocaleString('en-IN')}</td>
+                <td class="p-4 text-right font-black text-rose-600">₹ ${b.due.toLocaleString('en-IN')}</td>
+                <td class="p-4 text-center"><button onclick="generateInvoiceHTML(billsDB.find(x=>x.id==='${b.id}'))" class="bg-blue-50 text-[#004aad] px-3 py-1.5 rounded text-[10px] font-black uppercase hover:bg-blue-100">View</button></td>
+            </tr>
+        `).join('');
+    }
+
+    // BOOTSTRAP APP
     window.onload = () => { renderCategories(); renderProducts(); renderParties(); showView('dashboard'); };
+
   </script>
 </body>
 </html>
