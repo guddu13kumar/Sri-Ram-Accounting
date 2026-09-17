@@ -11,7 +11,7 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap');
     body { font-family: 'Inter', sans-serif; background-color: #f4f7fe; }
-    .premium-input { height: 44px !important; font-size: 11px !important; padding-left: 12px; border-radius: 8px; border: 1px solid #e2e8f0; width: 100%; outline: none; transition: 0.3s; font-weight: 700; color: #1e293b; background-color: #f8fafc;}
+    .premium-input { height: 44px !important; font-size: 11px !important; padding-left: 14px; border-radius: 10px; border: 1px solid #e2e8f0; width: 100%; outline: none; transition: 0.3s; font-weight: 700; color: #1e293b; background-color: #f8fafc;}
     .premium-input:focus { border-color: #004aad; box-shadow: 0 0 0 3px rgba(0,74,173,0.15); background-color: #ffffff;}
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
@@ -33,7 +33,7 @@
       <div id="popup-icon" class="text-6xl mb-4 drop-shadow-md">✅</div>
       <h3 id="popup-title" class="text-xl font-black text-[#004aad] uppercase tracking-widest">Success</h3>
       <p id="popup-message" class="text-xs font-bold text-slate-500 mt-2 mb-6">Action completed!</p>
-      <button onclick="document.getElementById('center-popup').classList.add('hidden')" class="w-full py-3.5 bg-[#004aad] text-white font-black rounded-xl uppercase tracking-widest shadow-md hover:bg-blue-800 hover:-translate-y-0.5 transition-all">OK</button>
+      <button onclick="closePopup()" class="w-full py-3.5 bg-[#004aad] text-white font-black rounded-xl uppercase tracking-widest shadow-md hover:bg-blue-800 transition-all">OK</button>
     </div>
   </div>
 
@@ -61,6 +61,7 @@
           <button id="nav-purchase" onclick="startBill('PURCHASE')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl hover:bg-slate-800 transition-all text-slate-400"><span>🛒</span><span class="mt-0.5">Purchase Entry</span></button>
           <button id="nav-sale" onclick="startBill('SALE')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl hover:bg-slate-800 transition-all text-slate-400"><span>📈</span><span class="mt-0.5">Sales Invoice</span></button>
           <button id="nav-party" onclick="showView('party')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl hover:bg-slate-800 transition-all text-slate-400"><span>👥</span><span class="mt-0.5">Party / Ledger</span></button>
+          <button id="nav-payment" onclick="startPayment('IN')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl hover:bg-slate-800 transition-all text-slate-400"><span>💳</span><span class="mt-0.5">Payment</span></button>
           <button id="nav-ledger" onclick="showView('ledger')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl hover:bg-slate-800 transition-all text-slate-400"><span>📒</span><span class="mt-0.5">Transactions</span></button>
         </div>
       </aside>
@@ -73,30 +74,35 @@
             <h2 class="text-xl font-black text-[#004aad] uppercase tracking-widest border-b border-slate-200 pb-2">Business Overview</h2>
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
                 <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 border-l-4 border-l-blue-500 hover:shadow-md transition-all">
-                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Total Sales</p><h3 class="text-2xl font-black text-[#004aad] mt-2" id="dash-sale">₹ 0</h3>
+                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Total Sales</p>
+                    <h3 class="text-2xl font-black text-[#004aad] mt-2" id="dash-sale">₹ 0</h3>
                 </div>
                 <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 border-l-4 border-l-rose-500 hover:shadow-md transition-all">
-                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Total Purchase</p><h3 class="text-2xl font-black text-rose-600 mt-2" id="dash-pur">₹ 0</h3>
+                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Total Purchase</p>
+                    <h3 class="text-2xl font-black text-rose-600 mt-2" id="dash-pur">₹ 0</h3>
                 </div>
                 <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 border-l-4 border-l-amber-500 hover:shadow-md transition-all">
-                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Total Products</p><h3 class="text-2xl font-black text-slate-800 mt-2" id="dash-prod-count">0</h3>
+                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Total Products</p>
+                    <h3 class="text-2xl font-black text-slate-800 mt-2" id="dash-prod-count">0</h3>
                 </div>
                 <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 border-l-4 border-l-emerald-500 hover:shadow-md transition-all">
-                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Total Parties</p><h3 class="text-2xl font-black text-slate-800 mt-2" id="dash-party-count">0</h3>
+                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Total Parties</p>
+                    <h3 class="text-2xl font-black text-slate-800 mt-2" id="dash-party-count">0</h3>
                 </div>
             </div>
+            
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
                <div class="lg:col-span-2 bg-white rounded-3xl p-6 shadow-sm border border-slate-100">
-                 <div class="flex justify-between items-center mb-5"><h3 class="font-black text-sm uppercase tracking-widest text-slate-800">Sales vs Purchase</h3></div>
+                 <div class="flex justify-between items-center mb-5"><h3 class="font-black text-sm uppercase tracking-widest text-slate-800">Sales vs Purchase Analytics</h3></div>
                  <div class="h-[280px] w-full"><canvas id="businessChart"></canvas></div>
                </div>
                <div class="lg:col-span-1 bg-white rounded-3xl p-6 shadow-sm border border-slate-100 flex flex-col">
                  <div class="flex justify-between items-center mb-5"><h3 class="font-black text-sm uppercase tracking-widest text-slate-800">Quick Actions</h3></div>
                  <div class="grid grid-cols-1 gap-4 flex-1">
-                   <button onclick="startBill('SALE')" class="w-full h-16 bg-blue-50 text-[#004aad] rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center space-x-3 hover:bg-blue-600 hover:text-white transition-all shadow-sm"><span>🛒</span><span>New Sale Invoice</span></button>
-                   <button onclick="startBill('PURCHASE')" class="w-full h-16 bg-emerald-50 text-emerald-600 rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center space-x-3 hover:bg-emerald-600 hover:text-white transition-all shadow-sm"><span>📦</span><span>New Purchase Entry</span></button>
-                   <button onclick="showView('product')" class="w-full h-16 bg-amber-50 text-amber-600 rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center space-x-3 hover:bg-amber-500 hover:text-white transition-all shadow-sm"><span>🏷️</span><span>Add New Product</span></button>
-                   <button onclick="showView('party')" class="w-full h-16 bg-purple-50 text-purple-600 rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center space-x-3 hover:bg-purple-600 hover:text-white transition-all shadow-sm"><span>👥</span><span>Manage Customers</span></button>
+                   <button onclick="startBill('SALE')" class="w-full h-14 bg-blue-50 text-[#004aad] rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center space-x-3 hover:bg-blue-600 hover:text-white transition-all shadow-sm"><span>🛒</span><span>New Sale Invoice</span></button>
+                   <button onclick="startBill('PURCHASE')" class="w-full h-14 bg-emerald-50 text-emerald-600 rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center space-x-3 hover:bg-emerald-600 hover:text-white transition-all shadow-sm"><span>📦</span><span>New Purchase Entry</span></button>
+                   <button onclick="startPayment('IN')" class="w-full h-14 bg-teal-50 text-teal-600 rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center space-x-3 hover:bg-teal-600 hover:text-white transition-all shadow-sm"><span>🧾</span><span>Receive Payment</span></button>
+                   <button onclick="startPayment('OUT')" class="w-full h-14 bg-rose-50 text-rose-600 rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center space-x-3 hover:bg-rose-600 hover:text-white transition-all shadow-sm"><span>💸</span><span>Make Payment</span></button>
                  </div>
                </div>
             </div>
@@ -110,9 +116,6 @@
                     <div><h2 class="text-xl font-black text-slate-800 uppercase tracking-widest">Product Master</h2><p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mt-0.5">Manage Inventory</p></div>
                 </div>
                 <div class="flex space-x-3 w-full sm:w-auto">
-                    <input type="file" id="csv-upload" accept=".csv" class="hidden" onchange="importProductsCSV(event)" />
-                    <button onclick="document.getElementById('csv-upload').click()" class="px-4 h-[44px] border-2 border-emerald-500 text-emerald-600 font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-emerald-50 transition-all shadow-sm">Import CSV</button>
-                    <button onclick="exportProductsCSV()" class="px-4 h-[44px] border-2 border-[#004aad] text-[#004aad] font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-blue-50 transition-all shadow-sm">Export Data</button>
                     <button onclick="document.getElementById('add-product-form').scrollIntoView({behavior:'smooth'})" class="px-5 h-[44px] bg-[#004aad] text-white font-black text-[10px] uppercase tracking-widest rounded-xl shadow-md hover:-translate-y-0.5 transition-all">➕ Add Product</button>
                 </div>
             </div>
@@ -145,9 +148,7 @@
             <div id="add-product-form" class="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-100">
                 <div class="flex items-center space-x-3 mb-6 border-b border-slate-100 pb-4"><div class="w-8 h-8 bg-[#004aad] text-white rounded-full flex items-center justify-center font-black text-lg">✏️</div><h3 class="font-black text-lg text-slate-800 uppercase tracking-widest" id="prod-form-title">Add New Product</h3></div>
                 <input type="hidden" id="p-id" value="">
-                
                 <div class="flex flex-col lg:flex-row gap-8">
-                    <!-- Image -->
                     <div class="w-full lg:w-1/4 flex flex-col items-center">
                         <label class="font-black text-[10px] uppercase tracking-widest text-slate-400 w-full mb-2">Product Image</label>
                         <input type="file" id="p-image-upload" accept="image/*" class="hidden" onchange="handleProductImage(event)" />
@@ -158,11 +159,11 @@
                         <button type="button" onclick="clearProductImage()" class="mt-3 text-[9px] font-black text-rose-500 uppercase tracking-widest hover:underline">Remove Image</button>
                     </div>
 
-                    <!-- Details -->
                     <div class="w-full lg:w-3/4 space-y-5">
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
                             <div class="sm:col-span-2"><label class="font-black text-[10px] uppercase tracking-widest text-slate-500 block mb-1.5">Product Name *</label><input type="text" id="p-name" class="premium-input uppercase text-[#004aad]"></div>
-                            <div><label class="font-black text-[10px] uppercase tracking-widest text-slate-500 block mb-1.5">Brand</label><input type="text" id="p-brand" class="premium-input uppercase"></div>
+                            <div><label class="font-black text-[10px] uppercase tracking-widest text-slate-500 block mb-1.5">Brand</label><input type="text" id="p-brand" class="premium-input uppercase" list="brand-list"></div>
+                            <datalist id="brand-list"></datalist>
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
                             <div><label class="font-black text-[10px] uppercase tracking-widest text-slate-500 block mb-1.5">Category *</label><select id="p-category" onchange="handleCategoryChange(this)" class="cat-select premium-input"></select></div>
@@ -183,14 +184,12 @@
                                 <label class="flex items-center space-x-2 cursor-pointer p-2 bg-blue-50 rounded-xl border border-blue-100 w-full justify-center"><input type="checkbox" id="p-track" checked onchange="generateImeiBoxes()" class="w-5 h-5 rounded text-[#004aad] border-slate-300"><span class="font-black text-[10px] uppercase tracking-widest text-[#004aad]">Track IMEI</span></label>
                             </div>
                         </div>
-                        <!-- Opening Stock IMEIs -->
                         <div id="p-imei-container" class="hidden mt-4 p-5 bg-slate-100 rounded-2xl border border-slate-200 shadow-inner">
                             <h4 class="font-black text-[10px] uppercase tracking-widest text-slate-600 mb-3 border-b border-slate-200 pb-2">Enter Opening Stock IMEIs / Serial Numbers</h4>
                             <div id="p-imei-list" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4"></div>
                         </div>
                     </div>
                 </div>
-
                 <div class="flex justify-end space-x-4 mt-8 pt-5 border-t border-slate-100">
                     <button onclick="clearProductForm()" class="px-8 py-3.5 bg-slate-100 text-slate-500 font-black text-[11px] uppercase tracking-widest rounded-xl hover:bg-slate-200 transition-all">Clear Form</button>
                     <button onclick="saveProduct()" class="px-10 py-3.5 bg-[#004aad] text-white font-black text-xs uppercase tracking-widest rounded-xl shadow-lg hover:-translate-y-1 transition-all">💾 Save Product</button>
@@ -234,19 +233,38 @@
             </div>
         </div>
 
-        <!-- ========================================== -->
-        <!-- 🛒 BILLING (SALE/PURCHASE) 2-COLUMN LAYOUT -->
-        <!-- ========================================== -->
-        <div id="view-new-bill" class="view-section hidden max-w-screen-2xl mx-auto h-full">
+        <!-- PAYMENT VIEW (IN/OUT) -->
+        <div id="view-payment" class="view-section hidden space-y-5 max-w-lg mx-auto mt-6">
+            <div class="flex justify-between items-center border-b border-slate-200 pb-3">
+              <h2 id="pay-title" class="text-xl font-black text-[#004aad] tracking-widest uppercase">PAYMENT OUT</h2>
+            </div>
+            <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 space-y-4">
+              <div>
+                <label class="text-[10px] font-black text-slate-400 block mb-1.5 uppercase tracking-wider" id="pay-party-lbl">Party Name *</label>
+                <div class="relative w-full">
+                    <input type="text" id="pay-party" list="party-list" onkeydown="handleShortcut(event, currentPaymentType === 'OUT' ? 'SUPPLIER' : 'CUSTOMER')" class="premium-input pr-10 bg-slate-50 uppercase font-black text-sm text-[#004aad]" placeholder="Select / Type Name">
+                    <button onclick="openPartyModal(currentPaymentType === 'OUT' ? 'SUPPLIER' : 'CUSTOMER', document.getElementById('pay-party'))" tabindex="-1" class="absolute right-1 top-1 bottom-1 w-[36px] bg-blue-100 text-[#004aad] rounded-lg font-black text-lg hover:bg-[#004aad] hover:text-white transition-all shadow-sm pb-1">+</button>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-4">
+                <div><label class="text-[10px] font-black text-slate-400 block mb-1.5 uppercase tracking-wider">Amount (Rs.) *</label><input type="number" id="pay-amt" class="premium-input border-2 border-blue-400 bg-blue-50 text-lg font-black text-[#004aad]" placeholder="0" /></div>
+                <div><label class="text-[10px] font-black text-slate-400 block mb-1.5 uppercase tracking-wider">Payment Mode *</label><select id="pay-mode" class="premium-input bg-slate-50 text-[#004aad]"><option value="Cash">Cash</option><option value="QR">QR / Online</option></select></div>
+              </div>
+              <div><label class="text-[10px] font-black text-slate-400 block mb-1.5 uppercase tracking-wider">Remarks</label><input type="text" id="pay-remarks" class="premium-input bg-slate-50 text-[#004aad]" placeholder="e.g. Previous dues cleared" /></div>
+              <button onclick="savePaymentTransaction()" class="w-full h-[54px] bg-[#004aad] text-white font-black rounded-xl text-sm shadow-md mt-4 uppercase tracking-widest hover:shadow-lg hover:-translate-y-0.5 transition-all">SAVE TRANSACTION</button>
+            </div>
+        </div>
+
+        <!-- BILLING (SALE/PURCHASE) 2-COLUMN LAYOUT -->
+        <div id="view-new-bill" class="view-section hidden max-w-screen-2xl mx-auto h-full pb-20">
             <div class="flex justify-between items-end border-b border-slate-200 pb-3 mb-4">
                 <h2 id="bill-title" class="text-2xl font-black text-[#004aad] uppercase tracking-widest">SALE ENTRY</h2>
                 <span id="form-entry-type" class="text-[10px] font-black px-4 py-1.5 rounded-lg bg-blue-50 text-[#004aad] border border-blue-200 uppercase tracking-widest shadow-sm">SALE</span>
             </div>
             
-            <div class="flex flex-col lg:flex-row gap-5 items-start h-full pb-20">
-                <!-- LEFT COLUMN: Products & Party -->
+            <div class="flex flex-col lg:flex-row gap-5 items-start h-full">
+                <!-- LEFT COLUMN -->
                 <div class="w-full lg:w-8/12 flex flex-col space-y-4">
-                    <!-- Party Box -->
                     <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-100 grid grid-cols-1 sm:grid-cols-4 gap-4 items-end">
                         <div class="w-full flex flex-col">
                             <label class="font-black text-[10px] uppercase text-slate-500 tracking-widest mb-1.5">Party Name * <span class="text-[8px] ml-1 bg-slate-100 px-1 py-0.5 rounded text-slate-400 border border-slate-200">ALT+C</span></label>
@@ -260,7 +278,6 @@
                         <div class="w-full flex flex-col"><label class="font-black text-[10px] uppercase text-slate-500 tracking-widest mb-1.5">Invoice No *</label><input type="text" id="bill-inv" class="premium-input bg-slate-50 font-mono font-black text-sm text-[#004aad] uppercase" placeholder="Auto-generated"></div>
                     </div>
 
-                    <!-- Products Grid -->
                     <div class="bg-white p-5 rounded-3xl shadow-sm border border-slate-100 flex-1 overflow-hidden flex flex-col">
                         <div class="overflow-x-auto w-full flex-1">
                             <div class="grid grid-cols-12 gap-3 mb-2 font-black text-[10px] uppercase text-slate-400 tracking-widest border-b border-slate-200 pb-2 px-2 min-w-[700px]">
@@ -278,13 +295,11 @@
                     <div class="p-6 flex flex-col h-full">
                         <h3 class="font-black text-xs uppercase text-[#004aad] tracking-widest mb-5 border-b border-slate-100 pb-3 flex items-center space-x-2"><span>💳</span><span>Payment & Checkout</span></h3>
                         
-                        <!-- Discount & Slab -->
                         <div class="grid grid-cols-2 gap-4 mb-5">
                             <div><label class="font-black text-[10px] uppercase text-slate-400 tracking-widest block mb-1.5">Discount (₹)</label><input type="number" id="bill-discount" oninput="calcBill()" class="premium-input bg-rose-50 border-rose-200 text-rose-600 font-black text-lg" placeholder="0"></div>
                             <div><label class="font-black text-[10px] uppercase text-slate-400 tracking-widest block mb-1.5">GST Slab</label><select id="bill-global-gst" class="premium-input bg-slate-50"><option value="0">0%</option><option value="5">5%</option><option value="12">12%</option><option value="18">18%</option><option value="28">28%</option></select></div>
                         </div>
 
-                        <!-- Payment Modes -->
                         <div class="space-y-4 mb-5">
                             <div><label class="font-black text-[10px] uppercase text-slate-400 tracking-widest block mb-1.5">Primary Mode</label>
                                 <select id="pay-primary" onchange="onPaymentModeChange()" class="premium-input bg-slate-50 text-[#004aad]">
@@ -299,25 +314,23 @@
                             </div>
                         </div>
 
-                        <!-- Split Boxes -->
                         <div id="split-box" class="hidden grid grid-cols-3 gap-2 mb-4 bg-slate-50 p-3 rounded-xl border border-slate-100 shadow-inner">
                             <div id="wrap-split-cash" class="hidden"><label class="font-black text-[9px] uppercase text-slate-400 tracking-widest block mb-1">Cash</label><input type="number" id="split-cash" placeholder="0" oninput="calcBill()" class="premium-input px-2 bg-white text-[#004aad]" /></div>
                             <div id="wrap-split-qr" class="hidden"><label class="font-black text-[9px] uppercase text-slate-400 tracking-widest block mb-1">QR</label><input type="number" id="split-qr" placeholder="0" oninput="calcBill()" class="premium-input px-2 bg-white text-[#004aad]" /></div>
                             <div id="wrap-split-card" class="hidden"><label class="font-black text-[9px] uppercase text-slate-400 tracking-widest block mb-1">Card</label><input type="number" id="split-card" placeholder="0" oninput="calcBill()" class="premium-input px-2 bg-white text-[#004aad]" /></div>
                         </div>
 
-                        <!-- Finance / Dues Extras -->
                         <div id="fin-box" class="hidden bg-blue-50 p-4 rounded-xl border border-blue-100 mb-4 space-y-3">
                             <div><label class="font-black text-[10px] uppercase text-slate-400 tracking-widest block mb-1.5">Company *</label><select id="fin-company" class="premium-input bg-white text-[#004aad]"><option value="">-- Select --</option><option value="Kisto Pe">Kisto Pe</option><option value="Bajaj Finserv">Bajaj Finserv</option><option value="HDB Finance">HDB Finance</option></select></div>
                             <div><label class="font-black text-[10px] uppercase text-slate-400 tracking-widest block mb-1.5">DP Mode</label><select id="fin-dp-mode" onchange="onPaymentModeChange()" class="premium-input bg-white text-[#004aad]"><option value="Cash">DP Cash</option><option value="QR">DP QR</option><option value="Card">DP Card</option><option value="Cash + QR">DP Cash + QR</option></select></div>
                         </div>
+                        
                         <div id="dues-box" class="hidden bg-slate-50 p-4 rounded-xl border border-slate-200 mb-4">
                             <div><label class="font-black text-[10px] uppercase text-slate-400 tracking-widest block mb-1.5">DP Mode</label><select id="dues-mode" onchange="onPaymentModeChange()" class="premium-input bg-white text-[#004aad]"><option value="Cash">Cash</option><option value="QR">QR</option><option value="Cash + QR">Cash + QR</option></select></div>
                         </div>
 
                         <div><label class="font-black text-[10px] uppercase text-slate-400 tracking-widest block mb-1.5">Total Amount Paid (₹) *</label><input type="number" id="bill-paid" oninput="calcBill(true)" class="premium-input bg-blue-50 border-blue-400 focus:ring-blue-300 text-[#004aad] font-black text-2xl h-[56px] shadow-inner" placeholder="0"></div>
 
-                        <!-- Grand Totals Display -->
                         <div class="mt-auto bg-gradient-to-br from-slate-800 to-slate-900 p-5 rounded-2xl text-white shadow-lg border border-slate-700">
                             <div class="flex justify-between items-center border-b border-slate-700 pb-2 mb-2"><span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Taxable</span><span class="text-sm font-black" id="bill-taxable">₹ 0</span></div>
                             <div class="flex justify-between items-center border-b border-slate-700 pb-2 mb-3"><span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Total GST</span><span class="text-sm font-black text-blue-300" id="bill-gst">₹ 0</span></div>
@@ -325,7 +338,6 @@
                             <div class="flex justify-between items-end"><span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Balance Due</span><span class="text-xl font-black text-rose-400 drop-shadow-md" id="bill-due">₹ 0</span></div>
                         </div>
 
-                        <!-- Buttons -->
                         <div class="flex space-x-3 mt-4">
                             <button onclick="showView('dashboard')" class="w-1/3 py-4 bg-slate-100 text-slate-600 rounded-xl font-black uppercase tracking-widest text-[10px] hover:bg-slate-200 transition-all">Cancel</button>
                             <button onclick="saveFinalBill()" class="w-2/3 py-4 bg-[#004aad] text-white rounded-xl font-black uppercase tracking-widest text-xs shadow-md hover:bg-blue-800 hover:-translate-y-0.5 transition-all">💾 Save Bill</button>
@@ -343,6 +355,9 @@
                 <button type="button" onclick="switchLedgerTab('SUPPLIER')" id="tab-SUPPLIER" class="flex-1 py-3 rounded-lg text-xs font-black text-slate-400 tracking-widest transition-all hover:text-[#004aad]">SUPPLIER</button>
             </div>
             <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+                <div class="p-4 border-b border-slate-100 bg-slate-50 flex items-center">
+                    <div class="relative w-full max-w-md"><span class="absolute left-4 top-3 text-lg text-slate-400">🔍</span><input type="text" id="ledger-search" oninput="updateLedgerView()" placeholder="Search by Name, Mobile or Invoice..." class="w-full pl-11 pr-4 h-[44px] bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none focus:border-[#004aad] text-slate-700 shadow-sm" /></div>
+                </div>
                 <div class="overflow-x-auto w-full max-h-[600px]">
                     <table class="w-full text-left text-xs min-w-[800px]">
                         <thead class="bg-slate-50 font-black uppercase tracking-widest text-slate-500 border-b border-slate-200 text-[10px] sticky top-0 z-10">
@@ -351,6 +366,58 @@
                         <tbody id="ledger-table-body" class="font-bold text-slate-700 divide-y divide-slate-100"></tbody>
                     </table>
                 </div>
+            </div>
+        </div>
+
+        <!-- INVOICE VIEW -->
+        <div id="view-invoice" class="view-section hidden space-y-5 max-w-3xl mx-auto pb-10">
+            <div class="flex justify-between items-center bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                <button onclick="showView('dashboard')" class="bg-slate-100 text-slate-600 px-6 py-2.5 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-300 transition-colors">Back Home</button>
+                <div class="space-x-2">
+                    <button onclick="downloadPDF()" class="bg-[#004aad] text-white px-6 py-2.5 rounded-xl font-black text-[10px] uppercase tracking-widest shadow-md hover:bg-blue-800 transition-colors">📥 Download PDF</button>
+                </div>
+            </div>
+            
+            <div id="invoice-capture" class="bg-white p-10 rounded-2xl shadow-xl border-2 border-[#004aad] text-slate-800 relative max-w-[800px] mx-auto">
+                <div class="text-center border-b-2 border-[#004aad] pb-6 mb-6">
+                    <h1 class="text-4xl font-black text-[#004aad] uppercase tracking-widest">Sri Ram Enterprises</h1>
+                    <p class="text-xs font-black text-slate-600 mt-2 tracking-widest">MOBILE • ACCESSORIES • REPAIRING</p>
+                    <p class="text-[10px] font-bold text-slate-500 mt-1 uppercase tracking-widest">GB-15, City Centre, Sector-4, B.S. City | Ph: 9334765000</p>
+                </div>
+                <div class="flex justify-between items-end mb-6">
+                    <div>
+                        <p class="text-slate-400 font-black uppercase text-[9px] tracking-widest mb-1">Bill To:</p>
+                        <p id="inv-party" class="text-lg font-black uppercase text-[#004aad] leading-tight"></p>
+                        <p id="inv-phone" class="font-mono text-xs font-bold mt-1 text-slate-600"></p>
+                        <p id="inv-address" class="text-[10px] font-bold mt-1 uppercase text-slate-500 max-w-[200px]"></p>
+                    </div>
+                    <div class="text-right">
+                        <h2 id="inv-type-title" class="text-xl font-black text-[#004aad] uppercase tracking-widest mb-2 border border-[#004aad] inline-block px-3 py-1 rounded">TAX INVOICE</h2>
+                        <div class="grid grid-cols-2 gap-x-4 gap-y-1 text-xs text-left">
+                            <span class="font-bold text-slate-500 uppercase text-[9px] tracking-widest">Invoice No:</span><span id="inv-no" class="font-black text-[#004aad]"></span>
+                            <span class="font-bold text-slate-500 uppercase text-[9px] tracking-widest">Date:</span><span id="inv-date" class="font-mono font-bold text-slate-800"></span>
+                        </div>
+                    </div>
+                </div>
+                <table class="w-full text-left text-xs mb-6 border-collapse">
+                    <thead><tr class="bg-[#004aad] text-white uppercase text-[10px] tracking-widest font-black"><th class="p-2.5 border border-[#004aad] w-10 text-center">#</th><th class="p-2.5 border border-[#004aad]">Product Description</th><th class="p-2.5 border border-[#004aad] w-48">IMEI / Serial</th><th class="p-2.5 border border-[#004aad] text-center w-12">Qty</th><th class="p-2.5 border border-[#004aad] text-right w-20">Rate</th><th class="p-2.5 border border-[#004aad] text-right w-24">Amount</th></tr></thead>
+                    <tbody id="inv-items" class="font-bold"></tbody>
+                </table>
+                <div class="flex justify-between items-start border-t-2 border-[#004aad] pt-4">
+                    <div class="flex space-x-4 items-center">
+                        <div id="inv-qr" class="w-20 h-20 border border-[#004aad] p-1 rounded-lg"></div>
+                        <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest leading-relaxed">Scan QR to<br>verify Invoice<br>online.</p>
+                    </div>
+                    <div class="w-64">
+                        <div class="flex justify-between text-xs font-bold mb-1.5"><span class="text-slate-500 uppercase">Taxable Value:</span><span id="inv-taxable">₹ 0</span></div>
+                        <div class="flex justify-between text-xs font-bold mb-1.5"><span class="text-slate-500 uppercase">Total GST:</span><span id="inv-gst">₹ 0</span></div>
+                        <div class="flex justify-between text-xs font-bold mb-3 border-b border-slate-200 pb-2"><span class="text-slate-500 uppercase">Discount:</span><span id="inv-disc" class="text-rose-600">- ₹ 0</span></div>
+                        <div class="flex justify-between items-end"><span class="text-[11px] font-black text-[#004aad] uppercase tracking-widest">Grand Total:</span><span id="inv-total" class="text-2xl font-black text-[#004aad]">₹ 0</span></div>
+                        <div class="flex justify-between items-end mt-2"><span class="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">Amount Paid:</span><span id="inv-paid" class="text-sm font-black text-emerald-600">₹ 0</span></div>
+                        <div class="flex justify-between items-end mt-1"><span class="text-[10px] font-bold text-rose-500 uppercase tracking-widest">Balance Due:</span><span id="inv-bal" class="text-sm font-black text-rose-500">₹ 0</span></div>
+                    </div>
+                </div>
+                <p class="text-[9px] text-center text-slate-400 font-bold uppercase tracking-widest mt-10 italic border-t border-slate-100 pt-3">* Computer Generated Document. No signature required. *</p>
             </div>
         </div>
 
@@ -377,7 +444,7 @@
                     <div><label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1.5">Product Name *</label><input type="text" id="q-item-name" class="premium-input bg-slate-50 uppercase text-[#004aad]"></div>
                     <div><label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1.5">Category *</label><select id="q-item-category" class="cat-select premium-input bg-slate-50" onchange="handleCategoryChange(this)"></select></div>
                     <div class="grid grid-cols-2 gap-4">
-                        <div><label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1.5">Sale Rate (₹) *</label><input type="number" id="q-item-sale" class="premium-input bg-white border-blue-300 text-[#004aad] shadow-sm"></div>
+                        <div><label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1.5">Sale Rate (₹) *</label><input type="number" id="q-item-sale" class="premium-input bg-white border-blue-300 text-[#004aad]"></div>
                         <div><label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1.5">GST %</label><select id="q-item-gst" class="premium-input bg-slate-50"><option value="0">0%</option><option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option></select></div>
                     </div>
                 </div>
@@ -393,7 +460,7 @@
 
   <script>
     /* ========================================================
-       🚨 BEASTMODE JAVASCRIPT ENGINE - PRO SPLIT LAYOUT 🚨
+       🚨 BEASTMODE JAVASCRIPT ENGINE - FULL FIX EDITION 🚨
     ======================================================== */
 
     const Storage = {
@@ -407,6 +474,7 @@
     let categoriesDB = Storage.get('sre_categories');
     
     let currentMode = "SALE";
+    let currentPaymentType = "OUT"; 
     let activeProductImg = "";
     let activeShortcutInput = null;
 
@@ -424,6 +492,8 @@
         document.getElementById('popup-message').innerText = msg;
         document.getElementById('center-popup').classList.remove('hidden');
     }
+    
+    function closePopup() { document.getElementById('center-popup').classList.add('hidden'); }
 
     // 1. VIEW ROUTER
     function showView(viewName) {
@@ -496,7 +566,34 @@
         document.getElementById('item-popup').classList.add('hidden');
     }
 
-    // 3. UNIVERSAL BILLING LOGIC (SPLIT LAYOUT)
+    // 3. PAYMENT (IN/OUT)
+    function startPayment(type) {
+        currentPaymentType = type;
+        document.getElementById('pay-title').innerText = type === 'OUT' ? 'PAYMENT OUT' : 'RECEIPT IN';
+        document.getElementById('pay-party-lbl').innerText = type === 'OUT' ? 'Supplier Name *' : 'Customer Name *';
+        document.getElementById('pay-party').value = ''; document.getElementById('pay-amt').value = ''; document.getElementById('pay-mode').value = 'Cash'; document.getElementById('pay-remarks').value = '';
+        showView('payment');
+    }
+
+    function savePaymentTransaction() {
+       const party = document.getElementById('pay-party').value.trim().toUpperCase(); const amt = Number(document.getElementById('pay-amt').value) || 0; const mode = document.getElementById('pay-mode').value; const remarks = document.getElementById('pay-remarks').value.trim();
+       if(!party || amt <= 0) return showPopup("Error", "Party Name and valid Amount are required!", true);
+       const isOut = currentPaymentType === 'OUT'; const prefix = isOut ? "PAY" : "REC"; const invNo = `${prefix}-26-${(billsDB.length+1).toString().padStart(3,"0")}`;
+       
+       const billRecord = { id: 'INV-'+Date.now(), invNo: invNo, date: getToday(), type: isOut ? "PAYMENT" : "RECEIPT", party: party, mobile: "", items: [{name: remarks || (isOut?"Payment Given":"Payment Received"), rate: amt, qty: 1, gst: 0, imei: "-", amt: amt}], basic: amt, gst: 0, discount: 0, total: amt, paid: amt, due: 0, paymentMode: mode, paymentRate: "", finance: null };
+       billsDB.push(billRecord); Storage.set('sre_bills', billsDB);
+       
+       // Update Party Balance
+       let pData = partiesDB.find(p => p.name === party);
+       if(pData) {
+           if(currentPaymentType === "IN") pData.ob -= amt; // Customer paid us
+           if(currentPaymentType === "OUT") pData.ob += amt; // We paid supplier
+           Storage.set('sre_parties', partiesDB);
+       }
+       showPopup("Success", "Transaction logged successfully!"); showView('dashboard');
+    }
+
+    // 4. UNIVERSAL BILLING LOGIC
     function startBill(type) {
         currentMode = type;
         document.getElementById('bill-title').innerText = type + " ENTRY";
@@ -506,9 +603,9 @@
         document.getElementById('bill-party').value = ''; document.getElementById('bill-mobile').value = ''; document.getElementById('bill-date').value = getToday(); document.getElementById('bill-inv').value = type === "SALE" ? `SRE-26-${(billsDB.length + 1).toString().padStart(3,'0')}` : '';
         document.getElementById('bill-items').innerHTML = '';
         
-        // Handle Payment Display
         document.getElementById('pay-primary').value = "Cash"; document.getElementById('pay-secondary').value = ""; document.getElementById('bill-discount').value = ''; document.getElementById('bill-paid').value = '';
-        document.getElementById('opt-finance').style.display = type === "PURCHASE" ? "none" : "block"; // Hide Finance in Purchase
+        const optFinance = document.getElementById('opt-finance');
+        if(optFinance) optFinance.style.display = type === "PURCHASE" ? "none" : "block"; // Hide Finance in Purchase
         onPaymentModeChange();
 
         addBillRow(true); calcBill(); showView('new-bill');
@@ -516,11 +613,11 @@
 
     function addBillRow(isFirst = false) {
         const container = document.getElementById('bill-items'); const row = document.createElement('div');
-        const removeBtn = !isFirst ? `<button type="button" onclick="this.parentElement.remove(); calcBill();" class="w-8 h-8 flex items-center justify-center bg-rose-50 text-rose-600 rounded-lg hover:bg-rose-100 font-black transition-all shadow-sm">X</button>` : `<div class="w-8"></div>`;
+        const removeBtn = !isFirst ? `<button type="button" onclick="this.closest('.item-row-wrapper').remove(); calcBill();" class="w-8 h-8 flex items-center justify-center bg-rose-50 text-rose-600 rounded-lg hover:bg-rose-100 font-black transition-all shadow-sm">X</button>` : `<div class="w-8"></div>`;
         
-        row.className = "item-row bg-slate-50 p-2.5 rounded-2xl border border-slate-100 mb-2 min-w-[700px]";
+        row.className = "item-row-wrapper bg-slate-50 p-2.5 rounded-2xl border border-slate-100 mb-2 min-w-[700px]";
         row.innerHTML = `
-            <div class="grid grid-cols-12 gap-2 items-center w-full">
+            <div class="grid grid-cols-12 gap-2 items-center w-full item-row">
                 <div class="col-span-4 relative"><input type="text" list="item-list" oninput="autoFillRate(this)" onkeydown="handleShortcut(event, 'PRODUCT')" class="premium-input pr-10 bg-white b-name uppercase font-black text-sm text-[#004aad] shadow-sm border-slate-200" placeholder="Product Name"><button type="button" tabindex="-1" onclick="openItemModal(this.previousElementSibling)" class="absolute right-1 top-1 bottom-1 w-8 bg-blue-50 text-[#004aad] rounded-lg font-black hover:bg-[#004aad] hover:text-white transition-all shadow-sm pb-0.5">+</button></div>
                 <div class="col-span-2"><input type="number" oninput="calcBill()" class="premium-input bg-white b-rate font-black text-base text-slate-800 text-right shadow-sm border-slate-200" placeholder="Rate"></div>
                 <div class="col-span-1"><select onchange="calcBill()" class="premium-input bg-white text-center b-gst font-bold text-slate-800 shadow-sm border-slate-200"><option value="0">0</option><option value="5">5</option><option value="12">12</option><option value="18" selected>18</option><option value="28">28</option></select></div>
@@ -534,7 +631,7 @@
     }
 
     function handleGridQtyChange(input) {
-        calcBill(); const row = input.closest('.item-row'); const qty = Math.max(1, Number(input.value) || 1); const extBox = row.querySelector('.b-imei-extended');
+        calcBill(); const wrapper = input.closest('.item-row-wrapper'); const qty = Math.max(1, Number(input.value) || 1); const extBox = wrapper.querySelector('.b-imei-extended');
         if(qty > 1) {
             extBox.classList.remove('hidden'); const existing = Array.from(extBox.querySelectorAll('.b-imei-extra')).map(i => i.value); let html = '';
             for(let i=2; i<=qty; i++) { const val = existing[i-2] || ""; html += `<input type="text" maxlength="15" oninput="this.value=this.value.replace(/[^0-9]/g,'')" value="${val}" placeholder="IMEI ${i}" class="premium-input bg-white font-mono font-bold uppercase text-[#004aad] b-imei-extra border-blue-200 shadow-sm">`; }
@@ -547,7 +644,6 @@
         if(prod) { row.querySelector('.b-rate').value = currentMode === "SALE" ? prod.sale : prod.pur; row.querySelector('.b-gst').value = prod.gst; calcBill(); }
     }
 
-    // 🔥 UNIVERSAL PAYMENT CALCULATION
     function onPaymentModeChange() {
         const p = document.getElementById('pay-primary').value; const s = document.getElementById('pay-secondary').value; const payInput = document.getElementById('bill-paid');
         document.getElementById('fin-box').classList.add('hidden'); document.getElementById('dues-box').classList.add('hidden'); document.getElementById('split-box').classList.add('hidden');
@@ -558,9 +654,7 @@
         const isSplit = activeMode.includes("+");
         if(isSplit) {
             document.getElementById('split-box').classList.remove('hidden');
-            document.getElementById('wrap-split-cash').classList.toggle('hidden', !activeMode.includes("Cash"));
-            document.getElementById('wrap-split-qr').classList.toggle('hidden', !activeMode.includes("QR"));
-            document.getElementById('wrap-split-card').classList.toggle('hidden', !activeMode.includes("Card"));
+            document.getElementById('wrap-split-cash').classList.toggle('hidden', !activeMode.includes("Cash")); document.getElementById('wrap-split-qr').classList.toggle('hidden', !activeMode.includes("QR")); document.getElementById('wrap-split-card').classList.toggle('hidden', !activeMode.includes("Card"));
             payInput.readOnly = true; payInput.classList.add("bg-slate-200", "cursor-not-allowed", "text-slate-500", "border-slate-300"); payInput.classList.remove("bg-blue-50", "text-[#004aad]", "border-blue-400"); payInput.placeholder = "Auto Calculated...";
         } else {
             payInput.readOnly = false; payInput.classList.remove("bg-slate-200", "cursor-not-allowed", "text-slate-500", "border-slate-300"); payInput.classList.add("bg-blue-50", "text-[#004aad]", "border-blue-400"); payInput.placeholder = "0";
@@ -571,7 +665,8 @@
 
     function calcBill(isTypingPaid = false) {
         let totalTaxable = 0; let totalGstAmt = 0; let grandTotal = 0;
-        document.querySelectorAll('.row-item').forEach(row => {
+        document.querySelectorAll('.item-row-wrapper').forEach(wrapper => {
+            const row = wrapper.querySelector('.item-row');
             const rate = Number(row.querySelector('.b-rate').value) || 0; const qty = Number(row.querySelector('.b-qty').value) || 0; const gst = Number(row.querySelector('.b-gst').value) || 0;
             const basic = rate * qty; const gstVal = basic * (gst / 100); const amt = basic + gstVal;
             row.querySelector('.b-amt').innerText = amt.toLocaleString('en-IN', {minimumFractionDigits: 2});
@@ -580,7 +675,7 @@
 
         const discount = Number(document.getElementById('bill-discount').value) || 0;
         grandTotal = Math.round(Math.max(0, grandTotal - discount));
-        document.getElementById('bill-taxable').innerText = "₹ " + totalTaxable.toLocaleString('en-IN'); document.getElementById('bill-gst').innerText = "₹ " + totalGstAmt.toLocaleString('en-IN'); document.getElementById('bill-grand-total').innerText = "₹ " + grandTotal.toLocaleString('en-IN');
+        document.getElementById('bill-taxable').innerText = "₹ " + totalTaxable.toLocaleString('en-IN', {minimumFractionDigits: 2}); document.getElementById('bill-gst').innerText = "₹ " + totalGstAmt.toLocaleString('en-IN', {minimumFractionDigits: 2}); document.getElementById('bill-grand-total').innerText = "₹ " + grandTotal.toLocaleString('en-IN');
 
         const payInput = document.getElementById('bill-paid');
         const p = document.getElementById('pay-primary').value; const s = document.getElementById('pay-secondary').value;
@@ -595,7 +690,7 @@
         } else {
             if(!isTypingPaid) {
                 if (p === "" || p === "Choose" || (s === "Dues" && activeMode === "Choose")) { payInput.value = ""; rawPaid = 0; }
-                else if (s === "Finance" || s === "Dues") { rawPaid = Number(payInput.value) || 0; } // User types DP
+                else if (s === "Finance" || s === "Dues") { rawPaid = Number(payInput.value) || 0; }
                 else { payInput.value = grandTotal; rawPaid = grandTotal; }
             } else { rawPaid = Number(payInput.value) || 0; }
         }
@@ -608,18 +703,36 @@
     function saveFinalBill() {
         const party = document.getElementById('bill-party').value.trim().toUpperCase();
         const invNo = document.getElementById('bill-inv').value.trim() || `SRE-26-${(billsDB.length + 1).toString().padStart(3,'0')}`;
+        const bDate = document.getElementById('bill-date').value;
         if(!party) return showPopup("Error", "Party Name is required!", true);
 
         const totals = calcBill(true);
         if(totals.grandTotal <= 0) return showPopup("Error", "Bill total cannot be 0!", true);
 
-        let totalAmt = 0; let items = []; let errorMsg = null;
+        const p = document.getElementById('pay-primary').value; const s = document.getElementById('pay-secondary').value;
+        if(p === "" && s === "") return showPopup("Error", "Please select a Primary or Secondary Payment Mode!", true);
+        
+        let pRate = ""; let finData = null;
+        if (s === "Finance") {
+            const comp = document.getElementById('fin-company').value; pRate = Number(document.getElementById('fin-rate').value) || 0;
+            if(!comp) return showPopup("Error", "Select Finance Company!", true); if(pRate <= 0) return showPopup("Error", "Finance Rate is required!", true);
+            finData = { company: comp, dp: totals.rawPaid, loan: totals.grandTotal - totals.rawPaid };
+        } else if (s === "Dues") {
+            pRate = Number(document.getElementById('dues-rate').value) || 0; if(pRate <= 0) return showPopup("Error", "Agreed Rate is required for Dues!", true);
+        } else {
+            if(totals.rawPaid <= 0 && totals.grandTotal > 0) return showPopup("Error", "Please enter Amount Paid!", true);
+        }
 
-        document.querySelectorAll('.row-item').forEach(row => {
+        let items = []; let errorMsg = null;
+
+        document.querySelectorAll('.item-row-wrapper').forEach(wrapper => {
+            const row = wrapper.querySelector('.item-row');
             const name = row.querySelector('.b-name').value.trim().toUpperCase(); const rate = Number(row.querySelector('.b-rate').value) || 0; const qty = Number(row.querySelector('.b-qty').value) || 1; const gst = Number(row.querySelector('.b-gst').value) || 0;
+            
             const imeiMain = row.querySelector('.b-imei-main').value.trim().toUpperCase();
             let validImeis = []; if(imeiMain) validImeis.push(imeiMain);
-            row.querySelectorAll('.b-imei-extra').forEach(inp => { if(inp.value.trim()) validImeis.push(inp.value.trim().toUpperCase()); });
+            wrapper.querySelectorAll('.b-imei-extra').forEach(inp => { if(inp.value.trim()) validImeis.push(inp.value.trim().toUpperCase()); });
+            const imeiStr = validImeis.join(', ');
             
             if(name && rate > 0) {
                 let prod = productsDB.find(p => p.name === name);
@@ -635,8 +748,8 @@
                         if(currentMode === "SALE") { prod.stock -= qty; if(prod.track && prod.imeiList) { prod.imeiList = prod.imeiList.filter(i => !validImeis.includes(i)); } }
                         if(currentMode === "PURCHASE") { prod.stock += qty; if(prod.track) { if(!prod.imeiList) prod.imeiList = []; prod.imeiList.push(...validImeis); } }
                     }
-                    const basic = rate * qty; const amt = basic + (basic * (gst/100)); totalAmt += amt;
-                    items.push({name, rate, qty, gst, imei: validImeis.join(', '), amt});
+                    const basic = rate * qty; const gstVal = basic * (gst/100); const amt = basic + gstVal;
+                    items.push({name, rate, qty, gst, imei: imeiStr, amt});
                 }
             } else if (name) { errorMsg = `Invalid rate for ${name}`; }
         });
@@ -644,66 +757,83 @@
         if(errorMsg) return showPopup("Error", errorMsg, true);
         if(items.length === 0) return showPopup("Error", "Add at least one valid product!", true);
 
-        const billRecord = { id: 'INV-'+Date.now(), invNo: invNo, date: document.getElementById('bill-date').value, type: currentMode, party: party, items: items, total: totals.grandTotal, paid: totals.rawPaid, due: totals.due };
+        const billRecord = { id: 'INV-'+Date.now(), invNo: invNo, date: bDate, type: currentMode, party: party, mobile: document.getElementById('bill-mobile').value, items: items, basic: totals.totalTaxable, gst: totals.totalGstAmt, discount: totals.discount, total: totals.grandTotal, paid: totals.rawPaid, due: totals.due, paymentMode: s || p, paymentRate: pRate, finance: finData };
 
         billsDB.push(billRecord); Storage.set('sre_bills', billsDB); Storage.set('sre_products', productsDB); 
         
-        // Update Party Balance automatically based on dues
         if(totals.due > 0) {
             let pData = partiesDB.find(p => p.name === party);
             if(pData) {
-                if(currentMode === "SALE") pData.ob += totals.due; // User owes us
-                if(currentMode === "PURCHASE") pData.ob -= totals.due; // We owe supplier
+                if(currentMode === "SALE") pData.ob += totals.due; 
+                if(currentMode === "PURCHASE") pData.ob -= totals.due; 
                 Storage.set('sre_parties', partiesDB);
             }
         }
         
         showPopup("Success", currentMode + " Bill Saved Successfully!");
-        showView('dashboard');
+        generateInvoiceHTML(billRecord);
     }
 
-    // ==========================================
-    // 📒 LEDGER VIEW
-    // ==========================================
+    // 5. INVOICE GENERATION & PDF
+    function generateInvoiceHTML(bill) {
+        document.getElementById('inv-party').innerText = bill.party; document.getElementById('inv-phone').innerText = "Ph: " + (bill.mobile || "-"); document.getElementById('inv-no').innerText = bill.invNo; document.getElementById('inv-date').innerText = bill.date;
+        document.getElementById('inv-type-title').innerText = bill.type === "PURCHASE" ? "PURCHASE VOUCHER" : "TAX INVOICE"; document.getElementById('inv-type-title').className = bill.type === "PURCHASE" ? "text-xl font-black text-rose-600 uppercase tracking-widest mb-2 border border-rose-600 inline-block px-3 py-1 rounded" : "text-xl font-black text-[#004aad] uppercase tracking-widest mb-2 border border-[#004aad] inline-block px-3 py-1 rounded";
+        let html = ''; bill.items.forEach((it, i) => { html += `<tr class="border-b border-slate-100"><td class="p-3 border-r border-[#004aad] text-center">${i+1}</td><td class="p-3 border-r border-[#004aad]">${it.name} <span class="text-[8px] text-[#004aad] font-black tracking-widest ml-1">[GST ${it.gst}%]</span></td><td class="p-3 border-r border-[#004aad] font-mono text-[10px] break-all">${it.imei || '-'}</td><td class="p-3 border-r border-[#004aad] text-center text-sm">${it.qty}</td><td class="p-3 border-r border-[#004aad] text-right">${it.rate.toLocaleString('en-IN')}</td><td class="p-3 text-right text-[#004aad]">${it.amt.toLocaleString('en-IN')}</td></tr>`; });
+        document.getElementById('inv-items').innerHTML = html;
+        document.getElementById('inv-taxable').innerText = "₹ " + bill.basic.toLocaleString('en-IN'); document.getElementById('inv-gst').innerText = "₹ " + bill.gst.toLocaleString('en-IN'); document.getElementById('inv-disc').innerText = "- ₹ " + bill.discount.toLocaleString('en-IN'); document.getElementById('inv-total').innerText = "₹ " + bill.total.toLocaleString('en-IN'); document.getElementById('inv-paid').innerText = "₹ " + bill.paid.toLocaleString('en-IN'); document.getElementById('inv-bal').innerText = "₹ " + bill.due.toLocaleString('en-IN');
+        document.getElementById("inv-qr").innerHTML = ""; new QRCode(document.getElementById("inv-qr"), { text: `SRE|${bill.invNo}|${bill.total}`, width: 72, height: 72 });
+        showView('invoice');
+    }
+
+    function downloadPDF() {
+        const { jsPDF } = window.jspdf; const doc = new jsPDF("p", "mm", "a4"); const isPur = document.getElementById('inv-type-title').innerText === "PURCHASE VOUCHER"; const themeColor = isPur ? [225, 29, 72] : [0, 74, 173];
+        doc.setDrawColor(...themeColor); doc.setLineWidth(1); doc.rect(10, 10, 190, 277);
+        doc.setFont("helvetica", "bold"); doc.setFontSize(22); doc.setTextColor(...themeColor); doc.text("SRI RAM ENTERPRISES", 105, 25, null, null, "center");
+        doc.setFontSize(9); doc.setTextColor(80, 80, 80); doc.text("MOBILE • ACCESSORIES • REPAIRING", 105, 31, null, null, "center"); doc.setFont("helvetica", "normal"); doc.setFontSize(8); doc.text("GB-15, City Centre, Sector-4, B.S. City | Ph: 9334765000", 105, 36, null, null, "center");
+        doc.setLineWidth(0.5); doc.line(10, 42, 200, 42); doc.setFontSize(10); doc.setTextColor(0, 0, 0); doc.setFont("helvetica", "bold"); doc.text("Bill To:", 15, 52); doc.setFontSize(14); doc.setTextColor(...themeColor); doc.text(document.getElementById('inv-party').innerText, 15, 58); doc.setFontSize(9); doc.setTextColor(0, 0, 0); doc.text(document.getElementById('inv-phone').innerText, 15, 64);
+        doc.setFontSize(14); doc.setTextColor(...themeColor); doc.text(document.getElementById('inv-type-title').innerText, 195, 52, null, null, "right"); doc.setFontSize(9); doc.setTextColor(80, 80, 80); doc.text(`Invoice No: ${document.getElementById('inv-no').innerText}`, 195, 58, null, null, "right"); doc.text(`Date: ${document.getElementById('inv-date').innerText}`, 195, 63, null, null, "right");
+        let startY = 72; doc.setFillColor(...themeColor); doc.rect(10, startY, 190, 8, "F"); doc.setTextColor(255, 255, 255); doc.setFont("helvetica", "bold"); doc.setFontSize(9); doc.text("#", 14, startY + 5.5); doc.text("Product Description", 25, startY + 5.5); doc.text("IMEI / Serial", 100, startY + 5.5); doc.text("Qty", 145, startY + 5.5, null, null, "center"); doc.text("Rate", 165, startY + 5.5, null, null, "right"); doc.text("Amount", 195, startY + 5.5, null, null, "right");
+        startY += 8; doc.setTextColor(0, 0, 0); doc.setFont("helvetica", "normal"); doc.setFontSize(8.5);
+        const rows = document.getElementById('inv-items').getElementsByTagName('tr');
+        for(let i=0; i<rows.length; i++) { const cols = rows[i].getElementsByTagName('td'); doc.rect(10, startY, 190, 8); doc.text(cols[0].innerText, 14, startY + 5.5); doc.text(cols[1].innerText.replace('[GST', ' GST'), 25, startY + 5.5); doc.text(cols[2].innerText, 100, startY + 5.5); doc.text(cols[3].innerText, 145, startY + 5.5, null, null, "center"); doc.text(cols[4].innerText, 165, startY + 5.5, null, null, "right"); doc.text(cols[5].innerText, 195, startY + 5.5, null, null, "right"); startY += 8; }
+        doc.setDrawColor(...themeColor); doc.setLineWidth(0.5); doc.line(10, startY, 200, startY); startY += 8;
+        doc.setFont("helvetica", "bold"); doc.setFontSize(9); doc.text("Taxable Value:", 155, startY); doc.text(document.getElementById('inv-taxable').innerText, 195, startY, null, null, "right"); startY += 6; doc.text("Total GST:", 155, startY); doc.text(document.getElementById('inv-gst').innerText, 195, startY, null, null, "right"); startY += 6; doc.setTextColor(225, 29, 72); doc.text("Discount:", 155, startY); doc.text(document.getElementById('inv-disc').innerText, 195, startY, null, null, "right"); startY += 8;
+        doc.setFillColor(...themeColor); doc.rect(130, startY-5, 70, 10, "F"); doc.setTextColor(255, 255, 255); doc.setFontSize(11); doc.text("GRAND TOTAL", 133, startY+2); doc.text(document.getElementById('inv-total').innerText, 197, startY+2, null, null, "right"); startY += 12;
+        doc.setTextColor(0, 0, 0); doc.setFontSize(9); doc.text("Amount Paid:", 155, startY); doc.text(document.getElementById('inv-paid').innerText, 195, startY, null, null, "right"); startY += 6; doc.text("Balance Due:", 155, startY); doc.text(document.getElementById('inv-bal').innerText, 195, startY, null, null, "right");
+        doc.setTextColor(150, 150, 150); doc.setFont("helvetica", "italic"); doc.setFontSize(8); doc.text("* Computer Generated Document. No signature required. *", 105, 280, null, null, "center");
+        doc.save(`${document.getElementById('inv-no').innerText}_Invoice.pdf`);
+    }
+
+    // 6. DASHBOARD & LEDGER
+    function updateLedgerView(forceType = null) {
+        const isCust = forceType ? forceType === 'CUSTOMER' : document.getElementById('tab-CUSTOMER').classList.contains('bg-[#004aad]');
+        const searchText = document.getElementById("ledger-search").value.trim().toUpperCase();
+        let totalBilled = 0; let totalPaid = 0; let runBal = 0; let html = '';
+        const partyBills = billsDB.filter(b => { const pName = (b.party || '').toUpperCase(); return (pName.includes(searchText) || b.invNo.toUpperCase().includes(searchText)) && (isCust ? (b.type.includes("SALE") || b.type.includes("RECEIPT")) : (b.type.includes("PURCHASE") || b.type.includes("PAYMENT"))); }).reverse(); 
+        partyBills.forEach(b => {
+            const billed = Number(b.total) || 0; const paid = Number(b.paid) || 0; totalBilled += billed; totalPaid += paid; runBal += (billed - paid); 
+            let drStr = "-"; let crStr = "-";
+            if (isCust) { if (billed > 0) drStr = billed.toLocaleString("en-IN"); if (paid > 0) crStr = paid.toLocaleString("en-IN"); } 
+            else { if (paid > 0) drStr = paid.toLocaleString("en-IN"); if (billed > 0) crStr = billed.toLocaleString("en-IN"); }
+            html += `<tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors"><td class="p-4 font-bold text-slate-500">${b.date}</td><td class="p-4 font-black text-slate-800">${b.invNo}</td><td class="p-4 text-center font-black ${b.type==='SALE'?'text-[#004aad]':'text-rose-600'}">${b.type}</td><td class="p-4 font-black text-slate-700">${b.party}</td><td class="p-4 text-right font-black text-[#004aad]">${drStr}</td><td class="p-4 text-right font-black text-emerald-600">${crStr}</td><td class="p-4 text-right font-black text-slate-800">${runBal.toLocaleString("en-IN")} ${isCust?'Dr':'Cr'}</td><td class="p-4 text-center"><button onclick="generateInvoiceHTML(billsDB.find(x=>x.id==='${b.id}'))" class="bg-blue-50 text-[#004aad] px-3 py-1.5 rounded-lg text-[10px] font-black uppercase hover:bg-blue-100">View</button></td></tr>`;
+        });
+        document.getElementById("ledger-tbody").innerHTML = html || '<tr><td colspan="8" class="text-center p-8 text-slate-400 font-bold tracking-wider uppercase">No transactions found.</td></tr>';
+        document.getElementById("ledger-billed").innerText = "Rs. " + totalBilled.toLocaleString("en-IN"); document.getElementById("ledger-paid").innerText = "Rs. " + totalPaid.toLocaleString("en-IN"); document.getElementById("ledger-bal").innerText = "Rs. " + runBal.toLocaleString("en-IN");
+    }
+
     function switchLedgerTab(type) {
       document.getElementById('tab-CUSTOMER').className = type === 'CUSTOMER' ? "flex-1 py-3 rounded-lg text-xs font-black bg-[#004aad] text-white shadow-md tracking-widest transition-all" : "flex-1 py-3 rounded-lg text-xs font-black text-slate-400 tracking-widest transition-all hover:text-[#004aad]";
       document.getElementById('tab-SUPPLIER').className = type === 'SUPPLIER' ? "flex-1 py-3 rounded-lg text-xs font-black bg-[#004aad] text-white shadow-md tracking-widest transition-all" : "flex-1 py-3 rounded-lg text-xs font-black text-slate-400 tracking-widest transition-all hover:text-[#004aad]";
       document.getElementById("ledger-search").value = ""; updateLedgerView(type);
     }
 
-    function updateLedgerView(forceType = null) {
-        const isCust = forceType ? forceType === 'CUSTOMER' : document.getElementById('tab-CUSTOMER').classList.contains('bg-[#004aad]');
-        const searchText = document.getElementById("ledger-search").value.trim().toUpperCase();
-        let totalBilled = 0; let totalPaid = 0; let runBal = 0; let html = '';
-
-        const partyBills = billsDB.filter(b => {
-            const pName = (b.party || b.customerName || '').toUpperCase();
-            return (pName.includes(searchText)) && (isCust ? (b.type.includes("SALE") || b.type.includes("RECEIPT")) : (b.type.includes("PURCHASE") || b.type.includes("PAYMENT")));
-        }).reverse(); 
-
-        partyBills.forEach(b => {
-            const billed = Number(b.total) || 0; const paid = Number(b.paid) || 0;
-            totalBilled += billed; totalPaid += paid; runBal += (billed - paid); 
-            let drStr = "-"; let crStr = "-";
-            if (isCust) { if (billed > 0) drStr = billed.toLocaleString("en-IN"); if (paid > 0) crStr = paid.toLocaleString("en-IN"); } 
-            else { if (paid > 0) drStr = paid.toLocaleString("en-IN"); if (billed > 0) crStr = billed.toLocaleString("en-IN"); }
-
-            html += `<tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors"><td class="p-4 font-bold text-slate-500">${b.date}</td><td class="p-4 font-black text-slate-800">${b.invNo}</td><td class="p-4 text-center font-black ${b.type==='SALE'?'text-[#004aad]':'text-rose-600'}">${b.type}</td><td class="p-4 font-black text-slate-700">${b.party || b.customerName}</td><td class="p-4 text-right font-black text-[#004aad]">${drStr}</td><td class="p-4 text-right font-black text-emerald-600">${crStr}</td><td class="p-4 text-right font-black text-slate-800">${runBal.toLocaleString("en-IN")} ${isCust?'Dr':'Cr'}</td></tr>`;
-        });
-
-        document.getElementById("ledger-tbody").innerHTML = html || '<tr><td colspan="7" class="text-center p-8 text-slate-400 font-bold tracking-wider uppercase">No transactions found.</td></tr>';
-        document.getElementById("ledger-billed").innerText = "Rs. " + totalBilled.toLocaleString("en-IN"); document.getElementById("ledger-paid").innerText = "Rs. " + totalPaid.toLocaleString("en-IN"); document.getElementById("ledger-bal").innerText = "Rs. " + runBal.toLocaleString("en-IN");
-    }
-
     function renderDashboard() {
-        let saleAmt = 0; let purAmt = 0;
-        billsDB.forEach(b => { if(b.type === "SALE") saleAmt += b.total; if(b.type === "PURCHASE") purAmt += b.total; });
+        let saleAmt = 0; let purAmt = 0; billsDB.forEach(b => { if(b.type === "SALE") saleAmt += b.total; if(b.type === "PURCHASE") purAmt += b.total; });
         document.getElementById('dash-sale').innerText = "₹ " + saleAmt.toLocaleString('en-IN'); document.getElementById('dash-pur').innerText = "₹ " + purAmt.toLocaleString('en-IN'); document.getElementById('dash-prod-count').innerText = productsDB.length; document.getElementById('dash-party-count').innerText = partiesDB.length;
         const ctx = document.getElementById('businessChart');
         if (ctx) { if (window.bizChart) window.bizChart.destroy(); window.bizChart = new Chart(ctx, { type: 'bar', data: { labels: ['Current Month'], datasets: [{ label: 'Sales', data: [saleAmt || 5000], backgroundColor: '#004aad', borderRadius: 8 }, { label: 'Purchases', data: [purAmt || 2000], backgroundColor: '#e11d48', borderRadius: 8 }] }, options: { responsive: true, maintainAspectRatio: false } }); }
     }
 
-    // APP BOOTSTRAP
     window.onload = () => { renderCategories(); renderProducts(); renderParties(); showView('dashboard'); };
   </script>
 </body>
