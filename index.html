@@ -175,6 +175,7 @@
                 
                 <input type="hidden" id="p-id" value="">
                 <div class="flex flex-col lg:flex-row gap-8">
+                    <!-- Image Upload -->
                     <div class="w-full lg:w-1/4 flex flex-col items-center">
                         <label class="font-black text-[10px] uppercase tracking-widest text-slate-400 w-full mb-2">Product Image</label>
                         <input type="file" id="p-image-upload" accept="image/*" class="hidden" onchange="handleProductImage(event)" />
@@ -186,6 +187,7 @@
                         <button type="button" onclick="clearProductImage()" class="mt-4 text-[9px] font-black text-rose-500 uppercase tracking-widest hover:bg-rose-50 px-3 py-1.5 rounded-lg transition-colors">Remove Image</button>
                     </div>
 
+                    <!-- Details -->
                     <div class="w-full lg:w-3/4 space-y-6">
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
                             <div class="sm:col-span-2"><label class="font-black text-[10px] uppercase tracking-widest text-slate-500 block mb-2">Product Name *</label><input type="text" id="p-name" class="premium-input uppercase text-blue-600 text-sm"></div>
@@ -284,19 +286,18 @@
                         </div>
                         <div class="w-full"><label class="font-black text-[10px] uppercase text-slate-500 tracking-widest mb-2 block">Mobile</label><input type="tel" id="bill-mobile" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'')" class="premium-input font-mono text-slate-700" placeholder="10 Digits"></div>
                         <div class="w-full"><label class="font-black text-[10px] uppercase text-slate-500 tracking-widest mb-2 block">Date *</label><input type="date" id="bill-date" class="premium-input font-mono text-slate-700"></div>
-                        <div class="w-full"><label class="font-black text-[10px] uppercase text-slate-500 tracking-widest mb-2 block">Invoice No *</label><input type="text" id="bill-inv" class="premium-input font-mono text-blue-600 uppercase" placeholder="Auto-generated"></div>
+                        <div class="w-full"><label class="font-black text-[10px] uppercase text-slate-500 tracking-widest mb-2 block">Invoice No *</label><input type="text" id="bill-inv" class="premium-input font-mono text-blue-600 uppercase" placeholder="Auto"></div>
                     </div>
 
-                    <!-- FIXED: PRODUCT GRID WITH SCROLL LOCK -->
-                    <div class="glass-panel p-6 rounded-3xl flex-1 flex flex-col relative w-full overflow-hidden">
+                    <div class="glass-panel p-6 rounded-3xl flex-1 flex flex-col relative">
                         <div class="grid grid-cols-12 gap-3 mb-3 font-black text-[10px] uppercase text-slate-400 tracking-widest border-b border-slate-200 pb-3 px-2 min-w-[750px]">
                             <div class="col-span-4 pl-2">Product Name <span class="text-[8px] bg-slate-200 px-1.5 py-0.5 rounded ml-1 text-slate-600">ALT+C</span></div>
                             <div class="col-span-2 text-right">Rate</div><div class="col-span-1 text-center">GST</div><div class="col-span-1 text-center">Qty</div><div class="col-span-3">IMEI / Serial</div><div class="col-span-1 text-right pr-4">Amt</div>
                         </div>
                         
-                        <!-- The Scrollable Box -->
+                        <!-- SCROLLABLE PRODUCT GRID -->
                         <div class="overflow-y-auto overflow-x-auto w-full max-h-[350px] pr-2 pb-2">
-                            <div id="bill-items" class="space-y-3 min-w-[750px]"></div>
+                            <div id="bill-items" class="space-y-3 min-w-[750px] pb-4"></div>
                         </div>
 
                         <button onclick="addBillRow()" class="mt-4 text-blue-700 font-black uppercase text-xs tracking-widest bg-blue-50 px-6 py-3.5 rounded-xl border border-blue-200 hover:bg-blue-600 hover:text-white transition-all shadow-sm self-start flex items-center space-x-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg><span>Add Row</span></button>
@@ -308,21 +309,18 @@
                     <div class="p-6 sm:p-8 flex flex-col h-full">
                         <h3 class="font-black text-sm uppercase text-slate-800 tracking-widest mb-6 border-b border-slate-100 pb-4 flex items-center space-x-3"><span class="text-xl">💳</span><span>Payment & Checkout</span></h3>
                         
-                        <div class="grid grid-cols-2 gap-5 mb-6">
-                            <div><label class="font-black text-[10px] uppercase text-slate-500 tracking-widest block mb-2">Discount (₹)</label><input type="number" id="bill-discount" oninput="calcBill()" class="premium-input bg-rose-50 border-rose-200 text-rose-600 text-lg" placeholder="0"></div>
-                            <div><label class="font-black text-[10px] uppercase text-slate-500 tracking-widest block mb-2">GST Slab</label><select id="bill-global-gst" class="premium-input"><option value="0">0%</option><option value="5">5%</option><option value="12">12%</option><option value="18">18%</option><option value="28">28%</option></select></div>
-                        </div>
-
                         <div class="space-y-5 mb-6">
                             <div><label class="font-black text-[10px] uppercase text-slate-500 tracking-widest block mb-2">Primary Mode</label>
-                                <select id="pay-primary" onchange="onPaymentModeChange()" class="premium-input text-blue-700">
+                                <select id="pay-primary" onchange="onPaymentModeChange('primary')" class="premium-input text-blue-700">
+                                    <option value="">-- Select --</option>
                                     <option value="Cash">Cash</option><option value="QR">QR (Online)</option><option value="Card">Card Swipe</option>
                                     <option value="Cash + QR">Cash + QR</option><option value="Cash + Card">Cash + Card</option><option value="QR + Card">QR + Card</option><option value="Cash + QR + Card">Cash + QR + Card</option>
                                 </select>
                             </div>
                             <div id="sec-mode-container"><label class="font-black text-[10px] uppercase text-slate-500 tracking-widest block mb-2">Secondary Mode</label>
-                                <select id="pay-secondary" onchange="onPaymentModeChange()" class="premium-input text-blue-700">
-                                    <option value="">-- None --</option><option value="Finance" id="opt-finance">Finance</option><option value="Dues">Dues / Credit</option>
+                                <select id="pay-secondary" onchange="onPaymentModeChange('secondary')" class="premium-input text-blue-700">
+                                    <option value="">-- Select --</option>
+                                    <option value="Finance" id="opt-finance">Finance</option><option value="Dues">Dues / Credit</option>
                                 </select>
                             </div>
                         </div>
@@ -336,12 +334,12 @@
                         <div id="fin-box" class="hidden bg-blue-50 p-5 rounded-2xl border border-blue-200 mb-6 space-y-4">
                             <div><label class="font-black text-[10px] uppercase text-blue-600 tracking-widest block mb-2">Company *</label><select id="fin-company" class="premium-input bg-white text-blue-700"><option value="">-- Select --</option><option value="Kisto Pe">Kisto Pe</option><option value="Bajaj Finserv">Bajaj Finserv</option><option value="HDB Finance">HDB Finance</option></select></div>
                             <div class="grid grid-cols-2 gap-4">
-                                <div><label class="font-black text-[10px] uppercase text-blue-600 tracking-widest block mb-2">Total DP Rate *</label><input type="number" id="fin-rate" placeholder="0" class="premium-input bg-white text-blue-700" oninput="calcBill()" /></div>
-                                <div><label class="font-black text-[10px] uppercase text-blue-600 tracking-widest block mb-2">DP Mode</label><select id="fin-dp-mode" onchange="onPaymentModeChange()" class="premium-input bg-white text-blue-700"><option value="Cash">DP Cash</option><option value="QR">DP QR</option><option value="Card">DP Card</option><option value="Cash + QR">DP Cash + QR</option></select></div>
+                                <div><label class="font-black text-[10px] uppercase text-blue-600 tracking-widest block mb-2">DP Rate *</label><input type="number" id="fin-rate" placeholder="0" class="premium-input bg-white text-blue-700" oninput="calcBill()" /></div>
+                                <div><label class="font-black text-[10px] uppercase text-blue-600 tracking-widest block mb-2">DP Mode</label><select id="fin-dp-mode" onchange="onPaymentModeChange('secondary')" class="premium-input bg-white text-blue-700"><option value="Cash">DP Cash</option><option value="QR">DP QR</option><option value="Card">DP Card</option><option value="Cash + QR">DP Cash + QR</option></select></div>
                             </div>
                         </div>
                         <div id="dues-box" class="hidden bg-slate-100 p-5 rounded-2xl border border-slate-200 mb-6">
-                            <div class="grid grid-cols-2 gap-4"><label class="font-black text-[10px] uppercase text-slate-600 tracking-widest block mb-2">DP Mode</label><select id="dues-mode" onchange="onPaymentModeChange()" class="premium-input"><option value="Cash">Cash</option><option value="QR">QR</option><option value="Cash + QR">Cash + QR</option></select></div>
+                            <div class="grid grid-cols-2 gap-4"><label class="font-black text-[10px] uppercase text-slate-600 tracking-widest block mb-2">DP Mode</label><select id="dues-mode" onchange="onPaymentModeChange('secondary')" class="premium-input"><option value="Cash">Cash</option><option value="QR">QR</option><option value="Cash + QR">Cash + QR</option></select></div>
                         </div>
 
                         <div class="mb-6"><label class="font-black text-xs uppercase text-slate-500 tracking-widest block mb-2">Total Amount Paid (₹) *</label><input type="number" id="bill-paid" oninput="calcBill(true)" class="premium-input bg-emerald-50 border-emerald-300 focus:ring-emerald-200 text-emerald-700 font-black text-3xl h-[60px] shadow-inner" placeholder="0"></div>
@@ -392,7 +390,7 @@
                 <button type="button" onclick="switchLedgerTab('SUPPLIER')" id="tab-SUPPLIER" class="flex-1 py-3.5 rounded-xl text-[11px] font-black text-slate-500 tracking-widest transition-all hover:text-blue-600">SUPPLIER</button>
             </div>
             
-            <!-- FIXED: LEDGER SUMMARY CARDS -->
+            <!-- LEDGER SUMMARY CARDS -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
                 <div class="glass-panel p-5 rounded-3xl flex flex-col justify-center border-l-4 border-l-slate-400">
                     <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-1">Opening Bal</p><h3 class="text-xl font-black text-slate-800" id="ledger-ob">₹ 0</h3>
@@ -465,8 +463,8 @@
                     <div class="w-72">
                         <div class="flex justify-between text-sm font-bold mb-2"><span class="text-slate-500 uppercase">Taxable Value:</span><span id="inv-taxable">₹ 0</span></div>
                         <div class="flex justify-between text-sm font-bold mb-2"><span class="text-slate-500 uppercase">Total GST:</span><span id="inv-gst">₹ 0</span></div>
-                        <div class="flex justify-between text-sm font-bold mb-4 border-b border-slate-200 pb-3"><span class="text-slate-500 uppercase">Discount:</span><span id="inv-disc" class="text-rose-600">- ₹ 0</span></div>
-                        <div class="flex justify-between items-end mb-3"><span class="text-[13px] font-black text-slate-900 uppercase tracking-widest">Grand Total:</span><span id="inv-total" class="text-3xl font-black text-slate-900">₹ 0</span></div>
+                        <div id="inv-disc-row" class="hidden flex justify-between text-sm font-bold mb-4 border-b border-slate-200 pb-3"><span class="text-slate-500 uppercase">Discount:</span><span id="inv-disc" class="text-rose-600">- ₹ 0</span></div>
+                        <div class="flex justify-between items-end mb-3 mt-3 border-t border-slate-200 pt-3"><span class="text-[13px] font-black text-slate-900 uppercase tracking-widest">Grand Total:</span><span id="inv-total" class="text-3xl font-black text-slate-900">₹ 0</span></div>
                         <div class="flex justify-between items-end mt-3"><span class="text-[11px] font-bold text-slate-600 uppercase tracking-widest">Amount Paid:</span><span id="inv-paid" class="text-base font-black text-slate-800">₹ 0</span></div>
                         <div class="flex justify-between items-end mt-1.5"><span class="text-[11px] font-bold text-slate-600 uppercase tracking-widest">Balance Due:</span><span id="inv-bal" class="text-base font-black text-slate-800">₹ 0</span></div>
                     </div>
@@ -475,44 +473,10 @@
             </div>
         </div>
 
-        <!-- QUICK ADD MODALS -->
-        <div id="party-popup" class="fixed inset-0 bg-slate-900/60 z-50 flex items-center justify-center hidden backdrop-blur-sm transition-opacity">
-            <div class="bg-white p-6 rounded-3xl shadow-2xl w-full max-w-sm border border-slate-100 mx-4">
-                <h3 class="text-lg font-black text-[#004aad] uppercase tracking-widest border-b border-slate-100 pb-3 mb-4">Quick Add Party</h3>
-                <div class="space-y-4">
-                    <input type="hidden" id="q-party-type">
-                    <div><label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1.5">Party Name *</label><input type="text" id="q-party-name" class="premium-input uppercase text-blue-700"></div>
-                    <div><label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1.5">Mobile No</label><input type="tel" id="q-party-phone" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'')" class="premium-input font-mono text-slate-800"></div>
-                </div>
-                <div class="flex space-x-3 mt-6 pt-4 border-t border-slate-100">
-                    <button onclick="document.getElementById('party-popup').classList.add('hidden'); if(activeShortcutInput) activeShortcutInput.focus();" class="flex-1 py-3 bg-slate-100 font-black rounded-xl text-xs text-slate-500 hover:bg-slate-200 transition-all uppercase tracking-widest">Cancel</button>
-                    <button onclick="saveQuickParty()" class="flex-[2] py-3 bg-blue-600 text-white font-black rounded-xl text-xs shadow-md hover:-translate-y-1 transition-all uppercase tracking-widest">Save & Use</button>
-                </div>
-            </div>
-        </div>
-
-        <div id="item-popup" class="fixed inset-0 bg-slate-900/60 z-50 flex items-center justify-center hidden backdrop-blur-sm transition-opacity">
-            <div class="bg-white p-6 rounded-3xl shadow-2xl w-full max-w-sm border border-slate-100 mx-4">
-                <h3 class="text-lg font-black text-[#004aad] uppercase tracking-widest border-b border-slate-100 pb-3 mb-4">Quick Add Product</h3>
-                <div class="space-y-4">
-                    <div><label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1.5">Product Name *</label><input type="text" id="q-item-name" class="premium-input uppercase text-blue-700"></div>
-                    <div><label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1.5">Category *</label><select id="q-item-category" class="cat-select premium-input bg-slate-50" onchange="handleCategoryChange(this)"></select></div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div><label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1.5">Sale Rate (₹) *</label><input type="number" id="q-item-sale" class="premium-input bg-white border-blue-300 text-blue-700 shadow-sm"></div>
-                        <div><label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1.5">GST %</label><select id="q-item-gst" class="premium-input bg-slate-50"><option value="0">0%</option><option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option></select></div>
-                    </div>
-                </div>
-                <div class="flex space-x-3 mt-6 pt-4 border-t border-slate-100">
-                    <button onclick="document.getElementById('item-popup').classList.add('hidden'); if(activeShortcutInput) activeShortcutInput.focus();" class="flex-1 py-3 bg-slate-100 font-black rounded-xl text-xs text-slate-500 hover:bg-slate-200 transition-all uppercase tracking-widest">Cancel</button>
-                    <button onclick="saveQuickItem()" class="flex-[2] py-3 bg-blue-600 text-white font-black rounded-xl text-xs shadow-md hover:-translate-y-1 transition-all uppercase tracking-widest">Save & Fill</button>
-                </div>
-            </div>
-        </div>
-
       </main>
   </div>
 
-  <!-- FIXED: MOBILE BOTTOM NAV -->
+  <!-- FIXED: MOBILE BOTTOM NAV (z-[100] so it stays above everything) -->
   <nav id="bottom-nav" class="lg:hidden fixed bottom-0 w-full bg-white shadow-[0_-4px_25px_-5px_rgba(0,0,0,0.15)] flex justify-between z-[100] border-t border-slate-100 pb-2">
      <button onclick="startBill('SALE')" class="flex-1 py-3 text-center text-blue-600 flex flex-col items-center hover:bg-slate-50 transition-colors"><span class="text-2xl leading-none mb-1">🛒</span><span class="text-[9px] font-black tracking-widest">SALE</span></button>
      <button onclick="startBill('PURCHASE')" class="flex-1 py-3 text-center text-emerald-600 border-l border-slate-100 flex flex-col items-center hover:bg-slate-50 transition-colors"><span class="text-2xl leading-none mb-1">📦</span><span class="text-[9px] font-black tracking-widest">PURCHASE</span></button>
@@ -522,8 +486,8 @@
 
   <script>
     /* ========================================================
-       🚨 BEASTMODE JAVASCRIPT ENGINE - FINAL EDITION (V3) 🚨
-       100% bug-free mapped to DOM elements.
+       🚨 BEASTMODE JAVASCRIPT ENGINE - FINAL OMEGA EDITION 🚨
+       Secure, Optimized, Mutually Exclusive Payments, Math Precise
     ======================================================== */
 
     // 1. SAFE DATA LAYER (Crash Preventer)
@@ -610,7 +574,7 @@
 
     function saveQuickParty() {
         const type = document.getElementById('q-party-type').value; const name = document.getElementById('q-party-name').value.trim().toUpperCase(); const mobile = document.getElementById('q-party-phone').value.trim();
-        if(!name) return showPopup("Error", "Party Name is required!", true);
+        if(!name) return alert("Party Name is required!");
         if(!partiesDB.find(p => p.name === name)) { partiesDB.push({ id: 'PTY-'+Date.now(), type, name, mobile, gstin: "", address: "", ob: 0 }); Storage.set('sre_parties', partiesDB); renderParties(); }
         if(activeShortcutInput) { activeShortcutInput.value = name; if(document.getElementById('bill-mobile')) document.getElementById('bill-mobile').value = mobile; activeShortcutInput.focus(); }
         document.getElementById('party-popup').classList.add('hidden');
@@ -623,7 +587,7 @@
 
     function saveQuickItem() {
         const name = document.getElementById('q-item-name').value.trim().toUpperCase(); const category = document.getElementById('q-item-category').value; const sale = Number(document.getElementById('q-item-sale').value) || 0; const gst = Number(document.getElementById('q-item-gst').value) || 0;
-        if(!name || sale <= 0) return showPopup("Error", "Name and Sale Price are required!", true);
+        if(!name || sale <= 0) return alert("Name and Sale Price are required!");
         if(!productsDB.find(p => p.name === name)) { productsDB.push({ id: 'PRD-'+Date.now(), name, brand: "-", category, variant: "-", sku: "SKU-"+Math.floor(Math.random()*100000), hsn: "-", mrp: 0, pur: 0, sale, gst, stock: 0, lowStock: 5, track: true, imeiList: [], image: "" }); Storage.set('sre_products', productsDB); renderProducts(); }
         if(activeShortcutInput) { activeShortcutInput.value = name; autoFillRate(activeShortcutInput); activeShortcutInput.focus(); }
         document.getElementById('item-popup').classList.add('hidden');
@@ -639,17 +603,17 @@
         document.getElementById('bill-party').value = ''; document.getElementById('bill-mobile').value = ''; document.getElementById('bill-date').value = getToday(); document.getElementById('bill-inv').value = type === "SALE" ? `SRE-26-${(billsDB.length + 1).toString().padStart(3,'0')}` : '';
         document.getElementById('bill-items').innerHTML = '';
         
-        document.getElementById('pay-primary').value = "Cash"; document.getElementById('pay-secondary').value = ""; document.getElementById('bill-discount').value = ''; document.getElementById('bill-paid').value = '';
+        document.getElementById('pay-primary').value = "Cash"; document.getElementById('pay-secondary').value = ""; document.getElementById('bill-paid').value = '';
         const optFinance = document.getElementById('opt-finance'); if(optFinance) optFinance.style.display = type === "PURCHASE" ? "none" : "block"; 
-        onPaymentModeChange(); addBillRow(true); calcBill(); showView('new-bill');
+        onPaymentModeChange('clear'); addBillRow(true); calcBill(); showView('new-bill');
     }
 
-    // FIXED: PERFECT DOM DELETE FOR ROWS
+    // PERFECT DOM DELETE FOR ROWS
     function addBillRow(isFirst = false) {
         const container = document.getElementById('bill-items'); const row = document.createElement('div');
         const removeBtn = !isFirst ? `<button type="button" onclick="this.closest('.item-row-wrapper').remove(); calcBill();" class="w-9 h-9 flex items-center justify-center bg-rose-50 text-rose-600 rounded-lg hover:bg-rose-600 hover:text-white font-black transition-all shadow-sm">X</button>` : `<div class="w-9"></div>`;
         
-        row.className = "item-row-wrapper glass-panel p-3 rounded-2xl mb-3 min-w-[700px] relative overflow-hidden";
+        row.className = "item-row-wrapper glass-panel p-3 rounded-2xl mb-3 min-w-[750px] relative overflow-hidden";
         row.innerHTML = `
             <div class="grid grid-cols-12 gap-3 items-center w-full item-row relative z-10">
                 <div class="col-span-4 relative"><input type="text" list="item-list" oninput="autoFillRate(this)" onkeydown="handleShortcut(event, 'PRODUCT')" class="premium-input pr-12 uppercase font-black text-sm text-blue-700 b-name" placeholder="Product Name"><button type="button" tabindex="-1" onclick="openItemModal(this.previousElementSibling)" class="absolute right-1.5 top-1.5 bottom-1.5 w-9 bg-blue-100 text-blue-700 rounded-lg font-black text-lg hover:bg-blue-600 hover:text-white transition-all flex items-center justify-center pb-1">+</button></div>
@@ -678,9 +642,22 @@
         if(prod) { row.querySelector('.b-rate').value = currentMode === "SALE" ? prod.sale : prod.pur; row.querySelector('.b-gst').value = prod.gst; calcBill(); }
     }
 
-    function onPaymentModeChange() {
-        const p = document.getElementById('pay-primary').value; const s = document.getElementById('pay-secondary').value; const payInput = document.getElementById('bill-paid');
-        document.getElementById('fin-box').classList.add('hidden'); document.getElementById('dues-box').classList.add('hidden'); document.getElementById('split-box').classList.add('hidden');
+    // 🌟 MUTUALLY EXCLUSIVE PAYMENT LOGIC 🌟
+    function onPaymentModeChange(source) {
+        const pEl = document.getElementById('pay-primary');
+        const sEl = document.getElementById('pay-secondary');
+        const payInput = document.getElementById('bill-paid');
+        
+        // Exclusivity logic
+        if (source === 'primary' && pEl.value !== "") { sEl.value = ""; } 
+        else if (source === 'secondary' && sEl.value !== "") { pEl.value = ""; }
+
+        const p = pEl.value; const s = sEl.value;
+        
+        document.getElementById('fin-box').classList.add('hidden'); 
+        document.getElementById('dues-box').classList.add('hidden'); 
+        document.getElementById('split-box').classList.add('hidden');
+        
         let activeMode = p || "";
         if (s === "Finance") { document.getElementById('fin-box').classList.remove('hidden'); activeMode = document.getElementById('fin-dp-mode').value || ""; } 
         else if (s === "Dues") { document.getElementById('dues-box').classList.remove('hidden'); activeMode = document.getElementById('dues-mode').value || ""; }
@@ -697,23 +674,21 @@
         calcBill();
     }
 
-    // FIXED: PRECISE CALCULATION LOGIC
+    // PRECISE CALCULATION
     function calcBill(isTypingPaid = false) {
         let totalTaxable = 0; let totalGstAmt = 0; let grandTotal = 0;
-        
         document.querySelectorAll('.item-row-wrapper').forEach(wrapper => {
             const row = wrapper.querySelector('.item-row');
             const rate = Number(row.querySelector('.b-rate').value) || 0; const qty = Number(row.querySelector('.b-qty').value) || 0; const gst = Number(row.querySelector('.b-gst').value) || 0;
             const basic = rate * qty; const gstVal = basic * (gst / 100); const amt = basic + gstVal;
-            row.querySelector('.b-amt').innerText = amt.toLocaleString('en-IN', {minimumFractionDigits: 2});
+            row.querySelector('.b-amt').innerText = (Math.round(amt * 100) / 100).toLocaleString('en-IN', {minimumFractionDigits: 2});
             totalTaxable += basic; totalGstAmt += gstVal; grandTotal += amt;
         });
 
-        const discount = Number(document.getElementById('bill-discount').value) || 0;
-        grandTotal = Math.round(Math.max(0, grandTotal - discount)); // Precise rounding
+        grandTotal = Math.round(grandTotal); 
         
-        document.getElementById('bill-taxable').innerText = "₹ " + totalTaxable.toLocaleString('en-IN', {minimumFractionDigits: 2});
-        document.getElementById('bill-gst').innerText = "₹ " + totalGstAmt.toLocaleString('en-IN', {minimumFractionDigits: 2});
+        document.getElementById('bill-taxable').innerText = "₹ " + (Math.round(totalTaxable * 100) / 100).toLocaleString('en-IN', {minimumFractionDigits: 2});
+        document.getElementById('bill-gst').innerText = "₹ " + (Math.round(totalGstAmt * 100) / 100).toLocaleString('en-IN', {minimumFractionDigits: 2});
         document.getElementById('bill-grand-total').innerText = "₹ " + grandTotal.toLocaleString('en-IN');
 
         const payInput = document.getElementById('bill-paid');
@@ -736,7 +711,7 @@
         
         const due = Math.max(0, grandTotal - rawPaid);
         document.getElementById('bill-due').innerText = "₹ " + due.toLocaleString('en-IN');
-        return { totalTaxable, totalGstAmt, grandTotal, rawPaid, due, discount };
+        return { totalTaxable, totalGstAmt, grandTotal, rawPaid, due, discount: 0 }; // Discount removed from backend
     }
 
     function saveFinalBill() {
@@ -797,8 +772,7 @@
         if(errorMsg) return showPopup("Error", errorMsg, true);
         if(items.length === 0) return showPopup("Error", "Add at least one valid product!", true);
 
-        // Map variables correctly for Ledger & Invoice
-        const billRecord = { id: 'INV-'+Date.now(), invNo: invNo, date: bDate, type: currentMode, party: party, mobile: mobile, items: items, basic: totals.totalTaxable, gst: totals.totalGstAmt, discount: totals.discount, total: totals.grandTotal, paid: totals.rawPaid, due: totals.due, paymentMode: s || p, paymentRate: pRate, finance: finData };
+        const billRecord = { id: 'INV-'+Date.now(), invNo: invNo, date: bDate, type: currentMode, party: party, mobile: mobile, items: items, basic: totals.totalTaxable, gst: totals.totalGstAmt, discount: 0, total: totals.grandTotal, paid: totals.rawPaid, due: totals.due, paymentMode: s || p, paymentRate: pRate, finance: finData };
 
         billsDB.push(billRecord); Storage.set('sre_bills', billsDB); Storage.set('sre_products', productsDB); 
         
@@ -815,7 +789,51 @@
         generateInvoiceHTML(billRecord);
     }
 
-    // 5. LEDGER & DASHBOARD (Fixed Live Calc)
+    // 5. INVOICE GENERATION & PDF
+    function generateInvoiceHTML(bill) {
+        document.getElementById('inv-party').innerText = bill.party; document.getElementById('inv-phone').innerText = "Ph: " + (bill.mobile || "-"); document.getElementById('inv-no').innerText = bill.invNo; document.getElementById('inv-date').innerText = bill.date;
+        document.getElementById('inv-type-title').innerText = bill.type === "PURCHASE" ? "PURCHASE VOUCHER" : "TAX INVOICE";
+        
+        let pData = partiesDB.find(p => p.name === bill.party);
+        document.getElementById('inv-address').innerText = pData ? pData.address : "-";
+        
+        let html = ''; bill.items.forEach((it, i) => { html += `<tr class="border-b border-slate-200"><td class="p-3 border-r border-slate-900 text-center">${i+1}</td><td class="p-3 border-r border-slate-900">${it.name} <span class="text-[8px] text-slate-500 font-black tracking-widest ml-1">[GST ${it.gst}%]</span></td><td class="p-3 border-r border-slate-900 font-mono text-[10px] break-all">${it.imei || '-'}</td><td class="p-3 border-r border-slate-900 text-center text-sm">${it.qty}</td><td class="p-3 border-r border-slate-900 text-right">${it.rate.toLocaleString('en-IN')}</td><td class="p-3 text-right text-slate-900">${it.amt.toLocaleString('en-IN')}</td></tr>`; });
+        document.getElementById('inv-items').innerHTML = html;
+        
+        document.getElementById('inv-taxable').innerText = "₹ " + bill.basic.toLocaleString('en-IN', {minimumFractionDigits: 2}); 
+        document.getElementById('inv-gst').innerText = "₹ " + bill.gst.toLocaleString('en-IN', {minimumFractionDigits: 2}); 
+        
+        // Hide discount row entirely
+        const discRow = document.getElementById('inv-disc-row');
+        if(bill.discount > 0) { discRow.classList.remove('hidden'); document.getElementById('inv-disc').innerText = "- ₹ " + bill.discount.toLocaleString('en-IN'); } 
+        else { discRow.classList.add('hidden'); }
+
+        document.getElementById('inv-total').innerText = "₹ " + bill.total.toLocaleString('en-IN'); document.getElementById('inv-paid').innerText = "₹ " + bill.paid.toLocaleString('en-IN'); document.getElementById('inv-bal').innerText = "₹ " + bill.due.toLocaleString('en-IN');
+        document.getElementById("inv-qr").innerHTML = ""; new QRCode(document.getElementById("inv-qr"), { text: `SRE|${bill.invNo}|${bill.total}`, width: 80, height: 80 });
+        showView('invoice');
+    }
+
+    function downloadPDF() {
+        const { jsPDF } = window.jspdf; const doc = new jsPDF("p", "mm", "a4"); const isPur = document.getElementById('inv-type-title').innerText === "PURCHASE VOUCHER"; const themeColor = [15, 23, 42]; 
+        doc.setDrawColor(...themeColor); doc.setLineWidth(1); doc.rect(10, 10, 190, 277);
+        doc.setFont("helvetica", "bold"); doc.setFontSize(22); doc.setTextColor(...themeColor); doc.text("SRI RAM ENTERPRISES", 105, 25, null, null, "center");
+        doc.setFontSize(9); doc.setTextColor(80, 80, 80); doc.text("MOBILE • ACCESSORIES • REPAIRING", 105, 31, null, null, "center"); doc.setFont("helvetica", "normal"); doc.setFontSize(8); doc.text("GB-15, City Centre, Sector-4, B.S. City | Ph: 9334765000", 105, 36, null, null, "center");
+        doc.setLineWidth(0.5); doc.line(10, 42, 200, 42); doc.setFontSize(10); doc.setTextColor(0, 0, 0); doc.setFont("helvetica", "bold"); doc.text("Bill To:", 15, 52); doc.setFontSize(14); doc.setTextColor(...themeColor); doc.text(document.getElementById('inv-party').innerText, 15, 58); doc.setFontSize(9); doc.setTextColor(0, 0, 0); doc.text(document.getElementById('inv-phone').innerText, 15, 64);
+        doc.setFontSize(14); doc.setTextColor(...themeColor); doc.text(document.getElementById('inv-type-title').innerText, 195, 52, null, null, "right"); doc.setFontSize(9); doc.setTextColor(80, 80, 80); doc.text(`Invoice No: ${document.getElementById('inv-no').innerText}`, 195, 58, null, null, "right"); doc.text(`Date: ${document.getElementById('inv-date').innerText}`, 195, 63, null, null, "right");
+        let startY = 72; doc.setFillColor(...themeColor); doc.rect(10, startY, 190, 8, "F"); doc.setTextColor(255, 255, 255); doc.setFont("helvetica", "bold"); doc.setFontSize(9); doc.text("#", 14, startY + 5.5); doc.text("Product Description", 25, startY + 5.5); doc.text("IMEI / Serial", 100, startY + 5.5); doc.text("Qty", 145, startY + 5.5, null, null, "center"); doc.text("Rate", 165, startY + 5.5, null, null, "right"); doc.text("Amount", 195, startY + 5.5, null, null, "right");
+        startY += 8; doc.setTextColor(0, 0, 0); doc.setFont("helvetica", "normal"); doc.setFontSize(8.5);
+        const rows = document.getElementById('inv-items').getElementsByTagName('tr');
+        for(let i=0; i<rows.length; i++) { const cols = rows[i].getElementsByTagName('td'); doc.rect(10, startY, 190, 8); doc.text(cols[0].innerText, 14, startY + 5.5); doc.text(cols[1].innerText.replace('[GST', ' GST'), 25, startY + 5.5); doc.text(cols[2].innerText, 100, startY + 5.5); doc.text(cols[3].innerText, 145, startY + 5.5, null, null, "center"); doc.text(cols[4].innerText, 165, startY + 5.5, null, null, "right"); doc.text(cols[5].innerText, 195, startY + 5.5, null, null, "right"); startY += 8; }
+        doc.setDrawColor(...themeColor); doc.setLineWidth(0.5); doc.line(10, startY, 200, startY); startY += 8;
+        doc.setFont("helvetica", "bold"); doc.setFontSize(9); doc.text("Taxable Value:", 155, startY); doc.text(document.getElementById('inv-taxable').innerText, 195, startY, null, null, "right"); startY += 6; doc.text("Total GST:", 155, startY); doc.text(document.getElementById('inv-gst').innerText, 195, startY, null, null, "right"); startY += 6; 
+        if(!document.getElementById('inv-disc-row').classList.contains('hidden')) { doc.setTextColor(225, 29, 72); doc.text("Discount:", 155, startY); doc.text(document.getElementById('inv-disc').innerText, 195, startY, null, null, "right"); startY += 8; }
+        doc.setFillColor(...themeColor); doc.rect(130, startY-5, 70, 10, "F"); doc.setTextColor(255, 255, 255); doc.setFontSize(11); doc.text("GRAND TOTAL", 133, startY+2); doc.text(document.getElementById('inv-total').innerText, 197, startY+2, null, null, "right"); startY += 12;
+        doc.setTextColor(0, 0, 0); doc.setFontSize(9); doc.text("Amount Paid:", 155, startY); doc.text(document.getElementById('inv-paid').innerText, 195, startY, null, null, "right"); startY += 6; doc.text("Balance Due:", 155, startY); doc.text(document.getElementById('inv-bal').innerText, 195, startY, null, null, "right");
+        doc.setTextColor(150, 150, 150); doc.setFont("helvetica", "italic"); doc.setFontSize(8); doc.text("* Computer Generated Document. No signature required. *", 105, 280, null, null, "center");
+        doc.save(`${document.getElementById('inv-no').innerText}_Invoice.pdf`);
+    }
+
+    // 6. LEDGER & DASHBOARD
     function switchLedgerTab(type) {
       document.getElementById('tab-CUSTOMER').className = type === 'CUSTOMER' ? "flex-1 py-3.5 rounded-xl text-[11px] font-black bg-blue-600 text-white shadow-md tracking-widest transition-all" : "flex-1 py-3.5 rounded-xl text-[11px] font-black text-slate-500 tracking-widest transition-all hover:text-blue-600";
       document.getElementById('tab-SUPPLIER').className = type === 'SUPPLIER' ? "flex-1 py-3.5 rounded-xl text-[11px] font-black bg-blue-600 text-white shadow-md tracking-widest transition-all" : "flex-1 py-3.5 rounded-xl text-[11px] font-black text-slate-500 tracking-widest transition-all hover:text-blue-600";
@@ -828,7 +846,6 @@
         
         let totalBilled = 0; let totalPaid = 0; let openingBal = 0;
         
-        // Sum opening balances from party master
         const filteredParties = partiesDB.filter(p => p.type === (isCust ? 'CUSTOMER' : 'SUPPLIER') && ((p.name||'').toUpperCase().includes(searchText) || (p.mobile||'').includes(searchText)));
         filteredParties.forEach(p => { openingBal += (Number(p.ob) || 0); });
 
@@ -840,15 +857,13 @@
                    (isCust ? (b.type.includes("SALE") || b.type.includes("RECEIPT")) : (b.type.includes("PURCHASE") || b.type.includes("PAYMENT"))); 
         });
 
-        // Pre-calculate running balance strictly ordered
-        partyBills.reverse().forEach(b => {
+        partyBills.forEach(b => {
             const amt = Number(b.total) || 0; const paid = Number(b.paid) || 0;
             if (isCust) { totalBilled += amt; totalPaid += paid; runBal += (amt - paid); } 
-            else { totalBilled += amt; totalPaid += paid; runBal -= (amt - paid); } // supplier balance reversed logic
+            else { totalBilled += amt; totalPaid += paid; runBal -= (amt - paid); }
             b._runBal = runBal;
         });
 
-        // Reverse back for descending display
         partyBills.reverse().forEach(b => {
             let drStr = "-"; let crStr = "-";
             const amt = Number(b.total) || 0; const paid = Number(b.paid) || 0;
@@ -871,36 +886,6 @@
         document.getElementById('dash-sale').innerText = "₹ " + saleAmt.toLocaleString('en-IN'); document.getElementById('dash-pur').innerText = "₹ " + purAmt.toLocaleString('en-IN'); document.getElementById('dash-prod-count').innerText = productsDB.length; document.getElementById('dash-party-count').innerText = partiesDB.length;
         const ctx = document.getElementById('businessChart');
         if (ctx) { if (window.bizChart) window.bizChart.destroy(); window.bizChart = new Chart(ctx, { type: 'bar', data: { labels: ['Current Month'], datasets: [{ label: 'Sales', data: [saleAmt || 5000], backgroundColor: '#2563eb', borderRadius: 8 }, { label: 'Purchases', data: [purAmt || 2000], backgroundColor: '#e11d48', borderRadius: 8 }] }, options: { responsive: true, maintainAspectRatio: false } }); }
-    }
-
-    // 6. INVOICE PDF GEN
-    function generateInvoiceHTML(bill) {
-        document.getElementById('inv-party').innerText = bill.party; document.getElementById('inv-phone').innerText = "Ph: " + (bill.mobile || "-"); document.getElementById('inv-no').innerText = bill.invNo; document.getElementById('inv-date').innerText = bill.date;
-        document.getElementById('inv-type-title').innerText = bill.type === "PURCHASE" ? "PURCHASE VOUCHER" : "TAX INVOICE";
-        let html = ''; bill.items.forEach((it, i) => { html += `<tr class="border-b border-slate-200"><td class="p-3 border-r border-slate-900 text-center">${i+1}</td><td class="p-3 border-r border-slate-900">${it.name} <span class="text-[8px] text-slate-500 font-black tracking-widest ml-1">[GST ${it.gst}%]</span></td><td class="p-3 border-r border-slate-900 font-mono text-[10px] break-all">${it.imei || '-'}</td><td class="p-3 border-r border-slate-900 text-center text-sm">${it.qty}</td><td class="p-3 border-r border-slate-900 text-right">${it.rate.toLocaleString('en-IN')}</td><td class="p-3 text-right text-slate-900">${it.amt.toLocaleString('en-IN')}</td></tr>`; });
-        document.getElementById('inv-items').innerHTML = html;
-        document.getElementById('inv-taxable').innerText = "₹ " + bill.basic.toLocaleString('en-IN'); document.getElementById('inv-gst').innerText = "₹ " + bill.gst.toLocaleString('en-IN'); document.getElementById('inv-disc').innerText = "- ₹ " + bill.discount.toLocaleString('en-IN'); document.getElementById('inv-total').innerText = "₹ " + bill.total.toLocaleString('en-IN'); document.getElementById('inv-paid').innerText = "₹ " + bill.paid.toLocaleString('en-IN'); document.getElementById('inv-bal').innerText = "₹ " + bill.due.toLocaleString('en-IN');
-        document.getElementById("inv-qr").innerHTML = ""; new QRCode(document.getElementById("inv-qr"), { text: `SRE|${bill.invNo}|${bill.total}`, width: 80, height: 80 });
-        showView('invoice');
-    }
-
-    function downloadPDF() {
-        const { jsPDF } = window.jspdf; const doc = new jsPDF("p", "mm", "a4"); const isPur = document.getElementById('inv-type-title').innerText === "PURCHASE VOUCHER"; const themeColor = [15, 23, 42]; // Dark Slate Theme
-        doc.setDrawColor(...themeColor); doc.setLineWidth(1); doc.rect(10, 10, 190, 277);
-        doc.setFont("helvetica", "bold"); doc.setFontSize(22); doc.setTextColor(...themeColor); doc.text("SRI RAM ENTERPRISES", 105, 25, null, null, "center");
-        doc.setFontSize(9); doc.setTextColor(80, 80, 80); doc.text("MOBILE • ACCESSORIES • REPAIRING", 105, 31, null, null, "center"); doc.setFont("helvetica", "normal"); doc.setFontSize(8); doc.text("GB-15, City Centre, Sector-4, B.S. City | Ph: 9334765000", 105, 36, null, null, "center");
-        doc.setLineWidth(0.5); doc.line(10, 42, 200, 42); doc.setFontSize(10); doc.setTextColor(0, 0, 0); doc.setFont("helvetica", "bold"); doc.text("Bill To:", 15, 52); doc.setFontSize(14); doc.setTextColor(...themeColor); doc.text(document.getElementById('inv-party').innerText, 15, 58); doc.setFontSize(9); doc.setTextColor(0, 0, 0); doc.text(document.getElementById('inv-phone').innerText, 15, 64);
-        doc.setFontSize(14); doc.setTextColor(...themeColor); doc.text(document.getElementById('inv-type-title').innerText, 195, 52, null, null, "right"); doc.setFontSize(9); doc.setTextColor(80, 80, 80); doc.text(`Invoice No: ${document.getElementById('inv-no').innerText}`, 195, 58, null, null, "right"); doc.text(`Date: ${document.getElementById('inv-date').innerText}`, 195, 63, null, null, "right");
-        let startY = 72; doc.setFillColor(...themeColor); doc.rect(10, startY, 190, 8, "F"); doc.setTextColor(255, 255, 255); doc.setFont("helvetica", "bold"); doc.setFontSize(9); doc.text("#", 14, startY + 5.5); doc.text("Product Description", 25, startY + 5.5); doc.text("IMEI / Serial", 100, startY + 5.5); doc.text("Qty", 145, startY + 5.5, null, null, "center"); doc.text("Rate", 165, startY + 5.5, null, null, "right"); doc.text("Amount", 195, startY + 5.5, null, null, "right");
-        startY += 8; doc.setTextColor(0, 0, 0); doc.setFont("helvetica", "normal"); doc.setFontSize(8.5);
-        const rows = document.getElementById('inv-items').getElementsByTagName('tr');
-        for(let i=0; i<rows.length; i++) { const cols = rows[i].getElementsByTagName('td'); doc.rect(10, startY, 190, 8); doc.text(cols[0].innerText, 14, startY + 5.5); doc.text(cols[1].innerText.replace('[GST', ' GST'), 25, startY + 5.5); doc.text(cols[2].innerText, 100, startY + 5.5); doc.text(cols[3].innerText, 145, startY + 5.5, null, null, "center"); doc.text(cols[4].innerText, 165, startY + 5.5, null, null, "right"); doc.text(cols[5].innerText, 195, startY + 5.5, null, null, "right"); startY += 8; }
-        doc.setDrawColor(...themeColor); doc.setLineWidth(0.5); doc.line(10, startY, 200, startY); startY += 8;
-        doc.setFont("helvetica", "bold"); doc.setFontSize(9); doc.text("Taxable Value:", 155, startY); doc.text(document.getElementById('inv-taxable').innerText, 195, startY, null, null, "right"); startY += 6; doc.text("Total GST:", 155, startY); doc.text(document.getElementById('inv-gst').innerText, 195, startY, null, null, "right"); startY += 6; doc.setTextColor(225, 29, 72); doc.text("Discount:", 155, startY); doc.text(document.getElementById('inv-disc').innerText, 195, startY, null, null, "right"); startY += 8;
-        doc.setFillColor(...themeColor); doc.rect(130, startY-5, 70, 10, "F"); doc.setTextColor(255, 255, 255); doc.setFontSize(11); doc.text("GRAND TOTAL", 133, startY+2); doc.text(document.getElementById('inv-total').innerText, 197, startY+2, null, null, "right"); startY += 12;
-        doc.setTextColor(0, 0, 0); doc.setFontSize(9); doc.text("Amount Paid:", 155, startY); doc.text(document.getElementById('inv-paid').innerText, 195, startY, null, null, "right"); startY += 6; doc.text("Balance Due:", 155, startY); doc.text(document.getElementById('inv-bal').innerText, 195, startY, null, null, "right");
-        doc.setTextColor(150, 150, 150); doc.setFont("helvetica", "italic"); doc.setFontSize(8); doc.text("* Computer Generated Document. No signature required. *", 105, 280, null, null, "center");
-        doc.save(`${document.getElementById('inv-no').innerText}_Invoice.pdf`);
     }
 
     // BOOTSTRAP APP
