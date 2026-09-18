@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Sri Ram Enterprises - Enterprise POS & ERP</title>
+  <title>Sri Ram Enterprises - Premium POS</title>
   <meta name="theme-color" content="#0f172a" />
   
   <script src="https://cdn.tailwindcss.com"></script>
@@ -14,20 +14,24 @@
   
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    
     body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f1f5f9; color: #1e293b; overflow: hidden; }
     
-    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     
-    .glass-panel { background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.04); }
-    .premium-input { height: 42px !important; font-size: 12px !important; padding-left: 12px; padding-right: 12px; border-radius: 8px; border: 1px solid #cbd5e1; width: 100%; outline: none; transition: all 0.2s ease; font-weight: 700; color: #0f172a; background-color: #f8fafc; }
+    .glass-panel { background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.5); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.04); }
+    .premium-input { height: 40px !important; font-size: 11px !important; padding-left: 12px; padding-right: 12px; border-radius: 8px; border: 1px solid #e2e8f0; width: 100%; outline: none; transition: all 0.2s ease; font-weight: 700; color: #0f172a; background-color: #f8fafc; }
     .premium-input:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.12); background-color: #ffffff; }
     
-    th { text-transform: uppercase; font-size: 10px; letter-spacing: 0.05em; color: #64748b; font-weight: 800; padding: 12px; background-color: #f8fafc; border-bottom: 2px solid #e2e8f0; }
-    td { padding: 12px; font-size: 12px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
-    tr:hover td { background-color: #f8fafc; }
+    th { text-transform: uppercase; font-size: 9px; letter-spacing: 0.05em; color: #64748b; font-weight: 800; padding: 10px 12px; background-color: #f8fafc; border-bottom: 2px solid #e2e8f0; }
+    td { padding: 10px 12px; font-size: 11px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+    tr:hover td { background-color: #f8fafc; transition: 0.15s; }
+    
+    @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    .toast-enter { animation: slideIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
     
     @keyframes popIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     .modal-animate { animation: popIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
@@ -53,7 +57,7 @@
   <datalist id="item-list"></datalist>
   <datalist id="party-list"></datalist>
 
-  <div id="toast-container" class="fixed top-5 right-5 z-[100] flex flex-col gap-3 pointer-events-none"></div>
+  <div id="toast-container" class="fixed top-5 right-5 z-[150] flex flex-col gap-3 pointer-events-none"></div>
 
   <!-- CENTER CONFIRMATION / ACTION POPUP -->
   <div id="center-popup" class="fixed inset-0 bg-slate-900/60 z-[120] hidden flex items-center justify-center backdrop-blur-sm transition-all duration-200">
@@ -66,7 +70,7 @@
   </div>
 
   <!-- HEADER -->
-  <header class="bg-[#0f172a] text-white flex justify-between items-center px-5 py-2.5 z-30 shadow-md relative shrink-0">
+  <header class="bg-[#0f172a] text-white flex justify-between items-center px-6 py-2.5 z-30 shadow-md relative shrink-0">
     <div class="flex items-center space-x-3 cursor-pointer" onclick="showView('dashboard')">
       <div class="w-8 h-8 bg-gradient-to-tr from-blue-500 to-blue-300 text-white rounded-lg flex items-center justify-center font-black italic shadow text-xs border border-white/20">SRE</div>
       <div>
@@ -82,21 +86,21 @@
   </header>
 
   <div class="flex flex-1 overflow-hidden">
-      <!-- SIDEBAR -->
+      <!-- SIDEBAR (DESKTOP) -->
       <aside class="hidden lg:flex flex-col w-[210px] bg-slate-900 text-slate-400 h-full overflow-y-auto z-20 shadow-2xl border-r border-slate-800 pb-16">
         <div class="flex-1 px-3 py-4 space-y-1 font-black uppercase tracking-wider text-[9px]">
           <p class="px-3 text-[8px] text-slate-500 mb-1">Navigation</p>
-          <button onclick="showView('dashboard')" class="nav-btn w-full flex items-center space-x-2.5 bg-blue-600 text-white px-3 py-2.5 rounded-xl transition-all shadow-md"><span>🏠</span><span>Dashboard</span></button>
-          <button onclick="showView('product')" class="nav-btn w-full flex items-center space-x-2.5 px-3 py-2.5 rounded-xl hover:bg-slate-800 transition-all hover:text-white"><span>📦</span><span>Product Master</span></button>
+          <button id="nav-dashboard" onclick="showView('dashboard')" class="nav-btn w-full flex items-center space-x-2.5 bg-blue-600 text-white px-3 py-2.5 rounded-xl transition-all shadow-md"><span>🏠</span><span>Dashboard</span></button>
+          <button id="nav-product" onclick="showView('product')" class="nav-btn w-full flex items-center space-x-2.5 px-3 py-2.5 rounded-xl hover:bg-slate-800 transition-all hover:text-white"><span>📦</span><span>Product Master</span></button>
           
           <p class="px-3 text-[8px] text-slate-500 mb-1 mt-4 pt-3 border-t border-slate-800">Invoicing & Orders</p>
-          <button onclick="startBill('SALE')" class="nav-btn w-full flex items-center space-x-2.5 px-3 py-2.5 rounded-xl hover:bg-slate-800 transition-all hover:text-white"><span class="text-blue-400">📈</span><span>Sales Invoice</span></button>
-          <button onclick="startBill('PURCHASE')" class="nav-btn w-full flex items-center space-x-2.5 px-3 py-2.5 rounded-xl hover:bg-slate-800 transition-all hover:text-white"><span class="text-emerald-400">🛒</span><span>Purchase Entry</span></button>
-          <button onclick="startPayment('IN')" class="nav-btn w-full flex items-center space-x-2.5 px-3 py-2.5 rounded-xl hover:bg-slate-800 transition-all hover:text-white"><span class="text-teal-400">💳</span><span>Voucher In/Out</span></button>
+          <button id="nav-sale" onclick="startBill('SALE')" class="nav-btn w-full flex items-center space-x-2.5 px-3 py-2.5 rounded-xl hover:bg-slate-800 transition-all hover:text-white"><span class="text-blue-400">📈</span><span>Sales Invoice</span></button>
+          <button id="nav-purchase" onclick="startBill('PURCHASE')" class="nav-btn w-full flex items-center space-x-2.5 px-3 py-2.5 rounded-xl hover:bg-slate-800 transition-all hover:text-white"><span class="text-emerald-400">🛒</span><span>Purchase Entry</span></button>
+          <button id="nav-payment" onclick="startPayment('IN')" class="nav-btn w-full flex items-center space-x-2.5 px-3 py-2.5 rounded-xl hover:bg-slate-800 transition-all hover:text-white"><span class="text-teal-400">💳</span><span>Payment In/Out</span></button>
           
-          <p class="px-3 text-[8px] text-slate-500 mb-1 mt-4 pt-3 border-t border-slate-800">Ledger & Accounting</p>
-          <button onclick="showView('party')" class="nav-btn w-full flex items-center space-x-2.5 px-3 py-2.5 rounded-xl hover:bg-slate-800 transition-all hover:text-white"><span class="text-purple-400">👥</span><span>Party Master</span></button>
-          <button onclick="showView('ledger')" class="nav-btn w-full flex items-center space-x-2.5 px-3 py-2.5 rounded-xl hover:bg-slate-800 transition-all hover:text-white"><span class="text-amber-400">📒</span><span>Financial Ledger</span></button>
+          <p class="px-3 text-[8px] text-slate-500 mb-1 mt-4 pt-3 border-t border-slate-800">Accounting</p>
+          <button id="nav-party" onclick="showView('party')" class="nav-btn w-full flex items-center space-x-2.5 px-3 py-2.5 rounded-xl hover:bg-slate-800 transition-all hover:text-white"><span class="text-purple-400">👥</span><span>Manage Parties</span></button>
+          <button id="nav-ledger" onclick="showView('ledger')" class="nav-btn w-full flex items-center space-x-2.5 px-3 py-2.5 rounded-xl hover:bg-slate-800 transition-all hover:text-white"><span class="text-amber-400">📒</span><span>Financial Ledger</span></button>
         </div>
       </aside>
 
@@ -123,7 +127,7 @@
             
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-4">
                <div class="lg:col-span-2 glass-panel rounded-2xl p-4 shadow-sm">
-                 <h3 class="font-black text-[11px] uppercase tracking-widest text-slate-700 mb-3">Sales vs Purchase Comparison</h3>
+                 <h3 class="font-black text-[11px] uppercase tracking-widest text-slate-700 mb-3">Sales vs Purchase Analytics</h3>
                  <div class="h-[240px] w-full"><canvas id="businessChart"></canvas></div>
                </div>
                <div class="lg:col-span-1 glass-panel rounded-2xl p-4 flex flex-col shadow-sm">
@@ -163,7 +167,7 @@
 
             <div class="glass-panel rounded-2xl overflow-hidden flex flex-col shadow-sm">
                 <div class="p-3 border-b border-slate-100 bg-white flex flex-wrap gap-2 items-center">
-                    <div class="relative flex-1 min-w-[200px]"><input type="text" id="prod-search" oninput="renderProducts()" placeholder="Search Item, Brand, SKU or IMEI..." class="premium-input pl-4" /></div>
+                    <div class="relative flex-1 min-w-[200px]"><input type="text" id="prod-search" oninput="renderProducts()" placeholder="Search Item, Brand, SKU or IMEI..." class="premium-input pl-8" /></div>
                     <select id="filter-category" onchange="renderProducts()" class="cat-select premium-input sm:w-auto min-w-[140px]"></select>
                 </div>
                 <div class="overflow-x-auto w-full max-h-[360px]">
@@ -235,15 +239,15 @@
             </div>
         </div>
 
-        <!-- 5. ADVANCED BILLING (SALE/PURCHASE) - 2-COLUMN VIEW -->
-        <div id="view-new-bill" class="view-section hidden max-w-screen-2xl mx-auto h-[calc(100vh-70px)] flex flex-col">
+        <!-- 5. ADVANCED BILLING (SALE/PURCHASE) -->
+        <div id="view-new-bill" class="view-section hidden max-w-screen-2xl mx-auto h-[calc(100vh-80px)] flex flex-col">
             <!-- Top Controls Bar -->
             <div class="flex flex-wrap justify-between items-center border-b border-slate-200 pb-2 mb-2 shrink-0 gap-2">
                 <div class="flex items-center space-x-2">
                     <h2 id="bill-title" class="text-sm font-black text-slate-800 uppercase tracking-widest">SALE ENTRY</h2>
                     <span id="form-entry-type" class="text-[8px] font-black px-2 py-0.5 rounded bg-blue-100 text-blue-700 uppercase tracking-widest">SALE</span>
                 </div>
-                
+                <!-- Advanced Toggles: Tax Mode & State of Supply -->
                 <div class="flex items-center space-x-2">
                     <div class="flex items-center bg-slate-100 p-1 rounded-lg border border-slate-200">
                         <label class="text-[8px] font-black uppercase px-2 text-slate-500 cursor-pointer">
@@ -257,8 +261,9 @@
             </div>
             
             <div class="flex flex-col lg:flex-row gap-3 items-start flex-1 overflow-hidden">
-                <!-- LEFT COLUMN: Party Details & Product Grid -->
+                <!-- LEFT COLUMN: Party & Product Grid -->
                 <div class="w-full lg:w-8/12 flex flex-col space-y-2 h-full">
+                    <!-- Party Meta Box -->
                     <div class="glass-panel p-3 rounded-2xl grid grid-cols-1 sm:grid-cols-4 gap-2.5 items-end shrink-0">
                         <div class="w-full">
                             <div class="flex justify-between items-center mb-1">
@@ -275,6 +280,7 @@
                         <div class="w-full"><label class="font-black text-[8px] uppercase text-slate-500 tracking-widest mb-1 block">Invoice Ref *</label><input type="text" id="bill-inv" class="premium-input font-mono text-blue-600 uppercase text-xs" placeholder="Auto"></div>
                     </div>
 
+                    <!-- Fast Scanner Bar & Item Grid -->
                     <div class="glass-panel p-3 rounded-2xl flex-1 flex flex-col overflow-hidden w-full">
                         <div class="flex items-center gap-2 mb-2 shrink-0">
                             <div class="relative flex-1">
@@ -286,13 +292,7 @@
                         </div>
 
                         <div class="grid grid-cols-12 gap-2 font-black text-[8px] uppercase text-slate-400 tracking-widest border-b border-slate-200 pb-1.5 px-2 min-w-[760px] shrink-0">
-                            <div class="col-span-3">Item Description</div>
-                            <div class="col-span-2 text-right">Rate</div>
-                            <div class="col-span-1 text-center">Disc (₹)</div>
-                            <div class="col-span-1 text-center">GST %</div>
-                            <div class="col-span-1 text-center">Qty</div>
-                            <div class="col-span-3">Serial / IMEI</div>
-                            <div class="col-span-1 text-right">Net Amount</div>
+                            <div class="col-span-3">Item Description</div><div class="col-span-2 text-right">Rate</div><div class="col-span-1 text-center">Disc (₹)</div><div class="col-span-1 text-center">GST %</div><div class="col-span-1 text-center">Qty</div><div class="col-span-3">Serial / IMEI</div><div class="col-span-1 text-right">Net Amount</div>
                         </div>
                         
                         <div class="overflow-y-auto overflow-x-auto w-full flex-1 pr-1 pb-1">
@@ -301,38 +301,36 @@
                     </div>
                 </div>
 
-                <!-- RIGHT COLUMN: Professional Settlement & Payment Dashboard -->
+                <!-- RIGHT COLUMN: Payment Dashboard -->
                 <div class="w-full lg:w-4/12 glass-panel rounded-2xl flex flex-col h-full overflow-hidden shadow-lg border border-slate-200 shrink-0">
-                    <div class="px-4 py-2 border-b border-slate-100 bg-white/80 shrink-0 flex justify-between items-center">
-                        <h3 class="font-black text-xs uppercase text-slate-800 tracking-widest">Payment & Settlement</h3>
-                        <button onclick="resetPaymentFields()" class="text-[9px] font-bold text-rose-500 hover:underline">Reset Modes</button>
+                    <div class="px-4 py-2.5 border-b border-slate-100 bg-white/80 shrink-0 flex justify-between items-center">
+                        <h3 class="font-black text-xs uppercase text-slate-800 tracking-widest">Settlement & Tax Summary</h3>
                     </div>
                     
                     <div class="p-3 flex-1 overflow-y-auto space-y-2.5">
-                        <!-- Mutually Exclusive Channels -->
+                        <!-- Mutually Exclusive Payment Channels -->
                         <div class="space-y-2">
                             <div>
                                 <label class="font-black text-[8px] uppercase text-slate-500 tracking-widest block mb-1">Primary Payment Channel</label>
                                 <select id="pay-primary" onchange="onPaymentModeChange('primary')" class="premium-input text-blue-700 text-xs">
-                                    <option value="">-- Select Primary --</option>
-                                    <option value="Cash">Cash</option><option value="QR">QR (Online / UPI)</option><option value="Card">Card Swipe / POS</option>
-                                    <option value="Cash + QR">Split (Cash + QR)</option><option value="Cash + Card">Split (Cash + Card)</option><option value="QR + Card">Split (QR + Card)</option><option value="Cash + QR + Card">Split (Cash + QR + Card)</option>
+                                    <option value="">-- Select --</option><option value="Cash">Cash</option><option value="QR">QR</option><option value="Card">Card</option>
+                                    <option value="Cash + QR">Cash + QR</option><option value="Cash + Card">Cash + Card</option><option value="QR + Card">QR + Card</option><option value="Cash + QR + Card">Cash + QR + Card</option>
                                 </select>
                             </div>
                             <div id="sec-mode-container">
-                                <label class="font-black text-[8px] uppercase text-slate-500 tracking-widest block mb-1">Secondary / Credit Mode</label>
+                                <label class="font-black text-[8px] uppercase text-slate-500 tracking-widest block mb-1">Secondary Mode (Mutual Switch)</label>
                                 <select id="pay-secondary" onchange="onPaymentModeChange('secondary')" class="premium-input text-blue-700 text-xs">
-                                    <option value="">-- None (Direct) --</option>
-                                    <option value="Finance" id="opt-finance">NBFC Finance (Bajaj / TVS / Kisto)</option>
-                                    <option value="Dues">Credit / Ledger Outstanding</option>
+                                    <option value="">-- None (Instant Settlement) --</option>
+                                    <option value="Finance" id="opt-finance">NBFC Finance</option>
+                                    <option value="Dues">Credit / Dues</option>
                                 </select>
                             </div>
                         </div>
 
-                        <!-- Dynamic Split Inputs -->
+                        <!-- Dynamic Split Engine Inputs -->
                         <div id="split-box" class="hidden grid grid-cols-3 gap-1.5 bg-slate-100 p-2 rounded-xl border border-slate-200">
                             <div id="wrap-split-cash" class="hidden"><label class="font-black text-[7px] uppercase text-slate-500 tracking-widest block mb-0.5">Cash</label><input type="number" id="split-cash" placeholder="0" oninput="calcBill()" class="premium-input px-1 text-blue-700 h-8!" /></div>
-                            <div id="wrap-split-qr" class="hidden"><label class="font-black text-[7px] uppercase text-slate-500 tracking-widest block mb-0.5">UPI/QR</label><input type="number" id="split-qr" placeholder="0" oninput="calcBill()" class="premium-input px-1 text-blue-700 h-8!" /></div>
+                            <div id="wrap-split-qr" class="hidden"><label class="font-black text-[7px] uppercase text-slate-500 tracking-widest block mb-0.5">QR</label><input type="number" id="split-qr" placeholder="0" oninput="calcBill()" class="premium-input px-1 text-blue-700 h-8!" /></div>
                             <div id="wrap-split-card" class="hidden"><label class="font-black text-[7px] uppercase text-slate-500 tracking-widest block mb-0.5">Card</label><input type="number" id="split-card" placeholder="0" oninput="calcBill()" class="premium-input px-1 text-blue-700 h-8!" /></div>
                         </div>
 
@@ -341,37 +339,35 @@
                             <div><label class="font-black text-[8px] uppercase text-blue-600 tracking-widest block mb-0.5">Finance Partner *</label><select id="fin-company" class="premium-input bg-white text-blue-700 text-xs h-8!"><option value="">-- Choose Provider --</option><option value="Bajaj Finserv">Bajaj Finserv</option><option value="Kisto Pe">Kisto Pe</option><option value="HDB Financial">HDB Financial</option><option value="TVS Credit">TVS Credit</option><option value="IDFC First Bank">IDFC First Bank</option></select></div>
                             <div class="grid grid-cols-2 gap-2">
                                 <div><label class="font-black text-[8px] uppercase text-blue-600 tracking-widest block mb-0.5">Down Payment (₹)</label><input type="number" id="fin-rate" placeholder="0" class="premium-input bg-white text-blue-700 h-8!" oninput="calcBill()" /></div>
-                                <div><label class="font-black text-[8px] uppercase text-blue-600 tracking-widest block mb-0.5">DP Channel</label><select id="fin-dp-mode" onchange="onPaymentModeChange('secondary')" class="premium-input bg-white text-blue-700 text-xs h-8!"><option value="Cash">Cash</option><option value="QR">UPI / QR</option><option value="Card">Card</option></select></div>
+                                <div><label class="font-black text-[8px] uppercase text-blue-600 tracking-widest block mb-0.5">DP Channel</label><select id="fin-dp-mode" onchange="onPaymentModeChange('secondary')" class="premium-input bg-white text-blue-700 text-xs h-8!"><option value="Cash">Cash</option><option value="QR">QR</option><option value="Card">Card</option><option value="Cash + QR">Cash + QR</option><option value="Cash + Card">Cash + Card</option><option value="QR + Card">QR + Card</option><option value="Cash + QR + Card">Cash + QR + Card</option></select></div>
                             </div>
                         </div>
 
-                        <!-- Credit Terms -->
                         <div id="dues-box" class="hidden bg-amber-50/60 p-2.5 rounded-xl border border-amber-200 space-y-2">
-                            <div class="grid grid-cols-2 gap-2">
-                                <div><label class="font-black text-[8px] uppercase text-amber-700 tracking-widest block mb-0.5">Credit Terms (Days)</label><input type="number" id="bill-credit-days" value="15" oninput="calcDueDate()" class="premium-input bg-white text-slate-800 h-8!" /></div>
-                                <div><label class="font-black text-[8px] uppercase text-amber-700 tracking-widest block mb-0.5">Payment Due Date</label><input type="date" id="bill-due-date" class="premium-input bg-white text-slate-800 h-8!" /></div>
+                            <div class="grid grid-cols-1 gap-2">
+                                <div><label class="font-black text-[8px] uppercase text-amber-700 tracking-widest block mb-0.5">DP Mode</label><select id="dues-mode" onchange="onPaymentModeChange('secondary')" class="premium-input bg-white text-amber-700 text-xs h-8!"><option value="Cash">Cash</option><option value="QR">QR</option><option value="Card">Card</option><option value="Cash + QR">Cash + QR</option><option value="Cash + Card">Cash + Card</option><option value="QR + Card">QR + Card</option><option value="Cash + QR + Card">Cash + QR + Card</option></select></div>
                             </div>
                         </div>
 
-                        <!-- Amount Paid Entry -->
                         <div>
                             <label class="font-black text-[9px] uppercase text-slate-500 tracking-widest block mb-1">Tendered / Received Amount (₹)</label>
                             <input type="number" id="bill-paid" oninput="calcBill(true)" class="premium-input bg-emerald-50 border-emerald-300 focus:ring-emerald-200 text-emerald-700 font-black text-xl h-[44px] shadow-inner" placeholder="0">
                         </div>
                     </div>
 
-                    <!-- Clean Grand Total Panel -->
+                    <!-- Pinned Totals Panel with Auto Round-Off -->
                     <div class="bg-slate-900 p-3.5 shrink-0 relative z-20 text-white rounded-b-2xl">
-                        <div class="grid grid-cols-2 gap-2 mb-1.5 border-b border-slate-700 pb-1.5 text-[10px]">
-                            <div><span class="text-slate-400 block text-[8px] uppercase font-bold">Taxable Turnover</span><span class="font-black" id="bill-taxable">₹ 0</span></div>
-                            <div class="text-right"><span class="text-slate-400 block text-[8px] uppercase font-bold">Total GST Tax</span><span class="font-black text-blue-300" id="bill-gst">₹ 0</span></div>
+                        <div class="grid grid-cols-3 gap-2 mb-1.5 border-b border-slate-700 pb-1.5 text-[9px]">
+                            <div><span class="text-slate-400 block text-[7px] uppercase font-bold">Taxable</span><span class="font-black" id="bill-taxable">₹ 0</span></div>
+                            <div><span class="text-slate-400 block text-[7px] uppercase font-bold">Total Tax</span><span class="font-black text-blue-300" id="bill-gst">₹ 0</span></div>
+                            <div class="text-right"><span class="text-slate-400 block text-[7px] uppercase font-bold">Round-Off</span><span class="font-bold text-amber-300" id="bill-roundoff">₹ 0.00</span></div>
                         </div>
                         <div class="flex justify-between items-end mb-1">
-                            <span class="text-[9px] font-black text-slate-300 uppercase tracking-widest">Net Grand Total</span>
+                            <span class="text-[9px] font-black text-slate-300 uppercase tracking-widest">Grand Total</span>
                             <span class="text-2xl font-black text-amber-400 drop-shadow leading-none" id="bill-grand-total">₹ 0</span>
                         </div>
                         <div class="flex justify-between items-end mb-2.5">
-                            <span class="text-[8px] font-black text-slate-400 uppercase tracking-widest">Closing Balance Due</span>
+                            <span class="text-[8px] font-black text-slate-400 uppercase tracking-widest">Balance Remaining</span>
                             <span class="text-xs font-black text-rose-400 leading-none" id="bill-due">₹ 0</span>
                         </div>
 
@@ -510,7 +506,7 @@
             </div>
         </div>
 
-        <!-- POPUPS (QUICK ADD PARTY & ITEM - ALWAYS CENTERED) -->
+        <!-- POPUPS (QUICK ADD PARTY & ITEM) -->
         <div id="party-popup" class="fixed inset-0 bg-slate-900/60 z-[120] flex items-center justify-center hidden backdrop-blur-sm">
             <div class="bg-white p-5 rounded-3xl shadow-2xl w-full max-w-xs border border-slate-100 modal-animate">
                 <h3 class="text-xs font-black text-[#004aad] uppercase tracking-widest border-b pb-2 mb-3">Instant Party Registration</h3>
@@ -613,24 +609,28 @@
       showToast("Cloud Configured", "Webhook address linked successfully.");
     }
 
+    let syncTimeout = null;
     function triggerSilentSync() {
         if(!gasUrl) return;
-        fetch(gasUrl, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ action: "backup", products: productsDB, parties: partiesDB, bills: billsDB, categories: categoriesDB }) }).catch(() => {});
+        clearTimeout(syncTimeout);
+        syncTimeout = setTimeout(() => {
+            fetch(gasUrl, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: "backup", products: productsDB, parties: partiesDB, bills: billsDB, categories: categoriesDB }) }).catch(() => {});
+        }, 3000); 
     }
 
     async function backupData() {
-        if(!gasUrl) return showPopup("Config Missing", "Set Webhook URL first in settings.", true);
+        if(!gasUrl) return showToast("Config Missing", "Set Webhook URL first in settings.", "error");
         showToast("Syncing", "Pushing database state to Google Sheets...", "success");
         try {
-            const res = await fetch(gasUrl, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ action: "backup", products: productsDB, parties: partiesDB, bills: billsDB, categories: categoriesDB }) });
+            const res = await fetch(gasUrl, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: "backup", products: productsDB, parties: partiesDB, bills: billsDB, categories: categoriesDB }) });
             const data = await res.json();
-            if(data.status === "success") showPopup("Backup Verified", "Sheet database synchronized successfully!");
-            else showPopup("Failed", "Server rejected payload.", true);
-        } catch(e) { showPopup("Sync Failure", "Check internet connection or deployment permissions.", true); }
+            if(data.status === "success") showToast("Backup Verified", "Sheet database synchronized.");
+            else showToast("Failed", "Server rejected payload.", "error");
+        } catch(e) { showToast("Sync Failure", "Check internet connection or deployment permissions.", "error"); }
     }
 
     async function restoreData() {
-        if(!gasUrl) return showPopup("Config Missing", "Set Webhook URL first in settings.", true);
+        if(!gasUrl) return showToast("Config Missing", "Set Webhook URL first in settings.", "error");
         if(!confirm("Overwrite local cache with remote Google Sheet backup?")) return;
         showToast("Restoring", "Retrieving database state...", "success");
         try {
@@ -643,10 +643,10 @@
                 localStorage.setItem('sre_parties', JSON.stringify(partiesDB));
                 localStorage.setItem('sre_bills', JSON.stringify(billsDB));
                 localStorage.setItem('sre_categories', JSON.stringify(categoriesDB));
-                showPopup("Restored", "Local state updated from cloud.");
+                showToast("Restored", "Local state updated from cloud.");
                 showView('dashboard');
             }
-        } catch(e) { showPopup("Network Error", "Could not fetch remote sheet data.", true); }
+        } catch(e) { showToast("Network Error", "Could not fetch remote sheet data.", "error"); }
     }
 
     // --- 2. VIEW CONTROLLER ---
@@ -730,7 +730,7 @@
 
         const newProd = { id: editId || 'PRD-'+Date.now(), name, brand, category, variant, sku, hsn, mrp, pur, sale, gst, stock };
         if(editId) { const idx = productsDB.findIndex(p => p.id === editId); productsDB[idx] = newProd; } else { productsDB.push(newProd); }
-        Storage.set('sre_products', productsDB); clearProductForm(); renderProducts(); showPopup("Saved", `${name} updated in master inventory.`);
+        Storage.set('sre_products', productsDB); clearProductForm(); renderProducts(); showToast("Saved", `${name} updated in master inventory.`);
     }
 
     function editProduct(id) {
@@ -777,7 +777,7 @@
         const newParty = { id: editId || 'PTY-'+Date.now(), type, name, mobile, address, gstin, ob };
         if(editId) { const idx = partiesDB.findIndex(p => p.id === editId); partiesDB[idx] = newParty; } 
         else { if(partiesDB.find(p => p.name === name)) return showToast("Duplicate", "Account exists.", "error"); partiesDB.push(newParty); }
-        Storage.set('sre_parties', partiesDB); clearPartyForm(); renderParties(); showPopup("Recorded", `Account ${name} verified.`);
+        Storage.set('sre_parties', partiesDB); clearPartyForm(); renderParties(); showToast("Recorded", `Account ${name} verified.`);
     }
 
     function clearPartyForm() { document.getElementById('pt-id').value = ''; ['pt-name','pt-mobile','pt-address','pt-gstin','pt-ob'].forEach(id => document.getElementById(id).value = ''); }
@@ -799,13 +799,16 @@
             const query = e.target.value.trim().toUpperCase();
             if (!query) return;
 
+            // Search by SKU, Barcode, or exact Name
             const prod = productsDB.find(p => p.sku === query || p.name === query);
             if (prod) {
+                // If item already in grid, increment qty
                 let existingInput = Array.from(document.querySelectorAll('.b-name')).find(inp => inp.value.trim().toUpperCase() === prod.name);
                 if (existingInput) {
                     const row = existingInput.closest('.item-row-wrapper');
                     const qtyInput = row.querySelector('.b-qty');
                     qtyInput.value = Number(qtyInput.value) + 1;
+                    window.handleGridQtyChange(qtyInput); // Open boxes if multiple
                 } else {
                     addBillRowWithData(prod.name, (currentMode === 'SALE' ? prod.sale : prod.pur), prod.gst, 1);
                 }
@@ -877,26 +880,38 @@
                 <div class="col-span-2"><input type="number" oninput="calcBill()" class="premium-input font-black text-right b-rate" placeholder="Rate"></div>
                 <div class="col-span-1"><input type="number" oninput="calcBill()" value="0" class="premium-input font-bold text-center b-disc text-rose-600" placeholder="Disc"></div>
                 <div class="col-span-1"><select onchange="calcBill()" class="premium-input text-center font-bold b-gst px-1"><option value="0">0%</option><option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option></select></div>
-                <div class="col-span-1"><input type="number" min="1" value="1" oninput="handleGridQtyChange(this)" class="premium-input text-center font-black text-blue-600 b-qty px-1"></div>
-                <div class="col-span-3"><input type="text" oninput="this.value=this.value.replace(/[^0-9,]/g,'')" class="premium-input font-mono text-[10px] b-imei-main" placeholder="Scan/Type IMEIs (comma separated)"></div>
+                <div class="col-span-1"><input type="number" min="1" value="1" oninput="handleGridQtyChange(this)" onkeyup="handleGridQtyChange(this)" class="premium-input text-center font-black text-blue-600 b-qty px-1"></div>
+                <div class="col-span-3"><input type="text" oninput="this.value=this.value.replace(/[^0-9A-Za-z,]/g,'')" class="premium-input font-mono text-[10px] b-imei-main uppercase" placeholder="Scan/Type IMEIs"></div>
                 <div class="col-span-1 flex justify-between items-center pl-1"><span class="font-black text-slate-900 text-xs w-full text-right pr-2 b-amt">0</span>${removeBtn}</div>
             </div>
+            <div class="b-imei-extended hidden grid grid-cols-3 sm:grid-cols-4 gap-2 mt-2 pt-2 border-t border-slate-200"></div>
         `;
         container.appendChild(row);
     }
 
-    function handleGridQtyChange() { calcBill(); }
+    window.handleGridQtyChange = function(input) {
+        calcBill(); 
+        const wrapper = input.closest('.item-row-wrapper'); 
+        const qty = Math.max(1, Number(input.value) || 1); 
+        const extBox = wrapper.querySelector('.b-imei-extended');
+        if(qty > 1) {
+            extBox.classList.remove('hidden'); 
+            const existing = Array.from(extBox.querySelectorAll('.b-imei-extra')).map(i => i.value); 
+            let html = '';
+            for(let i=2; i<=qty; i++) { 
+                const val = existing[i-2] || ""; 
+                html += `<input type="text" maxlength="25" oninput="this.value=this.value.replace(/[^0-9A-Za-z]/g,'')" value="${val}" placeholder="IMEI / Serial ${i}" class="premium-input bg-white font-mono font-bold text-xs uppercase text-blue-600 b-imei-extra border-blue-200 shadow-sm h-8!">`; 
+            }
+            extBox.innerHTML = html;
+        } else { 
+            extBox.classList.add('hidden'); 
+            extBox.innerHTML = ''; 
+        }
+    };
 
     function autoFillRate(input) {
         const row = input.closest('.item-row-wrapper'); const name = input.value.trim().toUpperCase(); const prod = productsDB.find(p => p.name === name);
         if(prod) { row.querySelector('.b-rate').value = currentMode === "SALE" ? prod.sale : prod.pur; row.querySelector('.b-gst').value = prod.gst; calcBill(); }
-    }
-
-    function resetPaymentFields() {
-        document.getElementById('pay-primary').value = "";
-        document.getElementById('pay-secondary').value = "";
-        onPaymentModeChange('clear');
-        calcBill();
     }
 
     // Mutually Exclusive Payment Channels (Primary vs Secondary)
@@ -967,9 +982,11 @@
         });
 
         const roundGrandTotal = Math.round(rawGrandTotal);
+        const roundOffVal = roundGrandTotal - rawGrandTotal;
 
         document.getElementById('bill-taxable').innerText = "₹ " + Math.round(totalTaxable).toLocaleString('en-IN');
         document.getElementById('bill-gst').innerText = "₹ " + Math.round(totalGstAmt).toLocaleString('en-IN');
+        document.getElementById('bill-roundoff').innerText = "₹ " + (roundOffVal >= 0 ? "+" : "") + roundOffVal.toFixed(2);
         document.getElementById('bill-grand-total').innerText = "₹ " + roundGrandTotal.toLocaleString('en-IN');
 
         const payInput = document.getElementById('bill-paid');
@@ -995,7 +1012,7 @@
         
         const due = Math.max(0, roundGrandTotal - rawPaid);
         document.getElementById('bill-due').innerText = "₹ " + due.toLocaleString('en-IN');
-        return { totalTaxable, totalGstAmt, roundGrandTotal, rawPaid, due };
+        return { totalTaxable, totalGstAmt, roundGrandTotal, rawPaid, due, roundOffVal };
     }
 
     function saveFinalBill() {
@@ -1036,7 +1053,7 @@
                 if (currentMode === "SALE" && prod && prod.stock < qty) {
                     stockError = `Insufficient stock for ${name} (In stock: ${prod.stock})`;
                 }
-                if (prod) {
+                if (prod && !stockError) {
                     if (currentMode === "SALE") prod.stock -= qty;
                     if (currentMode === "PURCHASE") prod.stock += qty;
                 }
@@ -1057,6 +1074,7 @@
             items: items,
             taxable: Math.round(totals.totalTaxable),
             gst: Math.round(totals.totalGstAmt),
+            roundOff: totals.roundOffVal.toFixed(2),
             total: totals.roundGrandTotal,
             paid: totals.rawPaid,
             due: totals.due,
@@ -1077,7 +1095,7 @@
             Storage.set('sre_parties', partiesDB);
         }
 
-        showPopup("Recorded", `Invoice ${billRecord.invNo} posted successfully.`);
+        showToast("Recorded", `Invoice ${billRecord.invNo} posted successfully.`);
         generateInvoiceHTML(billRecord);
     }
 
@@ -1129,6 +1147,7 @@
 
     function downloadPDF() {
         const { jsPDF } = window.jspdf; const doc = new jsPDF("p", "mm", "a4");
+        const isPur = document.getElementById('inv-type-title').innerText === "PURCHASE VOUCHER";
         const themeColor = [15, 23, 42]; 
         doc.setDrawColor(...themeColor); doc.setLineWidth(0.8); doc.rect(10, 10, 190, 277);
         doc.setFont("helvetica", "bold"); doc.setFontSize(20); doc.setTextColor(...themeColor); doc.text("SRI RAM ENTERPRISES", 105, 22, null, null, "center");
@@ -1199,7 +1218,7 @@
             const amt = Number(b.total) || 0; const paid = Number(b.paid) || 0;
             if (isCust) { if (amt > 0) drStr = amt.toLocaleString("en-IN"); if (paid > 0) crStr = paid.toLocaleString("en-IN"); } 
             else { if (paid > 0) drStr = paid.toLocaleString("en-IN"); if (amt > 0) crStr = amt.toLocaleString("en-IN"); }
-            return `<tr><td>${b.date}</td><td class="font-mono font-bold">${b.invNo}</td><td class="text-center"><span class="px-2 py-0.5 rounded text-[8px] font-black ${b.type==='SALE'?'bg-blue-50 text-blue-700':'bg-rose-50 text-rose-700'}">${b.type}</span></td><td class="font-black text-slate-800 uppercase">${b.party}</td><td class="text-right font-black text-blue-700">${drStr}</td><td class="text-right font-black text-emerald-700">${crStr}</td><td class="text-right font-black text-slate-900">${b._runBal.toLocaleString("en-IN")} ${isCust?'Dr':'Cr'}</td><td class="text-center"><button onclick="generateInvoiceHTML(billsDB.find(x=>x.id==='${b.id}'))" class="bg-slate-100 text-slate-700 px-2 py-1 rounded text-[8px] font-bold">VIEW</button></td></tr>`;
+            return `<tr><td>${b.date}</td><td class="font-mono font-bold">${b.invNo}</td><td class="text-center"><span class="px-2 py-0.5 rounded text-[8px] font-black ${b.type==='SALE'?'bg-blue-50 text-blue-700':'bg-rose-50 text-rose-700'}">${b.type}</span></td><td class="font-black text-slate-800 uppercase">${b.party}</td><td class="text-right font-black text-blue-700">${drStr}</td><td class="text-right font-black text-emerald-700">${crStr}</td><td class="text-right font-black text-slate-900">${b._runBal.toLocaleString("en-IN")} ${isCust?'Dr':'Cr'}</td><td class="text-center space-x-1 whitespace-nowrap"><button onclick="generateInvoiceHTML(billsDB.find(x=>x.id==='${b.id}'))" class="bg-slate-100 text-slate-700 px-2 py-1 rounded text-[8px] font-bold shadow-sm">VIEW</button><button onclick="deleteBill('${b.id}')" class="bg-rose-50 text-rose-600 px-2 py-1 rounded text-[8px] font-bold shadow-sm">DEL</button></td></tr>`;
         }).join('');
         
         if(document.getElementById("ledger-ob")) document.getElementById("ledger-ob").innerText = "₹ " + openingBal.toLocaleString("en-IN");
@@ -1208,10 +1227,29 @@
         if(document.getElementById("ledger-bal")) document.getElementById("ledger-bal").innerText = "₹ " + runBal.toLocaleString("en-IN");
     }
 
+    function deleteBill(id) {
+        if(!confirm("Are you sure you want to permanently delete this transaction? Ledger balances will be adjusted automatically.")) return;
+        const bill = billsDB.find(b => b.id === id);
+        if(bill && bill.due > 0) {
+            let pData = partiesDB.find(p => p.name === bill.party);
+            if(pData) {
+                if(bill.type === "SALE") pData.ob -= bill.due; 
+                if(bill.type === "PURCHASE") pData.ob += bill.due;
+                Storage.set('sre_parties', partiesDB);
+            }
+        }
+        billsDB = billsDB.filter(b => b.id !== id);
+        Storage.set('sre_bills', billsDB);
+        updateLedgerView();
+        showToast("Deleted", "Transaction removed successfully.", "success");
+    }
+
     function renderDashboard() {
         let saleAmt = 0; let purAmt = 0; billsDB.forEach(b => { if(b.type === "SALE") saleAmt += b.total; if(b.type === "PURCHASE") purAmt += b.total; });
         document.getElementById('dash-sale').innerText = "₹ " + saleAmt.toLocaleString('en-IN'); 
         document.getElementById('dash-pur').innerText = "₹ " + purAmt.toLocaleString('en-IN');
+        document.getElementById('dash-prod-count').innerText = productsDB.length;
+        document.getElementById('dash-party-count').innerText = partiesDB.length;
         const ctx = document.getElementById('businessChart');
         if (ctx) { 
             if (window.bizChart) window.bizChart.destroy(); 
