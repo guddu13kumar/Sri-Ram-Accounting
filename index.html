@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <!-- PERFECT RESPONSIVE META TAG FOR MOBILE & IPAD -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>Sri Ram Enterprises - Enterprise ERP</title>
   <meta name="theme-color" content="#0f172a" />
   
@@ -10,24 +11,26 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  
+  <!-- RELATIVE PATH FOR GITHUB PAGES -->
   <link rel="manifest" href="./manifest.json">
   
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
     
-    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f1f5f9; color: #1e293b; overflow: hidden; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f1f5f9; color: #1e293b; overflow: hidden; height: 100dvh; }
     
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     
     .glass-panel { background: rgba(255, 255, 255, 0.98); border: 1px solid rgba(226, 232, 240, 0.8); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03); }
-    .premium-input { height: 44px !important; font-size: 13px !important; padding-left: 14px; padding-right: 14px; border-radius: 10px; border: 1px solid #cbd5e1; width: 100%; outline: none; transition: all 0.2s ease; font-weight: 700; color: #0f172a; background-color: #f8fafc; }
+    .premium-input { height: 42px !important; font-size: 13px !important; padding-left: 14px; padding-right: 14px; border-radius: 8px; border: 1px solid #cbd5e1; width: 100%; outline: none; transition: all 0.2s ease; font-weight: 700; color: #0f172a; background-color: #f8fafc; }
     .premium-input:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.15); background-color: #ffffff; }
     
-    th { text-transform: uppercase; font-size: 10px; letter-spacing: 0.05em; color: #475569; font-weight: 800; padding: 14px; background-color: #f8fafc; border-bottom: 2px solid #e2e8f0; }
-    td { padding: 14px; font-size: 12px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; font-weight: 600; }
+    th { text-transform: uppercase; font-size: 10px; letter-spacing: 0.05em; color: #475569; font-weight: 800; padding: 12px; background-color: #f8fafc; border-bottom: 2px solid #e2e8f0; }
+    td { padding: 12px; font-size: 12px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; font-weight: 600; }
     tr:hover td { background-color: #f8fafc; transition: 0.15s; }
     
     @keyframes popIn { 0% { transform: scale(0.9); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
@@ -37,24 +40,28 @@
     input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
     input[type="number"] { -moz-appearance: textfield; }
     
+    /* GITHUB OPTIMIZED PRINT CSS */
     @media print {
+        @page { size: auto; margin: 0mm; }
         body * { visibility: hidden; }
         #print-container, #print-container * { visibility: visible; }
-        #print-container { position: absolute; left: 0; top: 0; width: 100% !important; margin: 0 !important; }
+        #print-container { position: absolute; left: 0; top: 0; width: 100% !important; margin: 0 !important; background: white; }
         .no-print { display: none !important; }
+        .thermal-mode { width: 80mm !important; padding: 10px !important; box-shadow: none !important; border: none !important; }
+        .thermal-mode th, .thermal-mode td { font-size: 9px !important; padding: 4px !important; }
     }
   </style>
 </head>
-<body class="h-screen flex flex-col overflow-hidden text-xs">
+<body class="flex flex-col overflow-hidden text-xs">
 
   <datalist id="item-list"></datalist>
   <datalist id="party-list"></datalist>
 
-  <!-- 100% CENTERED POPUPS -->
   <div id="toast-container" class="fixed top-5 right-5 z-[150] flex flex-col gap-3 pointer-events-none"></div>
 
-  <div id="center-popup" class="fixed inset-0 bg-slate-900/60 z-[120] hidden flex items-center justify-center backdrop-blur-sm">
-    <div class="bg-white p-8 rounded-3xl shadow-2xl text-center max-w-sm w-full mx-4 border border-slate-100 modal-animate">
+  <!-- CENTER POPUP -->
+  <div id="center-popup" class="fixed inset-0 bg-slate-900/60 z-[120] hidden flex items-center justify-center backdrop-blur-sm px-4">
+    <div class="bg-white p-8 rounded-3xl shadow-2xl text-center max-w-sm w-full border border-slate-100 modal-animate">
       <div id="popup-icon" class="text-6xl mb-4 drop-shadow">✅</div>
       <h3 id="popup-title" class="text-xl font-black text-[#004aad] uppercase tracking-wider">Message</h3>
       <p id="popup-message" class="text-sm font-bold text-slate-500 mt-2 mb-6">Operation successful.</p>
@@ -62,208 +69,231 @@
     </div>
   </div>
 
-  <!-- HEADER -->
-  <header class="bg-[#0f172a] text-white flex justify-between items-center px-6 py-3 z-30 shadow-md relative shrink-0">
+  <!-- PREMIUM HEADER -->
+  <header class="bg-[#0f172a] text-white flex justify-between items-center px-4 sm:px-6 py-3 z-30 shadow-md relative shrink-0">
     <div class="flex items-center space-x-3 cursor-pointer" onclick="showView('dashboard')">
-      <div class="w-10 h-10 bg-gradient-to-tr from-blue-500 to-blue-300 text-white rounded-lg flex items-center justify-center font-black italic shadow text-sm border border-white/20">SRE</div>
+      <div class="w-9 h-9 sm:w-10 sm:h-10 bg-gradient-to-tr from-blue-500 to-blue-300 text-white rounded-lg flex items-center justify-center font-black italic shadow text-sm border border-white/20">SRE</div>
       <div>
-        <h1 class="text-sm font-black tracking-wider uppercase">Sri Ram Enterprises</h1>
-        <p class="text-[9px] text-blue-300 font-bold uppercase tracking-widest flex items-center gap-2">Enterprise POS <span class="bg-blue-600/50 px-1.5 py-0.5 rounded text-[8px] text-white ml-1">F2: SALE | F3: PUR | F4: PAY</span></p>
+        <h1 class="text-xs sm:text-sm font-black tracking-wider uppercase">Sri Ram Enterprises</h1>
+        <p class="text-[8px] sm:text-[9px] text-blue-300 font-bold uppercase tracking-widest flex items-center gap-2">Enterprise POS <span class="bg-blue-600/50 px-1.5 py-0.5 rounded text-[7px] text-white ml-1 hidden sm:inline-block">F2: SALE | F3: PUR | F4: PAY</span></p>
       </div>
     </div>
     <div class="flex items-center space-x-4 border-l border-slate-700 pl-4">
-       <button onclick="showView('settings')" class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-slate-800 transition-all text-lg" title="Settings">⚙️</button>
+       <button onclick="showView('settings')" class="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-lg hover:bg-slate-800 transition-all text-lg" title="Settings">
+           <svg class="w-5 h-5 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+       </button>
        <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center font-bold text-sm shadow-inner hidden sm:flex">A</div>
     </div>
   </header>
 
   <div class="flex flex-1 overflow-hidden h-full">
-      <!-- SIDEBAR -->
-      <aside class="hidden lg:flex flex-col w-[220px] bg-slate-900 text-slate-400 h-full overflow-y-auto z-20 shadow-2xl border-r border-slate-800 pb-16">
+      <!-- SIDEBAR (ENTERPRISE SVG ICONS) -->
+      <aside class="hidden lg:flex flex-col w-[230px] bg-slate-900 text-slate-400 h-full overflow-y-auto z-20 shadow-2xl border-r border-slate-800 pb-16">
         <div class="flex-1 px-4 py-6 space-y-1.5 font-black uppercase tracking-wider text-[10px]">
           <p class="px-3 text-[9px] text-slate-500 mb-2">Main Menu</p>
-          <button onclick="showView('dashboard')" class="nav-btn w-full flex items-center space-x-3 bg-blue-600 text-white px-4 py-3.5 rounded-xl transition-all shadow-md"><span class="text-base">🏠</span><span>Dashboard</span></button>
-          <button onclick="showView('product')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl hover:bg-slate-800 transition-all hover:text-white"><span class="text-base">📦</span><span>Product Master</span></button>
+          <button onclick="showView('dashboard')" class="nav-btn w-full flex items-center space-x-3 bg-blue-600 text-white px-4 py-3 rounded-xl transition-all shadow-md">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+              <span>Dashboard</span>
+          </button>
+          <button onclick="showView('product')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-all hover:text-white">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+              <span>Inventory Master</span>
+          </button>
           
           <p class="px-3 text-[9px] text-slate-500 mb-2 mt-5 pt-4 border-t border-slate-800">Invoicing & Trans.</p>
-          <button onclick="startBill('SALE')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl hover:bg-slate-800 transition-all hover:text-white"><span class="text-base text-blue-400">📈</span><span>Sale Invoice <span class="text-[7px] text-slate-500 ml-1">(F2)</span></span></button>
-          <button onclick="startBill('PURCHASE')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl hover:bg-slate-800 transition-all hover:text-white"><span class="text-base text-emerald-400">🛒</span><span>Purchase Entry <span class="text-[7px] text-slate-500 ml-1">(F3)</span></span></button>
-          <button onclick="startPayment('IN')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl hover:bg-slate-800 transition-all hover:text-white"><span class="text-base text-teal-400">💳</span><span>Voucher In/Out <span class="text-[7px] text-slate-500 ml-1">(F4)</span></span></button>
+          <button onclick="startBill('SALE')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-all hover:text-white">
+              <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+              <span>Sales Invoice</span>
+          </button>
+          <button onclick="startBill('PURCHASE')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-all hover:text-white">
+              <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+              <span>Purchase Entry</span>
+          </button>
+          <button onclick="startPayment('IN')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-all hover:text-white">
+              <svg class="w-4 h-4 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+              <span>Payment In/Out</span>
+          </button>
           
           <p class="px-3 text-[9px] text-slate-500 mb-2 mt-5 pt-4 border-t border-slate-800">Accounting</p>
-          <button onclick="showView('party')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl hover:bg-slate-800 transition-all hover:text-white"><span class="text-base text-purple-400">👥</span><span>Manage Parties</span></button>
-          <button onclick="showView('ledger')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3.5 rounded-xl hover:bg-slate-800 transition-all hover:text-white"><span class="text-base text-amber-400">📒</span><span>Financial Ledger</span></button>
+          <button onclick="showView('party')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-all hover:text-white">
+              <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+              <span>Party Ledger</span>
+          </button>
+          <button onclick="showView('ledger')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-slate-800 transition-all hover:text-white">
+              <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+              <span>Financial Ledger</span>
+          </button>
         </div>
       </aside>
 
-      <!-- MAIN CONTAINER -->
-      <main class="flex-1 overflow-y-auto relative w-full h-full pb-28 p-4 sm:p-6 lg:p-8">
+      <!-- MAIN CONTENT -->
+      <main class="flex-1 overflow-y-auto relative w-full h-full pb-20 sm:pb-5 p-3 sm:p-5">
 
-        <!-- DASHBOARD VIEW WITH PROFIT ENGINE -->
-        <div id="view-dashboard" class="view-section space-y-6 max-w-7xl mx-auto">
-            <h2 class="text-xl font-black text-[#0f172a] uppercase tracking-widest">Business Overview</h2>
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                <div class="glass-panel p-5 rounded-3xl flex flex-col justify-between border-l-4 border-l-blue-500 shadow-sm">
-                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Total Sales</p><h3 class="text-2xl font-black text-slate-800 mt-1" id="dash-sale">₹ 0</h3>
+        <!-- 1. DASHBOARD VIEW -->
+        <div id="view-dashboard" class="view-section space-y-4 max-w-7xl mx-auto w-full h-full pb-10">
+            <h2 class="text-lg font-black text-[#0f172a] uppercase tracking-widest">Business Overview</h2>
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                <div class="glass-panel p-5 rounded-2xl flex flex-col justify-between border-l-4 border-l-blue-500 shadow-sm">
+                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Gross Sales</p><h3 class="text-xl sm:text-2xl font-black text-slate-800 mt-1" id="dash-sale">₹ 0</h3>
                 </div>
-                <!-- GROSS PROFIT CARD -->
-                <div class="glass-panel p-5 rounded-3xl flex flex-col justify-between border-l-4 border-l-emerald-500 shadow-sm bg-emerald-50/30">
-                    <p class="text-[10px] text-emerald-600 font-bold uppercase tracking-widest">Gross Profit</p><h3 class="text-2xl font-black text-emerald-700 mt-1" id="dash-profit">₹ 0</h3>
+                <div class="glass-panel p-5 rounded-2xl flex flex-col justify-between border-l-4 border-l-emerald-500 shadow-sm bg-emerald-50/20">
+                    <p class="text-[10px] text-emerald-600 font-bold uppercase tracking-widest">Net Profit</p><h3 class="text-xl sm:text-2xl font-black text-emerald-700 mt-1" id="dash-profit">₹ 0</h3>
                 </div>
-                <div class="glass-panel p-5 rounded-3xl flex flex-col justify-between border-l-4 border-l-amber-500 shadow-sm">
-                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Items In Stock</p><h3 class="text-2xl font-black text-slate-800 mt-1" id="dash-prod-count">0</h3>
+                <div class="glass-panel p-5 rounded-2xl flex flex-col justify-between border-l-4 border-l-amber-500 shadow-sm">
+                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">SKUs in Stock</p><h3 class="text-xl sm:text-2xl font-black text-slate-800 mt-1" id="dash-prod-count">0</h3>
                 </div>
-                <div class="glass-panel p-5 rounded-3xl flex flex-col justify-between border-l-4 border-l-purple-500 shadow-sm">
-                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Active Accounts</p><h3 class="text-2xl font-black text-slate-800 mt-1" id="dash-party-count">0</h3>
+                <div class="glass-panel p-5 rounded-2xl flex flex-col justify-between border-l-4 border-l-purple-500 shadow-sm">
+                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Ledger Accounts</p><h3 class="text-xl sm:text-2xl font-black text-slate-800 mt-1" id="dash-party-count">0</h3>
                 </div>
             </div>
             
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
-               <div class="lg:col-span-2 glass-panel rounded-3xl p-6 shadow-sm">
-                 <h3 class="font-black text-xs uppercase tracking-widest text-slate-800 mb-4">Sales Analytics</h3>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mt-4 sm:mt-6">
+               <div class="lg:col-span-2 glass-panel rounded-2xl p-5 shadow-sm">
+                 <h3 class="font-black text-[11px] uppercase tracking-widest text-slate-800 mb-4">Cashflow Analytics</h3>
                  <div class="h-[250px] w-full"><canvas id="businessChart"></canvas></div>
                </div>
-               <div class="lg:col-span-1 glass-panel rounded-3xl p-6 flex flex-col shadow-sm">
-                 <h3 class="font-black text-xs uppercase tracking-widest text-slate-800 mb-4">Fast Launch</h3>
+               <div class="lg:col-span-1 glass-panel rounded-2xl p-5 flex flex-col shadow-sm">
+                 <h3 class="font-black text-[11px] uppercase tracking-widest text-slate-800 mb-4">Quick Operations</h3>
                  <div class="grid grid-cols-1 gap-3 flex-1">
-                   <button onclick="startBill('SALE')" class="w-full h-14 bg-blue-50 text-blue-700 rounded-2xl font-black uppercase tracking-widest text-[11px] flex items-center justify-center space-x-3 hover:bg-blue-600 hover:text-white transition-all border border-blue-200 shadow-sm"><span class="text-xl">🛒</span><span>New Sale</span></button>
-                   <button onclick="startBill('PURCHASE')" class="w-full h-14 bg-emerald-50 text-emerald-700 rounded-2xl font-black uppercase tracking-widest text-[11px] flex items-center justify-center space-x-3 hover:bg-emerald-600 hover:text-white transition-all border border-emerald-200 shadow-sm"><span class="text-xl">📦</span><span>New Purchase</span></button>
-                   <button onclick="startPayment('IN')" class="w-full h-14 bg-purple-50 text-purple-700 rounded-2xl font-black uppercase tracking-widest text-[11px] flex items-center justify-center space-x-3 hover:bg-purple-600 hover:text-white transition-all border border-purple-200 shadow-sm"><span class="text-xl">💳</span><span>Voucher In/Out</span></button>
+                   <button onclick="startBill('SALE')" class="w-full h-12 bg-blue-50 text-blue-700 rounded-xl font-black uppercase tracking-widest text-xs flex items-center justify-center space-x-2 border border-blue-200 hover:bg-blue-600 hover:text-white transition-all shadow-sm"><span>🛒</span><span>Sales Invoice</span></button>
+                   <button onclick="startBill('PURCHASE')" class="w-full h-12 bg-emerald-50 text-emerald-700 rounded-xl font-black uppercase tracking-widest text-xs flex items-center justify-center space-x-2 border border-emerald-200 hover:bg-emerald-600 hover:text-white transition-all shadow-sm"><span>📦</span><span>Purchase Entry</span></button>
+                   <button onclick="startPayment('IN')" class="w-full h-12 bg-purple-50 text-purple-700 rounded-xl font-black uppercase tracking-widest text-xs flex items-center justify-center space-x-2 border border-purple-200 hover:bg-purple-600 hover:text-white transition-all shadow-sm"><span>💳</span><span>Voucher Post</span></button>
                  </div>
                </div>
             </div>
         </div>
 
-        <!-- CLOUD SETTINGS -->
-        <div id="view-settings" class="view-section hidden space-y-6 max-w-2xl mx-auto pt-6">
-            <h2 class="text-xl font-black text-slate-800 tracking-widest uppercase text-center mb-4">System Settings & Cloud</h2>
-            <div class="glass-panel p-8 rounded-3xl shadow-xl space-y-5">
+        <!-- 2. CLOUD SETTINGS -->
+        <div id="view-settings" class="view-section hidden space-y-4 max-w-xl mx-auto pt-6">
+            <h2 class="text-xl font-black text-slate-800 tracking-widest uppercase text-center mb-4">ERP Configuration</h2>
+            <div class="glass-panel p-6 sm:p-8 rounded-3xl shadow-xl space-y-5">
                 <div>
-                    <label class="text-xs font-black text-slate-500 block mb-2 uppercase tracking-widest">Google Apps Script URL *</label>
+                    <label class="text-[10px] font-black text-slate-500 block mb-1.5 uppercase tracking-widest">Google Apps Script URL *</label>
                     <input type="text" id="settings-url" class="premium-input text-blue-700 font-mono text-sm" placeholder="https://script.google.com/...">
                 </div>
                 <div>
-                    <label class="text-xs font-black text-slate-500 block mb-2 uppercase tracking-widest">Invoice Prefix (E.g., SRE-26-)</label>
+                    <label class="text-[10px] font-black text-slate-500 block mb-1.5 uppercase tracking-widest">Invoice Prefix Format (e.g. SRE-26-)</label>
                     <input type="text" id="settings-prefix" class="premium-input text-blue-700 font-black text-sm uppercase" placeholder="SRE-26-">
                 </div>
-                <div class="grid grid-cols-2 gap-4 mt-2">
-                    <button onclick="backupData()" class="h-14 bg-emerald-600 text-white font-black rounded-xl text-xs uppercase tracking-widest hover:bg-emerald-700 shadow-lg">☁️ Sync to Cloud</button>
-                    <button onclick="restoreData()" class="h-14 bg-amber-500 text-white font-black rounded-xl text-xs uppercase tracking-widest hover:bg-amber-600 shadow-lg">📥 Fetch from Cloud</button>
+                <div class="grid grid-cols-2 gap-3 mt-4">
+                    <button onclick="backupData()" class="h-12 bg-emerald-600 text-white font-black rounded-xl text-[10px] uppercase tracking-widest hover:bg-emerald-700 shadow-md">☁️ Push to Cloud</button>
+                    <button onclick="restoreData()" class="h-12 bg-amber-500 text-white font-black rounded-xl text-[10px] uppercase tracking-widest hover:bg-amber-600 shadow-md">📥 Pull Database</button>
                 </div>
-                <button onclick="saveSettings()" class="w-full h-12 bg-[#004aad] text-white font-black rounded-xl text-sm uppercase tracking-widest hover:bg-blue-800 mt-2 shadow">Save Configuration</button>
+                <button onclick="saveSettings()" class="w-full h-12 bg-[#004aad] text-white font-black rounded-xl text-[11px] uppercase tracking-widest hover:bg-blue-800 mt-2 shadow-md">Save Global Settings</button>
                 
                 <div class="pt-6 mt-6 border-t border-slate-200 text-center">
-                    <p class="text-xs font-black text-slate-500 uppercase tracking-widest mb-3">Local Offline Backup</p>
-                    <button onclick="downloadLocalBackup()" class="w-full h-12 bg-slate-800 text-white font-black rounded-xl text-xs uppercase tracking-widest hover:bg-black shadow">💾 Download Full Database (.json)</button>
+                    <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">Offline Disaster Recovery</p>
+                    <button onclick="downloadLocalBackup()" class="w-full h-12 bg-slate-800 text-white font-black rounded-xl text-[10px] uppercase tracking-widest hover:bg-black shadow-md">💾 Export Full Local Backup (.JSON)</button>
                 </div>
             </div>
         </div>
 
-        <!-- PRODUCT MASTER VIEW -->
-        <div id="view-product" class="view-section hidden space-y-6 max-w-screen-2xl mx-auto">
-            <div class="flex justify-between items-center pb-2">
-                <h2 class="text-2xl font-black text-slate-800 uppercase tracking-widest">Inventory Master</h2>
-                <div class="flex space-x-3">
-                    <button onclick="document.getElementById('add-product-form').scrollIntoView({behavior:'smooth'})" class="px-6 h-12 bg-blue-600 text-white font-black text-xs uppercase tracking-widest rounded-xl shadow-lg hover:-translate-y-0.5 transition-all">➕ Add Product</button>
+        <!-- 3. PRODUCT MASTER -->
+        <div id="view-product" class="view-section hidden space-y-4 max-w-screen-2xl mx-auto w-full pb-10">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 pb-2">
+                <div><h2 class="text-xl sm:text-2xl font-black text-slate-800 uppercase tracking-widest">Inventory Master</h2><p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mt-1">Manage Products & Pricing</p></div>
+                <div class="flex flex-wrap gap-2 w-full sm:w-auto">
+                    <input type="file" id="csv-upload" accept=".csv" class="hidden" onchange="importProductsCSV(event)" />
+                    <button onclick="document.getElementById('csv-upload').click()" class="flex-1 sm:flex-none px-4 h-10 bg-emerald-50 border border-emerald-200 text-emerald-700 font-black text-[9px] sm:text-[10px] uppercase tracking-widest rounded-lg hover:bg-emerald-100 transition-all">Import CSV</button>
+                    <button onclick="exportProductsCSV()" class="flex-1 sm:flex-none px-4 h-10 bg-slate-100 border border-slate-200 text-slate-700 font-black text-[9px] sm:text-[10px] uppercase tracking-widest rounded-lg hover:bg-slate-200 transition-all">Export CSV</button>
+                    <button onclick="document.getElementById('add-product-form').scrollIntoView({behavior:'smooth'})" class="w-full sm:w-auto px-6 h-10 bg-blue-600 text-white font-black text-[10px] sm:text-xs uppercase tracking-widest rounded-lg shadow-lg hover:-translate-y-0.5 transition-all mt-2 sm:mt-0">➕ Add Item</button>
                 </div>
             </div>
 
-            <div class="glass-panel rounded-3xl overflow-hidden flex flex-col shadow-sm">
-                <div class="p-4 border-b border-slate-100 bg-white flex flex-wrap gap-4 items-center">
-                    <div class="relative flex-1 min-w-[250px]"><input type="text" id="prod-search" oninput="debouncedRenderProducts()" placeholder="Search Item, Brand, SKU or IMEI..." class="premium-input pl-4 text-sm" /></div>
-                    <select id="filter-category" onchange="renderProducts()" class="cat-select premium-input sm:w-auto min-w-[200px]"></select>
+            <div class="glass-panel rounded-2xl overflow-hidden flex flex-col shadow-sm">
+                <div class="p-3 border-b border-slate-100 bg-white flex flex-col sm:flex-row gap-3 items-center">
+                    <div class="w-full sm:flex-1"><input type="text" id="prod-search" oninput="debouncedRenderProducts()" placeholder="🔍 Search Item, Brand, SKU or IMEI..." class="premium-input text-sm w-full" /></div>
+                    <select id="filter-category" onchange="renderProducts()" class="cat-select premium-input w-full sm:w-auto min-w-[200px]"></select>
                 </div>
-                <div class="overflow-x-auto w-full max-h-[400px]">
-                    <table class="w-full text-left">
+                <div class="overflow-x-auto w-full max-h-[40vh] sm:max-h-[500px]">
+                    <table class="w-full text-left min-w-[800px]">
                         <thead class="bg-slate-50 sticky top-0 z-10 shadow-sm">
-                            <tr><th class="text-center w-16">Img</th><th>Product Details</th><th>SKU / HSN</th><th class="text-right">Pur. Rate</th><th class="text-right text-[#004aad]">Sale Price</th><th class="text-center">Stock</th><th class="text-center">Action</th></tr>
+                            <tr><th class="text-center w-12 sm:w-16">Img</th><th>Product Details</th><th>SKU / HSN</th><th class="text-right">Pur. Rate</th><th class="text-right text-[#004aad]">Sale Price</th><th class="text-center">Stock</th><th class="text-center">Action</th></tr>
                         </thead>
                         <tbody id="product-table-body" class="font-bold text-slate-700 divide-y divide-slate-100"></tbody>
                     </table>
                 </div>
             </div>
 
-            <div id="add-product-form" class="glass-panel p-8 rounded-3xl shadow-sm mt-6">
-                <h3 class="font-black text-lg text-slate-800 uppercase tracking-widest mb-6 border-b border-slate-100 pb-4">✏️ Product Setup</h3>
+            <div id="add-product-form" class="glass-panel p-5 sm:p-8 rounded-3xl shadow-sm mt-6">
+                <h3 class="font-black text-sm sm:text-lg text-slate-800 uppercase tracking-widest mb-4 sm:mb-6 border-b border-slate-100 pb-3 sm:pb-4">✏️ Product Setup</h3>
                 <input type="hidden" id="p-id" value="">
-                <div class="flex flex-col lg:flex-row gap-8">
+                <div class="flex flex-col lg:flex-row gap-6 sm:gap-8">
                     <div class="w-full lg:w-1/4 flex flex-col items-center">
                         <label class="font-black text-[10px] uppercase tracking-widest text-slate-500 w-full mb-2">Product Image</label>
                         <input type="file" id="p-image-upload" accept="image/*" class="hidden" onchange="handleProductImage(event)" />
                         <canvas id="img-canvas" class="hidden"></canvas>
-                        <div class="w-full h-[220px] bg-slate-50 border-2 border-dashed border-slate-300 rounded-2xl flex flex-col items-center justify-center relative overflow-hidden cursor-pointer hover:border-blue-400" onclick="document.getElementById('p-image-upload').click()">
-                            <div id="p-img-placeholder" class="flex flex-col items-center"><span class="text-5xl mb-2">📸</span><span class="text-[10px] font-black text-blue-600 bg-blue-50 px-4 py-2 rounded-lg uppercase tracking-widest">Upload Photo</span></div>
+                        <div class="w-full h-[180px] sm:h-[220px] bg-slate-50 border-2 border-dashed border-slate-300 rounded-2xl flex flex-col items-center justify-center relative overflow-hidden cursor-pointer hover:border-blue-400" onclick="document.getElementById('p-image-upload').click()">
+                            <div id="p-img-placeholder" class="flex flex-col items-center"><span class="text-4xl sm:text-5xl mb-2">📸</span><span class="text-[9px] font-black text-blue-600 bg-blue-50 px-3 py-1.5 rounded-lg uppercase tracking-widest">Upload Photo</span></div>
                             <img id="p-img-preview" class="hidden absolute inset-0 w-full h-full object-cover z-10" />
                         </div>
-                        <button type="button" onclick="clearProductImage()" class="mt-4 text-[10px] font-black text-rose-500 uppercase tracking-widest hover:bg-rose-50 px-4 py-2 rounded-lg transition-colors">Remove Image</button>
+                        <button type="button" onclick="clearProductImage()" class="mt-3 text-[9px] font-black text-rose-500 uppercase tracking-widest hover:bg-rose-50 px-4 py-2 rounded-lg transition-colors">Remove Image</button>
                     </div>
 
-                    <div class="w-full lg:w-3/4 space-y-5">
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                    <div class="w-full lg:w-3/4 space-y-4 sm:space-y-5">
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
                             <div class="sm:col-span-2"><label class="font-black text-[10px] uppercase tracking-widest text-slate-500 block mb-1.5">Product Name *</label><input type="text" id="p-name" class="premium-input uppercase text-blue-700 text-sm"></div>
                             <div><label class="font-black text-[10px] uppercase tracking-widest text-slate-500 block mb-1.5">Brand</label><input type="text" id="p-brand" class="premium-input uppercase" list="brand-list"></div>
                             <datalist id="brand-list"></datalist>
                         </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
                             <div><label class="font-black text-[10px] uppercase tracking-widest text-slate-500 block mb-1.5">Category *</label><select id="p-category" onchange="handleCategoryChange(this)" class="cat-select premium-input"></select></div>
                             <div><label class="font-black text-[10px] uppercase tracking-widest text-slate-500 block mb-1.5">Variant / Color</label><input type="text" id="p-variant" class="premium-input uppercase"></div>
                             <div><label class="font-black text-[10px] uppercase tracking-widest text-slate-500 block mb-1.5">SKU / Barcode</label><input type="text" id="p-sku" class="premium-input font-mono uppercase text-slate-600" placeholder="Auto"></div>
                         </div>
-                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-5 p-5 bg-white shadow-sm rounded-2xl border border-slate-100">
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-5 p-4 sm:p-5 bg-white shadow-sm rounded-2xl border border-slate-100">
                             <div><label class="font-black text-[10px] uppercase tracking-widest text-slate-500 block mb-1.5">MRP (₹)</label><input type="number" id="p-mrp" class="premium-input" placeholder="0"></div>
                             <div><label class="font-black text-[10px] uppercase tracking-widest text-slate-500 block mb-1.5">Pur. Price (₹)</label><input type="number" id="p-pur" class="premium-input text-rose-600" placeholder="0"></div>
-                            <div><label class="font-black text-[10px] uppercase tracking-widest text-blue-600 block mb-1.5">Sale Price (₹) *</label><input type="number" id="p-sale" class="premium-input border-blue-400 text-blue-700 bg-blue-50/30 text-lg h-[50px]!important" placeholder="0"></div>
+                            <div><label class="font-black text-[10px] uppercase tracking-widest text-blue-600 block mb-1.5">Sale Price (₹) *</label><input type="number" id="p-sale" class="premium-input border-blue-400 text-blue-700 bg-blue-50/30 text-lg h-[48px]!important" placeholder="0"></div>
                             <div><label class="font-black text-[10px] uppercase tracking-widest text-slate-500 block mb-1.5">GST %</label><select id="p-gst" class="premium-input"><option value="0">0%</option><option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option></select></div>
                         </div>
-                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-5 items-end">
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-5 items-end">
                             <div><label class="font-black text-[10px] uppercase tracking-widest text-slate-500 block mb-1.5">Opening Stock</label><input type="number" id="p-stock" oninput="generateImeiBoxes()" class="premium-input font-black text-xl text-center text-blue-600" placeholder="0"></div>
-                            <div class="flex items-center h-[46px] col-span-2">
+                            <div class="flex items-center h-[44px] col-span-2">
                                 <label class="flex items-center space-x-3 bg-white border border-slate-300 rounded-xl px-4 h-full w-full cursor-pointer hover:border-blue-500 transition-all shadow-sm">
-                                    <input type="checkbox" id="p-track" checked onchange="generateImeiBoxes()" class="w-5 h-5 text-blue-600 rounded">
-                                    <span class="font-black text-xs uppercase tracking-widest text-slate-700 mt-0.5">Track IMEI / Serial Numbers</span>
+                                    <input type="checkbox" id="p-track" checked onchange="generateImeiBoxes()" class="w-4 h-4 text-blue-600 rounded">
+                                    <span class="font-black text-[10px] uppercase tracking-widest text-slate-700 mt-0.5">Track IMEI / Serial No.</span>
                                 </label>
                             </div>
                         </div>
-                        <div id="p-imei-container" class="hidden mt-4 p-6 bg-blue-50/50 rounded-2xl border border-blue-200">
-                            <h4 class="font-black text-xs uppercase tracking-widest text-blue-700 mb-4">Opening Stock IMEIs</h4>
-                            <div id="p-imei-list" class="grid grid-cols-2 sm:grid-cols-4 gap-4"></div>
+                        <div id="p-imei-container" class="hidden mt-4 p-5 bg-blue-50/50 rounded-2xl border border-blue-200">
+                            <h4 class="font-black text-[10px] uppercase tracking-widest text-blue-700 mb-3">Opening Stock IMEIs</h4>
+                            <div id="p-imei-list" class="grid grid-cols-2 sm:grid-cols-4 gap-3"></div>
                         </div>
                     </div>
                 </div>
-                <div class="flex justify-end space-x-4 mt-8 pt-6 border-t border-slate-100">
-                    <button onclick="clearProductForm()" class="px-8 py-3.5 bg-slate-200 text-slate-600 font-black text-xs uppercase tracking-widest rounded-xl hover:bg-slate-300">Clear</button>
-                    <button onclick="saveProduct()" class="px-10 py-3.5 bg-blue-600 text-white font-black text-sm uppercase tracking-widest rounded-xl shadow-lg hover:bg-blue-700 hover:-translate-y-0.5 transition-all">💾 Save Product</button>
+                <div class="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-4 mt-8 pt-5 border-t border-slate-100">
+                    <button onclick="clearProductForm()" class="w-full sm:w-auto px-8 py-3.5 bg-slate-200 text-slate-600 font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-slate-300">Clear</button>
+                    <button onclick="saveProduct()" class="w-full sm:w-auto px-10 py-3.5 bg-blue-600 text-white font-black text-xs uppercase tracking-widest rounded-xl shadow-lg hover:bg-blue-700 hover:-translate-y-0.5 transition-all">💾 Save Product</button>
                 </div>
             </div>
         </div>
 
-        <!-- PARTY VIEW -->
-        <div id="view-party" class="view-section hidden space-y-6 max-w-screen-2xl mx-auto">
-            <h2 class="text-2xl font-black text-slate-800 uppercase tracking-widest pb-2">Party Directory</h2>
+        <!-- 4. PARTY MASTER -->
+        <div id="view-party" class="view-section hidden space-y-5 max-w-screen-2xl mx-auto w-full pb-10">
+            <h2 class="text-xl sm:text-2xl font-black text-slate-800 uppercase tracking-widest pb-1">Party Directory</h2>
             
-            <div class="glass-panel p-6 sm:p-8 rounded-3xl shadow-sm">
+            <div class="glass-panel p-5 sm:p-8 rounded-3xl shadow-sm">
                 <input type="hidden" id="pt-id" value="">
-                <div class="grid grid-cols-1 sm:grid-cols-4 gap-6 mb-6">
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 sm:gap-6 mb-4 sm:mb-6">
                     <div><label class="font-black text-[10px] uppercase tracking-widest text-slate-500 block mb-2">Party Type</label><select id="pt-type" class="premium-input text-sm"><option value="CUSTOMER">CUSTOMER</option><option value="SUPPLIER">SUPPLIER</option></select></div>
                     <div class="sm:col-span-2"><label class="font-black text-[10px] uppercase tracking-widest text-slate-500 block mb-2">Party Name *</label><input type="text" id="pt-name" class="premium-input uppercase text-blue-700 text-sm"></div>
                     <div><label class="font-black text-[10px] uppercase tracking-widest text-slate-500 block mb-2">Mobile</label><input type="text" id="pt-mobile" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'')" class="premium-input font-mono text-slate-800 text-sm"></div>
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-4 gap-6 mb-8">
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 sm:gap-6 mb-6">
                     <div class="sm:col-span-2"><label class="font-black text-[10px] uppercase tracking-widest text-slate-500 block mb-2">Address</label><input type="text" id="pt-address" class="premium-input uppercase text-sm"></div>
                     <div><label class="font-black text-[10px] uppercase tracking-widest text-slate-500 block mb-2">GSTIN</label><input type="text" id="pt-gstin" class="premium-input uppercase font-mono text-sm" maxlength="15"></div>
                     <div><label class="font-black text-[10px] uppercase tracking-widest text-slate-500 block mb-2">Opening Bal (₹)</label><input type="number" id="pt-ob" class="premium-input font-black text-xl text-rose-600" placeholder="0"></div>
                 </div>
-                <div class="flex justify-end space-x-4 border-t border-slate-100 pt-6">
-                    <button onclick="clearPartyForm()" class="px-8 py-3.5 bg-slate-200 text-slate-600 font-black text-xs uppercase tracking-widest rounded-xl hover:bg-slate-300">Clear</button>
-                    <button onclick="saveParty()" class="bg-blue-600 text-white px-10 py-3.5 rounded-xl font-black uppercase tracking-widest text-sm shadow hover:-translate-y-1 hover:bg-blue-700 transition-all">Save Party</button>
+                <div class="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-4 border-t border-slate-100 pt-5">
+                    <button onclick="clearPartyForm()" class="w-full sm:w-auto px-8 py-3.5 bg-slate-200 text-slate-600 font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-slate-300">Clear</button>
+                    <button onclick="saveParty()" class="w-full sm:w-auto bg-blue-600 text-white px-10 py-3.5 rounded-xl font-black uppercase tracking-widest text-xs shadow hover:-translate-y-1 hover:bg-blue-700 transition-all">Save Party</button>
                 </div>
             </div>
 
-            <div class="glass-panel rounded-3xl overflow-hidden shadow-sm mt-6">
-                <div class="p-5 border-b border-slate-100 bg-white flex items-center">
-                    <div class="relative w-full max-w-md"><span class="absolute left-4 top-3.5 text-lg text-slate-400">🔍</span><input type="text" id="party-search" oninput="debouncedRenderParties()" placeholder="Search Name, Mobile or GSTIN..." class="premium-input pl-12 text-sm" /></div>
-                </div>
-                <div class="overflow-x-auto w-full max-h-[500px]">
+            <div class="glass-panel rounded-3xl overflow-hidden shadow-sm mt-4 sm:mt-6">
+                <div class="p-4 border-b border-slate-100 bg-white"><input type="text" id="party-search" oninput="debouncedRenderParties()" placeholder="🔍 Search Name, Mobile or GSTIN..." class="premium-input max-w-md w-full text-sm" /></div>
+                <div class="overflow-x-auto w-full max-h-[50vh] sm:max-h-[500px]">
                     <table class="w-full text-left min-w-[800px]">
                         <thead class="bg-slate-50 sticky top-0 z-10 shadow-sm"><tr><th>Type</th><th>Party Name</th><th>Contact</th><th>Address / GSTIN</th><th class="text-right">Balance</th><th class="text-center">Action</th></tr></thead>
                         <tbody id="party-table-body" class="font-bold text-slate-700 divide-y divide-slate-100"></tbody>
@@ -272,151 +302,168 @@
             </div>
         </div>
 
-        <!-- 🚀 ADVANCED BILLING (SALE/PURCHASE) COMPACT LAYOUT -->
-        <div id="view-new-bill" class="view-section hidden max-w-screen-2xl mx-auto h-[calc(100vh-100px)] flex flex-col">
-            <div class="flex flex-wrap justify-between items-center border-b border-slate-200 pb-2 mb-4 shrink-0 gap-4">
-                <div class="flex items-center space-x-4">
-                    <h2 id="bill-title" class="text-2xl font-black text-slate-800 uppercase tracking-widest">SALE ENTRY</h2>
-                    <span id="form-entry-type" class="text-xs font-black px-3 py-1 rounded-lg bg-blue-100 text-blue-700 uppercase tracking-widest shadow-sm">SALE</span>
+        <!-- 5. 🚀 ADVANCED ZERO-SCROLL BILLING PAGE 🚀 -->
+        <div id="view-new-bill" class="view-section hidden max-w-screen-2xl mx-auto h-full flex flex-col pb-10">
+            <!-- Header Toggles -->
+            <div class="flex flex-wrap justify-between items-center border-b border-slate-200 pb-2 mb-2 shrink-0 gap-3">
+                <div class="flex items-center space-x-3">
+                    <h2 id="bill-title" class="text-lg sm:text-xl font-black text-slate-800 uppercase tracking-widest">SALE ENTRY</h2>
+                    <span id="form-entry-type" class="text-[9px] font-black px-2 py-0.5 rounded bg-blue-100 text-blue-700 uppercase tracking-widest shadow-sm">SALE</span>
                 </div>
-                <div class="flex items-center bg-white p-1.5 rounded-xl border border-slate-200 shadow-sm">
-                    <label class="text-xs font-black uppercase px-3 text-slate-600 cursor-pointer flex items-center space-x-2"><input type="radio" name="tax_calc_type" value="exclusive" onchange="calcBill()" checked class="w-4 h-4"><span>Exclusive Tax</span></label>
+                <div class="flex items-center bg-white p-1 rounded-lg border border-slate-200 shadow-sm">
+                    <label class="text-[9px] font-black uppercase px-2 text-slate-600 cursor-pointer flex items-center space-x-1.5"><input type="radio" name="tax_calc_type" value="exclusive" onchange="calcBill()" checked class="w-3 h-3"><span>Exclusive Tax</span></label>
                     <span class="text-slate-300">|</span>
-                    <label class="text-xs font-black uppercase px-3 text-slate-600 cursor-pointer flex items-center space-x-2"><input type="radio" name="tax_calc_type" value="inclusive" onchange="calcBill()" class="w-4 h-4"><span>Inclusive (MRP)</span></label>
+                    <label class="text-[9px] font-black uppercase px-2 text-slate-600 cursor-pointer flex items-center space-x-1.5"><input type="radio" name="tax_calc_type" value="inclusive" onchange="calcBill()" class="w-3 h-3"><span>Inclusive (MRP)</span></label>
                 </div>
             </div>
             
-            <div class="flex flex-col xl:flex-row gap-6 items-start flex-1 overflow-hidden">
-                <!-- LEFT COLUMN -->
-                <div class="w-full xl:w-8/12 flex flex-col space-y-4 h-full">
-                    <div class="glass-panel p-5 rounded-3xl grid grid-cols-1 sm:grid-cols-4 gap-4 items-end shrink-0">
+            <div class="flex flex-col lg:flex-row gap-4 items-start flex-1 overflow-hidden h-full">
+                <!-- LEFT COLUMN: Grid & Meta -->
+                <div class="w-full lg:w-8/12 flex flex-col space-y-3 h-full overflow-hidden">
+                    <div class="bg-white p-3 sm:p-4 rounded-2xl border border-slate-200 shadow-sm grid grid-cols-1 sm:grid-cols-4 gap-3 items-end shrink-0">
                         <div class="w-full">
-                            <div class="flex justify-between items-center mb-1.5">
-                                <label class="font-black text-[10px] uppercase text-slate-500 tracking-widest">Party Name * <span class="text-[8px] ml-1 bg-slate-200 text-slate-600 px-1 py-0.5 rounded">ALT+C</span></label>
-                                <span id="party-balance-badge" class="text-[10px] font-black text-slate-400 bg-slate-100 px-2 py-0.5 rounded">Bal: ₹0</span>
+                            <div class="flex justify-between items-center mb-1">
+                                <label class="font-black text-[9px] uppercase text-slate-500 tracking-widest">Party Name * <span class="text-[7px] ml-0.5 bg-slate-100 border border-slate-200 text-slate-600 px-1 py-0.5 rounded">ALT+C</span></label>
+                                <span id="party-balance-badge" class="text-[9px] font-black text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded">Bal: ₹0</span>
                             </div>
                             <div class="relative w-full">
-                                <input type="text" id="bill-party" list="party-list" oninput="onPartySelect(this.value)" onkeydown="handleShortcut(event, currentMode === 'SALE' ? 'CUSTOMER' : 'SUPPLIER')" class="premium-input pr-10 uppercase text-blue-700 font-black text-sm" placeholder="Select Account">
-                                <button onclick="openPartyModal(currentMode === 'SALE' ? 'CUSTOMER' : 'SUPPLIER', document.getElementById('bill-party'))" tabindex="-1" class="absolute right-1 top-1 bottom-1 w-8 bg-blue-100 text-blue-700 rounded-lg font-black text-lg hover:bg-blue-600 hover:text-white transition-all flex items-center justify-center pb-0.5">+</button>
+                                <input type="text" id="bill-party" list="party-list" oninput="onPartySelect(this.value)" onkeydown="handleShortcut(event, currentMode === 'SALE' ? 'CUSTOMER' : 'SUPPLIER')" class="premium-input pr-8 uppercase text-blue-700 font-black text-sm" placeholder="Select Account">
+                                <button onclick="openPartyModal(currentMode === 'SALE' ? 'CUSTOMER' : 'SUPPLIER', document.getElementById('bill-party'))" tabindex="-1" class="absolute right-1 top-1 bottom-1 w-7 bg-blue-100 text-blue-700 rounded-md font-black text-base hover:bg-blue-600 hover:text-white transition-all flex items-center justify-center pb-0.5">+</button>
                             </div>
                         </div>
-                        <div class="w-full"><label class="font-black text-[10px] uppercase text-slate-500 tracking-widest mb-1.5 block">Mobile</label><input type="tel" id="bill-mobile" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'')" class="premium-input font-mono text-slate-700 text-sm" placeholder="10 Digits"></div>
-                        <div class="w-full"><label class="font-black text-[10px] uppercase text-slate-500 tracking-widest mb-1.5 block">Date *</label><input type="date" id="bill-date" class="premium-input font-mono text-slate-700 text-sm"></div>
-                        <div class="w-full"><label class="font-black text-[10px] uppercase text-slate-500 tracking-widest mb-1.5 block">Invoice Ref *</label><input type="text" id="bill-inv" class="premium-input font-mono text-blue-600 uppercase text-sm" placeholder="Auto"></div>
+                        <div class="w-full"><label class="font-black text-[9px] uppercase text-slate-500 tracking-widest mb-1 block">Mobile</label><input type="tel" id="bill-mobile" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'')" class="premium-input font-mono text-slate-700 text-xs" placeholder="10 Digits"></div>
+                        <div class="w-full"><label class="font-black text-[9px] uppercase text-slate-500 tracking-widest mb-1 block">Date *</label><input type="date" id="bill-date" class="premium-input font-mono text-slate-700 text-xs"></div>
+                        <div class="w-full"><label class="font-black text-[9px] uppercase text-slate-500 tracking-widest mb-1 block">Invoice Ref *</label><input type="text" id="bill-inv" class="premium-input font-mono text-blue-600 uppercase text-xs" placeholder="Auto"></div>
                     </div>
 
-                    <div class="glass-panel p-5 rounded-3xl flex-1 flex flex-col overflow-hidden w-full shadow-sm">
-                        <div class="grid grid-cols-12 gap-2 mb-2 font-black text-[10px] uppercase text-slate-400 tracking-widest border-b border-slate-200 pb-3 px-2 min-w-[700px] shrink-0">
-                            <div class="col-span-4 pl-1">Product <span class="text-[8px] bg-slate-200 px-1 py-0.5 rounded ml-1 text-slate-600">ALT+C</span></div>
+                    <div class="bg-white p-3 sm:p-4 rounded-2xl border border-slate-200 shadow-sm flex-1 flex flex-col overflow-hidden w-full">
+                        <div class="grid grid-cols-12 gap-1.5 mb-2 font-black text-[9px] uppercase text-slate-400 tracking-widest border-b border-slate-200 pb-2 px-1 min-w-[700px] shrink-0">
+                            <div class="col-span-4 pl-1">Product <span class="text-[7px] bg-slate-100 border border-slate-200 px-1 py-0.5 rounded ml-0.5 text-slate-600">ALT+C</span></div>
                             <div class="col-span-2 text-right">Rate</div><div class="col-span-1 text-center">GST</div><div class="col-span-1 text-center">Qty</div><div class="col-span-3">IMEI / Serial</div><div class="col-span-1 text-right pr-2">Amt</div>
                         </div>
-                        <div class="overflow-y-auto overflow-x-auto w-full flex-1 max-h-[350px] pr-2 pb-2">
-                            <div id="bill-items" class="space-y-3 min-w-[700px] pb-4"></div>
+                        
+                        <!-- Internal scroll container specifically for items (Fixes overall page height) -->
+                        <div id="bill-items-container" class="overflow-y-auto overflow-x-auto w-full flex-1 pr-1 pb-1">
+                            <div id="bill-items" class="space-y-2 min-w-[700px]"></div>
                         </div>
-                        <button onclick="addBillRow()" class="mt-4 text-blue-700 font-black uppercase text-xs tracking-widest bg-blue-50 px-6 py-3.5 rounded-xl border border-blue-200 hover:bg-blue-600 hover:text-white transition-all shadow-sm self-start flex items-center space-x-2"><span>➕</span><span>Add Row</span></button>
+                        <div class="pt-2 mt-1 border-t border-slate-100 shrink-0">
+                            <button onclick="addBillRow()" class="h-9 px-4 text-blue-700 font-black uppercase text-[10px] tracking-widest bg-blue-50 rounded-lg border border-blue-200 hover:bg-blue-600 hover:text-white transition-all shadow-sm">➕ Add Row</button>
+                        </div>
                     </div>
                 </div>
 
-                <!-- RIGHT COLUMN: Payment Dashboard -->
-                <div class="w-full xl:w-4/12 glass-panel rounded-3xl flex flex-col h-full sticky top-4 overflow-y-auto shadow-xl border border-slate-200 shrink-0">
-                    <div class="p-6 border-b border-slate-100 bg-white/90 shrink-0 flex justify-between items-center">
-                        <h3 class="font-black text-sm uppercase text-slate-800 tracking-widest flex items-center space-x-2"><span class="text-xl">💳</span><span>Settlement</span></h3>
+                <!-- RIGHT COLUMN: Compact Settlement Block -->
+                <div class="w-full lg:w-4/12 bg-white rounded-2xl flex flex-col h-full overflow-hidden shadow-md border border-slate-200 shrink-0">
+                    <div class="p-3 border-b border-slate-100 bg-slate-50 shrink-0 flex justify-between items-center">
+                        <h3 class="font-black text-xs uppercase text-slate-800 tracking-widest flex items-center space-x-1.5"><span class="text-base">💳</span><span>Checkout</span></h3>
+                        <button onclick="resetPaymentFields()" class="text-[8px] font-bold text-rose-500 bg-rose-50 px-2 py-1 rounded">Reset</button>
                     </div>
                     
-                    <div class="p-6 flex-1 overflow-y-auto space-y-4">
-                        <div class="space-y-4">
-                            <div><label class="font-black text-[10px] uppercase text-slate-500 tracking-widest block mb-2">Primary Mode</label>
-                                <select id="pay-primary" onchange="onPaymentModeChange('primary')" class="premium-input text-blue-700 text-sm font-black">
-                                    <option value="Choose">-- Choose --</option><option value="Cash">Cash</option><option value="QR">QR (Online)</option><option value="Card">Card Swipe</option>
+                    <div class="p-4 flex-1 overflow-y-auto space-y-4 bg-white">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div><label class="font-black text-[9px] uppercase text-slate-500 tracking-widest block mb-1">Discount (₹)</label><input type="number" id="bill-discount" oninput="calcBill()" class="premium-input bg-rose-50 border-rose-200 text-rose-600 text-sm" placeholder="0"></div>
+                            <div><label class="font-black text-[9px] uppercase text-slate-500 tracking-widest block mb-1">GST Slab</label><select id="bill-global-gst" class="premium-input text-xs"><option value="0">0%</option><option value="5">5%</option><option value="12">12%</option><option value="18">18%</option><option value="28">28%</option></select></div>
+                        </div>
+
+                        <div class="space-y-3 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            <div><label class="font-black text-[9px] uppercase text-slate-500 tracking-widest block mb-1">Primary Mode</label>
+                                <select id="pay-primary" onchange="onPaymentModeChange('primary')" class="premium-input text-blue-700 text-xs">
+                                    <option value="">-- Select --</option><option value="Cash">Cash</option><option value="QR">QR</option><option value="Card">Card</option>
                                     <option value="Cash + QR">Cash + QR</option><option value="Cash + Card">Cash + Card</option><option value="QR + Card">QR + Card</option><option value="Cash + QR + Card">Cash + QR + Card</option>
                                 </select>
                             </div>
-                            <div id="sec-mode-container"><label class="font-black text-[10px] uppercase text-slate-500 tracking-widest block mb-2">Secondary Mode</label>
-                                <select id="pay-secondary" onchange="onPaymentModeChange('secondary')" class="premium-input text-blue-700 text-sm font-black">
-                                    <option value="Choose">-- Choose --</option><option value="Finance" id="opt-finance">Finance</option><option value="Dues">Dues / Credit</option>
+                            <div id="sec-mode-container"><label class="font-black text-[9px] uppercase text-slate-500 tracking-widest block mb-1">Secondary Mode</label>
+                                <select id="pay-secondary" onchange="onPaymentModeChange('secondary')" class="premium-input text-blue-700 text-xs">
+                                    <option value="">-- Choose --</option><option value="Finance" id="opt-finance">Finance</option><option value="Dues">Dues / Credit</option>
                                 </select>
                             </div>
                         </div>
 
-                        <div id="split-box" class="hidden grid grid-cols-3 gap-3 bg-slate-100 p-4 rounded-2xl shadow-inner border border-slate-200">
-                            <div id="wrap-split-cash" class="hidden"><label class="font-black text-[9px] uppercase text-slate-500 tracking-widest block mb-1.5">Cash (₹)</label><input type="number" id="split-cash" placeholder="0" oninput="calcBill()" class="premium-input px-2 text-blue-700" /></div>
-                            <div id="wrap-split-qr" class="hidden"><label class="font-black text-[9px] uppercase text-slate-500 tracking-widest block mb-1.5">QR (₹)</label><input type="number" id="split-qr" placeholder="0" oninput="calcBill()" class="premium-input px-2 text-blue-700" /></div>
-                            <div id="wrap-split-card" class="hidden"><label class="font-black text-[9px] uppercase text-slate-500 tracking-widest block mb-1.5">Card (₹)</label><input type="number" id="split-card" placeholder="0" oninput="calcBill()" class="premium-input px-2 text-blue-700" /></div>
+                        <div id="split-box" class="hidden grid grid-cols-3 gap-2 bg-white p-2.5 rounded-xl shadow-sm border border-slate-200">
+                            <div id="wrap-split-cash" class="hidden"><label class="font-black text-[8px] uppercase text-slate-500 tracking-widest block mb-1">Cash</label><input type="number" id="split-cash" placeholder="0" oninput="calcBill()" class="premium-input px-1 text-blue-700 h-8!" /></div>
+                            <div id="wrap-split-qr" class="hidden"><label class="font-black text-[8px] uppercase text-slate-500 tracking-widest block mb-1">QR</label><input type="number" id="split-qr" placeholder="0" oninput="calcBill()" class="premium-input px-1 text-blue-700 h-8!" /></div>
+                            <div id="wrap-split-card" class="hidden"><label class="font-black text-[8px] uppercase text-slate-500 tracking-widest block mb-1">Card</label><input type="number" id="split-card" placeholder="0" oninput="calcBill()" class="premium-input px-1 text-blue-700 h-8!" /></div>
                         </div>
 
-                        <div id="fin-box" class="hidden bg-blue-50 p-5 rounded-2xl border border-blue-200 space-y-4">
-                            <div><label class="font-black text-[10px] uppercase text-blue-600 tracking-widest block mb-2">Company *</label><select id="fin-company" class="premium-input bg-white text-blue-700 text-sm"><option value="">-- Select --</option><option value="Bajaj Finserv">Bajaj Finserv</option><option value="Kisto Pe">Kisto Pe</option><option value="HDB Financial">HDB Financial</option><option value="TVS Credit">TVS Credit</option></select></div>
-                            <div class="grid grid-cols-2 gap-4">
-                                <div><label class="font-black text-[10px] uppercase text-blue-600 tracking-widest block mb-2">DP Amount *</label><input type="number" id="fin-rate" placeholder="0" class="premium-input bg-white text-blue-700 font-black text-lg" oninput="calcBill()" /></div>
-                                <div><label class="font-black text-[10px] uppercase text-blue-600 tracking-widest block mb-2">DP Mode</label><select id="fin-dp-mode" onchange="onPaymentModeChange('secondary')" class="premium-input bg-white text-blue-700 text-xs"><option value="Choose">Choose</option><option value="Cash">Cash</option><option value="QR">QR</option><option value="Card">Card</option><option value="Cash + QR">Cash + QR</option><option value="Cash + Card">Cash + Card</option><option value="QR + Card">QR + Card</option><option value="Cash + QR + Card">Cash + QR + Card</option></select></div>
+                        <div id="fin-box" class="hidden bg-blue-50 p-3 rounded-xl border border-blue-200 space-y-2">
+                            <div><label class="font-black text-[9px] uppercase text-blue-600 tracking-widest block mb-1">Company *</label><select id="fin-company" class="premium-input bg-white text-blue-700 text-xs h-9!"><option value="">-- Choose --</option><option value="Bajaj Finserv">Bajaj</option><option value="Kisto Pe">Kisto Pe</option><option value="HDB Financial">HDB</option><option value="TVS Credit">TVS</option></select></div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div><label class="font-black text-[9px] uppercase text-blue-600 tracking-widest block mb-1">DP (₹) *</label><input type="number" id="fin-rate" placeholder="0" class="premium-input bg-white text-blue-700 font-bold h-9!" oninput="calcBill()" /></div>
+                                <div><label class="font-black text-[9px] uppercase text-blue-600 tracking-widest block mb-1">DP Mode</label><select id="fin-dp-mode" onchange="onPaymentModeChange('secondary')" class="premium-input bg-white text-blue-700 text-xs h-9!"><option value="Cash">Cash</option><option value="QR">QR</option><option value="Card">Card</option><option value="Cash + QR">Cash + QR</option></select></div>
                             </div>
                         </div>
 
-                        <div id="dues-box" class="hidden bg-slate-100 p-5 rounded-2xl border border-slate-200">
-                            <div><label class="font-black text-[10px] uppercase text-slate-600 tracking-widest block mb-2">DP Mode</label><select id="dues-mode" onchange="onPaymentModeChange('secondary')" class="premium-input text-sm"><option value="Choose">Choose</option><option value="Cash">Cash</option><option value="QR">QR</option><option value="Card">Card</option><option value="Cash + QR">Cash + QR</option><option value="Cash + Card">Cash + Card</option><option value="QR + Card">QR + Card</option><option value="Cash + QR + Card">Cash + QR + Card</option></select></div>
+                        <div id="dues-box" class="hidden bg-slate-50 p-3 rounded-xl border border-slate-200">
+                            <div><label class="font-black text-[9px] uppercase text-slate-600 tracking-widest block mb-1">DP Mode</label><select id="dues-mode" onchange="onPaymentModeChange('secondary')" class="premium-input text-xs h-9!"><option value="Cash">Cash</option><option value="QR">QR</option><option value="Card">Card</option><option value="Cash + QR">Cash + QR</option></select></div>
                         </div>
 
-                        <div class="pt-4 border-t border-slate-100"><label class="font-black text-[10px] uppercase text-slate-500 tracking-widest block mb-2">Total Amount Received (₹) *</label><input type="number" id="bill-paid" oninput="calcBill(true)" class="premium-input bg-emerald-50 border-emerald-300 focus:ring-emerald-400 text-emerald-700 font-black text-3xl h-[60px] shadow-inner" placeholder="0"></div>
+                        <div><label class="font-black text-[10px] uppercase text-slate-500 tracking-widest block mb-1.5">Amount Tendered (₹)</label><input type="number" id="bill-paid" oninput="calcBill(true)" class="premium-input bg-emerald-50 border-emerald-300 focus:ring-emerald-400 text-emerald-700 font-black text-2xl h-[48px]!important shadow-inner" placeholder="0"></div>
                     </div>
 
-                    <!-- PREMIUM CLEAN GRAND TOTAL PANEL -->
-                    <div class="bg-white p-6 border-t border-slate-200 w-full shrink-0">
-                        <div class="flex justify-between items-center mb-2.5"><span class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Taxable Value</span><span class="text-sm font-black text-slate-800" id="bill-taxable">₹ 0</span></div>
-                        <div class="flex justify-between items-center mb-4 border-b border-slate-200 pb-4"><span class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Total GST</span><span class="text-sm font-black text-blue-600" id="bill-gst">₹ 0</span></div>
-                        <div class="flex justify-between items-center mb-4"><span class="text-lg font-black text-slate-900 uppercase tracking-widest">Grand Total</span><span class="text-4xl font-black text-slate-900 drop-shadow-sm" id="bill-grand-total">₹ 0</span></div>
-                        <div class="flex justify-between items-center mb-2"><span class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Amount Paid</span><span class="text-xl font-black text-emerald-600" id="bill-paid-display">₹ 0</span></div>
-                        <div class="flex justify-between items-center pt-3 border-t border-slate-200"><span class="text-xs font-black text-rose-500 uppercase tracking-widest">Balance Due</span><span class="text-2xl font-black text-rose-600" id="bill-due">₹ 0</span></div>
+                    <div class="bg-slate-900 p-4 shrink-0 relative z-20 text-white shadow-[0_-5px_15px_rgba(0,0,0,0.1)] rounded-b-2xl">
+                        <div class="grid grid-cols-2 gap-2 mb-2 border-b border-slate-700 pb-2">
+                            <div class="flex justify-between items-center"><span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Taxable</span><span class="text-xs font-black" id="bill-taxable">₹ 0</span></div>
+                            <div class="flex justify-between items-center"><span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Total GST</span><span class="text-xs font-black text-blue-300" id="bill-gst">₹ 0</span></div>
+                        </div>
+                        <div class="flex justify-between items-end mb-2">
+                            <span class="text-[10px] font-black text-slate-300 uppercase tracking-widest">Grand Total</span>
+                            <span class="text-2xl font-black text-amber-400 drop-shadow-md leading-none" id="bill-grand-total">₹ 0</span>
+                        </div>
+                        <div class="flex justify-between items-end mb-4">
+                            <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Balance Due</span>
+                            <span class="text-xs font-black text-rose-400 leading-none" id="bill-due">₹ 0</span>
+                        </div>
 
-                        <div class="flex space-x-3 mt-6">
-                            <button onclick="showView('dashboard')" class="w-1/3 py-4 bg-white border border-slate-300 text-slate-600 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-slate-100 transition-all shadow-sm">Cancel</button>
-                            <button onclick="saveFinalBill()" id="btn-save-bill" class="w-2/3 py-4 bg-[#0f172a] text-white rounded-2xl font-black uppercase tracking-widest text-sm shadow-xl hover:bg-black hover:-translate-y-1 transition-all flex items-center justify-center space-x-2"><span class="text-[9px] font-normal text-slate-400 mr-1">(Ctrl+S)</span><span>💾 Save Bill</span></button>
+                        <div class="flex space-x-2">
+                            <button onclick="showView('dashboard')" class="w-1/3 py-3 bg-slate-700 text-slate-300 rounded-lg font-black uppercase tracking-widest text-[9px] hover:bg-slate-600 transition-all">Cancel</button>
+                            <button onclick="saveFinalBill()" id="btn-save-bill" class="w-2/3 py-3 bg-blue-600 text-white rounded-lg font-black uppercase tracking-widest text-[10px] shadow-lg hover:bg-blue-500 transition-all flex items-center justify-center space-x-1.5"><span class="text-[8px] font-normal text-blue-200 hidden sm:inline">(Ctrl+S)</span> <span>💾 Save</span></button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- VOUCHER ENTRY -->
+        <!-- 6. VOUCHER ENTRY -->
         <div id="view-payment" class="view-section hidden space-y-6 max-w-lg mx-auto pt-8">
-            <h2 id="pay-title" class="text-lg font-black text-slate-800 tracking-widest uppercase text-center mb-4">ACCOUNTING VOUCHER</h2>
-            <div class="glass-panel p-6 rounded-3xl shadow-xl space-y-5">
+            <h2 id="pay-title" class="text-xl font-black text-slate-800 tracking-widest uppercase text-center mb-6">ACCOUNTING VOUCHER</h2>
+            <div class="glass-panel p-8 rounded-3xl shadow-xl space-y-5">
               <div>
-                <label class="text-[9px] font-black text-slate-500 block mb-1.5 uppercase tracking-widest" id="pay-party-lbl">Party / Ledger Account *</label>
+                <label class="text-[10px] font-black text-slate-500 block mb-1.5 uppercase tracking-widest" id="pay-party-lbl">Party / Ledger Account *</label>
                 <div class="relative w-full">
                     <input type="text" id="pay-party" list="party-list" onkeydown="handleShortcut(event, currentPaymentType === 'OUT' ? 'SUPPLIER' : 'CUSTOMER')" class="premium-input pr-12 text-blue-700 uppercase font-black" placeholder="Select Ledger">
-                    <button onclick="openPartyModal(currentPaymentType === 'OUT' ? 'SUPPLIER' : 'CUSTOMER', document.getElementById('pay-party'))" tabindex="-1" class="absolute right-1.5 top-1.5 bottom-1.5 w-9 bg-blue-50 text-blue-600 rounded-lg font-black text-xl hover:bg-blue-600 hover:text-white flex items-center justify-center pb-0.5">+</button>
+                    <button onclick="openPartyModal(currentPaymentType === 'OUT' ? 'SUPPLIER' : 'CUSTOMER', document.getElementById('pay-party'))" tabindex="-1" class="absolute right-1.5 top-1.5 bottom-1.5 w-10 bg-blue-50 text-blue-600 rounded-lg font-black text-xl hover:bg-blue-600 hover:text-white flex items-center justify-center pb-0.5">+</button>
                 </div>
               </div>
               <div class="grid grid-cols-2 gap-4">
-                <div><label class="text-[9px] font-black text-slate-500 block mb-1.5 uppercase tracking-widest">Amount (₹) *</label><input type="number" id="pay-amt" class="premium-input border-2 border-emerald-400 bg-emerald-50 text-xl h-[50px] font-black text-emerald-700" placeholder="0" /></div>
-                <div><label class="text-[9px] font-black text-slate-500 block mb-1.5 uppercase tracking-widest">Instrument *</label><select id="pay-mode" class="premium-input h-[50px] text-xs"><option value="Cash">Cash</option><option value="QR">UPI / QR</option><option value="Bank">Bank NEFT</option></select></div>
+                <div><label class="text-[10px] font-black text-slate-500 block mb-1.5 uppercase tracking-widest">Amount (₹) *</label><input type="number" id="pay-amt" class="premium-input border-2 border-emerald-400 bg-emerald-50 text-2xl h-[56px] font-black text-emerald-700" placeholder="0" /></div>
+                <div><label class="text-[10px] font-black text-slate-500 block mb-1.5 uppercase tracking-widest">Instrument *</label><select id="pay-mode" class="premium-input h-[56px] text-sm"><option value="Cash">Cash</option><option value="QR">UPI / QR</option><option value="Bank">Bank NEFT</option></select></div>
               </div>
-              <div><label class="text-[9px] font-black text-slate-500 block mb-1.5 uppercase tracking-widest">Narration / Remarks</label><input type="text" id="pay-remarks" class="premium-input text-sm" placeholder="e.g. Cleared Outstanding" /></div>
+              <div><label class="text-[10px] font-black text-slate-500 block mb-1.5 uppercase tracking-widest">Narration / Remarks</label><input type="text" id="pay-remarks" class="premium-input text-sm" placeholder="e.g. Cleared Outstanding" /></div>
               <button onclick="savePaymentTransaction()" class="w-full h-[54px] bg-[#0f172a] text-white font-black rounded-2xl text-xs shadow-xl mt-3 uppercase tracking-widest hover:bg-black transition-all">Post Transaction</button>
             </div>
         </div>
 
-        <!-- FINANCIAL LEDGER -->
-        <div id="view-ledger" class="view-section hidden space-y-6 max-w-screen-2xl mx-auto">
-            <h2 class="text-xl font-black text-slate-800 uppercase tracking-widest pb-2">Financial Ledger Statement</h2>
-            <div class="flex bg-slate-200 p-1.5 rounded-xl max-w-sm mb-4">
-                <button type="button" onclick="switchLedgerTab('CUSTOMER')" id="tab-CUSTOMER" class="flex-1 py-3.5 rounded-lg text-[10px] font-black bg-blue-600 text-white shadow-md tracking-widest transition-all">CUSTOMERS</button>
-                <button type="button" onclick="switchLedgerTab('SUPPLIER')" id="tab-SUPPLIER" class="flex-1 py-3.5 rounded-lg text-[10px] font-black text-slate-500 tracking-widest transition-all hover:text-blue-600">SUPPLIERS</button>
+        <!-- 7. FINANCIAL LEDGER -->
+        <div id="view-ledger" class="view-section hidden space-y-5 max-w-screen-2xl mx-auto pb-10">
+            <h2 class="text-xl font-black text-slate-800 uppercase tracking-widest pb-1">Financial Ledger Statement</h2>
+            <div class="flex bg-slate-200 p-1.5 rounded-xl max-w-sm mb-2">
+                <button type="button" onclick="switchLedgerTab('CUSTOMER')" id="tab-CUSTOMER" class="flex-1 py-3 rounded-lg text-[10px] font-black bg-blue-600 text-white shadow-md tracking-widest transition-all">CUSTOMERS</button>
+                <button type="button" onclick="switchLedgerTab('SUPPLIER')" id="tab-SUPPLIER" class="flex-1 py-3 rounded-lg text-[10px] font-black text-slate-500 tracking-widest transition-all hover:text-blue-600">SUPPLIERS</button>
             </div>
             
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
-                <div class="glass-panel p-4 rounded-3xl flex flex-col justify-center border-l-4 border-l-slate-400"><p class="text-[9px] text-slate-500 font-bold uppercase tracking-widest mb-1">Opening Bal</p><h3 class="text-xl font-black text-slate-800" id="ledger-ob">₹ 0</h3></div>
-                <div class="glass-panel p-4 rounded-3xl flex flex-col justify-center border-l-4 border-l-blue-500"><p class="text-[9px] text-slate-500 font-bold uppercase tracking-widest mb-1">Total Billed</p><h3 class="text-xl font-black text-blue-600" id="ledger-billed">₹ 0</h3></div>
-                <div class="glass-panel p-4 rounded-3xl flex flex-col justify-center border-l-4 border-l-emerald-500"><p class="text-[9px] text-slate-500 font-bold uppercase tracking-widest mb-1">Total Paid</p><h3 class="text-xl font-black text-emerald-600" id="ledger-paid">₹ 0</h3></div>
-                <div class="glass-panel p-4 rounded-3xl flex flex-col justify-center border-l-4 border-l-rose-500"><p class="text-[9px] text-slate-500 font-bold uppercase tracking-widest mb-1">Net Dues</p><h3 class="text-xl font-black text-rose-600" id="ledger-bal">₹ 0</h3></div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+                <div class="glass-panel p-4 rounded-2xl border-l-4 border-l-slate-400"><p class="text-[9px] text-slate-500 font-bold uppercase tracking-widest mb-1">Opening Bal</p><h3 class="text-lg font-black text-slate-800" id="ledger-ob">₹ 0</h3></div>
+                <div class="glass-panel p-4 rounded-2xl border-l-4 border-l-blue-500"><p class="text-[9px] text-slate-500 font-bold uppercase tracking-widest mb-1">Total Billed</p><h3 class="text-lg font-black text-blue-600" id="ledger-billed">₹ 0</h3></div>
+                <div class="glass-panel p-4 rounded-2xl border-l-4 border-l-emerald-500"><p class="text-[9px] text-slate-500 font-bold uppercase tracking-widest mb-1">Total Paid</p><h3 class="text-lg font-black text-emerald-600" id="ledger-paid">₹ 0</h3></div>
+                <div class="glass-panel p-4 rounded-2xl border-l-4 border-l-rose-500"><p class="text-[9px] text-slate-500 font-bold uppercase tracking-widest mb-1">Net Dues</p><h3 class="text-lg font-black text-rose-600" id="ledger-bal">₹ 0</h3></div>
             </div>
 
             <div class="glass-panel rounded-3xl overflow-hidden flex flex-col shadow-sm">
                 <div class="p-4 border-b border-slate-100 bg-white flex items-center">
-                    <div class="relative w-full max-w-md"><input type="text" id="ledger-search" oninput="debouncedRenderLedger()" placeholder="Filter by Name, Phone, Ref No..." class="premium-input pl-6 text-sm" /></div>
+                    <div class="relative w-full max-w-md"><input type="text" id="ledger-search" oninput="debouncedRenderLedger()" placeholder="Filter Name, Invoice..." class="premium-input pl-4 text-xs" /></div>
                 </div>
                 <div class="overflow-x-auto w-full max-h-[500px]">
-                    <table class="w-full text-left min-w-[900px]">
+                    <table class="w-full text-left min-w-[800px]">
                         <thead class="bg-slate-50 sticky top-0 z-10 shadow-sm">
                             <tr><th>Date</th><th>Ref / Inv No</th><th class="text-center">Voucher Type</th><th>Party Account</th><th class="text-right">Debit (Dr)</th><th class="text-right">Credit (Cr)</th><th class="text-right">Running Balance</th><th class="text-center">Action</th></tr>
                         </thead>
@@ -426,15 +473,15 @@
             </div>
         </div>
 
-        <!-- UNIFIED INVOICE (A4 & THERMAL) WITH WHATSAPP -->
-        <div id="view-invoice" class="view-section hidden space-y-5 max-w-4xl mx-auto pb-16">
+        <!-- 8. UNIFIED INVOICE WITH WHATSAPP -->
+        <div id="view-invoice" class="view-section hidden space-y-4 max-w-4xl mx-auto pb-16">
             <div class="flex justify-between items-center bg-white p-4 rounded-2xl border border-slate-200 shadow-sm no-print">
-                <button onclick="showView('dashboard')" class="bg-slate-100 text-slate-600 px-5 py-3 rounded-xl font-black text-[9px] uppercase tracking-widest hover:bg-slate-200">Back Home</button>
-                <div class="flex space-x-2">
-                    <button onclick="shareViaWhatsApp()" class="bg-[#25D366] text-white px-5 py-3 rounded-xl font-black text-[9px] uppercase tracking-widest hover:bg-green-600 shadow-md">📱 WhatsApp Bill</button>
-                    <button onclick="printFormat('A4')" class="bg-slate-800 text-white px-5 py-3 rounded-xl font-black text-[9px] uppercase tracking-widest hover:bg-black shadow-md">A4 Print</button>
-                    <button onclick="printFormat('THERMAL')" class="bg-emerald-600 text-white px-5 py-3 rounded-xl font-black text-[9px] uppercase tracking-widest hover:bg-emerald-700 shadow-md">80mm Thermal</button>
-                    <button onclick="downloadPDF()" class="bg-blue-600 text-white px-5 py-3 rounded-xl font-black text-[9px] uppercase tracking-widest hover:bg-blue-700 shadow-md">Download PDF</button>
+                <button onclick="showView('dashboard')" class="bg-slate-100 text-slate-600 px-5 py-2.5 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-200">Back Home</button>
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="shareViaWhatsApp()" class="bg-[#25D366] text-white px-4 sm:px-5 py-2.5 rounded-xl font-black text-[9px] sm:text-[10px] uppercase tracking-widest hover:bg-green-600 shadow-sm">📱 WhatsApp</button>
+                    <button onclick="printFormat('A4')" class="bg-slate-800 text-white px-4 sm:px-5 py-2.5 rounded-xl font-black text-[9px] sm:text-[10px] uppercase tracking-widest hover:bg-black shadow-sm">A4 Print</button>
+                    <button onclick="printFormat('THERMAL')" class="bg-emerald-600 text-white px-4 sm:px-5 py-2.5 rounded-xl font-black text-[9px] sm:text-[10px] uppercase tracking-widest hover:bg-emerald-700 shadow-sm">80mm Print</button>
+                    <button onclick="downloadPDF()" class="bg-blue-600 text-white px-4 sm:px-5 py-2.5 rounded-xl font-black text-[9px] sm:text-[10px] uppercase tracking-widest hover:bg-blue-700 shadow-sm">PDF</button>
                 </div>
             </div>
             
@@ -449,7 +496,7 @@
 
                     <div class="flex justify-between items-end mb-5 text-sm">
                         <div>
-                            <p class="text-slate-400 font-black uppercase text-[8px] tracking-widest mb-1">Billed To / Consignee:</p>
+                            <p class="text-slate-400 font-black uppercase text-[9px] tracking-widest mb-1">Billed To / Consignee:</p>
                             <p id="inv-party" class="text-lg font-black uppercase text-slate-900 leading-tight"></p>
                             <p id="inv-phone" class="font-mono text-xs text-slate-600 mt-0.5"></p>
                             <p id="inv-address" class="text-[11px] text-slate-500 uppercase mt-1"></p>
@@ -466,7 +513,7 @@
                     <table class="w-full text-left text-xs mb-6 border-collapse">
                         <thead>
                             <tr class="bg-slate-900 text-white uppercase text-[9px] tracking-widest font-black">
-                                <th class="p-2.5 border border-slate-900 w-10 text-center">#</th>
+                                <th class="p-2.5 border border-slate-900 w-8 text-center">#</th>
                                 <th class="p-2.5 border border-slate-900">Item & Description</th>
                                 <th class="p-2.5 border border-slate-900 w-40">IMEI / Serial</th>
                                 <th class="p-2.5 border border-slate-900 text-center w-10">Qty</th>
@@ -496,18 +543,10 @@
                             <div class="flex justify-between border-t border-slate-200 pt-1"><span class="text-slate-500 uppercase font-bold text-[9px]">Closing Balance Due:</span><span id="inv-bal" class="font-black text-rose-600">₹ 0</span></div>
                         </div>
                     </div>
-
-                    <!-- Authorized Signatory Footer -->
+                    
                     <div class="mt-12 pt-8 flex justify-between items-end no-print">
-                        <div class="text-center w-32">
-                            <div class="border-b border-slate-800 w-full mb-2"></div>
-                            <p class="text-[8px] font-bold text-slate-500 uppercase tracking-widest">Customer Sign</p>
-                        </div>
-                        <div class="text-center w-40">
-                            <div class="border-b border-slate-800 w-full mb-2"></div>
-                            <p class="text-[8px] font-bold text-slate-900 uppercase tracking-widest">For Sri Ram Enterprises</p>
-                            <p class="text-[7px] text-slate-400 mt-0.5 uppercase">Authorized Signatory</p>
-                        </div>
+                        <div class="text-center w-32"><div class="border-b border-slate-800 w-full mb-2"></div><p class="text-[8px] font-bold text-slate-500 uppercase tracking-widest">Customer Sign</p></div>
+                        <div class="text-center w-40"><div class="border-b border-slate-800 w-full mb-2"></div><p class="text-[8px] font-bold text-slate-900 uppercase tracking-widest">For Sri Ram Enterprises</p><p class="text-[7px] text-slate-400 mt-0.5 uppercase">Authorized Signatory</p></div>
                     </div>
                 </div>
             </div>
@@ -517,17 +556,17 @@
   </div>
 
   <!-- MOBILE BOTTOM NAV -->
-  <nav id="bottom-nav" class="lg:hidden fixed bottom-0 w-full bg-white shadow-[0_-4px_25px_-5px_rgba(0,0,0,0.15)] flex justify-between z-[100] border-t border-slate-100 pb-1">
-     <button onclick="startBill('SALE')" class="flex-1 py-2.5 text-center text-blue-600 flex flex-col items-center"><span class="text-xl">🛒</span><span class="text-[8px] font-black tracking-widest mt-0.5">SALE</span></button>
-     <button onclick="startBill('PURCHASE')" class="flex-1 py-2.5 text-center text-emerald-600 border-l border-slate-100 flex flex-col items-center"><span class="text-xl">📦</span><span class="text-[8px] font-black tracking-widest mt-0.5">PURCHASE</span></button>
-     <button onclick="startPayment('IN')" class="flex-1 py-2.5 text-center text-teal-600 border-l border-slate-100 flex flex-col items-center"><span class="text-xl">💳</span><span class="text-[8px] font-black tracking-widest mt-0.5">VOUCHER</span></button>
-     <button onclick="showView('ledger')" class="flex-1 py-2.5 text-center text-amber-600 border-l border-slate-100 flex flex-col items-center"><span class="text-xl">📒</span><span class="text-[8px] font-black tracking-widest mt-0.5">STATEMENT</span></button>
+  <nav id="bottom-nav" class="lg:hidden fixed bottom-0 w-full bg-white shadow-[0_-4px_25px_-5px_rgba(0,0,0,0.15)] flex justify-between z-[100] border-t border-slate-100 pb-1 pt-1">
+     <button onclick="startBill('SALE')" class="flex-1 py-2 text-center text-blue-600 flex flex-col items-center"><span class="text-xl leading-none">🛒</span><span class="text-[8px] font-black tracking-widest mt-1">SALE</span></button>
+     <button onclick="startBill('PURCHASE')" class="flex-1 py-2 text-center text-emerald-600 border-l border-slate-100 flex flex-col items-center"><span class="text-xl leading-none">📦</span><span class="text-[8px] font-black tracking-widest mt-1">PURCH</span></button>
+     <button onclick="startPayment('IN')" class="flex-1 py-2 text-center text-teal-600 border-l border-slate-100 flex flex-col items-center"><span class="text-xl leading-none">💳</span><span class="text-[8px] font-black tracking-widest mt-1">VOUCHER</span></button>
+     <button onclick="showView('ledger')" class="flex-1 py-2 text-center text-amber-600 border-l border-slate-100 flex flex-col items-center"><span class="text-xl leading-none">📒</span><span class="text-[8px] font-black tracking-widest mt-1">LEDGER</span></button>
   </nav>
 
   <script>
     /* ========================================================
        ENTERPRISE POS & ACCOUNTING CORE CONTROLLER
-       (V7.0 Omega - Speed, Security, Precision)
+       (V7.0 Omega - Keyboard First, Zero Scroll, Precision)
     ======================================================== */
 
     const Storage = {
@@ -556,18 +595,12 @@
         Storage.set('sre_categories', categoriesDB);
     }
 
-    // UTILS
     function getToday() { return new Date().toISOString().split('T')[0]; }
 
-    // DEBOUNCE FUNCTION FOR TURBO SEARCH
     function debounce(func, wait) {
         let timeout;
-        return function(...args) {
-            clearTimeout(timeout);
-            timeout = setTimeout(() => func.apply(this, args), wait);
-        };
+        return function(...args) { clearTimeout(timeout); timeout = setTimeout(() => func.apply(this, args), wait); };
     }
-
     const debouncedRenderProducts = debounce(renderProducts, 300);
     const debouncedRenderParties = debounce(renderParties, 300);
     const debouncedRenderLedger = debounce(updateLedgerView, 300);
@@ -592,10 +625,10 @@
 
     // AUTO-SELECT ON FOCUS FOR FAST ENTRY
     document.addEventListener('focusin', function(e) {
-        if(e.target.tagName === 'INPUT' && e.target.type === 'number') { e.target.select(); }
+        if(e.target.tagName === 'INPUT' && (e.target.type === 'number' || e.target.type === 'text')) { e.target.select(); }
     });
 
-    // GLOBAL KEYBOARD SHORTCUTS
+    // KEYBOARD SHORTCUTS & ENTER KEY NAVIGATION
     window.addEventListener('keydown', function(e) {
         if(e.key === 'F2') { e.preventDefault(); startBill('SALE'); }
         if(e.key === 'F3') { e.preventDefault(); startBill('PURCHASE'); }
@@ -608,22 +641,33 @@
         }
     });
 
+    document.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            if(e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') {
+                if(e.target.id === 'q-party-name' || e.target.id === 'q-party-phone') { e.preventDefault(); saveQuickParty(); return; }
+                if(e.target.id === 'q-item-name' || e.target.id === 'q-item-sale') { e.preventDefault(); saveQuickItem(); return; }
+                if(e.target.classList.contains('b-imei-main') || e.target.classList.contains('b-imei-extra')) {
+                    e.preventDefault(); addBillRow(); const newRow = document.querySelectorAll('.item-row-wrapper'); newRow[newRow.length-1].querySelector('.b-name').focus(); return;
+                }
+                e.preventDefault();
+                const formElements = Array.from(document.querySelectorAll('input, select, button')).filter(el => !el.disabled && el.tabIndex !== -1 && el.offsetParent !== null);
+                const index = formElements.indexOf(e.target);
+                if (index > -1 && index < formElements.length - 1) { formElements[index + 1].focus(); }
+            }
+        }
+    });
+
     // --- CLOUD SYNC & LOCAL BACKUP ---
     function saveSettings() {
-      const url = document.getElementById("settings-url").value.trim();
-      const pref = document.getElementById("settings-prefix").value.trim().toUpperCase() || "SRE-26-";
-      localStorage.setItem("sre_gas_url", url); gasUrl = url; 
-      localStorage.setItem("sre_inv_prefix", pref); invPrefix = pref; 
+      const url = document.getElementById("settings-url").value.trim(); const pref = document.getElementById("settings-prefix").value.trim().toUpperCase() || "SRE-26-";
+      localStorage.setItem("sre_gas_url", url); gasUrl = url; localStorage.setItem("sre_inv_prefix", pref); invPrefix = pref; 
       showView("dashboard"); showToast("Configured", "Settings updated successfully.");
     }
 
     let syncTimeout = null;
     function triggerSilentSync() {
-        if(!gasUrl) return;
-        clearTimeout(syncTimeout);
-        syncTimeout = setTimeout(() => {
-            fetch(gasUrl, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: "backup", products: productsDB, parties: partiesDB, bills: billsDB, categories: categoriesDB }) }).catch(() => {});
-        }, 3000); 
+        if(!gasUrl) return; clearTimeout(syncTimeout);
+        syncTimeout = setTimeout(() => { fetch(gasUrl, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: "backup", products: productsDB, parties: partiesDB, bills: billsDB, categories: categoriesDB }) }).catch(() => {}); }, 3000); 
     }
 
     async function backupData() {
@@ -632,8 +676,7 @@
         try {
             const res = await fetch(gasUrl, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: "backup", products: productsDB, parties: partiesDB, bills: billsDB, categories: categoriesDB }) });
             const data = await res.json();
-            if(data.status === "success") showPopup("Backup Verified", "Sheet database synchronized successfully!");
-            else showPopup("Failed", "Server rejected payload.", true);
+            if(data.status === "success") showPopup("Backup Verified", "Sheet database synchronized successfully!"); else showPopup("Failed", "Server rejected payload.", true);
         } catch(e) { showPopup("Sync Failure", "Check internet connection or deployment permissions.", true); }
     }
 
@@ -642,8 +685,7 @@
         if(!confirm("Overwrite local cache with remote Google Sheet backup?")) return;
         showToast("Restoring", "Retrieving database state...", "success");
         try {
-            const res = await fetch(gasUrl + "?action=restore");
-            const data = await res.json();
+            const res = await fetch(gasUrl + "?action=restore"); const data = await res.json();
             if(data.status === "success" && data.data) {
                 productsDB = data.data.products || []; partiesDB = data.data.parties || []; billsDB = data.data.bills || []; categoriesDB = data.data.categories || ["Mobile Phone", "Accessories", "Electronics", "Spare Parts"];
                 localStorage.setItem('sre_products', JSON.stringify(productsDB)); localStorage.setItem('sre_parties', JSON.stringify(partiesDB)); localStorage.setItem('sre_bills', JSON.stringify(billsDB)); localStorage.setItem('sre_categories', JSON.stringify(categoriesDB));
@@ -654,14 +696,10 @@
 
     function downloadLocalBackup() {
         const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({ products: productsDB, parties: partiesDB, bills: billsDB, categories: categoriesDB }));
-        const dlAnchorElem = document.createElement('a');
-        dlAnchorElem.setAttribute("href", dataStr);
-        dlAnchorElem.setAttribute("download", `SRE_Backup_${getToday()}.json`);
-        dlAnchorElem.click();
+        const dlAnchorElem = document.createElement('a'); dlAnchorElem.setAttribute("href", dataStr); dlAnchorElem.setAttribute("download", `SRE_Backup_${getToday()}.json`); dlAnchorElem.click();
         showToast("Downloaded", "Offline JSON backup saved.");
     }
 
-    // --- CSV IMPORT / EXPORT FOR PRODUCTS ---
     function exportProductsCSV() {
         if(productsDB.length === 0) return showToast("Empty", "No products to export", "error");
         let csvContent = "data:text/csv;charset=utf-8,Name,Brand,Category,SKU,MRP,PurchaseRate,SaleRate,GST,Stock,LowAlert\n";
@@ -702,8 +740,7 @@
         if(activeNav) { activeNav.classList.add('bg-blue-600', 'text-white', 'shadow-md'); activeNav.classList.remove('text-slate-400'); }
 
         const bottomNav = document.getElementById("bottom-nav");
-        if (viewName === 'invoice' || viewName === 'new-bill') { if(bottomNav) bottomNav.classList.add("hidden"); } 
-        else { if(bottomNav) bottomNav.classList.remove("hidden"); }
+        if (viewName === 'invoice' || viewName === 'new-bill') { if(bottomNav) bottomNav.classList.add("hidden"); } else { if(bottomNav) bottomNav.classList.remove("hidden"); }
 
         if(viewName === 'dashboard') renderDashboard();
         if(viewName === 'product') renderProducts();
@@ -712,7 +749,7 @@
         if(viewName === 'settings') { document.getElementById("settings-url").value = gasUrl; document.getElementById("settings-prefix").value = invPrefix; }
     }
 
-    // --- CATEGORY & SHORTCUT MODALS ---
+    // --- MODALS & CATEGORY ---
     function renderCategories() {
         const selects = document.querySelectorAll('.cat-select');
         const opts = categoriesDB.map(c => `<option value="${c}">${c}</option>`).join('') + `<option value="ADD_NEW" class="font-black text-[#004aad] bg-blue-50">➕ Create Category</option>`;
@@ -840,25 +877,25 @@
         document.getElementById('dash-prod-count').innerText = productsDB.length; document.getElementById('stat-in-stock').innerText = inStock; document.getElementById('stat-low-stock').innerText = lowStock; document.getElementById('stat-out-stock').innerText = outStock;
 
         const tbody = document.getElementById('product-table-body');
-        tbody.innerHTML = filtered.length === 0 ? `<tr><td colspan="8" class="text-center p-8 text-slate-400 font-bold uppercase tracking-widest text-[10px]">No Products Found</td></tr>` : 
+        tbody.innerHTML = filtered.length === 0 ? `<tr><td colspan="7" class="text-center p-8 text-slate-400 font-bold uppercase tracking-widest text-[10px]">No Products Found</td></tr>` : 
         filtered.map(p => {
             let statBadge = p.stock <= 0 ? '<span class="bg-rose-100 text-rose-700 px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest">Out of Stock</span>' : (p.stock <= (p.lowStock||5) ? '<span class="bg-amber-100 text-amber-700 px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest">Low Stock</span>' : '<span class="bg-emerald-100 text-emerald-700 px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest">In Stock</span>');
-            let imgHtml = p.image ? `<img src="${p.image}" class="w-12 h-12 rounded-xl object-cover mx-auto shadow-sm">` : `<div class="w-12 h-12 bg-slate-100 rounded-xl mx-auto flex items-center justify-center text-xl shadow-inner">📦</div>`;
-            return `<tr><td class="text-center">${imgHtml}</td><td><p class="font-black text-sm text-[#004aad] uppercase">${p.name}</p><p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">${p.brand} • ${p.category}</p></td><td><p class="font-mono font-bold text-slate-800">${p.sku}</p></td><td class="text-right font-bold text-slate-500">₹ ${p.pur.toLocaleString()}</td><td class="text-right font-black text-lg text-[#004aad]">₹ ${p.sale.toLocaleString()}</td><td class="text-center font-black text-xl ${p.stock <= 0 ? 'text-rose-600' : 'text-emerald-600'}">${p.stock}</td><td class="text-center">${statBadge}</td><td class="text-center space-x-2 whitespace-nowrap"><button onclick="editProduct('${p.id}')" class="bg-blue-50 text-blue-600 w-10 h-10 rounded-xl font-black hover:bg-blue-600 hover:text-white transition-all text-sm shadow-sm">✏️</button><button onclick="deleteProduct('${p.id}')" class="bg-rose-50 text-rose-600 w-10 h-10 rounded-xl font-black hover:bg-rose-600 hover:text-white transition-all text-sm shadow-sm">🗑️</button></td></tr>`;
+            let imgHtml = p.image ? `<img src="${p.image}" class="w-10 h-10 rounded-xl object-cover mx-auto shadow-sm">` : `<div class="w-10 h-10 bg-slate-100 rounded-xl mx-auto flex items-center justify-center text-lg shadow-inner">📦</div>`;
+            return `<tr><td class="text-center">${imgHtml}</td><td><p class="font-black text-sm text-[#004aad] uppercase">${p.name}</p><p class="text-[9px] text-slate-400 uppercase tracking-widest mt-1">${p.brand} • ${p.category}</p></td><td><p class="font-mono text-slate-700 font-bold">${p.sku}</p></td><td class="text-right font-bold text-slate-500">₹ ${p.pur.toLocaleString()}</td><td class="text-right font-black text-sm text-slate-900">₹ ${p.sale.toLocaleString()}</td><td class="text-center font-black text-base ${p.stock <= 0 ? 'text-rose-600' : 'text-emerald-600'}">${p.stock}</td><td class="text-center">${statBadge}</td><td class="text-center space-x-1.5 whitespace-nowrap"><button onclick="editProduct('${p.id}')" class="bg-blue-50 text-blue-600 w-8 h-8 rounded-lg font-black hover:bg-blue-600 hover:text-white transition-all text-xs shadow-sm">✏️</button><button onclick="deleteProduct('${p.id}')" class="bg-rose-50 text-rose-600 w-8 h-8 rounded-lg font-black hover:bg-rose-600 hover:text-white transition-all text-xs shadow-sm">🗑️</button></td></tr>`;
         }).join('');
         document.getElementById('item-list').innerHTML = productsDB.map(p => `<option value="${p.name}">`).join('');
     }
 
-    // --- PARTY MASTER & LEDGER BALANCE SYSTEM ---
+    // --- PARTY MASTER ---
     function onPartySelect(name) {
         const p = partiesDB.find(x => x.name.toUpperCase() === name.trim().toUpperCase());
         const badge = document.getElementById('party-balance-badge');
         if(p) {
             document.getElementById('bill-mobile').value = p.mobile || '';
             badge.innerText = `Old Bal: ₹${(p.ob||0).toLocaleString('en-IN')}`;
-            badge.className = (p.ob > 0) ? "text-[8px] font-black text-rose-600 bg-rose-50 px-2 py-0.5 rounded" : "text-[8px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded";
+            badge.className = (p.ob > 0) ? "text-[8px] font-black text-rose-600 bg-rose-50 px-1.5 py-0.5 rounded" : "text-[8px] font-black text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded";
         } else {
-            badge.innerText = "Bal: ₹0"; badge.className = "text-[8px] font-black text-slate-400 bg-slate-100 px-2 py-0.5 rounded";
+            badge.innerText = "Bal: ₹0"; badge.className = "text-[8px] font-black text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded";
         }
     }
 
@@ -879,41 +916,38 @@
         document.getElementById('dash-party-count').innerText = partiesDB.length;
         const tbody = document.getElementById('party-table-body');
         tbody.innerHTML = filtered.length === 0 ? `<tr><td colspan="6" class="text-center p-6 text-slate-400 font-bold uppercase text-[9px]">No Ledger Accounts Found</td></tr>` : 
-        filtered.map(p => `<tr><td><span class="${p.type==='CUSTOMER'?'bg-blue-50 text-blue-700':'bg-rose-50 text-rose-700'} px-3 py-1.5 rounded-lg text-[9px] font-black">${p.type}</span></td><td class="font-black text-sm text-blue-700 uppercase">${p.name}</td><td class="font-mono text-slate-600 font-bold">${p.mobile||'-'}</td><td><p class="text-[10px] font-bold text-slate-700 uppercase">${p.address||'-'}</p><p class="text-[8px] text-slate-400 font-mono mt-1">GST: ${p.gstin||'Unregistered'}</p></td><td class="text-right font-black text-lg">₹${(p.ob||0).toLocaleString()}</td><td class="text-center space-x-2 whitespace-nowrap"><button onclick="editParty('${p.id}')" class="bg-blue-50 text-blue-600 w-10 h-10 rounded-xl font-black hover:bg-blue-600 hover:text-white transition-all shadow-sm">✏️</button><button onclick="deleteParty('${p.id}')" class="bg-rose-50 text-rose-600 w-10 h-10 rounded-xl font-black hover:bg-rose-600 hover:text-white transition-all shadow-sm">🗑️</button></td></tr>`).join('');
+        filtered.map(p => `<tr><td><span class="${p.type==='CUSTOMER'?'bg-blue-50 text-blue-700':'bg-rose-50 text-rose-700'} px-2.5 py-1.5 rounded-lg text-[9px] font-black">${p.type}</span></td><td class="font-black text-sm text-blue-700 uppercase">${p.name}</td><td class="font-mono text-slate-600 font-bold">${p.mobile||'-'}</td><td><p class="text-[10px] font-bold text-slate-700 uppercase">${p.address||'-'}</p><p class="text-[8px] text-slate-400 font-mono mt-1">GST: ${p.gstin||'Unregistered'}</p></td><td class="text-right font-black text-base">₹${(p.ob||0).toLocaleString()}</td><td class="text-center space-x-1.5 whitespace-nowrap"><button onclick="editParty('${p.id}')" class="bg-blue-50 text-blue-600 w-8 h-8 rounded-lg font-black hover:bg-blue-600 hover:text-white transition-all shadow-sm">✏️</button><button onclick="deleteParty('${p.id}')" class="bg-rose-50 text-rose-600 w-8 h-8 rounded-lg font-black hover:bg-rose-600 hover:text-white transition-all shadow-sm">🗑️</button></td></tr>`).join('');
         document.getElementById('party-list').innerHTML = partiesDB.map(p => `<option value="${p.name}">`).join('');
     }
 
-    // --- UNIVERSAL BILLING ENGINE ---
+    // --- ZERO-SCROLL BILLING ENGINE ---
     function startBill(type) {
         currentMode = type;
         document.getElementById('bill-title').innerText = type + " INVOICE";
         document.getElementById('form-entry-type').innerText = type;
-        document.getElementById('form-entry-type').className = type === "SALE" ? "text-[10px] font-black px-3 py-1 rounded-lg bg-blue-100 text-blue-700 uppercase tracking-widest shadow-sm" : "text-[10px] font-black px-3 py-1 rounded-lg bg-rose-100 text-rose-700 uppercase tracking-widest shadow-sm";
+        document.getElementById('form-entry-type').className = type === "SALE" ? "text-[9px] font-black px-2 py-0.5 rounded bg-blue-100 text-blue-700 uppercase tracking-widest shadow-sm" : "text-[9px] font-black px-2 py-0.5 rounded bg-rose-100 text-rose-700 uppercase tracking-widest shadow-sm";
         
         document.getElementById('bill-party').value = ''; document.getElementById('bill-mobile').value = ''; document.getElementById('bill-date').value = getToday(); 
         document.getElementById('bill-inv').value = type === "SALE" ? `${invPrefix}${(billsDB.length + 1).toString().padStart(3,'0')}` : `PUR-${(billsDB.length + 1).toString().padStart(3,'0')}`; 
         document.getElementById('bill-items').innerHTML = ''; document.getElementById('party-balance-badge').innerText = "Bal: ₹0";
         
-        document.getElementById('pay-primary').value = "Choose"; document.getElementById('pay-secondary').value = "Choose"; document.getElementById('bill-paid').value = '';
-        const optFinance = document.getElementById('opt-finance'); if(optFinance) optFinance.style.display = type === "PURCHASE" ? "none" : "block"; 
-        
-        onPaymentModeChange('primary'); addBillRow(true); calcBill(); showView('new-bill');
-        setTimeout(() => document.getElementById('bill-party').focus(), 100);
+        resetPaymentFields(); addBillRow(true); calcBill(); showView('new-bill');
+        setTimeout(() => document.getElementById('bill-party').focus(), 100); // Fast autofocus
     }
 
     function addBillRow(isFirst = false) {
         const container = document.getElementById('bill-items'); const row = document.createElement('div');
-        const removeBtn = !isFirst ? `<button type="button" onclick="this.closest('.item-row-wrapper').remove(); calcBill();" tabindex="-1" class="w-8 h-8 flex items-center justify-center bg-rose-50 text-rose-600 rounded-lg hover:bg-rose-600 hover:text-white font-black transition-all shadow-sm">X</button>` : `<div class="w-8"></div>`;
+        const removeBtn = !isFirst ? `<button type="button" onclick="this.closest('.item-row-wrapper').remove(); calcBill();" tabindex="-1" class="w-7 h-7 flex items-center justify-center bg-rose-50 text-rose-600 rounded-md hover:bg-rose-600 hover:text-white font-black transition-all shadow-sm">X</button>` : `<div class="w-7"></div>`;
         
-        row.className = "item-row-wrapper glass-panel p-2.5 rounded-2xl mb-3 min-w-[700px] relative overflow-hidden";
+        row.className = "item-row-wrapper glass-panel p-2 rounded-xl mb-1.5 min-w-[700px] relative overflow-hidden";
         row.innerHTML = `
             <div class="grid grid-cols-12 gap-2 items-center w-full item-row relative z-10">
-                <div class="col-span-4 relative"><input type="text" list="item-list" oninput="autoFillRate(this)" onkeydown="handleShortcut(event, 'PRODUCT')" class="premium-input pr-10 uppercase font-black text-xs text-blue-700 b-name" placeholder="Product Name"><button type="button" tabindex="-1" onclick="openItemModal(this.previousElementSibling)" class="absolute right-1 top-1 bottom-1 w-7 bg-blue-100 text-blue-700 rounded-md font-black text-sm hover:bg-blue-600 hover:text-white transition-all flex items-center justify-center pb-0.5">+</button></div>
+                <div class="col-span-4 relative"><input type="text" list="item-list" oninput="autoFillRate(this)" onkeydown="handleShortcut(event, 'PRODUCT')" class="premium-input pr-10 uppercase font-black text-[11px] text-blue-700 b-name" placeholder="Item Name"><button type="button" tabindex="-1" onclick="openItemModal(this.previousElementSibling)" class="absolute right-1 top-1 bottom-1 w-6 bg-blue-100 text-blue-700 rounded-md font-black text-base hover:bg-blue-600 hover:text-white transition-all flex items-center justify-center pb-0.5">+</button></div>
                 <div class="col-span-2"><input type="number" oninput="calcBill()" class="premium-input font-black text-sm text-slate-800 text-right b-rate" placeholder="Rate"></div>
                 <div class="col-span-1"><select onchange="calcBill()" tabindex="-1" class="premium-input text-center font-bold text-slate-800 b-gst px-1"><option value="0">0</option><option value="5">5</option><option value="12">12</option><option value="18" selected>18</option><option value="28">28</option></select></div>
                 <div class="col-span-1"><input type="number" min="1" value="1" oninput="window.handleGridQtyChange(this)" onkeyup="window.handleGridQtyChange(this)" class="premium-input text-center font-black text-base text-[#004aad] b-qty px-1"></div>
                 <div class="col-span-3"><input type="text" maxlength="25" oninput="this.value=this.value.replace(/[^0-9A-Za-z]/g,'')" class="premium-input font-mono font-bold uppercase text-slate-600 b-imei-main" placeholder="IMEI / Serial"></div>
-                <div class="col-span-1 flex justify-between items-center pl-1"><span class="font-black text-[#004aad] text-sm w-full text-right pr-2 b-amt">0</span>${removeBtn}</div>
+                <div class="col-span-1 flex justify-between items-center pl-1"><span class="font-black text-[#004aad] text-xs w-full text-right pr-2 b-amt">0</span>${removeBtn}</div>
             </div>
             <div class="b-imei-extended hidden grid grid-cols-3 sm:grid-cols-4 gap-2 mt-2 pt-2 border-t border-slate-200 relative z-10"></div>
         `;
@@ -922,23 +956,12 @@
     }
 
     window.handleGridQtyChange = function(input) {
-        calcBill(); 
-        const wrapper = input.closest('.item-row-wrapper'); 
-        const qty = Math.max(1, Number(input.value) || 1); 
-        const extBox = wrapper.querySelector('.b-imei-extended');
+        calcBill(); const wrapper = input.closest('.item-row-wrapper'); const qty = Math.max(1, Number(input.value) || 1); const extBox = wrapper.querySelector('.b-imei-extended');
         if(qty > 1) {
-            extBox.classList.remove('hidden'); 
-            const existing = Array.from(extBox.querySelectorAll('.b-imei-extra')).map(i => i.value); 
-            let html = '';
-            for(let i=2; i<=qty; i++) { 
-                const val = existing[i-2] || ""; 
-                html += `<input type="text" maxlength="25" oninput="this.value=this.value.replace(/[^0-9A-Za-z]/g,'')" value="${val}" placeholder="IMEI ${i}" class="premium-input bg-white font-mono font-bold text-xs uppercase text-blue-600 b-imei-extra border-blue-200 shadow-sm h-[36px]!">`; 
-            }
+            extBox.classList.remove('hidden'); const existing = Array.from(extBox.querySelectorAll('.b-imei-extra')).map(i => i.value); let html = '';
+            for(let i=2; i<=qty; i++) { const val = existing[i-2] || ""; html += `<input type="text" maxlength="25" oninput="this.value=this.value.replace(/[^0-9A-Za-z]/g,'')" value="${val}" placeholder="IMEI ${i}" class="premium-input font-mono font-bold text-[10px] uppercase text-blue-600 b-imei-extra border-blue-200 shadow-sm h-[32px]!">`; }
             extBox.innerHTML = html;
-        } else { 
-            extBox.classList.add('hidden'); 
-            extBox.innerHTML = ''; 
-        }
+        } else { extBox.classList.add('hidden'); extBox.innerHTML = ''; }
     };
 
     function autoFillRate(input) {
@@ -946,12 +969,16 @@
         if(prod) { row.querySelector('.b-rate').value = currentMode === "SALE" ? prod.sale : prod.pur; row.querySelector('.b-gst').value = prod.gst; calcBill(); }
     }
 
+    function resetPaymentFields() {
+        document.getElementById('pay-primary').value = ""; document.getElementById('pay-secondary').value = ""; document.getElementById('bill-discount').value = "";
+        onPaymentModeChange('clear'); calcBill();
+    }
+
     function onPaymentModeChange(source) {
         const pEl = document.getElementById('pay-primary'); const sEl = document.getElementById('pay-secondary'); const payInput = document.getElementById('bill-paid');
-        if (source === 'primary' && pEl.value !== "Choose" && pEl.value !== "") sEl.value = "Choose";
-        else if (source === 'secondary' && sEl.value !== "Choose" && sEl.value !== "") pEl.value = "Choose";
-
+        if (source === 'primary' && pEl.value !== "") sEl.value = ""; else if (source === 'secondary' && sEl.value !== "") pEl.value = "";
         const p = pEl.value; const s = sEl.value;
+        
         document.getElementById('fin-box').classList.add('hidden'); document.getElementById('dues-box').classList.add('hidden'); document.getElementById('split-box').classList.add('hidden');
         
         let activeMode = p || "";
@@ -962,36 +989,26 @@
         if(isSplit) {
             document.getElementById('split-box').classList.remove('hidden');
             document.getElementById('wrap-split-cash').classList.toggle('hidden', !activeMode.includes("Cash")); document.getElementById('wrap-split-qr').classList.toggle('hidden', !activeMode.includes("QR")); document.getElementById('wrap-split-card').classList.toggle('hidden', !activeMode.includes("Card"));
-            payInput.readOnly = true; payInput.classList.add("bg-slate-200", "cursor-not-allowed", "text-slate-500"); payInput.classList.remove("bg-emerald-50", "text-emerald-700"); payInput.placeholder = "Auto Calculated";
+            payInput.readOnly = true; payInput.classList.add("bg-slate-200", "cursor-not-allowed", "text-slate-500"); payInput.classList.remove("bg-emerald-50", "text-emerald-700"); payInput.placeholder = "Split Auto";
         } else {
             payInput.readOnly = false; payInput.classList.remove("bg-slate-200", "cursor-not-allowed", "text-slate-500"); payInput.classList.add("bg-emerald-50", "text-emerald-700"); payInput.placeholder = "0";
-            if (activeMode === "Choose" || activeMode === "") payInput.value = "";
+            if (activeMode === "") payInput.value = "";
         }
         calcBill();
     }
 
     function calcBill(isTypingPaid = false) {
-        let totalTaxable = 0; let totalGstAmt = 0; let rawGrandTotal = 0;
-        let totalPurchaseCost = 0; 
-
+        let totalTaxable = 0; let totalGstAmt = 0; let rawGrandTotal = 0; let totalPurchaseCost = 0;
         const isInclusive = document.querySelector('input[name="tax_calc_type"]:checked')?.value === 'inclusive';
 
         document.querySelectorAll('.item-row-wrapper').forEach(wrapper => {
-            const row = wrapper.querySelector('.item-row');
-            const name = row.querySelector('.b-name').value.trim().toUpperCase();
-            const rate = Number(row.querySelector('.b-rate').value) || 0; const qty = Number(row.querySelector('.b-qty').value) || 0; const gst = Number(row.querySelector('.b-gst').value) || 0;
-            
-            let grossLine = rate * qty;
-            let lineTaxable = 0; let lineGst = 0; let lineTotal = 0;
+            const row = wrapper.querySelector('.item-row'); const name = row.querySelector('.b-name').value.trim().toUpperCase(); const rate = Number(row.querySelector('.b-rate').value) || 0; const qty = Number(row.querySelector('.b-qty').value) || 0; const gst = Number(row.querySelector('.b-gst').value) || 0;
+            let grossLine = rate * qty; let lineTaxable = 0; let lineGst = 0; let lineTotal = 0;
 
             if (isInclusive && gst > 0) { lineTaxable = grossLine / (1 + (gst / 100)); lineGst = grossLine - lineTaxable; lineTotal = grossLine; } 
             else { lineTaxable = grossLine; lineGst = lineTaxable * (gst / 100); lineTotal = lineTaxable + lineGst; }
 
-            if(currentMode === "SALE" && name) {
-                const prod = productsDB.find(p => p.name === name);
-                if(prod) totalPurchaseCost += (prod.pur * qty);
-            }
-
+            if(currentMode === "SALE" && name) { const prod = productsDB.find(p => p.name === name); if(prod) totalPurchaseCost += (prod.pur * qty); }
             row.querySelector('.b-amt').innerText = (Math.round(lineTotal * 100) / 100).toLocaleString('en-IN', {minimumFractionDigits: 2});
             totalTaxable += lineTaxable; totalGstAmt += lineGst; rawGrandTotal += lineTotal;
         });
@@ -1005,8 +1022,7 @@
         document.getElementById('bill-gst').innerText = "₹ " + (Math.round(totalGstAmt * 100) / 100).toLocaleString('en-IN', {minimumFractionDigits: 2});
         document.getElementById('bill-grand-total').innerText = "₹ " + roundGrandTotal.toLocaleString('en-IN');
 
-        const payInput = document.getElementById('bill-paid');
-        const p = document.getElementById('pay-primary').value; const s = document.getElementById('pay-secondary').value;
+        const payInput = document.getElementById('bill-paid'); const p = document.getElementById('pay-primary').value; const s = document.getElementById('pay-secondary').value;
         let activeMode = p || ""; if (s === "Finance") activeMode = document.getElementById('fin-dp-mode').value || ""; if (s === "Dues") activeMode = document.getElementById('dues-mode').value || "";
         
         let rawPaid = 0;
@@ -1017,7 +1033,7 @@
             if(!isTypingPaid) payInput.value = rawPaid;
         } else {
             if(!isTypingPaid) {
-                if (p === "Choose" || p === "" || (s === "Dues" && activeMode === "Choose")) { payInput.value = ""; rawPaid = 0; }
+                if (p === "" || (s === "Dues" && activeMode === "")) { payInput.value = ""; rawPaid = 0; }
                 else if (s === "Finance" || s === "Dues") { rawPaid = Number(payInput.value) || 0; }
                 else { payInput.value = roundGrandTotal; rawPaid = roundGrandTotal; }
             } else { rawPaid = Number(payInput.value) || 0; }
@@ -1028,26 +1044,21 @@
         return { totalTaxable, totalGstAmt, grandTotal: roundGrandTotal, rawPaid, due, profit, discount };
     }
 
-    // DOUBLE SAVE PROTECTION LOGIC
     function saveFinalBill() {
         if(isSaving) return;
-        
-        const party = document.getElementById('bill-party').value.trim().toUpperCase();
-        const invNo = document.getElementById('bill-inv').value.trim() || `${invPrefix}${(billsDB.length + 1).toString().padStart(3,'0')}`;
-        const bDate = document.getElementById('bill-date').value;
-        const mobile = document.getElementById('bill-mobile').value.trim();
+        const party = document.getElementById('bill-party').value.trim().toUpperCase(); const invNo = document.getElementById('bill-inv').value.trim() || `${invPrefix}${(billsDB.length + 1).toString().padStart(3,'0')}`; const bDate = document.getElementById('bill-date').value; const mobile = document.getElementById('bill-mobile').value.trim();
         if(!party) return showToast("Required", "Party Name is required!", "error");
 
         const totals = calcBill(true);
         if(totals.grandTotal <= 0) return showToast("Empty", "Bill total cannot be 0!", "error");
 
         const p = document.getElementById('pay-primary').value; const s = document.getElementById('pay-secondary').value;
-        if(p === "Choose" && s === "Choose") return showToast("Payment", "Select Payment Mode!", "error");
+        if(p === "" && s === "") return showToast("Payment", "Select Payment Mode!", "error");
         
         let pRate = ""; let finData = null;
         if (s === "Finance") {
             const comp = document.getElementById('fin-company').value; pRate = Number(document.getElementById('fin-rate').value) || 0;
-            if(!comp) return showToast("Finance", "Select Finance Company!", "error"); if(pRate <= 0) return showToast("Finance", "Down Payment Rate is required!", "error");
+            if(!comp) return showToast("Finance", "Select Finance Company!", "error"); if(pRate <= 0) return showToast("Finance", "Down Payment is required!", "error");
             finData = { company: comp, dp: totals.rawPaid, loan: totals.grandTotal - totals.rawPaid };
         } else if (s === "Dues") {
             if(totals.rawPaid >= totals.grandTotal) return showToast("Dues", "For Dues, paid amount must be less than Total!", "error");
@@ -1092,32 +1103,17 @@
         if(errorMsg) return showToast("Stock Error", errorMsg, "error");
         if(items.length === 0) return showToast("Item Error", "Add at least one valid product!", "error");
 
-        isSaving = true; // Lock Save Button
-        const btnSave = document.getElementById('btn-save-bill');
-        if(btnSave) { btnSave.innerHTML = "⏳ Saving..."; btnSave.classList.add("opacity-50", "cursor-not-allowed"); }
+        isSaving = true; const btnSave = document.getElementById('btn-save-bill'); if(btnSave) { btnSave.innerHTML = "⏳ Saving..."; btnSave.classList.add("opacity-50", "cursor-not-allowed"); }
 
-        const activePaymentMode = s !== "Choose" ? s : p;
+        const activePaymentMode = s !== "" ? s : p;
         const billRecord = { id: 'INV-'+Date.now(), invNo: invNo, date: bDate, type: currentMode, party: party, mobile: mobile, items: items, basic: totals.totalTaxable, gst: totals.totalGstAmt, discount: totals.discount, total: totals.grandTotal, paid: totals.rawPaid, due: totals.due, paymentMode: activePaymentMode, paymentRate: pRate, finance: finData, profit: totals.profit };
 
         billsDB.unshift(billRecord); Storage.set('sre_bills', billsDB); Storage.set('sre_products', productsDB); 
         
-        if(totals.due > 0) {
-            let pData = partiesDB.find(p => p.name === party);
-            if(pData) {
-                if(currentMode === "SALE") pData.ob += totals.due; 
-                if(currentMode === "PURCHASE") pData.ob -= totals.due; 
-                Storage.set('sre_parties', partiesDB);
-            }
-        }
+        if(totals.due > 0) { let pData = partiesDB.find(p => p.name === party); if(pData) { if(currentMode === "SALE") pData.ob += totals.due; if(currentMode === "PURCHASE") pData.ob -= totals.due; Storage.set('sre_parties', partiesDB); } }
         
-        showPopup("Saved", currentMode + " Bill Saved Successfully!");
-        generateInvoiceHTML(billRecord);
-
-        // Unlock after 2 seconds
-        setTimeout(() => { 
-            isSaving = false; 
-            if(btnSave) { btnSave.innerHTML = `<span class="text-[9px] font-normal text-slate-400 mr-1">(Ctrl+S)</span><span>💾 Save Bill</span>`; btnSave.classList.remove("opacity-50", "cursor-not-allowed"); }
-        }, 2000);
+        showPopup("Saved", currentMode + " Bill Saved Successfully!"); generateInvoiceHTML(billRecord);
+        setTimeout(() => { isSaving = false; if(btnSave) { btnSave.innerHTML = `<span class="text-[9px] font-normal text-blue-200 hidden sm:inline">(Ctrl+S)</span> <span>💾 Save</span>`; btnSave.classList.remove("opacity-50", "cursor-not-allowed"); } }, 2000);
     }
 
     // 8. INVOICE GENERATION & WHATSAPP
@@ -1128,37 +1124,22 @@
     }
 
     function shareViaWhatsApp() {
-        const party = document.getElementById('inv-party').innerText;
-        let mobile = document.getElementById('inv-phone').innerText.replace('Ph:', '').trim();
-        const invNo = document.getElementById('inv-no').innerText;
-        const total = document.getElementById('inv-total').innerText;
-
-        if(!mobile || mobile === "-") {
-            mobile = prompt("Enter WhatsApp number for " + party + ":");
-            if(!mobile) return;
-        }
-
+        const party = document.getElementById('inv-party').innerText; let mobile = document.getElementById('inv-phone').innerText.replace('Ph:', '').trim(); const invNo = document.getElementById('inv-no').innerText; const total = document.getElementById('inv-total').innerText;
+        if(!mobile || mobile === "-") { mobile = prompt("Enter WhatsApp number for " + party + ":"); if(!mobile) return; }
         let text = `*SRI RAM ENTERPRISES*\n------------------------\nHello *${party}*,\nYour invoice *${invNo}* for *${total}* has been successfully generated.\n\nThank you for your business!`;
-        let url = `https://wa.me/91${mobile}?text=${encodeURIComponent(text)}`;
-        window.open(url, '_blank');
+        let url = `https://wa.me/91${mobile}?text=${encodeURIComponent(text)}`; window.open(url, '_blank');
     }
 
     function generateInvoiceHTML(bill) {
         document.getElementById('inv-party').innerText = bill.party; document.getElementById('inv-phone').innerText = "Ph: " + (bill.mobile || "-"); document.getElementById('inv-no').innerText = bill.invNo; document.getElementById('inv-date').innerText = bill.date;
         document.getElementById('inv-type-title').innerText = bill.type === "PURCHASE" ? "PURCHASE VOUCHER" : "TAX INVOICE";
-        
         let pData = partiesDB.find(p => p.name === bill.party); document.getElementById('inv-address').innerText = pData ? (pData.address || "-") : "-";
         
-        let html = ''; bill.items.forEach((it, i) => { html += `<tr class="border-b border-slate-200"><td class="p-3 border-r border-slate-900 text-center">${i+1}</td><td class="p-3 border-r border-slate-900">${it.name} <span class="text-[8px] text-slate-500 font-black tracking-widest ml-1">[GST ${it.gst}%]</span></td><td class="p-3 border-r border-slate-900 font-mono text-[10px] break-all">${it.imei || '-'}</td><td class="p-3 border-r border-slate-900 text-center text-sm">${it.qty}</td><td class="p-3 border-r border-slate-900 text-right">${it.rate.toLocaleString('en-IN')}</td><td class="p-3 text-right text-slate-900">${it.amt.toLocaleString('en-IN')}</td></tr>`; });
+        let html = ''; bill.items.forEach((it, i) => { html += `<tr class="border-b border-slate-200"><td class="p-2 border-r border-slate-900 text-center">${i+1}</td><td class="p-2 border-r border-slate-900">${it.name} <span class="text-[8px] text-slate-500 font-black tracking-widest ml-1">[GST ${it.gst}%]</span></td><td class="p-2 border-r border-slate-900 font-mono text-[9px] break-all">${it.imei || '-'}</td><td class="p-2 border-r border-slate-900 text-center">${it.qty}</td><td class="p-2 border-r border-slate-900 text-right">${it.rate.toLocaleString('en-IN')}</td><td class="p-2 text-right text-slate-900">${it.amt.toLocaleString('en-IN')}</td></tr>`; });
         document.getElementById('inv-items').innerHTML = html;
         
-        document.getElementById('inv-taxable').innerText = "₹ " + bill.basic.toLocaleString('en-IN', {minimumFractionDigits: 2}); 
-        document.getElementById('inv-gst').innerText = "₹ " + bill.gst.toLocaleString('en-IN', {minimumFractionDigits: 2}); 
-        
-        const discRow = document.getElementById('inv-disc-row');
-        if(bill.discount > 0 && discRow) { discRow.classList.remove('hidden'); document.getElementById('inv-disc').innerText = "- ₹ " + bill.discount.toLocaleString('en-IN'); } 
-        else if (discRow) { discRow.classList.add('hidden'); }
-
+        document.getElementById('inv-taxable').innerText = "₹ " + bill.basic.toLocaleString('en-IN', {minimumFractionDigits: 2}); document.getElementById('inv-gst').innerText = "₹ " + bill.gst.toLocaleString('en-IN', {minimumFractionDigits: 2}); 
+        const discRow = document.getElementById('inv-disc-row'); if(bill.discount > 0 && discRow) { discRow.classList.remove('hidden'); document.getElementById('inv-disc').innerText = "- ₹ " + bill.discount.toLocaleString('en-IN'); } else if (discRow) { discRow.classList.add('hidden'); }
         document.getElementById('inv-total').innerText = "₹ " + bill.total.toLocaleString('en-IN'); document.getElementById('inv-paid').innerText = "₹ " + bill.paid.toLocaleString('en-IN'); document.getElementById('inv-bal').innerText = "₹ " + bill.due.toLocaleString('en-IN');
         document.getElementById("inv-qr").innerHTML = ""; new QRCode(document.getElementById("inv-qr"), { text: `upi://pay?pa=sriram.enterprise@upi&pn=SriRamEnterprises&am=${bill.total}`, width: 64, height: 64 });
         showView('invoice');
@@ -1176,12 +1157,10 @@
         const rows = document.getElementById('inv-items').getElementsByTagName('tr');
         for(let i=0; i<rows.length; i++) { const cols = rows[i].getElementsByTagName('td'); doc.rect(10, startY, 190, 8); doc.text(cols[0].innerText, 14, startY + 5.5); doc.text(cols[1].innerText.replace('[GST', ' GST'), 25, startY + 5.5); doc.text(cols[2].innerText, 100, startY + 5.5); doc.text(cols[3].innerText, 145, startY + 5.5, null, null, "center"); doc.text(cols[4].innerText, 165, startY + 5.5, null, null, "right"); doc.text(cols[5].innerText, 195, startY + 5.5, null, null, "right"); startY += 8; }
         doc.setDrawColor(...themeColor); doc.setLineWidth(0.5); doc.line(10, startY, 200, startY); startY += 8;
-        doc.setFont("helvetica", "bold"); doc.setFontSize(9); doc.text("Taxable Value:", 155, startY); doc.text(document.getElementById('inv-taxable').innerText, 195, startY, null, null, "right"); startY += 6; doc.text("Total GST:", 155, startY); doc.text(document.getElementById('inv-gst').innerText, 195, startY, null, null, "right"); startY += 6; 
-        if(!document.getElementById('inv-disc-row')?.classList.contains('hidden')) { doc.setTextColor(225, 29, 72); doc.text("Discount:", 155, startY); doc.text(document.getElementById('inv-disc').innerText, 195, startY, null, null, "right"); startY += 8; }
+        doc.setFont("helvetica", "bold"); doc.setFontSize(9); doc.text("Taxable Value:", 155, startY); doc.text(document.getElementById('inv-taxable').innerText, 195, startY, null, null, "right"); startY += 6; doc.text("Total GST:", 155, startY); doc.text(document.getElementById('inv-gst').innerText, 195, startY, null, null, "right"); startY += 8;
         doc.setFillColor(...themeColor); doc.rect(130, startY-5, 70, 10, "F"); doc.setTextColor(255, 255, 255); doc.setFontSize(11); doc.text("GRAND TOTAL", 133, startY+2); doc.text(document.getElementById('inv-total').innerText, 197, startY+2, null, null, "right"); startY += 12;
         doc.setTextColor(0, 0, 0); doc.setFontSize(9); doc.text("Amount Paid:", 155, startY); doc.text(document.getElementById('inv-paid').innerText, 195, startY, null, null, "right"); startY += 6; doc.text("Balance Due:", 155, startY); doc.text(document.getElementById('inv-bal').innerText, 195, startY, null, null, "right");
         
-        // Professional Signatory
         startY += 20; doc.setLineWidth(0.3); doc.line(15, startY, 60, startY); doc.text("Customer Signature", 37, startY + 5, null, null, "center");
         doc.line(140, startY, 195, startY); doc.setFont("helvetica", "bold"); doc.text("For Sri Ram Enterprises", 167, startY + 5, null, null, "center"); doc.setFont("helvetica", "normal"); doc.setFontSize(7); doc.setTextColor(150,150,150); doc.text("Authorized Signatory", 167, startY + 9, null, null, "center");
         doc.save(`${document.getElementById('inv-no').innerText}.pdf`);
@@ -1259,36 +1238,21 @@
             if(bill.type === "SALE" || bill.type === "PURCHASE") {
                 bill.items.forEach(it => {
                     let prod = productsDB.find(p => p.name === it.name);
-                    if(prod) {
-                        if (bill.type === "SALE") prod.stock += it.qty; // Return stock
-                        if (bill.type === "PURCHASE") prod.stock -= it.qty; // Remove stock
-                    }
+                    if(prod) { if (bill.type === "SALE") prod.stock += it.qty; if (bill.type === "PURCHASE") prod.stock -= it.qty; }
                 });
                 Storage.set('sre_products', productsDB);
             }
         }
-        billsDB = billsDB.filter(b => b.id !== id);
-        Storage.set('sre_bills', billsDB);
-        updateLedgerView();
-        showToast("Deleted", "Transaction & Stock adjusted successfully.", "success");
+        billsDB = billsDB.filter(b => b.id !== id); Storage.set('sre_bills', billsDB); updateLedgerView(); showToast("Deleted", "Transaction & Stock adjusted successfully.", "success");
     }
 
     function renderDashboard() {
         let saleAmt = 0; let purAmt = 0; let totalProfit = 0;
-        billsDB.forEach(b => { 
-            if(b.type === "SALE") { saleAmt += b.total; totalProfit += (Number(b.profit) || 0); }
-            if(b.type === "PURCHASE") purAmt += b.total; 
-        });
-        document.getElementById('dash-sale').innerText = "₹ " + saleAmt.toLocaleString('en-IN'); 
-        document.getElementById('dash-pur').innerText = "₹ " + purAmt.toLocaleString('en-IN');
-        document.getElementById('dash-profit').innerText = "₹ " + totalProfit.toLocaleString('en-IN');
-        document.getElementById('dash-prod-count').innerText = productsDB.length;
-        document.getElementById('dash-party-count').innerText = partiesDB.length;
+        billsDB.forEach(b => { if(b.type === "SALE") { saleAmt += b.total; totalProfit += (Number(b.profit) || 0); } if(b.type === "PURCHASE") purAmt += b.total; });
+        document.getElementById('dash-sale').innerText = "₹ " + saleAmt.toLocaleString('en-IN'); document.getElementById('dash-pur').innerText = "₹ " + purAmt.toLocaleString('en-IN'); document.getElementById('dash-profit').innerText = "₹ " + totalProfit.toLocaleString('en-IN');
+        document.getElementById('dash-prod-count').innerText = productsDB.length; document.getElementById('dash-party-count').innerText = partiesDB.length;
         const ctx = document.getElementById('businessChart');
-        if (ctx) { 
-            if (window.bizChart) window.bizChart.destroy(); 
-            window.bizChart = new Chart(ctx, { type: 'bar', data: { labels: ['Turnover Analytics'], datasets: [{ label: 'Gross Sales', data: [saleAmt || 1000], backgroundColor: '#2563eb', borderRadius: 6 }, { label: 'Inward Purchases', data: [purAmt || 500], backgroundColor: '#e11d48', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false } }); 
-        }
+        if (ctx) { if (window.bizChart) window.bizChart.destroy(); window.bizChart = new Chart(ctx, { type: 'bar', data: { labels: ['Turnover Analytics'], datasets: [{ label: 'Gross Sales', data: [saleAmt || 1000], backgroundColor: '#2563eb', borderRadius: 6 }, { label: 'Inward Purchases', data: [purAmt || 500], backgroundColor: '#e11d48', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false } }); }
     }
 
     // BOOTSTRAP APP
