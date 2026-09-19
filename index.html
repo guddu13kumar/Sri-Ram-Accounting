@@ -1,37 +1,59 @@
-function calcBill(isTypingPaid = false) {
-        let totalTaxable = 0; let totalGstAmt = 0; let rawGrandTotal = 0; let totalPurchaseCost = 0;
-        const isInclusive = document.querySelector('input[name="tax_calc_type"]:checked')?.value === 'inclusive';
+// 🧮 1. ULTRA-FAST & PRECISE CALCULATION ENGINE
+    function calcBill(isTypingPaid = false) {
+        let totalTaxable = 0, totalGstAmt = 0, rawGrandTotal = 0, totalPurchaseCost = 0;
+        
+        // Optimize: Cache DOM checks outside the loop
+        const taxTypeEl = document.querySelector('input[name="tax_calc_type"]:checked');
+        const isInclusive = taxTypeEl ? taxTypeEl.value === 'inclusive' : false;
 
         document.querySelectorAll('#bill-items-body tr').forEach(row => {
-            const name = row.querySelector('.b-name').value.trim().toUpperCase();
-            const rate = Number(row.querySelector('.b-rate').value) || 0; const qty = Number(row.querySelector('.b-qty').value) || 0; const gst = Number(row.querySelector('.b-gst').value) || 0;
+            const nameInput = row.querySelector('.b-name');
+            if(!nameInput) return;
+            
+            const name = nameInput.value.trim().toUpperCase();
+            if(!name) return; // Skip empty rows silently
+
+            const rate = parseFloat(row.querySelector('.b-rate').value) || 0; 
+            const qty = parseFloat(row.querySelector('.b-qty').value) || 0; 
+            const gst = parseFloat(row.querySelector('.b-gst').value) || 0;
             
             let grossLine = rate * qty;
-            let lineTaxable = 0; let lineGst = 0; let lineTotal = 0;
+            let lineTaxable = 0, lineGst = 0;
 
-            if (isInclusive && gst > 0) { lineTaxable = grossLine / (1 + (gst / 100)); lineGst = grossLine - lineTaxable; lineTotal = grossLine; } 
-            else { lineTaxable = grossLine; lineGst = lineTaxable * (gst / 100); lineTotal = lineTaxable + lineGst; }
+            // Precision Math for GST
+            if (isInclusive && gst > 0) { 
+                lineTaxable = grossLine / (1 + (gst / 100)); 
+                lineGst = grossLine - lineTaxable; 
+            } else { 
+                lineTaxable = grossLine; 
+                lineGst = lineTaxable * (gst / 100); 
+            }
+            const lineTotal = lineTaxable + lineGst;
 
-            if(currentMode === "SALE" && name) {
+            if(currentMode === "SALE") {
                 const prod = productsDB.find(p => p.name === name);
                 if(prod) {
                     totalPurchaseCost += (prod.pur * qty);
-                    if (prod.stock < qty) row.querySelector('.b-qty').classList.add('stock-warning');
-                    else row.querySelector('.b-qty').classList.remove('stock-warning');
+                    // Smart UI Warning
+                    const qtyEl = row.querySelector('.b-qty');
+                    if (prod.stock < qty) qtyEl.classList.add('bg-rose-100', 'text-rose-700', 'border-rose-400');
+                    else qtyEl.classList.remove('bg-rose-100', 'text-rose-700', 'border-rose-400');
                 }
             }
 
-            row.querySelector('.b-amt').innerText = (Math.round(lineTotal * 100) / 100).toLocaleString('en-IN', {minimumFractionDigits: 2});
-            totalTaxable += lineTaxable; totalGstAmt += lineGst; rawGrandTotal += lineTotal;
+            row.querySelector('.b-amt').innerText = lineTotal.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            totalTaxable += lineTaxable; 
+            totalGstAmt += lineGst; 
+            rawGrandTotal += lineTotal;
         });
 
-        const discount = Number(document.getElementById('bill-discount').value) || 0;
-        rawGrandTotal = Math.max(0, rawGrandTotal - discount);
+        const discount = parseFloat(document.getElementById('bill-discount').value) || 0;
+        rawGrandTotal = Math.max(0, rawGrandTotal - discount); // Prevent negative bills
         const roundGrandTotal = Math.round(rawGrandTotal); 
         const profit = currentMode === "SALE" ? (roundGrandTotal - totalGstAmt - totalPurchaseCost) : 0; 
         
-        document.getElementById('bill-taxable').innerText = "₹ " + (Math.round(totalTaxable * 100) / 100).toLocaleString('en-IN', {minimumFractionDigits: 2});
-        document.getElementById('bill-gst').innerText = "₹ " + (Math.round(totalGstAmt * 100) / 100).toLocaleString('en-IN', {minimumFractionDigits: 2});
+        document.getElementById('bill-taxable').innerText = "₹ " + totalTaxable.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        document.getElementById('bill-gst').innerText = "₹ " + totalGstAmt.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
         document.getElementById('bill-grand-total').innerText = "₹ " + roundGrandTotal.toLocaleString('en-IN');
 
         const payInput = document.getElementById('bill-paid');
@@ -41,20 +63,30 @@ function calcBill(isTypingPaid = false) {
             payInput.value = roundGrandTotal;
             rawPaid = roundGrandTotal;
         } else {
-            rawPaid = Number(payInput.value) || 0;
+            rawPaid = parseFloat(payInput.value) || 0;
+            // SECURITY FIX: Prevent paying more than Grand Total (Prevents Negative Due)
+            if(rawPaid > roundGrandTotal) {
+                rawPaid = roundGrandTotal;
+                payInput.value = rawPaid;
+            }
         }
         
         const due = Math.max(0, roundGrandTotal - rawPaid);
         document.getElementById('bill-due').innerText = "₹ " + due.toLocaleString('en-IN');
+        
         return { totalTaxable, totalGstAmt, grandTotal: roundGrandTotal, rawPaid, due, profit, discount };
     }
 
+
+    // 🛡️ 2. BULLETPROOF 2-PASS SAVING ENGINE
     function saveFinalBill() {
-        if(isSaving) return;
+        if(isSaving) return; // Prevent Double Clicks
+        
         const party = document.getElementById('bill-party').value.trim().toUpperCase();
         const invNo = document.getElementById('bill-inv').value.trim() || `${invPrefix}${(billsDB.length + 1).toString().padStart(3,'0')}`;
         const bDate = document.getElementById('bill-date').value;
         const mobile = document.getElementById('bill-mobile').value.trim();
+        
         if(!party) return showToast("Required", "Party Name is required!", "error");
 
         const totals = calcBill(true);
@@ -63,15 +95,31 @@ function calcBill(isTypingPaid = false) {
         let tempItems = [];
         let tempDeductions = [];
         let errorMsg = null;
+        
+        const isInclusive = document.querySelector('input[name="tax_calc_type"]:checked')?.value === 'inclusive';
 
-        for (let row of document.querySelectorAll('#bill-items-body tr')) {
-            const name = row.querySelector('.b-name').value.trim().toUpperCase(); const rate = Number(row.querySelector('.b-rate').value) || 0; const qty = Number(row.querySelector('.b-qty').value) || 1; const gst = Number(row.querySelector('.b-gst').value) || 0;
+        // PASS 1: VIRTUAL VALIDATION (Do not change DB yet)
+        const rows = document.querySelectorAll('#bill-items-body tr');
+        for (let row of rows) {
+            const nameInput = row.querySelector('.b-name');
+            if(!nameInput) continue;
+            const name = nameInput.value.trim().toUpperCase();
+            if(!name) continue; // Skip empty rows
+
+            const rate = parseFloat(row.querySelector('.b-rate').value) || 0; 
+            const qty = parseFloat(row.querySelector('.b-qty').value) || 1; 
+            const gst = parseFloat(row.querySelector('.b-gst').value) || 0;
+            
             const imeiMain = row.querySelector('.b-imei-main').value.trim().toUpperCase();
-            let validImeis = []; if(imeiMain) validImeis.push(imeiMain);
-            row.querySelectorAll('.b-imei-extra').forEach(inp => { if(inp.value.trim()) validImeis.push(inp.value.trim().toUpperCase()); });
+            let validImeis = []; 
+            if(imeiMain) validImeis.push(imeiMain);
+            
+            row.querySelectorAll('.b-imei-extra').forEach(inp => { 
+                if(inp.value.trim()) validImeis.push(inp.value.trim().toUpperCase()); 
+            });
             const imeiStr = validImeis.join(', ');
             
-            if(name && rate > 0) {
+            if(rate > 0) {
                 let prod = productsDB.find(p => p.name === name);
                 if (currentMode === "SALE" && prod) {
                     if (prod.stock < qty) { errorMsg = `Not enough stock for ${name}. Available: ${prod.stock}`; break; }
@@ -82,41 +130,67 @@ function calcBill(isTypingPaid = false) {
                     }
                 }
                 
-                const isInclusive = document.querySelector('input[name="tax_calc_type"]:checked')?.value === 'inclusive';
-                let grossLine = rate * qty; let lineTaxable = 0; let lineGst = 0; let lineTotal = 0;
-                if (isInclusive && gst > 0) { lineTaxable = grossLine / (1 + (gst / 100)); lineGst = grossLine - lineTaxable; lineTotal = grossLine; } 
-                else { lineTaxable = grossLine; lineGst = lineTaxable * (gst / 100); lineTotal = lineTaxable + lineGst; }
+                let grossLine = rate * qty; 
+                let lineTaxable = 0; let lineGst = 0;
+                
+                if (isInclusive && gst > 0) { 
+                    lineTaxable = grossLine / (1 + (gst / 100)); 
+                    lineGst = grossLine - lineTaxable; 
+                } else { 
+                    lineTaxable = grossLine; 
+                    lineGst = lineTaxable * (gst / 100); 
+                }
+                const lineTotal = lineTaxable + lineGst;
                 
                 tempItems.push({name, rate, qty, gst, imei: imeiStr, amt: Math.round(lineTotal)});
                 if(prod) tempDeductions.push({ prod, qty, validImeis });
-            } else if (name) { errorMsg = `Invalid rate for ${name}`; break; }
+            } else { 
+                errorMsg = `Invalid rate for ${name}`; break; 
+            }
         }
 
         if(errorMsg) return showToast("Stock Error", errorMsg, "error");
         if(tempItems.length === 0) return showToast("Item Error", "Add at least one valid product!", "error");
 
-        isSaving = true; const btnSave = document.getElementById('btn-save-bill'); if(btnSave) { btnSave.innerHTML = "⏳ Saving..."; btnSave.classList.add("opacity-50", "cursor-not-allowed"); }
+        // PASS 2: ACTUAL DB EXECUTION
+        isSaving = true; 
+        const btnSave = document.getElementById('btn-save-bill'); 
+        if(btnSave) { btnSave.innerHTML = "⏳ Saving..."; btnSave.classList.add("opacity-50", "cursor-not-allowed"); }
 
+        // Deduct/Add Stock safely
         tempDeductions.forEach(d => {
             if(currentMode === "SALE") {
                 d.prod.stock -= d.qty;
-                if(d.prod.track && d.prod.imeiList) { d.prod.imeiList = d.prod.imeiList.filter(i => !d.validImeis.includes(i)); }
+                if(d.prod.track && d.prod.imeiList) { 
+                    d.prod.imeiList = d.prod.imeiList.filter(i => !d.validImeis.includes(i)); 
+                }
             }
             if(currentMode === "PURCHASE") {
                 d.prod.stock += d.qty;
-                if(d.prod.track) { if(!d.prod.imeiList) d.prod.imeiList = []; d.prod.imeiList.push(...d.validImeis); }
+                if(d.prod.track) { 
+                    if(!d.prod.imeiList) d.prod.imeiList = []; 
+                    d.prod.imeiList.push(...d.validImeis); 
+                }
             }
         });
 
-        // Smart Ledger Logic
+        // SMART AUTO-LEDGER MODE
         let activePaymentMode = "CASH";
         if(totals.rawPaid === 0) activePaymentMode = "CREDIT";
         else if (totals.rawPaid < totals.grandTotal) activePaymentMode = "PARTIAL";
 
-        const billRecord = { id: 'INV-'+Date.now(), invNo: invNo, date: bDate, type: currentMode, party: party, mobile: mobile, items: tempItems, basic: totals.totalTaxable, gst: totals.totalGstAmt, discount: totals.discount, total: totals.grandTotal, paid: totals.rawPaid, due: totals.due, paymentMode: activePaymentMode, finance: null, profit: totals.profit };
+        const billRecord = { 
+            id: 'INV-'+Date.now(), invNo: invNo, date: bDate, type: currentMode, party: party, mobile: mobile, 
+            items: tempItems, basic: totals.totalTaxable, gst: totals.totalGstAmt, discount: totals.discount, 
+            total: totals.grandTotal, paid: totals.rawPaid, due: totals.due, paymentMode: activePaymentMode, 
+            finance: null, profit: totals.profit 
+        };
 
-        billsDB.unshift(billRecord); Storage.set('sre_bills', billsDB); Storage.set('sre_products', productsDB); 
+        billsDB.unshift(billRecord); 
+        Storage.set('sre_bills', billsDB); 
+        Storage.set('sre_products', productsDB); 
         
+        // Party Ledger Update Logic
         if(totals.due > 0 || totals.rawPaid < totals.grandTotal || currentMode === "PURCHASE") {
             let pData = partiesDB.find(p => p.name === party);
             if(pData) {
@@ -128,5 +202,13 @@ function calcBill(isTypingPaid = false) {
         
         showPopup("Saved", currentMode + " Bill Saved Successfully!");
         generateInvoiceHTML(billRecord);
-        setTimeout(() => { isSaving = false; if(btnSave) { btnSave.innerHTML = `<span class="text-[9px] font-normal text-blue-200 hidden sm:inline mr-1">(Ctrl+S)</span> <span>💾 Save</span>`; btnSave.classList.remove("opacity-50", "cursor-not-allowed"); } }, 2000);
+        
+        // Unlock button after UI transitions
+        setTimeout(() => { 
+            isSaving = false; 
+            if(btnSave) { 
+                btnSave.innerHTML = `<span class="text-[9px] font-normal text-blue-200 hidden sm:inline mr-1">(Ctrl+S)</span> <span>💾 Save</span>`; 
+                btnSave.classList.remove("opacity-50", "cursor-not-allowed"); 
+            } 
+        }, 1500);
     }
