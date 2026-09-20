@@ -5,76 +5,56 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>Sri Ram Enterprises - Enterprise POS</title>
   <meta name="theme-color" content="#0f172a" />
-  
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
-    
-    /* Strict No-Scroll Body */
     body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f1f5f9; color: #1e293b; overflow: hidden; height: 100vh; width: 100vw; margin: 0; display: flex; flex-direction: column; }
-    
     ::-webkit-scrollbar { width: 4px; height: 4px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-    
     .glass-panel { background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-    
     .premium-input { font-size: 12px !important; padding-left: 10px; padding-right: 10px; border-radius: 4px; border: 1px solid #cbd5e1; width: 100%; outline: none; transition: all 0.2s; font-weight: 700; color: #0f172a; background-color: #fff; }
     .premium-input:focus { border-color: #2563eb; box-shadow: 0 0 0 2px rgba(37,99,235,0.15); }
     select.premium-input, input.premium-input:not([type="checkbox"]) { height: 32px; }
-    
-    /* Full Width Table */
     .bill-table { width: 100%; border-collapse: separate; border-spacing: 0; }
     .bill-table th { position: sticky; top: 0; background-color: #f8fafc; color: #475569; font-size: 9px; font-weight: 800; text-transform: uppercase; padding: 8px; z-index: 10; border-bottom: 2px solid #e2e8f0; text-align: left; }
     .bill-table td { padding: 6px 8px; background-color: #ffffff; border-bottom: 1px solid #f1f5f9; vertical-align: top; }
     .bill-table tr:hover td { background-color: #f8fafc; }
-    
-    /* Ultra Compact IMEI Extra Boxes */
     .imei-extra-input { border: 1px dashed #94a3b8; border-radius: 4px; padding: 2px 6px; font-size: 9px; font-family: monospace; font-weight: bold; color: #2563eb; width: 110px; height: 24px; outline: none; background: #f8fafc; }
     .imei-extra-input:focus { border-color: #2563eb; background: #fff; }
-
-    th.standard-th { text-transform: uppercase; font-size: 10px; letter-spacing: 0.05em; color: #475569; font-weight: 800; padding: 12px; background-color: #f8fafc; border-bottom: 2px solid #e2e8f0; }
+    th.standard-th { text-transform: uppercase; font-size: 10px; letter-spacing: 0.05em; color: #475569; font-weight: 800; padding: 12px; background-color: #f8fafc; border-bottom: 2px solid #e2e8f0; text-align: left; }
     td.standard-td { padding: 12px; font-size: 12px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; font-weight: 600; }
-
     @keyframes popIn { 0% { transform: scale(0.9); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
     .modal-animate { animation: popIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
     input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-    input[type="number"] { -moz-appearance: textfield; }
-
     @media print {
-        @page { size: auto; margin: 0mm; }
-        body * { visibility: hidden; }
-        #print-container, #print-container * { visibility: visible; }
+        @page { size: auto; margin: 0mm; } body * { visibility: hidden; } #print-container, #print-container * { visibility: visible; }
         #print-container { position: absolute; left: 0; top: 0; width: 100% !important; margin: 0 !important; background: white; display:flex; justify-content:center; }
-        .no-print { display: none !important; }
-        .thermal-mode { width: 80mm !important; padding: 10px !important; box-shadow: none !important; border: none !important; border-radius: 0 !important; }
-        .thermal-mode th, .thermal-mode td { font-size: 9px !important; padding: 4px !important; }
-        .thermal-mode h1 { font-size: 20px !important; }
+        .no-print { display: none !important; } .thermal-mode { width: 80mm !important; padding: 10px !important; box-shadow: none !important; border: none !important; border-radius: 0 !important; }
+        .thermal-mode th, .thermal-mode td { font-size: 9px !important; padding: 4px !important; } .thermal-mode h1 { font-size: 20px !important; }
     }
   </style>
 </head>
 <body>
-
   <datalist id="item-list"></datalist>
   <datalist id="party-list"></datalist>
-
   <div id="toast-container" class="fixed top-5 right-5 z-[150] flex flex-col gap-2 pointer-events-none"></div>
 
-  <div id="center-popup" class="fixed inset-0 bg-slate-900/60 z-[120] hidden flex items-center justify-center backdrop-blur-sm px-4">
+  <!-- CENTER POPUP -->
+  <div id="center-popup" class="fixed inset-0 bg-slate-900/60 z-[120] hidden flex items-center justify-center backdrop-blur-sm">
     <div class="bg-white p-6 rounded-2xl shadow-2xl text-center max-w-sm w-full modal-animate">
       <div id="popup-icon" class="text-5xl mb-2">✅</div>
       <h3 id="popup-title" class="text-lg font-black text-[#004aad] uppercase tracking-wider">Message</h3>
       <p id="popup-message" class="text-xs font-bold text-slate-500 mt-1 mb-4">Success</p>
-      <button onclick="closePopup()" class="w-full py-2.5 bg-[#004aad] text-white font-black rounded-lg uppercase tracking-widest text-xs">OK (Enter)</button>
+      <button onclick="closePopup()" class="w-full py-2.5 bg-[#004aad] text-white font-black rounded-lg uppercase tracking-widest text-xs shadow hover:bg-blue-800">OK (Enter)</button>
     </div>
   </div>
 
-  <!-- HEADER (Extremely thin) -->
+  <!-- HEADER -->
   <header class="bg-[#0f172a] text-white flex justify-between items-center px-4 py-1.5 z-30 shrink-0 shadow-md">
     <div class="flex items-center space-x-3 cursor-pointer" onclick="showView('dashboard')">
       <div class="w-7 h-7 bg-blue-500 text-white rounded flex items-center justify-center font-black italic text-xs border border-white/20">SRE</div>
@@ -90,23 +70,120 @@
       <!-- SIDEBAR -->
       <aside class="hidden lg:flex flex-col w-[180px] bg-slate-900 text-slate-400 overflow-y-auto shrink-0 border-r border-slate-800">
         <div class="p-2 space-y-1 font-black uppercase tracking-wider text-[9px]">
-          <button onclick="showView('dashboard')" class="nav-btn w-full flex items-center space-x-2 bg-blue-600 text-white px-2 py-2 rounded transition-all"><span class="text-base">🏠</span><span>Dashboard</span></button>
-          <button onclick="showView('product')" class="nav-btn w-full flex items-center space-x-2 px-2 py-2 rounded hover:bg-slate-800 hover:text-white"><span class="text-base">📦</span><span>Items Master</span></button>
-          <button onclick="startBill('SALE')" class="nav-btn w-full flex items-center space-x-2 px-2 py-2 rounded hover:bg-slate-800 hover:text-white"><span class="text-base text-blue-400">📈</span><span>Sales Bill</span></button>
+          <button onclick="showView('dashboard')" class="nav-btn w-full flex items-center space-x-2 bg-blue-600 text-white px-2 py-2 rounded transition-all" id="nav-dashboard"><span class="text-base">🏠</span><span>Dashboard</span></button>
+          <button onclick="showView('product')" class="nav-btn w-full flex items-center space-x-2 px-2 py-2 rounded hover:bg-slate-800 hover:text-white" id="nav-product"><span class="text-base">📦</span><span>Items Master</span></button>
+          <button onclick="startBill('SALE')" class="nav-btn w-full flex items-center space-x-2 px-2 py-2 rounded hover:bg-slate-800 hover:text-white" id="nav-new-bill"><span class="text-base text-blue-400">📈</span><span>Sales Bill</span></button>
           <button onclick="startBill('PURCHASE')" class="nav-btn w-full flex items-center space-x-2 px-2 py-2 rounded hover:bg-slate-800 hover:text-white"><span class="text-base text-emerald-400">🛒</span><span>Purchase</span></button>
-          <button onclick="startPayment('IN')" class="nav-btn w-full flex items-center space-x-2 px-2 py-2 rounded hover:bg-slate-800 hover:text-white"><span class="text-base text-teal-400">💳</span><span>Voucher</span></button>
-          <button onclick="showView('party')" class="nav-btn w-full flex items-center space-x-2 px-2 py-2 rounded hover:bg-slate-800 hover:text-white"><span class="text-base text-purple-400">👥</span><span>Accounts</span></button>
-          <button onclick="showView('ledger')" class="nav-btn w-full flex items-center space-x-2 px-2 py-2 rounded hover:bg-slate-800 hover:text-white"><span class="text-base text-amber-400">📒</span><span>Ledger</span></button>
+          <button onclick="startPayment('IN')" class="nav-btn w-full flex items-center space-x-2 px-2 py-2 rounded hover:bg-slate-800 hover:text-white" id="nav-payment"><span class="text-base text-teal-400">💳</span><span>Voucher</span></button>
+          <button onclick="showView('party')" class="nav-btn w-full flex items-center space-x-2 px-2 py-2 rounded hover:bg-slate-800 hover:text-white" id="nav-party"><span class="text-base text-purple-400">👥</span><span>Accounts</span></button>
+          <button onclick="showView('ledger')" class="nav-btn w-full flex items-center space-x-2 px-2 py-2 rounded hover:bg-slate-800 hover:text-white" id="nav-ledger"><span class="text-base text-amber-400">📒</span><span>Ledger</span></button>
         </div>
       </aside>
 
-      <!-- MAIN CONTENT AREA -->
       <main class="flex-1 flex flex-col overflow-hidden bg-slate-200 w-full relative">
 
-        <!-- ================= 🚀 FULL-WIDTH ZERO-SCROLL BILLING PAGE 🚀 ================= -->
-        <div id="view-new-bill" class="view-section hidden h-full w-full flex flex-col p-1.5 gap-1.5">
-            
-            <!-- TOP BAR: Party & Scanner (Compact Single Line) -->
+        <!-- 1. DASHBOARD -->
+        <div id="view-dashboard" class="view-section hidden flex-col space-y-4 max-w-7xl mx-auto w-full p-4 overflow-y-auto">
+            <h2 class="text-lg font-black text-[#0f172a] uppercase tracking-widest">Business Overview</h2>
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                <div class="glass-panel p-4 rounded-xl border-l-4 border-l-blue-500"><p class="text-[9px] text-slate-500 font-bold uppercase">Gross Sales</p><h3 class="text-xl font-black text-slate-800 mt-1" id="dash-sale">₹ 0</h3></div>
+                <div class="glass-panel p-4 rounded-xl border-l-4 border-l-emerald-500"><p class="text-[9px] text-emerald-600 font-bold uppercase">Net Profit</p><h3 class="text-xl font-black text-emerald-700 mt-1" id="dash-profit">₹ 0</h3></div>
+                <div class="glass-panel p-4 rounded-xl border-l-4 border-l-amber-500"><p class="text-[9px] text-slate-500 font-bold uppercase">SKUs</p><h3 class="text-xl font-black text-slate-800 mt-1" id="dash-prod-count">0</h3></div>
+                <div class="glass-panel p-4 rounded-xl border-l-4 border-l-purple-500"><p class="text-[9px] text-slate-500 font-bold uppercase">Accounts</p><h3 class="text-xl font-black text-slate-800 mt-1" id="dash-party-count">0</h3></div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-2">
+               <div class="lg:col-span-2 glass-panel rounded-xl p-4"><h3 class="font-black text-[11px] uppercase text-slate-800 mb-2 border-b pb-2">Analytics</h3><div class="h-[250px] w-full"><canvas id="businessChart"></canvas></div></div>
+               <div class="lg:col-span-1 glass-panel rounded-xl p-4 flex flex-col"><h3 class="font-black text-[11px] uppercase text-slate-800 mb-2 border-b pb-2">Operations</h3>
+                 <div class="grid gap-2 flex-1"><button onclick="startBill('SALE')" class="w-full h-10 bg-blue-50 text-blue-700 rounded font-black uppercase text-[10px] border border-blue-200">🛒 Sales Invoice</button><button onclick="startBill('PURCHASE')" class="w-full h-10 bg-emerald-50 text-emerald-700 rounded font-black uppercase text-[10px] border border-emerald-200">📦 Purchase Entry</button><button onclick="startPayment('IN')" class="w-full h-10 bg-purple-50 text-purple-700 rounded font-black uppercase text-[10px] border border-purple-200">💳 Voucher</button></div>
+               </div>
+            </div>
+        </div>
+
+        <!-- 2. SETTINGS -->
+        <div id="view-settings" class="view-section hidden space-y-4 max-w-xl mx-auto p-4 overflow-y-auto">
+            <h2 class="text-lg font-black text-slate-800 tracking-widest uppercase text-center mb-2">Cloud Sync Settings</h2>
+            <div class="glass-panel p-6 rounded-xl space-y-4">
+                <div><label class="text-[10px] font-black text-slate-500 uppercase block mb-1">Google AppScript URL</label><input type="text" id="settings-url" class="premium-input"></div>
+                <div><label class="text-[10px] font-black text-slate-500 uppercase block mb-1">Invoice Prefix</label><input type="text" id="settings-prefix" class="premium-input uppercase" placeholder="SRE-26-"></div>
+                <div class="grid grid-cols-2 gap-2 mt-2"><button onclick="backupData()" class="bg-emerald-600 text-white font-black rounded h-10 text-[9px] uppercase">☁️ Push Backup</button><button onclick="restoreData()" class="bg-amber-500 text-white font-black rounded h-10 text-[9px] uppercase">📥 Pull Backup</button></div>
+                <button onclick="saveSettings()" class="w-full h-10 bg-[#004aad] text-white font-black rounded text-[10px] uppercase mt-2">Save Setup</button>
+                <div class="pt-4 mt-4 border-t text-center"><button onclick="downloadLocalBackup()" class="w-full h-10 bg-slate-800 text-white font-black rounded text-[9px] uppercase">💾 Local Offline JSON Backup</button></div>
+            </div>
+        </div>
+
+        <!-- 3. PRODUCT MASTER -->
+        <div id="view-product" class="view-section hidden flex-col h-full w-full p-2 overflow-y-auto">
+            <div class="flex justify-between items-center pb-2 shrink-0">
+                <h2 class="text-lg font-black text-slate-800 uppercase">Inventory Master</h2>
+                <div class="flex gap-2">
+                    <input type="file" id="csv-upload" accept=".csv" class="hidden" onchange="importProductsCSV(event)" />
+                    <button onclick="document.getElementById('csv-upload').click()" class="px-3 h-8 bg-emerald-50 text-emerald-700 border border-emerald-200 font-black text-[9px] uppercase rounded">Import</button>
+                    <button onclick="exportProductsCSV()" class="px-3 h-8 bg-slate-100 text-slate-700 border border-slate-200 font-black text-[9px] uppercase rounded">Export</button>
+                    <button onclick="document.getElementById('add-product-form').scrollIntoView({behavior:'smooth'})" class="px-4 h-8 bg-blue-600 text-white font-black text-[10px] uppercase rounded shadow">➕ Add Item</button>
+                </div>
+            </div>
+            <div class="glass-panel rounded flex flex-col shadow-sm mb-4 shrink-0">
+                <div class="p-2 border-b bg-white flex gap-2"><input type="text" id="prod-search" oninput="debouncedRenderProducts()" placeholder="Search Name, SKU, IMEI..." class="premium-input text-xs flex-1" /><select id="filter-category" onchange="renderProducts()" class="cat-select premium-input w-40"></select></div>
+                <div class="overflow-x-auto max-h-[40vh]"><table class="w-full text-left min-w-[900px]"><thead class="bg-slate-50 sticky top-0 shadow-sm"><tr><th class="standard-th w-12 text-center">Img</th><th class="standard-th">Product Details</th><th class="standard-th">SKU/HSN</th><th class="standard-th text-right">Pur. Rate</th><th class="standard-th text-right text-blue-600">Sale Price</th><th class="standard-th text-center">Stock</th><th class="standard-th text-center">Status</th><th class="standard-th text-center">Act</th></tr></thead><tbody id="product-table-body" class="text-slate-700 divide-y divide-slate-100"></tbody></table></div>
+            </div>
+            <div id="add-product-form" class="glass-panel p-4 rounded shadow-sm shrink-0">
+                <h3 id="prod-form-title" class="font-black text-xs text-slate-800 uppercase mb-3 border-b pb-2">✏️ Product Setup</h3>
+                <input type="hidden" id="p-id" value="">
+                <div class="flex flex-col lg:flex-row gap-4">
+                    <div class="w-full lg:w-1/4 flex flex-col items-center">
+                        <input type="file" id="p-image-upload" accept="image/*" class="hidden" onchange="handleProductImage(event)" /><canvas id="img-canvas" class="hidden"></canvas>
+                        <div class="w-full h-[150px] bg-slate-50 border-2 border-dashed border-slate-300 rounded flex flex-col items-center justify-center relative cursor-pointer" onclick="document.getElementById('p-image-upload').click()"><div id="p-img-placeholder" class="flex flex-col items-center"><span class="text-3xl">📸</span><span class="text-[8px] font-black text-blue-600 bg-blue-50 px-2 py-1 rounded mt-1">Upload</span></div><img id="p-img-preview" class="hidden absolute inset-0 w-full h-full object-cover" /></div>
+                        <button type="button" onclick="clearProductImage()" class="mt-2 text-[8px] font-black text-rose-500 uppercase">Remove</button>
+                    </div>
+                    <div class="w-full lg:w-3/4 space-y-3">
+                        <div class="grid grid-cols-3 gap-2"><div class="col-span-2"><label class="text-[9px] font-black text-slate-500 uppercase block mb-1">Item Name *</label><input type="text" id="p-name" class="premium-input uppercase text-blue-700"></div><div><label class="text-[9px] font-black text-slate-500 uppercase block mb-1">Brand</label><input type="text" id="p-brand" class="premium-input uppercase"></div></div>
+                        <div class="grid grid-cols-4 gap-2"><div><label class="text-[9px] font-black text-slate-500 uppercase block mb-1">Category</label><select id="p-category" onchange="handleCategoryChange(this)" class="cat-select premium-input"></select></div><div><label class="text-[9px] font-black text-slate-500 uppercase block mb-1">Variant</label><input type="text" id="p-variant" class="premium-input uppercase"></div><div><label class="text-[9px] font-black text-slate-500 uppercase block mb-1">SKU</label><input type="text" id="p-sku" class="premium-input uppercase font-mono"></div><div><label class="text-[9px] font-black text-slate-500 uppercase block mb-1">HSN</label><input type="text" id="p-hsn" class="premium-input uppercase font-mono"></div></div>
+                        <div class="grid grid-cols-5 gap-2 p-2 bg-slate-50 border rounded"><div><label class="text-[9px] font-black text-slate-500 uppercase block mb-1">MRP</label><input type="number" id="p-mrp" class="premium-input"></div><div><label class="text-[9px] font-black text-slate-500 uppercase block mb-1">Pur Price</label><input type="number" id="p-pur" class="premium-input text-rose-600"></div><div><label class="text-[9px] font-black text-blue-600 uppercase block mb-1">Sale Price *</label><input type="number" id="p-sale" class="premium-input border-blue-400 text-blue-700"></div><div><label class="text-[9px] font-black text-slate-500 uppercase block mb-1">GST %</label><select id="p-gst" class="premium-input"><option value="0">0%</option><option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option></select></div><div><label class="text-[9px] font-black text-slate-500 uppercase block mb-1">Low Alert</label><input type="number" id="p-low" value="5" class="premium-input"></div></div>
+                        <div class="grid grid-cols-4 gap-2 items-end"><div><label class="text-[9px] font-black text-slate-500 uppercase block mb-1">Op. Stock</label><input type="number" id="p-stock" oninput="generateImeiBoxes()" class="premium-input text-center text-blue-600 font-black"></div><div class="col-span-2 flex items-center h-[32px]"><label class="flex items-center space-x-2 bg-white border rounded px-2 w-full h-full"><input type="checkbox" id="p-track" checked onchange="generateImeiBoxes()"><span class="text-[9px] font-black text-slate-700 uppercase">Track IMEI</span></label></div></div>
+                        <div id="p-imei-container" class="hidden p-2 bg-blue-50 border border-blue-100 rounded mt-2"><div id="p-imei-list" class="grid grid-cols-4 gap-2"></div></div>
+                    </div>
+                </div>
+                <div class="flex justify-end gap-2 mt-4 pt-3 border-t"><button onclick="clearProductForm()" class="px-5 py-2 bg-slate-200 text-slate-600 font-black text-[9px] uppercase rounded">Clear</button><button onclick="saveProduct()" class="px-6 py-2 bg-blue-600 text-white font-black text-[10px] uppercase rounded shadow">💾 Save Item</button></div>
+            </div>
+        </div>
+
+        <!-- 4. PARTY MASTER -->
+        <div id="view-party" class="view-section hidden flex-col h-full w-full p-2 overflow-y-auto">
+            <h2 class="text-lg font-black text-slate-800 uppercase tracking-widest pb-2 shrink-0">Party Master</h2>
+            <div class="glass-panel p-4 rounded shadow-sm shrink-0 mb-3">
+                <input type="hidden" id="pt-id" value="">
+                <div class="grid grid-cols-4 gap-2"><div><label class="text-[8px] font-black text-slate-500 uppercase block mb-1">Type</label><select id="pt-type" class="premium-input"><option value="CUSTOMER">Customer</option><option value="SUPPLIER">Supplier</option></select></div><div class="col-span-2"><label class="text-[8px] font-black text-slate-500 uppercase block mb-1">Name *</label><input type="text" id="pt-name" class="premium-input uppercase text-blue-700"></div><div><label class="text-[8px] font-black text-slate-500 uppercase block mb-1">Mobile</label><input type="text" id="pt-mobile" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'')" class="premium-input font-mono"></div></div>
+                <div class="grid grid-cols-4 gap-2 mt-2"><div class="col-span-2"><label class="text-[8px] font-black text-slate-500 uppercase block mb-1">Address</label><input type="text" id="pt-address" class="premium-input uppercase"></div><div><label class="text-[8px] font-black text-slate-500 uppercase block mb-1">GSTIN</label><input type="text" id="pt-gstin" class="premium-input uppercase font-mono"></div><div><label class="text-[8px] font-black text-slate-500 uppercase block mb-1">Opening Bal (₹)</label><input type="number" id="pt-ob" class="premium-input text-rose-600 font-bold" placeholder="0"></div></div>
+                <div class="flex justify-end gap-2 mt-3 pt-2 border-t"><button onclick="clearPartyForm()" class="px-4 py-1.5 bg-slate-100 font-black text-[9px] uppercase rounded text-slate-600">Clear</button><button onclick="saveParty()" class="px-5 py-1.5 bg-blue-600 font-black text-[9px] uppercase rounded text-white shadow">Save Party</button></div>
+            </div>
+            <div class="glass-panel rounded flex flex-col shadow-sm flex-1 overflow-hidden">
+                <div class="p-2 border-b bg-white"><input type="text" id="party-search" oninput="debouncedRenderParties()" placeholder="Search Party..." class="premium-input max-w-sm text-xs" /></div>
+                <div class="overflow-y-auto"><table class="w-full text-left min-w-[800px]"><thead class="bg-slate-50 sticky top-0 shadow-sm"><tr><th class="standard-th">Type</th><th class="standard-th">Name</th><th class="standard-th">Contact</th><th class="standard-th">Address/GST</th><th class="standard-th text-right">Balance</th><th class="standard-th text-center">Act</th></tr></thead><tbody id="party-table-body" class="text-slate-700 divide-y divide-slate-100"></tbody></table></div>
+            </div>
+        </div>
+
+        <!-- 5. ACCOUNTING VOUCHER (IN/OUT) -->
+        <div id="view-payment" class="view-section hidden space-y-4 max-w-md mx-auto pt-6 p-4 w-full h-full">
+            <h2 id="pay-title" class="text-lg font-black text-slate-800 tracking-widest uppercase text-center mb-3">VOUCHER ENTRY</h2>
+            <div class="glass-panel p-6 rounded-2xl shadow-sm bg-white border border-slate-200">
+              <div class="mb-3"><label class="text-[10px] font-black text-slate-500 uppercase block mb-1" id="pay-party-lbl">Party *</label><div class="relative"><input type="text" id="pay-party" list="party-list" onkeydown="handleShortcut(event, currentPaymentType === 'OUT' ? 'SUPPLIER' : 'CUSTOMER')" class="premium-input uppercase text-blue-700 font-black pr-8"><button onclick="openPartyModal(currentPaymentType === 'OUT' ? 'SUPPLIER' : 'CUSTOMER', document.getElementById('pay-party'))" tabindex="-1" class="absolute right-1 top-1 bottom-1 w-6 bg-blue-50 text-blue-600 rounded font-black">+</button></div></div>
+              <div class="grid grid-cols-2 gap-3 mb-3"><div><label class="text-[10px] font-black text-slate-500 uppercase block mb-1">Amount (₹) *</label><input type="number" id="pay-amt" class="premium-input border-emerald-400 bg-emerald-50 text-emerald-700 font-black text-lg h-[40px]!"></div><div><label class="text-[10px] font-black text-slate-500 uppercase block mb-1">Mode *</label><select id="pay-mode" class="premium-input h-[40px]!"><option value="Cash">Cash</option><option value="QR">UPI/QR</option><option value="Bank">Bank Transfer</option></select></div></div>
+              <div class="mb-4"><label class="text-[10px] font-black text-slate-500 uppercase block mb-1">Remarks</label><input type="text" id="pay-remarks" class="premium-input text-xs" placeholder="Optional narration"></div>
+              <button onclick="savePaymentTransaction()" class="w-full h-11 bg-blue-600 text-white font-black rounded-lg text-[10px] uppercase tracking-widest shadow">Post Transaction</button>
+            </div>
+        </div>
+
+        <!-- 6. FINANCIAL LEDGER -->
+        <div id="view-ledger" class="view-section hidden flex-col h-full w-full p-2 overflow-y-auto">
+            <h2 class="text-xl font-black text-slate-800 uppercase tracking-widest pb-1 shrink-0">Financial Ledger</h2>
+            <div class="flex bg-slate-200 p-1 rounded w-64 mb-2 shrink-0"><button type="button" onclick="switchLedgerTab('CUSTOMER')" id="tab-CUSTOMER" class="flex-1 py-1.5 rounded text-[10px] font-black bg-blue-600 text-white shadow">CUSTOMERS</button><button type="button" onclick="switchLedgerTab('SUPPLIER')" id="tab-SUPPLIER" class="flex-1 py-1.5 rounded text-[10px] font-black text-slate-500 hover:text-blue-600">SUPPLIERS</button></div>
+            <div class="grid grid-cols-4 gap-2 mb-2 shrink-0"><div class="glass-panel p-3 border-l-4 border-l-slate-400 rounded"><p class="text-[8px] text-slate-500 font-bold uppercase">Opening</p><h3 class="text-sm font-black text-slate-800" id="ledger-ob">₹0</h3></div><div class="glass-panel p-3 border-l-4 border-l-blue-500 rounded"><p class="text-[8px] text-slate-500 font-bold uppercase">Billed</p><h3 class="text-sm font-black text-blue-600" id="ledger-billed">₹0</h3></div><div class="glass-panel p-3 border-l-4 border-l-emerald-500 rounded"><p class="text-[8px] text-slate-500 font-bold uppercase">Paid/Recv</p><h3 class="text-sm font-black text-emerald-600" id="ledger-paid">₹0</h3></div><div class="glass-panel p-3 border-l-4 border-l-rose-500 rounded"><p class="text-[8px] text-slate-500 font-bold uppercase">Closing Bal</p><h3 class="text-sm font-black text-rose-600" id="ledger-bal">₹0</h3></div></div>
+            <div class="glass-panel rounded flex flex-col shadow-sm flex-1 overflow-hidden"><div class="p-2 border-b bg-white"><input type="text" id="ledger-search" oninput="debouncedRenderLedger()" placeholder="Search Ref/Name..." class="premium-input max-w-sm text-xs" /></div><div class="overflow-y-auto w-full flex-1"><table class="w-full text-left min-w-[900px]"><thead class="bg-slate-50 sticky top-0 shadow-sm"><tr><th class="standard-th">Date</th><th class="standard-th">Ref No</th><th class="standard-th text-center">Type</th><th class="standard-th">Party</th><th class="standard-th text-right">Debit(Dr)</th><th class="standard-th text-right">Credit(Cr)</th><th class="standard-th text-right">Balance</th><th class="standard-th text-center">Act</th></tr></thead><tbody id="ledger-table-body" class="text-slate-700 divide-y divide-slate-100"></tbody></table></div></div>
+        </div>
+
+        <!-- 7. THE MASTER BILLING ENGINE (Compact & Flawless) -->
+        <div id="view-new-bill" class="view-section hidden h-full w-full flex-col p-1.5 gap-1.5">
+            <!-- Top Bar -->
             <div class="bg-white p-1.5 rounded shadow-sm border border-slate-300 flex flex-wrap lg:flex-nowrap items-center gap-2 shrink-0">
                 <span id="form-entry-type" class="text-[9px] font-black px-2 py-1 rounded bg-blue-100 text-blue-700 uppercase tracking-widest shrink-0">SALE</span>
                 <input type="text" id="bill-inv" class="premium-input !w-20 !h-[30px] font-mono text-blue-600 text-[10px]" placeholder="INV NO">
@@ -115,720 +192,254 @@
                 <div class="flex-1 flex items-center relative min-w-[200px]">
                     <span class="absolute left-2 text-slate-400 text-xs">👤</span>
                     <input type="text" id="bill-party" list="party-list" oninput="onPartySelect(this.value)" onkeydown="handleShortcut(event, currentMode === 'SALE' ? 'CUSTOMER' : 'SUPPLIER')" class="premium-input !pl-7 !h-[30px] uppercase text-blue-800" placeholder="Party Name or Mobile (Alt+C)">
-                    <span id="party-balance-badge" class="absolute right-8 text-[9px] font-black text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded shadow-sm whitespace-nowrap">₹0</span>
+                    <span id="party-balance-badge" class="absolute right-8 text-[9px] font-black text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded">₹0</span>
                     <button onclick="openPartyModal(currentMode === 'SALE' ? 'CUSTOMER' : 'SUPPLIER', document.getElementById('bill-party'))" tabindex="-1" class="absolute right-1 bg-blue-100 text-blue-700 w-5 h-5 rounded font-black text-xs hover:bg-blue-600 hover:text-white">+</button>
                 </div>
-                
                 <div class="flex-1 flex items-center relative min-w-[200px]">
                     <span class="absolute left-2 text-amber-500 text-xs">⚡</span>
                     <input type="text" id="master-item-scan" list="item-list" onkeydown="handleMasterScan(event)" class="premium-input !pl-7 !h-[30px] bg-amber-50/50 border-amber-300 focus:bg-white uppercase text-slate-900" placeholder="Scan Barcode or Type Item (Alt+C)">
                     <button onclick="openItemModal(document.getElementById('master-item-scan'))" tabindex="-1" class="absolute right-1 bg-amber-100 text-amber-700 w-5 h-5 rounded font-black text-xs hover:bg-amber-600 hover:text-white">+</button>
                 </div>
+                <!-- ID required for JS logic -->
+                <h2 id="bill-title" class="hidden">SALE ENTRY</h2> 
             </div>
 
-            <!-- TABLE CONTAINER -->
+            <!-- Table -->
             <div class="flex-1 bg-white border border-slate-300 rounded shadow-sm flex flex-col overflow-hidden relative">
                 <div class="overflow-y-auto flex-1 w-full" id="bill-items-container">
                     <table class="bill-table w-full">
-                        <thead>
-                            <tr>
-                                <th class="w-[35%]">Item Description</th>
-                                <th class="w-[12%] text-right">Rate</th>
-                                <th class="w-[8%] text-center">GST%</th>
-                                <th class="w-[10%] text-center">Qty</th>
-                                <th class="w-[35%] pl-2">IMEI / Serial Numbers</th>
-                            </tr>
-                        </thead>
-                        <tbody id="bill-items-body">
-                            <!-- Rows injected here -->
-                        </tbody>
+                        <thead><tr><th class="w-[35%]">Item Description</th><th class="w-[12%] text-right">Rate</th><th class="w-[8%] text-center">GST%</th><th class="w-[10%] text-center">Qty</th><th class="w-[35%] pl-2">IMEI / Serial Numbers</th></tr></thead>
+                        <tbody id="bill-items-body"></tbody>
                     </table>
                 </div>
-                <div class="p-1 border-t border-slate-200 bg-slate-50 flex justify-center shrink-0">
-                    <button onclick="addBillRow()" class="h-6 px-6 text-blue-600 font-black uppercase text-[9px] tracking-widest rounded border border-dashed border-blue-400 bg-blue-50 hover:bg-blue-600 hover:text-white transition-all shadow-sm">➕ Add Blank Row</button>
-                </div>
+                <div class="p-1 border-t border-slate-200 bg-slate-50 flex justify-center shrink-0"><button onclick="addBillRow()" class="h-6 px-6 text-blue-600 font-black uppercase text-[9px] tracking-widest rounded border border-dashed border-blue-400 bg-blue-50 hover:bg-blue-600 hover:text-white transition-all shadow-sm">➕ Add Blank Row</button></div>
             </div>
 
-            <!-- BOTTOM COMPACT FOOTER (Strictly 2 Lines) -->
+            <!-- Bottom Strip -->
             <div class="flex flex-col shrink-0 gap-1.5">
-                
-                <!-- ROW 1: Payment Mode Selectors -->
                 <div class="bg-white border border-slate-300 rounded px-2 py-1.5 flex flex-wrap gap-2 items-center shadow-sm">
-                    <span class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Pay Mode:</span>
-                    <select id="pay-primary" onchange="onPaymentModeChange('primary')" class="premium-input !w-24 !h-[26px] !text-[10px] !py-0 bg-slate-50 border-slate-300 text-blue-700"></select>
-                    
-                    <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Sec:</span>
-                    <select id="pay-secondary" onchange="onPaymentModeChange('secondary')" class="premium-input !w-24 !h-[26px] !text-[10px] !py-0 bg-slate-50 border-slate-300 text-blue-700">
-                        <option value="">-- None --</option><option value="Finance">Finance</option><option value="Dues">Dues / Credit</option>
-                    </select>
-
+                    <span class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Pay Mode:</span><select id="pay-primary" onchange="onPaymentModeChange('primary')" class="premium-input !w-24 !h-[26px] !text-[10px] !py-0 bg-slate-50 border-slate-300 text-blue-700"></select>
+                    <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Sec:</span><select id="pay-secondary" onchange="onPaymentModeChange('secondary')" class="premium-input !w-24 !h-[26px] !text-[10px] !py-0 bg-slate-50 border-slate-300 text-blue-700"><option value="">-- None --</option><option value="Finance">Finance</option><option value="Dues">Dues / Credit</option></select>
                     <div class="w-px h-4 bg-slate-300 hidden sm:block"></div>
-
-                    <!-- Dynamics (Split/Finance/Dues) -->
-                    <div id="box-split" class="hidden flex items-center gap-1.5">
-                        <span class="text-[9px] text-slate-400 uppercase font-black">SPLIT:</span>
-                        <input type="number" id="split-cash" placeholder="Cash (₹)" class="premium-input !h-[26px] !w-20 !text-[10px] border-emerald-300 bg-emerald-50 text-emerald-700" oninput="calcBill()">
-                        <input type="number" id="split-qr" placeholder="QR (₹)" class="premium-input !h-[26px] !w-20 !text-[10px] border-blue-300 bg-blue-50 text-blue-700" oninput="calcBill()">
-                        <input type="number" id="split-card" placeholder="Card (₹)" class="premium-input !h-[26px] !w-20 !text-[10px] border-purple-300 bg-purple-50 text-purple-700" oninput="calcBill()">
-                    </div>
-                    
-                    <div id="box-finance" class="hidden flex items-center gap-1.5">
-                        <span class="text-[9px] text-blue-500 uppercase font-black">FIN:</span>
-                        <select id="fin-company" class="premium-input !h-[26px] !w-24 !text-[10px] border-blue-300 bg-blue-50 text-blue-800"><option value="">- Company -</option><option value="Bajaj">Bajaj</option><option value="Kisto">Kisto Pe</option><option value="HDB">HDB</option></select>
-                        <input type="number" id="fin-dp-amt" placeholder="DP (₹)" class="premium-input !h-[26px] !w-20 !text-[10px] border-blue-300 bg-blue-50 text-blue-800" oninput="calcBill()" />
-                        <select id="fin-dp-mode" onchange="renderSplitInputs()" class="premium-input !h-[26px] !w-24 !text-[10px] border-blue-300 bg-blue-50 text-blue-800"></select>
-                    </div>
-
-                    <div id="box-dues" class="hidden flex items-center gap-1.5">
-                        <span class="text-[9px] text-amber-600 uppercase font-black">DUES:</span>
-                        <input type="number" id="dues-dp-amt" placeholder="Paid (₹)" class="premium-input !h-[26px] !w-20 !text-[10px] border-amber-300 bg-amber-50 text-amber-800" oninput="calcBill()">
-                        <select id="dues-dp-mode" onchange="renderSplitInputs()" class="premium-input !h-[26px] !w-24 !text-[10px] border-amber-300 bg-amber-50 text-amber-800"></select>
-                    </div>
-                    
+                    <div id="box-split" class="hidden items-center gap-1.5"><span class="text-[9px] text-slate-400 uppercase font-black">SPLIT:</span><input type="number" id="split-cash" placeholder="Cash (₹)" class="premium-input !h-[26px] !w-20 !text-[10px] border-emerald-300 bg-emerald-50 text-emerald-700" oninput="calcBill()"><input type="number" id="split-qr" placeholder="QR (₹)" class="premium-input !h-[26px] !w-20 !text-[10px] border-blue-300 bg-blue-50 text-blue-700" oninput="calcBill()"><input type="number" id="split-card" placeholder="Card (₹)" class="premium-input !h-[26px] !w-20 !text-[10px] border-purple-300 bg-purple-50 text-purple-700" oninput="calcBill()"></div>
+                    <div id="box-finance" class="hidden items-center gap-1.5"><span class="text-[9px] text-blue-500 uppercase font-black">FIN:</span><select id="fin-company" class="premium-input !h-[26px] !w-24 !text-[10px] border-blue-300 bg-blue-50 text-blue-800"><option value="">- Company -</option><option value="Bajaj">Bajaj</option><option value="Kisto">Kisto Pe</option><option value="HDB">HDB</option></select><input type="number" id="fin-dp-amt" placeholder="DP (₹)" class="premium-input !h-[26px] !w-20 !text-[10px] border-blue-300 bg-blue-50 text-blue-800" oninput="calcBill()" /><select id="fin-dp-mode" onchange="renderSplitInputs()" class="premium-input !h-[26px] !w-24 !text-[10px] border-blue-300 bg-blue-50 text-blue-800"></select></div>
+                    <div id="box-dues" class="hidden items-center gap-1.5"><span class="text-[9px] text-amber-600 uppercase font-black">DUES:</span><input type="number" id="dues-dp-amt" placeholder="Paid (₹)" class="premium-input !h-[26px] !w-20 !text-[10px] border-amber-300 bg-amber-50 text-amber-800" oninput="calcBill()"><select id="dues-dp-mode" onchange="renderSplitInputs()" class="premium-input !h-[26px] !w-24 !text-[10px] border-amber-300 bg-amber-50 text-amber-800"></select></div>
                     <button type="button" onclick="resetPaymentFields()" class="ml-auto text-[9px] font-black uppercase text-rose-500 hover:text-rose-700">Reset Pay</button>
                 </div>
-
-                <!-- ROW 2: Grand Total & Save Button (Dark Premium Strip) -->
-                <div class="bg-slate-900 border border-slate-800 rounded px-3 py-2 flex justify-between items-center text-white shadow-lg shrink-0">
-                    <div class="flex items-center gap-4 sm:gap-6">
-                        <div class="flex flex-col"><span class="text-[8px] text-slate-400 uppercase font-black tracking-widest">Taxable</span><span class="font-mono font-bold text-[11px]" id="bill-taxable">₹ 0</span></div>
-                        <div class="flex flex-col"><span class="text-[8px] text-slate-400 uppercase font-black tracking-widest">GST</span><span class="font-mono font-bold text-[11px] text-blue-300" id="bill-gst">₹ 0</span></div>
-                        
-                        <div class="border-l border-slate-700 pl-4 flex items-center gap-2">
-                            <label class="text-[9px] text-emerald-400 uppercase font-black tracking-widest hidden sm:block">Tendered (₹)</label>
-                            <input type="number" id="bill-paid" oninput="calcBill(true)" class="bg-slate-800 border border-emerald-500/50 text-emerald-400 font-black text-sm h-[26px] w-24 rounded px-2 outline-none text-center shadow-inner" placeholder="0">
-                        </div>
-                        
-                        <div class="flex flex-col border-l border-slate-700 pl-4"><span class="text-[8px] text-slate-400 uppercase font-black tracking-widest">Balance</span><span class="font-black text-sm text-rose-400" id="bill-due">₹ 0</span></div>
-                    </div>
-                    
-                    <div class="flex items-center gap-3 bg-slate-800 rounded p-1 shadow-inner border border-slate-700">
-                        <div class="text-right px-2">
-                            <p class="text-[8px] text-slate-300 uppercase font-black tracking-widest">Grand Total</p>
-                            <p class="text-xl font-black text-amber-400 leading-none drop-shadow-md" id="bill-grand-total">₹ 0</p>
-                        </div>
-                        <button onclick="saveFinalBill()" id="btn-save-bill" class="h-[36px] px-6 bg-blue-600 text-white rounded font-black uppercase tracking-widest text-[11px] shadow-lg hover:bg-blue-500 transition-all flex items-center gap-1.5 border border-blue-400">
-                            💾 SAVE <span class="text-[8px] text-blue-200 font-normal hidden lg:inline">(F9)</span>
-                        </button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- OTHER VIEWS (Dashboard, Product, Party, etc.) -->
-        <div id="view-dashboard" class="view-section space-y-4 max-w-7xl mx-auto w-full pb-10 hidden p-4">
-            <h2 class="text-lg font-black text-[#0f172a] uppercase tracking-widest">Business Overview</h2>
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                <div class="glass-panel p-4 rounded-xl border-l-4 border-l-blue-500"><p class="text-[9px] text-slate-500 font-bold uppercase">Gross Sales</p><h3 class="text-xl font-black text-slate-800 mt-1" id="dash-sale">₹ 0</h3></div>
-                <div class="glass-panel p-4 rounded-xl border-l-4 border-l-emerald-500"><p class="text-[9px] text-emerald-600 font-bold uppercase">Net Profit</p><h3 class="text-xl font-black text-emerald-700 mt-1" id="dash-profit">₹ 0</h3></div>
-                <div class="glass-panel p-4 rounded-xl border-l-4 border-l-amber-500"><p class="text-[9px] text-slate-500 font-bold uppercase">SKUs</p><h3 class="text-xl font-black text-slate-800 mt-1" id="dash-prod-count">0</h3></div>
-                <div class="glass-panel p-4 rounded-xl border-l-4 border-l-purple-500"><p class="text-[9px] text-slate-500 font-bold uppercase">Accounts</p><h3 class="text-xl font-black text-slate-800 mt-1" id="dash-party-count">0</h3></div>
-            </div>
-            
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mt-4">
-               <div class="lg:col-span-2 glass-panel rounded-2xl p-5 shadow-sm">
-                 <h3 class="font-black text-[11px] uppercase tracking-widest text-slate-800 mb-3 border-b border-slate-100 pb-2">Sales Analytics</h3>
-                 <div class="h-[250px] w-full"><canvas id="businessChart"></canvas></div>
-               </div>
-               <div class="lg:col-span-1 glass-panel rounded-2xl p-5 flex flex-col shadow-sm">
-                 <h3 class="font-black text-[11px] uppercase tracking-widest text-slate-800 mb-3 border-b border-slate-100 pb-2">Quick Operations</h3>
-                 <div class="grid grid-cols-1 gap-3 flex-1">
-                   <button onclick="startBill('SALE')" class="w-full h-12 bg-blue-50 text-blue-700 rounded-xl font-black uppercase tracking-widest text-[10px] flex items-center justify-center space-x-2 border border-blue-200 hover:bg-blue-600 hover:text-white transition-all"><span class="text-lg">🛒</span><span>Sales Invoice</span></button>
-                   <button onclick="startBill('PURCHASE')" class="w-full h-12 bg-emerald-50 text-emerald-700 rounded-xl font-black uppercase tracking-widest text-[10px] flex items-center justify-center space-x-2 border border-emerald-200 hover:bg-emerald-600 hover:text-white transition-all"><span class="text-lg">📦</span><span>Purchase Entry</span></button>
-                   <button onclick="startPayment('IN')" class="w-full h-12 bg-purple-50 text-purple-700 rounded-xl font-black uppercase tracking-widest text-[10px] flex items-center justify-center space-x-2 border border-purple-200 hover:bg-purple-600 hover:text-white transition-all"><span class="text-lg">💳</span><span>Voucher Post</span></button>
-                 </div>
-               </div>
-            </div>
-        </div>
-
-        <!-- PRODUCT MASTER -->
-        <div id="view-product" class="view-section hidden space-y-4 max-w-screen-2xl mx-auto w-full pb-10 p-4 overflow-y-auto h-full">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 pb-2">
-                <h2 class="text-xl font-black text-slate-800 uppercase tracking-widest">Inventory Master</h2>
-                <div class="flex flex-wrap gap-2 w-full sm:w-auto">
-                    <input type="file" id="csv-upload" accept=".csv" class="hidden" onchange="importProductsCSV(event)" />
-                    <button onclick="document.getElementById('csv-upload').click()" class="flex-1 sm:flex-none px-4 h-10 bg-emerald-50 border border-emerald-200 text-emerald-700 font-black text-[9px] uppercase tracking-widest rounded-lg">Import CSV</button>
-                    <button onclick="exportProductsCSV()" class="flex-1 sm:flex-none px-4 h-10 bg-slate-100 border border-slate-200 text-slate-700 font-black text-[9px] uppercase tracking-widest rounded-lg">Export CSV</button>
-                    <button onclick="document.getElementById('add-product-form').scrollIntoView({behavior:'smooth'})" class="w-full sm:w-auto px-5 h-10 bg-blue-600 text-white font-black text-[10px] uppercase tracking-widest rounded-lg shadow mt-1 sm:mt-0">➕ Add Item</button>
-                </div>
-            </div>
-
-            <div class="glass-panel rounded-2xl overflow-hidden flex flex-col shadow-sm">
-                <div class="p-3 border-b border-slate-100 bg-white flex flex-col sm:flex-row gap-2 items-center">
-                    <div class="w-full flex-1"><input type="text" id="prod-search" oninput="debouncedRenderProducts()" placeholder="🔍 Search Item, Brand, Category, SKU or IMEI..." class="premium-input text-xs w-full" /></div>
-                    <select id="filter-category" onchange="renderProducts()" class="cat-select premium-input w-full sm:w-auto min-w-[200px]"></select>
-                </div>
-                <div class="overflow-x-auto w-full max-h-[40vh] sm:max-h-[400px]">
-                    <table class="w-full text-left min-w-[900px]">
-                        <thead class="bg-slate-50 sticky top-0 z-10 shadow-sm">
-                            <tr>
-                                <th class="standard-th text-center w-12">Img</th>
-                                <th class="standard-th">Product Details</th>
-                                <th class="standard-th">SKU / HSN</th>
-                                <th class="standard-th text-right">Pur. Rate</th>
-                                <th class="standard-th text-right text-[#004aad]">Sale Price</th>
-                                <th class="standard-th text-center">Stock</th>
-                                <th class="standard-th text-center">Status</th>
-                                <th class="standard-th text-center">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="product-table-body" class="font-bold text-slate-700 divide-y divide-slate-100"></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div id="add-product-form" class="glass-panel p-5 sm:p-6 rounded-2xl shadow-sm mt-4">
-                <h3 id="prod-form-title" class="font-black text-sm text-slate-800 uppercase tracking-widest mb-4 border-b border-slate-100 pb-2">✏️ Product Setup</h3>
-                <input type="hidden" id="p-id" value="">
-                <div class="flex flex-col lg:flex-row gap-6">
-                    <div class="w-full lg:w-1/4 flex flex-col items-center">
-                        <label class="font-black text-[9px] uppercase tracking-widest text-slate-500 w-full mb-1">Product Image</label>
-                        <input type="file" id="p-image-upload" accept="image/*" class="hidden" onchange="handleProductImage(event)" />
-                        <canvas id="img-canvas" class="hidden"></canvas>
-                        <div class="w-full h-[180px] bg-slate-50 border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center relative overflow-hidden cursor-pointer" onclick="document.getElementById('p-image-upload').click()">
-                            <div id="p-img-placeholder" class="flex flex-col items-center"><span class="text-4xl mb-1">📸</span><span class="text-[8px] font-black text-blue-600 bg-blue-50 px-2 py-1 rounded uppercase">Upload Photo</span></div>
-                            <img id="p-img-preview" class="hidden absolute inset-0 w-full h-full object-cover z-10" />
-                        </div>
-                        <button type="button" onclick="clearProductImage()" class="mt-2 text-[8px] font-black text-rose-500 uppercase hover:bg-rose-50 px-3 py-1 rounded transition-colors">Remove</button>
-                    </div>
-
-                    <div class="w-full lg:w-3/4 space-y-4">
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                            <div class="sm:col-span-2"><label class="font-black text-[9px] uppercase tracking-widest text-slate-500 block mb-1">Product Name *</label><input type="text" id="p-name" class="premium-input uppercase text-blue-700"></div>
-                            <div><label class="font-black text-[9px] uppercase tracking-widest text-slate-500 block mb-1">Brand</label><input type="text" id="p-brand" class="premium-input uppercase" list="brand-list"></div>
-                            <datalist id="brand-list"></datalist>
-                        </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
-                            <div><label class="font-black text-[9px] uppercase tracking-widest text-slate-500 block mb-1">Category *</label><select id="p-category" onchange="handleCategoryChange(this)" class="cat-select premium-input"></select></div>
-                            <div><label class="font-black text-[9px] uppercase tracking-widest text-slate-500 block mb-1">Variant / Color</label><input type="text" id="p-variant" class="premium-input uppercase"></div>
-                            <div><label class="font-black text-[9px] uppercase tracking-widest text-slate-500 block mb-1">SKU / Barcode</label><input type="text" id="p-sku" class="premium-input font-mono uppercase text-slate-600" placeholder="Auto"></div>
-                            <div><label class="font-black text-[9px] uppercase tracking-widest text-slate-500 block mb-1">HSN Code</label><input type="text" id="p-hsn" class="premium-input font-mono text-slate-600" placeholder="Optional"></div>
-                        </div>
-                        <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 p-3 bg-white shadow-sm rounded-xl border border-slate-100">
-                            <div><label class="font-black text-[9px] uppercase tracking-widest text-slate-500 block mb-1">MRP (₹)</label><input type="number" id="p-mrp" class="premium-input" placeholder="0"></div>
-                            <div><label class="font-black text-[9px] uppercase tracking-widest text-slate-500 block mb-1">Pur. Price (₹)</label><input type="number" id="p-pur" class="premium-input text-rose-600" placeholder="0"></div>
-                            <div><label class="font-black text-[9px] uppercase tracking-widest text-blue-600 block mb-1">Sale Price (₹) *</label><input type="number" id="p-sale" class="premium-input border-blue-400 text-blue-700 bg-blue-50/20" placeholder="0"></div>
-                            <div><label class="font-black text-[9px] uppercase tracking-widest text-slate-500 block mb-1">GST %</label><select id="p-gst" class="premium-input"><option value="0">0%</option><option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option></select></div>
-                            <div><label class="font-black text-[9px] uppercase tracking-widest text-slate-500 block mb-1">Low Alert</label><input type="number" id="p-low" class="premium-input" value="5"></div>
-                        </div>
-                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 items-end">
-                            <div><label class="font-black text-[9px] uppercase tracking-widest text-slate-500 block mb-1">Opening Stock</label><input type="number" id="p-stock" oninput="generateImeiBoxes()" class="premium-input font-black text-center text-blue-600" placeholder="0"></div>
-                            <div class="flex items-center h-[38px] col-span-2">
-                                <label class="flex items-center space-x-2 bg-white border border-slate-300 rounded-lg px-3 h-full w-full cursor-pointer">
-                                    <input type="checkbox" id="p-track" checked onchange="generateImeiBoxes()" class="w-4 h-4 text-blue-600 rounded">
-                                    <span class="font-black text-[9px] uppercase tracking-widest text-slate-700 mt-0.5">Track IMEI / Serial No.</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div id="p-imei-container" class="hidden mt-2 p-3 bg-blue-50/50 rounded-xl border border-blue-100">
-                            <div id="p-imei-list" class="grid grid-cols-2 sm:grid-cols-4 gap-2"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3 mt-5 pt-4 border-t border-slate-100">
-                    <button onclick="clearProductForm()" class="w-full sm:w-auto px-6 py-2.5 bg-slate-200 text-slate-600 font-black text-[9px] uppercase tracking-widest rounded-lg">Clear</button>
-                    <button onclick="saveProduct()" class="w-full sm:w-auto px-8 py-2.5 bg-blue-600 text-white font-black text-[10px] uppercase tracking-widest rounded-lg shadow hover:-translate-y-0.5 transition-all">💾 Save Product</button>
+                <div class="bg-slate-900 border border-slate-800 rounded px-3 py-2 flex justify-between items-center text-white shadow-lg shrink-0 overflow-x-auto">
+                    <div class="flex items-center gap-4 sm:gap-6"><div class="flex flex-col"><span class="text-[8px] text-slate-400 uppercase font-black">Taxable</span><span class="font-mono font-bold text-[11px]" id="bill-taxable">₹ 0</span></div><div class="flex flex-col"><span class="text-[8px] text-slate-400 uppercase font-black">GST</span><span class="font-mono font-bold text-[11px] text-blue-300" id="bill-gst">₹ 0</span></div><div class="border-l border-slate-700 pl-4 flex items-center gap-2"><label class="text-[9px] text-emerald-400 uppercase font-black hidden sm:block">Tendered(₹)</label><input type="number" id="bill-paid" oninput="calcBill(true)" class="bg-slate-800 border border-emerald-500/50 text-emerald-400 font-black text-sm h-[26px] w-24 rounded px-2 outline-none text-center shadow-inner" placeholder="0"></div><div class="flex flex-col border-l border-slate-700 pl-4"><span class="text-[8px] text-slate-400 uppercase font-black">Balance</span><span class="font-black text-sm text-rose-400" id="bill-due">₹ 0</span></div></div>
+                    <div class="flex items-center gap-3 bg-slate-800 rounded p-1 shadow-inner border border-slate-700"><div class="text-right px-2"><p class="text-[8px] text-slate-300 uppercase font-black">Grand Total</p><p class="text-xl font-black text-amber-400 leading-none" id="bill-grand-total">₹ 0</p></div><button onclick="saveFinalBill()" id="btn-save-bill" class="h-[36px] px-6 bg-blue-600 text-white rounded font-black uppercase tracking-widest text-[11px] hover:bg-blue-500 shadow flex items-center gap-1.5">💾 SAVE <span class="text-[8px] font-normal hidden lg:inline">(F9)</span></button></div>
                 </div>
             </div>
         </div>
 
-        <!-- PARTY MASTER -->
-        <div id="view-party" class="view-section hidden space-y-4 max-w-screen-2xl mx-auto w-full pb-10 p-4 overflow-y-auto h-full">
-            <h2 class="text-lg font-black text-slate-800 uppercase tracking-widest pb-1">Party Directory</h2>
-            <div class="glass-panel p-4 rounded-2xl shadow-sm">
-                <input type="hidden" id="pt-id" value="">
-                <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
-                    <div><label class="font-black text-[8px] uppercase tracking-widest text-slate-500 block mb-1">Party Type</label><select id="pt-type" class="premium-input"><option value="CUSTOMER">CUSTOMER</option><option value="SUPPLIER">SUPPLIER</option></select></div>
-                    <div class="sm:col-span-2"><label class="font-black text-[8px] uppercase tracking-widest text-slate-500 block mb-1">Party Name *</label><input type="text" id="pt-name" class="premium-input uppercase text-blue-600"></div>
-                    <div><label class="font-black text-[8px] uppercase tracking-widest text-slate-500 block mb-1">Mobile No</label><input type="text" id="pt-mobile" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'')" class="premium-input font-mono"></div>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 mt-3">
-                    <div class="sm:col-span-2"><label class="font-black text-[8px] uppercase tracking-widest text-slate-500 block mb-1">Billing Address</label><input type="text" id="pt-address" class="premium-input uppercase"></div>
-                    <div><label class="font-black text-[8px] uppercase tracking-widest text-slate-500 block mb-1">GSTIN Number</label><input type="text" id="pt-gstin" class="premium-input uppercase font-mono" maxlength="15"></div>
-                    <div><label class="font-black text-[8px] uppercase tracking-widest text-slate-500 block mb-1">Opening Balance (₹)</label><input type="number" id="pt-ob" class="premium-input font-bold text-rose-600" placeholder="0"></div>
-                </div>
-                <div class="flex justify-end space-x-2 mt-3 pt-2 border-t border-slate-100">
-                    <button onclick="clearPartyForm()" class="px-4 py-2 bg-slate-100 text-slate-500 font-black text-[9px] uppercase tracking-widest rounded-lg">Clear</button>
-                    <button onclick="saveParty()" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-black uppercase tracking-widest text-[9px] shadow hover:bg-blue-700">Save Account</button>
-                </div>
-            </div>
-            <div class="glass-panel rounded-2xl overflow-hidden shadow-sm">
-                <div class="p-3 border-b border-slate-100 bg-white"><input type="text" id="party-search" oninput="debouncedRenderParties()" placeholder="Search Name, Phone or GSTIN..." class="premium-input max-w-sm" /></div>
-                <div class="overflow-x-auto w-full max-h-[350px]">
-                    <table class="w-full text-left min-w-[800px]">
-                        <thead class="bg-slate-50 sticky top-0 z-10"><tr><th class="standard-th">Type</th><th class="standard-th">Party Name</th><th class="standard-th">Contact</th><th class="standard-th">Address / GSTIN</th><th class="standard-th text-right">Balance</th><th class="standard-th text-center">Action</th></tr></thead>
-                        <tbody id="party-table-body" class="font-bold text-slate-600 divide-y divide-slate-100"></tbody>
-                    </table>
-                </div>
-            </div>
+        <!-- 8. INVOICE POPUP / PRINT VIEW -->
+        <div id="view-invoice" class="view-section hidden flex-col h-full w-full p-4 overflow-y-auto">
+            <div class="flex justify-between items-center bg-white p-3 rounded border shadow-sm no-print mb-4 shrink-0"><button onclick="showView('dashboard')" class="bg-slate-100 text-slate-700 px-4 py-2 rounded text-[10px] font-black uppercase shadow">Home</button><div class="flex gap-2"><button onclick="shareViaWhatsApp()" class="bg-[#25D366] text-white px-4 py-2 rounded text-[10px] font-black uppercase shadow">WhatsApp</button><button onclick="printFormat('A4')" class="bg-slate-800 text-white px-4 py-2 rounded text-[10px] font-black uppercase shadow">A4 Print</button><button onclick="printFormat('THERMAL')" class="bg-emerald-600 text-white px-4 py-2 rounded text-[10px] font-black uppercase shadow">Thermal 80mm</button><button onclick="downloadPDF()" class="bg-blue-600 text-white px-4 py-2 rounded text-[10px] font-black uppercase shadow">PDF</button></div></div>
+            <div id="print-container" class="w-full flex justify-center"><div id="invoice-capture" class="bg-white p-8 border text-slate-800 w-full max-w-[800px]"><div class="text-center border-b-2 border-slate-800 pb-2 mb-3"><h1 class="text-2xl font-black uppercase">Sri Ram Enterprises</h1><p class="text-[9px] font-bold text-slate-600">Wholesale Mobile & Accessories</p><p class="text-[8px] font-bold text-slate-500">GB-15, City Centre, Sector-4, Bokaro | GSTIN: 20APOPK6864K1ZH | Ph: 9334765000</p></div><div class="flex justify-between text-xs mb-3"><div><p class="text-[8px] font-black uppercase text-slate-400">Bill To:</p><p id="inv-party" class="font-black uppercase text-base"></p><p id="inv-phone" class="font-mono text-[9px]"></p><p id="inv-address" class="text-[9px] uppercase"></p></div><div class="text-right"><h2 id="inv-type-title" class="font-black uppercase border border-slate-800 px-1 py-0.5 rounded text-[10px] mb-1 inline-block">INVOICE</h2><p class="text-[9px]">Inv No: <span id="inv-no" class="font-bold"></span></p><p class="text-[9px]">Date: <span id="inv-date" class="font-bold"></span></p></div></div><table class="w-full text-left text-[10px] mb-3 border-collapse"><thead><tr class="bg-slate-900 text-white uppercase text-[8px]"><th class="p-1 border text-center">#</th><th class="p-1 border">Item</th><th class="p-1 border">IMEI/Serial</th><th class="p-1 border text-center">Qty</th><th class="p-1 border text-right">Rate</th><th class="p-1 border text-right">Amt</th></tr></thead><tbody id="inv-items" class="font-bold border-b border-slate-800"></tbody></table><div class="flex justify-between text-[10px]"><div class="w-40"><div id="inv-qr" class="mb-1 border p-1 rounded inline-block"></div><p class="text-[7px]">* Warranty by authorized center only. No Returns.</p></div><div class="w-48 text-right space-y-0.5"><div class="flex justify-between"><span class="uppercase text-[8px] text-slate-500 font-bold">Taxable:</span><span id="inv-taxable-print" class="font-bold">₹0</span></div><div class="flex justify-between"><span class="uppercase text-[8px] text-slate-500 font-bold">GST:</span><span id="inv-gst-print" class="font-bold">₹0</span></div><div class="flex justify-between border-t border-slate-300 pt-0.5 text-xs"><span class="uppercase font-black">Total:</span><span id="inv-total-print" class="font-black">₹0</span></div><div class="flex justify-between text-emerald-700 mt-1"><span class="uppercase text-[8px] font-bold">Paid:</span><span id="inv-paid" class="font-bold">₹0</span></div><div class="flex justify-between text-rose-600 border-t border-slate-300 pt-0.5"><span class="uppercase text-[8px] font-bold">Due:</span><span id="inv-bal" class="font-black">₹0</span></div></div></div><div class="mt-8 flex justify-between text-[8px] uppercase font-bold no-print"><div class="w-32 border-t border-slate-800 text-center pt-1">Customer Sign</div><div class="w-40 border-t border-slate-800 text-center pt-1">For Sri Ram Enterprises</div></div></div></div>
         </div>
 
-        <!-- VOUCHER ENTRY -->
-        <div id="view-payment" class="view-section hidden space-y-4 max-w-md mx-auto pt-6 p-4">
-            <h2 id="pay-title" class="text-lg font-black text-slate-800 tracking-widest uppercase text-center mb-3">ACCOUNTING VOUCHER</h2>
-            <div class="glass-panel p-6 sm:p-8 rounded-2xl shadow-md space-y-4 bg-white">
-              <div>
-                <label class="text-[10px] font-black text-slate-500 block mb-1.5 uppercase tracking-widest" id="pay-party-lbl">Party Account *</label>
-                <div class="relative w-full">
-                    <input type="text" id="pay-party" list="party-list" onkeydown="handleShortcut(event, currentPaymentType === 'OUT' ? 'SUPPLIER' : 'CUSTOMER')" class="premium-input pr-10 text-blue-700 uppercase font-black" placeholder="Select Ledger">
-                    <button onclick="openPartyModal(currentPaymentType === 'OUT' ? 'SUPPLIER' : 'CUSTOMER', document.getElementById('pay-party'))" tabindex="-1" class="absolute right-1.5 top-1.5 bottom-1.5 w-8 bg-blue-50 text-blue-600 rounded flex items-center justify-center text-lg font-black">+</button>
-                </div>
-              </div>
-              <div class="grid grid-cols-2 gap-3">
-                <div><label class="text-[10px] font-black text-slate-500 block mb-1.5 uppercase tracking-widest">Amount (₹) *</label><input type="number" id="pay-amt" class="premium-input border-2 border-emerald-400 bg-emerald-50 text-xl font-black text-emerald-700" placeholder="0" /></div>
-                <div><label class="text-[10px] font-black text-slate-500 block mb-1.5 uppercase tracking-widest">Instrument *</label><select id="pay-mode" class="premium-input text-xs"><option value="Cash">Cash</option><option value="QR">UPI / QR</option><option value="Bank">Bank NEFT/RTGS</option></select></div>
-              </div>
-              <div><label class="text-[10px] font-black text-slate-500 block mb-1.5 uppercase tracking-widest">Narration / Remarks</label><input type="text" id="pay-remarks" class="premium-input text-xs" placeholder="e.g. Cleared Outstanding Invoice" /></div>
-              <button onclick="savePaymentTransaction()" class="w-full h-11 bg-blue-600 text-white font-black rounded-xl text-[10px] shadow-lg uppercase tracking-widest hover:bg-blue-700 transition-all">Post Transaction</button>
-            </div>
+        <!-- QUICK MODALS -->
+        <div id="party-popup" class="fixed inset-0 bg-slate-900/60 z-[120] flex items-center justify-center hidden backdrop-blur-sm px-4">
+            <div class="bg-white p-5 rounded-xl shadow-xl w-full max-w-sm modal-animate"><h3 class="text-sm font-black text-blue-700 uppercase border-b pb-2 mb-3">Quick Party Setup</h3><input type="hidden" id="q-party-type"><div class="space-y-3"><input type="text" id="q-party-name" class="premium-input uppercase text-blue-700" placeholder="Party Name *"><input type="tel" id="q-party-phone" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'')" class="premium-input font-mono" placeholder="Mobile Number"></div><div class="flex gap-2 mt-4"><button onclick="document.getElementById('party-popup').classList.add('hidden');" class="flex-1 py-2 bg-slate-100 rounded text-xs font-bold text-slate-600">Cancel</button><button onclick="saveQuickParty()" class="flex-1 py-2 bg-blue-600 text-white rounded text-xs font-black shadow">Save</button></div></div>
         </div>
-
-        <!-- FINANCIAL LEDGER -->
-        <div id="view-ledger" class="view-section hidden space-y-4 max-w-screen-2xl mx-auto pb-10 p-4 overflow-y-auto h-full">
-            <h2 class="text-xl font-black text-slate-800 uppercase tracking-widest pb-1">Financial Ledger Statement</h2>
-            <div class="flex bg-slate-200 p-1.5 rounded-xl max-w-sm mb-3">
-                <button type="button" onclick="switchLedgerTab('CUSTOMER')" id="tab-CUSTOMER" class="flex-1 py-2.5 rounded-lg text-[10px] font-black bg-blue-600 text-white shadow tracking-widest">CUSTOMERS</button>
-                <button type="button" onclick="switchLedgerTab('SUPPLIER')" id="tab-SUPPLIER" class="flex-1 py-2.5 rounded-lg text-[10px] font-black text-slate-500 tracking-widest hover:text-blue-600">SUPPLIERS</button>
-            </div>
-            
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
-                <div class="glass-panel p-4 rounded-2xl border-l-4 border-l-slate-400"><p class="text-[9px] text-slate-500 font-bold uppercase">Opening Bal</p><h3 class="text-lg font-black text-slate-800 mt-0.5" id="ledger-ob">₹ 0</h3></div>
-                <div class="glass-panel p-4 rounded-2xl border-l-4 border-l-blue-500"><p class="text-[9px] text-slate-500 font-bold uppercase">Billed Turnover</p><h3 class="text-lg font-black text-blue-600 mt-0.5" id="ledger-billed">₹ 0</h3></div>
-                <div class="glass-panel p-4 rounded-2xl border-l-4 border-l-emerald-500"><p class="text-[9px] text-slate-500 font-bold uppercase">Receipts / Cleared</p><h3 class="text-lg font-black text-emerald-600 mt-0.5" id="ledger-paid">₹ 0</h3></div>
-                <div class="glass-panel p-4 rounded-2xl border-l-4 border-l-rose-500"><p class="text-[9px] text-slate-500 font-bold uppercase">Closing Balance Due</p><h3 class="text-lg font-black text-rose-600 mt-0.5" id="ledger-bal">₹ 0</h3></div>
-            </div>
-
-            <div class="glass-panel rounded-2xl overflow-hidden flex flex-col shadow-sm">
-                <div class="p-3 border-b border-slate-100 bg-white"><input type="text" id="ledger-search" oninput="debouncedRenderLedger()" placeholder="🔍 Filter by Name, Phone, Ref No..." class="premium-input max-w-sm text-xs" /></div>
-                <div class="overflow-x-auto w-full max-h-[400px]">
-                    <table class="w-full text-left min-w-[900px]">
-                        <thead class="bg-slate-50 sticky top-0 z-10 shadow-sm">
-                            <tr><th class="standard-th">Date</th><th class="standard-th">Ref / Inv No</th><th class="standard-th text-center">Voucher Type</th><th class="standard-th">Party Account</th><th class="standard-th text-right">Debit (Dr)</th><th class="standard-th text-right">Credit (Cr)</th><th class="standard-th text-right">Running Balance</th><th class="standard-th text-center">Action</th></tr>
-                        </thead>
-                        <tbody id="ledger-table-body" class="font-bold text-slate-600 divide-y divide-slate-100"></tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- UNIFIED INVOICE (A4 TAX INVOICE & 80MM THERMAL SLIP) -->
-        <div id="view-invoice" class="view-section hidden space-y-4 max-w-4xl mx-auto pb-16 p-4 overflow-y-auto h-full">
-            <div class="flex flex-col sm:flex-row justify-between items-center bg-white p-4 rounded-2xl border border-slate-200 shadow-sm no-print gap-3">
-                <button onclick="showView('dashboard')" class="w-full sm:w-auto bg-slate-100 text-slate-600 px-5 py-2.5 rounded-lg font-black text-[9px] uppercase tracking-widest hover:bg-slate-200">Back Home</button>
-                <div class="flex flex-wrap justify-center gap-2 w-full sm:w-auto">
-                    <button onclick="shareViaWhatsApp()" class="flex-1 sm:flex-none bg-[#25D366] text-white px-4 py-2.5 rounded-lg font-black text-[9px] uppercase tracking-widest hover:bg-green-600 shadow-sm">📱 WhatsApp</button>
-                    <button onclick="printFormat('A4')" class="flex-1 sm:flex-none bg-slate-800 text-white px-4 py-2.5 rounded-lg font-black text-[9px] uppercase tracking-widest hover:bg-black shadow-sm">A4 Print</button>
-                    <button onclick="printFormat('THERMAL')" class="flex-1 sm:flex-none bg-emerald-600 text-white px-4 py-2.5 rounded-lg font-black text-[9px] uppercase tracking-widest hover:bg-emerald-700 shadow-sm">80mm Print</button>
-                    <button onclick="downloadPDF()" class="flex-1 sm:flex-none bg-blue-600 text-white px-4 py-2.5 rounded-lg font-black text-[9px] uppercase tracking-widest hover:bg-blue-700 shadow-sm">PDF</button>
-                </div>
-            </div>
-            
-            <div id="print-container" class="w-full flex justify-center">
-                <div id="invoice-capture" class="bg-white p-8 sm:p-12 rounded-3xl shadow-xl border border-slate-200 text-slate-800 relative w-full max-w-[800px]">
-                    <div class="text-center border-b-2 border-slate-800 pb-4 mb-4">
-                        <h1 class="text-2xl sm:text-3xl font-black text-slate-900 uppercase tracking-widest">Sri Ram Enterprises</h1>
-                        <p class="text-[10px] font-bold text-slate-600 mt-1 tracking-wider uppercase">Wholesale & Retail Mobile Phones, Accessories & Repairing</p>
-                        <p class="text-[8px] font-bold text-slate-500 uppercase tracking-wide mt-0.5">GB-15, City Centre, Sector-4, Bokaro Steel City, Jharkhand - 827004</p>
-                        <p class="text-[9px] font-mono font-bold text-slate-800 mt-0.5">GSTIN: 20APOPK6864K1ZH | Mobile: +91 9334765000</p>
-                    </div>
-
-                    <div class="flex justify-between items-end mb-4 text-xs">
-                        <div>
-                            <p class="text-slate-400 font-black uppercase text-[8px] tracking-widest mb-0.5">Billed To / Consignee:</p>
-                            <p id="inv-party" class="text-base font-black uppercase text-slate-900 leading-tight"></p>
-                            <p id="inv-phone" class="font-mono text-[10px] text-slate-600 mt-0.5"></p>
-                            <p id="inv-address" class="text-[10px] text-slate-500 uppercase mt-1"></p>
-                        </div>
-                        <div class="text-right">
-                            <h2 id="inv-type-title" class="text-xs font-black text-slate-900 uppercase tracking-widest mb-1 border border-slate-900 inline-block px-2 py-0.5 rounded">TAX INVOICE</h2>
-                            <div class="text-[10px] space-y-0.5">
-                                <p><span class="text-slate-500 uppercase font-bold text-[8px] tracking-widest">Inv No:</span> <span id="inv-no" class="font-black text-slate-900"></span></p>
-                                <p><span class="text-slate-500 uppercase font-bold text-[8px] tracking-widest">Date:</span> <span id="inv-date" class="font-mono font-bold text-slate-800"></span></p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <table class="w-full text-left text-[11px] mb-4 border-collapse">
-                        <thead>
-                            <tr class="bg-slate-900 text-white uppercase text-[8px] tracking-widest font-black">
-                                <th class="p-2 border border-slate-900 w-8 text-center">#</th>
-                                <th class="p-2 border border-slate-900">Item & Description</th>
-                                <th class="p-2 border border-slate-900 w-40">IMEI / Serial</th>
-                                <th class="p-2 border border-slate-900 text-center w-8">Qty</th>
-                                <th class="p-2 border border-slate-900 text-right w-16">Rate</th>
-                                <th class="p-2 border border-slate-900 text-right w-20">Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody id="inv-items" class="font-bold"></tbody>
-                    </table>
-
-                    <div class="flex justify-between items-start border-t-2 border-slate-900 pt-3 text-xs">
-                        <div class="space-y-2">
-                            <div class="flex items-center space-x-2 mb-2">
-                                <div id="inv-qr" class="w-14 h-14 border border-slate-900 p-1 rounded-lg"></div>
-                                <div class="text-[8px] text-slate-600 font-bold uppercase leading-relaxed">
-                                    <span class="text-slate-900 font-black block text-[10px] mb-0.5">Scan to Pay UPI</span>
-                                    sriram.enterprise@upi<br>A/C: 5020008492019<br>IFSC: HDFC0000240
-                                </div>
-                            </div>
-                            <p class="text-[7px] font-bold text-slate-400 uppercase italic w-56 leading-snug">* Subject to Bokaro Jurisdiction. Warranty by authorized service centers only. Goods once sold will not be returned.</p>
-                        </div>
-                        <div class="w-56 text-right space-y-1 text-[10px]">
-                            <div class="flex justify-between"><span class="text-slate-500 uppercase font-bold text-[8px]">Taxable Turnover:</span><span id="inv-taxable-print" class="font-bold">₹ 0</span></div>
-                            <div class="flex justify-between"><span class="text-slate-500 uppercase font-bold text-[8px]">Total Taxes:</span><span id="inv-gst-print" class="font-bold">₹ 0</span></div>
-                            <div class="flex justify-between border-t border-slate-200 pt-1 text-xs"><span class="font-black text-slate-900 uppercase tracking-widest">Grand Total:</span><span id="inv-total-print" class="font-black text-slate-900 text-sm">₹ 0</span></div>
-                            <div class="flex justify-between mt-1"><span class="text-slate-500 uppercase font-bold text-[8px]">Amount Tendered:</span><span id="inv-paid" class="font-bold text-emerald-700">₹ 0</span></div>
-                            <div class="flex justify-between border-t border-slate-200 pt-1"><span class="text-slate-500 uppercase font-bold text-[8px]">Closing Balance Due:</span><span id="inv-bal" class="font-black text-rose-600">₹ 0</span></div>
-                        </div>
-                    </div>
-
-                    <div class="mt-10 pt-6 flex justify-between items-end no-print">
-                        <div class="text-center w-28"><div class="border-b border-slate-800 w-full mb-1"></div><p class="text-[7px] font-bold text-slate-500 uppercase tracking-widest">Customer Sign</p></div>
-                        <div class="text-center w-36"><div class="border-b border-slate-800 w-full mb-1"></div><p class="text-[7px] font-bold text-slate-900 uppercase tracking-widest">For Sri Ram Enterprises</p><p class="text-[6px] text-slate-400 mt-0.5 uppercase">Authorized Signatory</p></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Quick Popups -->
-        <div id="party-popup" class="fixed inset-0 bg-slate-900/60 z-[120] flex items-center justify-center hidden backdrop-blur-sm">
-            <div class="bg-white p-5 rounded-2xl shadow-xl w-full max-w-sm modal-animate">
-                <h3 class="text-sm font-black text-blue-700 uppercase border-b pb-2 mb-3">Quick Party</h3>
-                <input type="hidden" id="q-party-type">
-                <div class="space-y-3">
-                    <input type="text" id="q-party-name" class="premium-input uppercase text-blue-700" placeholder="Party Name *">
-                    <input type="tel" id="q-party-phone" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'')" class="premium-input font-mono" placeholder="Mobile Number">
-                </div>
-                <div class="flex gap-2 mt-4"><button onclick="document.getElementById('party-popup').classList.add('hidden');" class="flex-1 py-2 bg-slate-100 rounded text-xs font-bold text-slate-600">Cancel</button><button onclick="saveQuickParty()" class="flex-1 py-2 bg-blue-600 text-white rounded text-xs font-black shadow">Save</button></div>
-            </div>
-        </div>
-
-        <div id="item-popup" class="fixed inset-0 bg-slate-900/60 z-[120] flex items-center justify-center hidden backdrop-blur-sm">
-            <div class="bg-white p-5 rounded-2xl shadow-xl w-full max-w-sm modal-animate">
-                <h3 class="text-sm font-black text-amber-600 uppercase border-b pb-2 mb-3">Quick Item</h3>
-                <div class="space-y-3">
-                    <input type="text" id="q-item-name" class="premium-input uppercase text-blue-700" placeholder="Item Name *">
-                    <select id="q-item-category" class="cat-select premium-input" onchange="handleCategoryChange(this)"></select>
-                    <div class="flex gap-2">
-                        <input type="number" id="q-item-sale" class="premium-input text-blue-700" placeholder="Sale Rate *">
-                        <select id="q-item-gst" class="premium-input"><option value="0">0% GST</option><option value="5">5% GST</option><option value="12">12% GST</option><option value="18" selected>18% GST</option><option value="28">28% GST</option></select>
-                    </div>
-                </div>
-                <div class="flex gap-2 mt-4"><button onclick="document.getElementById('item-popup').classList.add('hidden');" class="flex-1 py-2 bg-slate-100 rounded text-xs font-bold text-slate-600">Cancel</button><button onclick="saveQuickItem()" class="flex-1 py-2 bg-amber-500 text-white rounded text-xs font-black shadow">Save</button></div>
-            </div>
+        <div id="item-popup" class="fixed inset-0 bg-slate-900/60 z-[120] flex items-center justify-center hidden backdrop-blur-sm px-4">
+            <div class="bg-white p-5 rounded-xl shadow-xl w-full max-w-sm modal-animate"><h3 class="text-sm font-black text-amber-600 uppercase border-b pb-2 mb-3">Quick Item Setup</h3><div class="space-y-3"><input type="text" id="q-item-name" class="premium-input uppercase text-blue-700" placeholder="Item Name *"><select id="q-item-category" class="cat-select premium-input" onchange="handleCategoryChange(this)"></select><div class="flex gap-2"><input type="number" id="q-item-sale" class="premium-input text-blue-700" placeholder="Sale Rate *"><select id="q-item-gst" class="premium-input"><option value="0">0% GST</option><option value="5">5% GST</option><option value="12">12% GST</option><option value="18" selected>18% GST</option><option value="28">28% GST</option></select></div></div><div class="flex gap-2 mt-4"><button onclick="document.getElementById('item-popup').classList.add('hidden');" class="flex-1 py-2 bg-slate-100 rounded text-xs font-bold text-slate-600">Cancel</button><button onclick="saveQuickItem()" class="flex-1 py-2 bg-amber-500 text-white rounded text-xs font-black shadow">Save</button></div></div>
         </div>
 
       </main>
   </div>
 
-  <!-- BOTTOM NAV (Mobile Only) -->
-  <nav id="bottom-nav" class="lg:hidden fixed bottom-0 w-full bg-white shadow-[0_-4px_25px_-5px_rgba(0,0,0,0.15)] flex justify-between z-[100] border-t border-slate-100 pb-1 pt-1">
-     <button onclick="startBill('SALE')" class="flex-1 py-2 text-center text-blue-600 flex flex-col items-center"><span class="text-xl leading-none">🛒</span><span class="text-[8px] font-black tracking-widest mt-1">SALE</span></button>
-     <button onclick="startBill('PURCHASE')" class="flex-1 py-2 text-center text-emerald-600 border-l border-slate-100 flex flex-col items-center"><span class="text-xl leading-none">📦</span><span class="text-[8px] font-black tracking-widest mt-1">PURCH</span></button>
-     <button onclick="startPayment('IN')" class="flex-1 py-2 text-center text-teal-600 border-l border-slate-100 flex flex-col items-center"><span class="text-xl leading-none">💳</span><span class="text-[8px] font-black tracking-widest mt-1">VOUCHER</span></button>
-     <button onclick="showView('ledger')" class="flex-1 py-2 text-center text-amber-600 border-l border-slate-100 flex flex-col items-center"><span class="text-xl leading-none">📒</span><span class="text-[8px] font-black tracking-widest mt-1">LEDGER</span></button>
+  <nav id="bottom-nav" class="lg:hidden fixed bottom-0 w-full bg-white shadow-md flex justify-between z-[100] border-t pb-1 pt-1">
+     <button onclick="startBill('SALE')" class="flex-1 py-1 text-center text-blue-600 flex flex-col items-center"><span class="text-lg leading-none">🛒</span><span class="text-[8px] font-black mt-1">SALE</span></button>
+     <button onclick="startBill('PURCHASE')" class="flex-1 py-1 text-center text-emerald-600 flex flex-col items-center border-l"><span class="text-lg leading-none">📦</span><span class="text-[8px] font-black mt-1">PURCH</span></button>
+     <button onclick="startPayment('IN')" class="flex-1 py-1 text-center text-teal-600 flex flex-col items-center border-l"><span class="text-lg leading-none">💳</span><span class="text-[8px] font-black mt-1">VOUCH</span></button>
+     <button onclick="showView('ledger')" class="flex-1 py-1 text-center text-amber-600 flex flex-col items-center border-l"><span class="text-lg leading-none">📒</span><span class="text-[8px] font-black mt-1">LEDGER</span></button>
   </nav>
 
   <script>
     /* ========================================================
-       ENTERPRISE POS CORE (V-ULTRA PRO: FULLY RESTORED & FIX)
+       ENTERPRISE POS CORE (V-OMEGA: 100% MODULES INTEGRATED)
     ======================================================== */
 
-    const Storage = {
-        get: (key) => { try { return JSON.parse(localStorage.getItem(key)) || []; } catch(e) { return []; } },
-        set: (key, data) => { try { localStorage.setItem(key, JSON.stringify(data)); } catch(e) { console.error("Storage Full"); } }
-    };
-
+    const Storage = { get: (key) => { try { return JSON.parse(localStorage.getItem(key)) || []; } catch(e) { return []; } }, set: (key, data) => { try { localStorage.setItem(key, JSON.stringify(data)); } catch(e) { console.error("Storage Full"); } } };
     function escapeHTML(str) { return str ? str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)) : ""; }
     function getToday() { const d=new Date(); return new Date(d.getTime() - (d.getTimezoneOffset()*60000)).toISOString().split('T')[0]; }
+    function debounce(func, wait) { let timeout; return function(...args) { clearTimeout(timeout); timeout = setTimeout(() => func.apply(this, args), wait); }; }
 
-    let productsDB = Storage.get('sre_products');
-    let partiesDB = Storage.get('sre_parties');
-    let billsDB = Storage.get('sre_bills');
-    let categoriesDB = Storage.get('sre_categories');
+    let productsDB = Storage.get('sre_products'), partiesDB = Storage.get('sre_parties'), billsDB = Storage.get('sre_bills'), categoriesDB = Storage.get('sre_categories');
     if(categoriesDB.length === 0) categoriesDB = ["Mobile Phone", "Accessories", "Electronics", "Spare Parts"];
-    
     let currentMode = "SALE", currentPaymentType = "OUT", activeShortcutInput = null, isSaving = false;
-    let invPrefix = localStorage.getItem("sre_inv_prefix") || "SRE-26-";
+    let invPrefix = localStorage.getItem("sre_inv_prefix") || "SRE-26-", gasUrl = localStorage.getItem("sre_gas_url") || "";
 
     const paymentModesList = `<option value="">-- Choose --</option><option value="Cash">Cash</option><option value="QR">QR</option><option value="Card">Card</option><option value="Cash/QR">Cash/QR</option><option value="Cash/Card">Cash/Card</option><option value="QR/Card">QR/Card</option><option value="Cash/QR/Card">Cash/QR/Card</option>`;
 
     window.onload = () => { 
-        document.getElementById('pay-primary').innerHTML = paymentModesList;
-        document.getElementById('fin-dp-mode').innerHTML = paymentModesList;
-        document.getElementById('dues-dp-mode').innerHTML = paymentModesList;
+        document.getElementById('pay-primary').innerHTML = paymentModesList; document.getElementById('fin-dp-mode').innerHTML = paymentModesList; document.getElementById('dues-dp-mode').innerHTML = paymentModesList;
         renderCategories(); renderProducts(); renderParties(); startBill('SALE'); 
     };
 
     function showToast(title, msg, type = 'success') {
-        const container = document.getElementById('toast-container');
-        const toast = document.createElement('div');
-        toast.className = `glass-panel p-2 rounded shadow-xl flex items-center space-x-2 border-l-4 ${type==='error'?'border-rose-500':'border-emerald-500'} z-[200] animate-bounce bg-white`;
-        toast.innerHTML = `<div class="text-sm">${type==='error'?'❌':'✅'}</div><div><h4 class="font-black text-[9px] uppercase text-slate-800">${title}</h4><p class="text-[9px] font-bold text-slate-500">${msg}</p></div>`;
-        container.appendChild(toast);
-        setTimeout(() => toast.remove(), 2500);
+        const container = document.getElementById('toast-container'); const t = document.createElement('div');
+        t.className = `glass-panel p-2 rounded shadow-xl flex items-center space-x-2 border-l-4 ${type==='error'?'border-rose-500':'border-emerald-500'} animate-bounce`;
+        t.innerHTML = `<div class="text-sm">${type==='error'?'❌':'✅'}</div><div><h4 class="font-black text-[9px] uppercase">${title}</h4><p class="text-[9px] font-bold text-slate-500">${msg}</p></div>`;
+        container.appendChild(t); setTimeout(() => t.remove(), 2500);
     }
-    
-    function showPopup(title, msg, isError = false) {
-        document.getElementById('popup-icon').innerText = isError ? '❌' : '✅';
-        document.getElementById('popup-title').innerText = title;
-        document.getElementById('popup-title').className = isError ? 'text-lg font-black text-rose-600 uppercase tracking-wider' : 'text-lg font-black text-[#004aad] uppercase tracking-wider';
-        document.getElementById('popup-message').innerText = msg;
-        document.getElementById('center-popup').classList.remove('hidden');
-    }
+    function showPopup(title, msg, isError = false) { document.getElementById('popup-icon').innerText = isError ? '❌' : '✅'; document.getElementById('popup-title').innerText = title; document.getElementById('popup-title').className = isError ? 'text-lg font-black text-rose-600 uppercase' : 'text-lg font-black text-[#004aad] uppercase'; document.getElementById('popup-message').innerText = msg; document.getElementById('center-popup').classList.remove('hidden'); }
     function closePopup() { document.getElementById('center-popup').classList.add('hidden'); }
 
     document.addEventListener('focusin', e => { if(e.target.tagName === 'INPUT' && (e.target.type === 'number' || e.target.type === 'text')) e.target.select(); });
     window.addEventListener('keydown', e => {
-        if(e.key === 'F2') { e.preventDefault(); startBill('SALE'); }
-        if(e.key === 'F3') { e.preventDefault(); startBill('PURCHASE'); }
-        if(e.key === 'F4') { e.preventDefault(); startPayment('IN'); }
-        if(e.key === 'F9' || ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S'))) {
-            e.preventDefault();
-            if(!document.getElementById('view-new-bill').classList.contains('hidden')) { saveFinalBill(); }
-        }
+        if(e.key === 'F2') { e.preventDefault(); startBill('SALE'); } if(e.key === 'F3') { e.preventDefault(); startBill('PURCHASE'); } if(e.key === 'F4') { e.preventDefault(); startPayment('IN'); }
+        if(e.key === 'F9' || ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S'))) { e.preventDefault(); if(!document.getElementById('view-new-bill').classList.contains('hidden')) saveFinalBill(); else if(!document.getElementById('add-product-form').parentElement.parentElement.classList.contains('hidden')) saveProduct(); else if(!document.getElementById('pt-name').closest('.view-section').classList.contains('hidden')) saveParty(); }
     });
+
+    // Handle Enter mapping for forms
+    function handleShortcut(e, type) { if(e.altKey && (e.key === 'c' || e.key === 'C')) { e.preventDefault(); if(type === 'CUSTOMER' || type === 'SUPPLIER') openPartyModal(type, e.target); else if(type === 'PRODUCT') openItemModal(e.target); } }
 
     function showView(viewName) {
         document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
-        const view = document.getElementById('view-' + viewName);
-        if(view) { view.classList.remove('hidden'); if(viewName==='new-bill') view.classList.add('flex'); }
+        document.getElementById('view-' + viewName).classList.remove('hidden');
+        if(viewName==='new-bill') document.getElementById('view-' + viewName).classList.add('flex');
         
         document.querySelectorAll('.nav-btn').forEach(el => { el.classList.remove('bg-blue-600', 'text-white', 'shadow-md'); el.classList.add('text-slate-400'); });
-        const activeNav = document.getElementById('nav-' + viewName);
+        const activeNav = document.getElementById('nav-' + (viewName==='new-bill'?'new-bill':viewName));
         if(activeNav) { activeNav.classList.add('bg-blue-600', 'text-white', 'shadow-md'); activeNav.classList.remove('text-slate-400'); }
-
+        
         const bottomNav = document.getElementById("bottom-nav");
-        if (viewName === 'invoice' || viewName === 'new-bill') { if(bottomNav) bottomNav.classList.add("hidden"); } 
-        else { if(bottomNav) bottomNav.classList.remove("hidden"); }
-
-        if(viewName === 'dashboard') renderDashboard();
-        if(viewName === 'product') renderProducts();
-        if(viewName === 'party') renderParties();
-        if(viewName === 'ledger') updateLedgerView();
+        if (viewName === 'invoice' || viewName === 'new-bill') { if(bottomNav) bottomNav.classList.add("hidden"); } else { if(bottomNav) bottomNav.classList.remove("hidden"); }
+        if(viewName === 'dashboard') renderDashboard(); if(viewName === 'ledger') updateLedgerView();
     }
 
     // --- QUICK MODALS ---
-    function renderCategories() {
-        const opts = categoriesDB.map(c => `<option value="${c}">${c}</option>`).join('') + `<option value="ADD_NEW" class="font-black text-[#004aad] bg-blue-50">➕ Create Category</option>`;
-        document.querySelectorAll('.cat-select').forEach(sel => sel.innerHTML = opts);
-    }
-    function handleCategoryChange(sel) {
-        if(sel.value === "ADD_NEW") {
-            const newCat = prompt("Enter New Category Name:");
-            if(newCat && newCat.trim() !== "") { const c = escapeHTML(newCat.trim()); if(!categoriesDB.includes(c)) { categoriesDB.push(c); Storage.set('sre_categories', categoriesDB); } renderCategories(); sel.value = c; } 
-            else sel.value = categoriesDB[0];
-        }
-    }
-    function handleShortcut(e, type) {
-        if(e.altKey && (e.key === 'c' || e.key === 'C')) { e.preventDefault(); if(type === 'CUSTOMER' || type === 'SUPPLIER') openPartyModal(type, e.target); else if(type === 'PRODUCT') openItemModal(e.target); }
-    }
-    function openPartyModal(type, inputEl = null) { activeShortcutInput = inputEl; document.getElementById('q-party-type').value=type; document.getElementById('party-popup').classList.remove('hidden'); setTimeout(()=>document.getElementById('q-party-name').focus(), 80); }
+    function renderCategories() { const opts = categoriesDB.map(c => `<option value="${c}">${c}</option>`).join('') + `<option value="ADD_NEW">➕ Create Category</option>`; document.querySelectorAll('.cat-select').forEach(sel => sel.innerHTML = opts); }
+    function handleCategoryChange(sel) { if(sel.value === "ADD_NEW") { const nc = prompt("New Category:"); if(nc && nc.trim()!=="") { const c=escapeHTML(nc.trim()); if(!categoriesDB.includes(c)){categoriesDB.push(c); Storage.set('sre_categories',categoriesDB);} renderCategories(); sel.value=c; } else sel.value=categoriesDB[0]; } }
+    
+    function openPartyModal(type, target=null) { activeShortcutInput = target || document.getElementById('bill-party'); document.getElementById('q-party-type').value=type; document.getElementById('party-popup').classList.remove('hidden'); document.getElementById('q-party-name').focus(); }
     function saveQuickParty() {
         const type = document.getElementById('q-party-type').value, name = escapeHTML(document.getElementById('q-party-name').value.trim().toUpperCase()), mobile = document.getElementById('q-party-phone').value.trim();
         if(!name) return showToast("Validation", "Name required", "error");
-        if(mobile && partiesDB.some(p => p.mobile === mobile)) return showToast("Duplicate", "Mobile number already registered.", "error");
+        if(mobile && partiesDB.some(p => p.mobile === mobile)) return showToast("Duplicate", "Mobile registered", "error");
         if(!partiesDB.find(p=>p.name===name)) { partiesDB.push({ id:'PTY-'+Date.now(), type, name, mobile, gstin:"", address:"", ob:0 }); Storage.set('sre_parties', partiesDB); renderParties(); }
-        if(activeShortcutInput) { activeShortcutInput.value = name; onPartySelect(name); activeShortcutInput.focus(); }
+        if(activeShortcutInput) { activeShortcutInput.value = name; if(activeShortcutInput.id==='bill-party') onPartySelect(name); activeShortcutInput.focus(); }
         document.getElementById('party-popup').classList.add('hidden');
     }
-    function openItemModal(inputEl = null) { activeShortcutInput = inputEl || document.getElementById('master-item-scan'); document.getElementById('item-popup').classList.remove('hidden'); setTimeout(()=>document.getElementById('q-item-name').focus(), 80); }
+
+    function openItemModal(target=null) { activeShortcutInput = target || document.getElementById('master-item-scan'); document.getElementById('item-popup').classList.remove('hidden'); document.getElementById('q-item-name').focus(); }
     function saveQuickItem() {
-        const name = escapeHTML(document.getElementById('q-item-name').value.trim().toUpperCase()), sale = Number(document.getElementById('q-item-sale').value)||0, gst = Number(document.getElementById('q-item-gst').value)||0;
+        const name = escapeHTML(document.getElementById('q-item-name').value.trim().toUpperCase()), sale = Number(document.getElementById('q-item-sale').value)||0, gst = Number(document.getElementById('q-item-gst').value)||0, cat = document.getElementById('q-item-category').value;
         if(!name || sale<=0) return showToast("Validation", "Name & Rate required", "error");
-        if(!productsDB.find(p=>p.name===name)) { productsDB.push({ id:'PRD-'+Date.now(), name, brand:"-", category:document.getElementById('q-item-category').value, sku:"SKU-"+Date.now(), hsn:"-", mrp:0, pur:0, sale, gst, stock:0, lowStock:5, track:true, imeiList:[] }); Storage.set('sre_products', productsDB); renderProducts(); }
-        if(activeShortcutInput) { 
-            activeShortcutInput.value = name; 
-            if(activeShortcutInput.id === 'master-item-scan') handleMasterScan({key:'Enter', preventDefault:()=>{}, target: activeShortcutInput}); 
-            else { autoFillRate(activeShortcutInput); activeShortcutInput.focus(); } 
-        }
+        if(!productsDB.find(p=>p.name===name)) { productsDB.push({ id:'PRD-'+Date.now(), name, brand:"-", category:cat, sku:"SKU-"+Date.now(), hsn:"-", mrp:0, pur:0, sale, gst, stock:0, lowStock:5, track:true, imeiList:[], image:"" }); Storage.set('sre_products', productsDB); renderProducts(); }
+        if(activeShortcutInput) { activeShortcutInput.value = name; if(activeShortcutInput.id === 'master-item-scan') handleMasterScan({key:'Enter', preventDefault:()=>{}, target: activeShortcutInput}); else { autoFillRate(activeShortcutInput); activeShortcutInput.focus(); } }
         document.getElementById('item-popup').classList.add('hidden');
     }
 
     function onPartySelect(val) {
-        const query = val.trim().toUpperCase();
-        let p = partiesDB.find(x => x.name.toUpperCase() === query || x.mobile === query);
-        const badge = document.getElementById('party-balance-badge');
-        if(p) {
-            document.getElementById('bill-party').value = p.name;
-            badge.innerText = `Old Bal: ₹${(p.ob||0).toLocaleString('en-IN')}`;
-            badge.className = `absolute right-8 text-[9px] font-black ${p.ob>0?'text-rose-600 bg-rose-100 border-rose-200':'text-emerald-600 bg-emerald-100 border-emerald-200'} px-1.5 py-0.5 rounded shadow-sm whitespace-nowrap`;
-        } else {
-            badge.innerText = "₹0"; badge.className = "absolute right-8 text-[9px] font-black text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded shadow-sm whitespace-nowrap";
-        }
+        const q = val.trim().toUpperCase(), p = partiesDB.find(x => x.name.toUpperCase() === q || x.mobile === q), b = document.getElementById('party-balance-badge');
+        if(p) { document.getElementById('bill-party').value = p.name; b.innerText = `Old Bal: ₹${(p.ob||0).toLocaleString('en-IN')}`; b.className = `absolute right-8 text-[9px] font-black ${p.ob>0?'text-rose-600 bg-rose-100':'text-emerald-600 bg-emerald-100'} px-1.5 py-0.5 rounded shadow-sm whitespace-nowrap`; } 
+        else { b.innerText = "₹0"; b.className = "absolute right-8 text-[9px] font-black text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded shadow-sm whitespace-nowrap"; }
     }
 
     // --- BILLING ENGINE ---
     function startBill(type) {
         currentMode = type;
-        document.getElementById('bill-title').innerText = type + " ENTRY";
-        document.getElementById('form-entry-type').innerText = type;
-        document.getElementById('form-entry-type').className = type === "SALE" ? "text-[9px] font-black px-2 py-1 rounded bg-blue-100 text-blue-700 uppercase tracking-widest shrink-0" : "text-[9px] font-black px-2 py-1 rounded bg-rose-100 text-rose-700 uppercase tracking-widest shrink-0";
-        
-        document.getElementById('bill-party').value=''; document.getElementById('master-item-scan').value='';
-        document.getElementById('bill-date').value = getToday(); 
-        document.getElementById('bill-inv').value = type === "SALE" ? `${invPrefix}${(billsDB.length + 1).toString().padStart(3,'0')}` : `PUR-${(billsDB.length + 1).toString().padStart(3,'0')}`; 
-        document.getElementById('bill-items-body').innerHTML='';
-        
-        resetPaymentFields();
-        addBillRow(null, null, true); 
-        showView('new-bill');
-        setTimeout(() => document.getElementById('master-item-scan').focus(), 100);
+        const bTitle = document.getElementById('bill-title'); if(bTitle) bTitle.innerText = type + " ENTRY";
+        document.getElementById('form-entry-type').innerText = type; document.getElementById('form-entry-type').className = type === "SALE" ? "text-[9px] font-black px-2 py-1 rounded bg-blue-100 text-blue-700 uppercase shrink-0" : "text-[9px] font-black px-2 py-1 rounded bg-rose-100 text-rose-700 uppercase shrink-0";
+        document.getElementById('bill-party').value=''; document.getElementById('master-item-scan').value=''; document.getElementById('bill-date').value = getToday(); document.getElementById('bill-inv').value = type === "SALE" ? `${invPrefix}${(billsDB.length + 1).toString().padStart(3,'0')}` : `PUR-${(billsDB.length + 1).toString().padStart(3,'0')}`; 
+        document.getElementById('bill-items-body').innerHTML=''; onPartySelect('');
+        resetPaymentFields(); addBillRow(null, null, true); showView('new-bill'); setTimeout(() => document.getElementById('master-item-scan').focus(), 100);
     }
 
     function handleMasterScan(e) {
         if(e.key === 'Enter') {
             e.preventDefault(); const val = e.target.value.trim().toUpperCase(); if(!val) return;
             const prod = productsDB.find(p => p.sku === val || (p.imeiList && p.imeiList.includes(val)) || p.name === val);
-            
             if(prod) {
-                let rows = document.querySelectorAll('#bill-items-body tr');
-                let found = Array.from(rows).find(r => r.querySelector('.b-name').value.toUpperCase() === prod.name);
-                
+                let rows = document.querySelectorAll('#bill-items-body tr'); let found = Array.from(rows).find(r => r.querySelector('.b-name').value.toUpperCase() === prod.name);
                 if(found) {
                     let q = found.querySelector('.b-qty'); q.value = Number(q.value)+1;
-                    if(prod.imeiList && prod.imeiList.includes(val)) {
-                        let m = found.querySelector('.b-imei-main');
-                        if(!m.value) m.value = val;
-                        else { window.handleGridQtyChange(q); let ex = Array.from(found.querySelectorAll('.b-imei-extra')).find(i=>!i.value); if(ex) ex.value = val; }
-                    } else window.handleGridQtyChange(q);
-                } else {
-                    addBillRow(prod, val);
-                    if(rows[0] && !rows[0].querySelector('.b-name').value) rows[0].remove();
-                }
+                    if(prod.imeiList && prod.imeiList.includes(val)) { let m = found.querySelector('.b-imei-main'); if(!m.value) m.value = val; else { window.handleGridQtyChange(q); let ex = Array.from(found.querySelectorAll('.b-imei-extra')).find(i=>!i.value); if(ex) ex.value = val; } } else window.handleGridQtyChange(q);
+                } else { addBillRow(prod, val); if(rows[0] && !rows[0].querySelector('.b-name').value) rows[0].remove(); }
                 calcBill(); showToast("Scanned", `${prod.name} added`);
-            } else showToast("Error", "Barcode not found", "error");
+            } else showToast("Error", "Item not found in master", "error");
             e.target.value = ''; setTimeout(() => e.target.focus(), 10);
         }
     }
 
     function addBillRow(prod=null, scanVal=null, isFirst=false) {
-        const tbody = document.getElementById('bill-items-body');
-        const tr = document.createElement('tr'); tr.className = "group hover:bg-slate-50 border-b border-slate-100 transition-colors";
-        
-        let pName = prod ? prod.name : "";
-        let pRate = prod ? (currentMode === "SALE" ? prod.sale : prod.pur) : "";
-        let pGst = prod ? prod.gst : 18;
-        let pImei = (prod && prod.imeiList && prod.imeiList.includes(scanVal)) ? scanVal : "";
-
-        tr.innerHTML = `
-            <td class="p-1 align-top pl-4"><input type="text" onchange="autoFillRate(this)" class="premium-input uppercase text-[10px] text-blue-700 b-name !px-2 !h-[28px] border-transparent bg-transparent hover:border-slate-300 focus:bg-white" placeholder="Item Name" value="${pName}"></td>
-            <td class="p-1 align-top"><input type="number" oninput="calcBill()" class="premium-input text-[11px] text-right b-rate !px-2 !h-[28px]" placeholder="0" value="${pRate}"></td>
-            <td class="p-1 align-top"><select onchange="calcBill()" tabindex="-1" class="premium-input text-center text-[10px] b-gst !px-1 !h-[28px]"><option value="0" ${pGst==0?'selected':''}>0</option><option value="5" ${pGst==5?'selected':''}>5</option><option value="12" ${pGst==12?'selected':''}>12</option><option value="18" ${pGst==18?'selected':''}>18</option><option value="28" ${pGst==28?'selected':''}>28</option></select></td>
-            <td class="p-1 align-top"><input type="number" min="1" value="1" oninput="window.handleGridQtyChange(this)" onkeyup="window.handleGridQtyChange(this)" class="premium-input text-center font-black text-[#004aad] b-qty !px-1 !h-[28px]"></td>
-            <td class="p-1 align-top relative pr-6">
-                <input type="text" maxlength="25" oninput="this.value=this.value.replace(/[^0-9A-Za-z]/g,'')" class="premium-input font-mono text-[10px] uppercase text-slate-600 b-imei-main !px-2 !h-[28px]" placeholder="IMEI / Serial" value="${pImei}">
-                <div class="b-imei-extended hidden imei-grid-container"></div>
-                ${!isFirst ? `<button onclick="this.closest('tr').remove(); calcBill();" tabindex="-1" class="absolute right-1 top-1.5 text-rose-400 hover:text-rose-600 font-black opacity-0 group-hover:opacity-100 px-1">✕</button>` : ''}
-            </td>
-        `;
-        tbody.appendChild(tr);
-        const scroller = document.getElementById('bill-items-container'); if(scroller) scroller.scrollTop = scroller.scrollHeight;
+        const tbody = document.getElementById('bill-items-body'), tr = document.createElement('tr'); tr.className = "group hover:bg-slate-50 border-b border-slate-100 transition-colors";
+        let pName = prod ? prod.name : "", pRate = prod ? (currentMode === "SALE" ? prod.sale : prod.pur) : "", pGst = prod ? prod.gst : 18, pImei = (prod && prod.imeiList && prod.imeiList.includes(scanVal)) ? scanVal : "";
+        tr.innerHTML = `<td class="p-1 align-top pl-4"><input type="text" list="item-list" onchange="autoFillRate(this)" class="premium-input uppercase text-[10px] text-blue-700 b-name !px-2 !h-[28px] border-transparent bg-transparent hover:border-slate-300 focus:bg-white" placeholder="Item Name" value="${pName}"></td><td class="p-1 align-top"><input type="number" oninput="calcBill()" class="premium-input text-[11px] text-right b-rate !px-2 !h-[28px]" placeholder="0" value="${pRate}"></td><td class="p-1 align-top"><select onchange="calcBill()" tabindex="-1" class="premium-input text-center text-[10px] b-gst !px-1 !h-[28px]"><option value="0" ${pGst==0?'selected':''}>0</option><option value="5" ${pGst==5?'selected':''}>5</option><option value="12" ${pGst==12?'selected':''}>12</option><option value="18" ${pGst==18?'selected':''}>18</option><option value="28" ${pGst==28?'selected':''}>28</option></select></td><td class="p-1 align-top"><input type="number" min="1" value="1" oninput="window.handleGridQtyChange(this)" onkeyup="window.handleGridQtyChange(this)" class="premium-input text-center font-black text-[#004aad] b-qty !px-1 !h-[28px]"></td><td class="p-1 align-top relative pr-6"><input type="text" maxlength="25" oninput="this.value=this.value.replace(/[^0-9A-Za-z]/g,'')" class="premium-input font-mono text-[10px] uppercase text-slate-600 b-imei-main !px-2 !h-[28px]" placeholder="IMEI 1" value="${pImei}"><div class="b-imei-extended hidden mt-1 flex-wrap gap-1"></div>${!isFirst ? `<button onclick="this.closest('tr').remove(); calcBill();" tabindex="-1" class="absolute right-1 top-1.5 text-rose-400 hover:text-rose-600 font-black opacity-0 group-hover:opacity-100 px-1">✕</button>` : ''}</td>`;
+        tbody.appendChild(tr); const s = document.getElementById('bill-items-container'); if(s) s.scrollTop = s.scrollHeight;
     }
 
-    // THE STYLISH APPLE GRID FIX
     window.handleGridQtyChange = function(input) {
-        calcBill(); const tr = input.closest('tr'); const qty = Math.max(1, Number(input.value)||1); const extBox = tr.querySelector('.b-imei-extended');
-        if(qty > 1) {
-            extBox.classList.remove('hidden'); 
-            const vals = Array.from(extBox.querySelectorAll('.imei-extra-input')).map(i=>i.value);
-            let html = '';
-            for(let i=2; i<=qty; i++) html += `<input type="text" maxlength="25" oninput="this.value=this.value.replace(/[^0-9A-Za-z]/g,''); this.setAttribute('value', this.value);" value="${vals[i-2]||''}" placeholder="IMEI ${i}" class="imei-extra-input b-imei-extra">`;
-            extBox.innerHTML = html;
-        } else { extBox.classList.add('hidden'); extBox.innerHTML = ''; }
+        calcBill(); const tr = input.closest('tr'), qty = Math.max(1, Number(input.value)||1), extBox = tr.querySelector('.b-imei-extended');
+        if(qty > 1) { extBox.classList.remove('hidden'); extBox.classList.add('flex'); const vals = Array.from(extBox.querySelectorAll('.imei-extra-input')).map(i=>i.value); let html = ''; for(let i=2; i<=qty; i++) html += `<input type="text" maxlength="25" oninput="this.value=this.value.replace(/[^0-9A-Za-z]/g,''); this.setAttribute('value', this.value);" value="${vals[i-2]||''}" placeholder="IMEI ${i}" class="imei-extra-input b-imei-extra">`; extBox.innerHTML = html; } 
+        else { extBox.classList.add('hidden'); extBox.innerHTML = ''; }
     };
 
-    function autoFillRate(input) {
-        const prod = productsDB.find(p => p.name === input.value.trim().toUpperCase());
-        if(prod) { const tr=input.closest('tr'); tr.querySelector('.b-rate').value=currentMode==="SALE"?prod.sale:prod.pur; tr.querySelector('.b-gst').value=prod.gst; calcBill(); }
-    }
+    function autoFillRate(input) { const prod = productsDB.find(p => p.name === input.value.trim().toUpperCase()); if(prod) { const tr=input.closest('tr'); tr.querySelector('.b-rate').value=currentMode==="SALE"?prod.sale:prod.pur; tr.querySelector('.b-gst').value=prod.gst; calcBill(); } }
 
-    // --- PAYMENT COMPACT UI ---
-    function onPaymentModeChange() {
-        const p = document.getElementById('pay-primary').value, s = document.getElementById('pay-secondary').value;
+    function onPaymentModeChange(s) {
+        const pEl=document.getElementById('pay-primary'), sEl=document.getElementById('pay-secondary'); if(s==='primary'&&pEl.value!=="") sEl.value=""; else if(s==='secondary'&&sEl.value!=="") pEl.value="";
         ['box-split','box-finance','box-dues'].forEach(id=>document.getElementById(id).classList.add('hidden'));
-        
-        let am = p;
-        if(s === "Finance") { document.getElementById('box-finance').classList.remove('hidden'); document.getElementById('box-finance').classList.add('flex'); am = document.getElementById('fin-dp-mode').value; }
-        else if(s === "Dues") { document.getElementById('box-dues').classList.remove('hidden'); document.getElementById('box-dues').classList.add('flex'); am = document.getElementById('dues-dp-mode').value; }
-        else if(p && p.includes('/')) { document.getElementById('box-split').classList.remove('hidden'); document.getElementById('box-split').classList.add('flex'); }
-        
-        const payInp = document.getElementById('bill-paid');
-        if(am && am.includes('/')) {
-            ['cash','qr','card'].forEach(t => document.getElementById(`wrap-split-${t}`).classList.toggle('hidden', !am.toLowerCase().includes(t)));
-            payInp.readOnly = true; payInp.classList.add('opacity-50'); payInp.placeholder = "Auto";
-        } else {
-            payInp.readOnly = false; payInp.classList.remove('opacity-50'); payInp.placeholder = "0";
-            if(!am) payInp.value = "";
-        }
-        calcBill();
+        const p = pEl.value, sec = sEl.value; let am = p;
+        if(sec === "Finance") { document.getElementById('box-finance').classList.remove('hidden'); document.getElementById('box-finance').classList.add('flex'); am = document.getElementById('fin-dp-mode').value; } else if(sec === "Dues") { document.getElementById('box-dues').classList.remove('hidden'); document.getElementById('box-dues').classList.add('flex'); am = document.getElementById('dues-dp-mode').value; } else if(p.includes('/')) { document.getElementById('box-split').classList.remove('hidden'); document.getElementById('box-split').classList.add('flex'); }
+        const pInp = document.getElementById('bill-paid');
+        if(am && am.includes('/')) { ['cash','qr','card'].forEach(t => document.getElementById(`split-${t}`).parentElement.classList.toggle('hidden', !am.toLowerCase().includes(t))); pInp.readOnly=true; pInp.classList.add('opacity-50'); pInp.placeholder="Auto"; } else { pInp.readOnly=false; pInp.classList.remove('opacity-50'); pInp.placeholder="0"; if(!am) pInp.value=""; } calcBill();
     }
-    function renderSplitInputs() { onPaymentModeChange(); }
-    function resetPaymentFields() {
-        ['bill-paid','pay-primary','pay-secondary','fin-company','fin-dp-amt','fin-dp-mode','dues-dp-amt','dues-dp-mode','split-cash','split-qr','split-card'].forEach(id=>document.getElementById(id).value="");
-        onPaymentModeChange();
-    }
+    function renderSplitInputs() { onPaymentModeChange(''); }
+    function resetPaymentFields() { ['bill-paid','pay-primary','pay-secondary','fin-company','fin-dp-amt','fin-dp-mode','dues-dp-amt','dues-dp-mode','split-cash','split-qr','split-card'].forEach(id=>document.getElementById(id).value=""); onPaymentModeChange(''); }
 
     function calcBill(isTyping=false) {
-        let tax=0, gstAmt=0, grand=0;
+        let tax=0, gstAmt=0, grand=0, purCost=0;
         document.querySelectorAll('#bill-items-body tr').forEach(row => {
-            const r=Number(row.querySelector('.b-rate').value)||0, q=Number(row.querySelector('.b-qty').value)||0, g=Number(row.querySelector('.b-gst').value)||0;
-            let lt = r*q; let lg = lt*(g/100);
-            tax+=lt; gstAmt+=lg; grand+=(lt+lg);
-            const qtyEl = row.querySelector('.b-qty');
-            if(currentMode==="SALE") { const p=productsDB.find(x=>x.name===row.querySelector('.b-name').value.trim().toUpperCase()); if(p && p.stock<q) qtyEl.classList.add('bg-rose-100'); else qtyEl.classList.remove('bg-rose-100'); }
+            const nm = row.querySelector('.b-name').value.trim().toUpperCase(), r=Number(row.querySelector('.b-rate').value)||0, q=Number(row.querySelector('.b-qty').value)||0, g=Number(row.querySelector('.b-gst').value)||0;
+            if(!nm) return; let lt = r*q; let lg = lt*(g/100); tax+=lt; gstAmt+=lg; grand+=(lt+lg);
+            const qtyEl = row.querySelector('.b-qty'), prod = productsDB.find(x=>x.name===nm);
+            if(currentMode==="SALE" && prod) { purCost+=(prod.pur*q); if(prod.stock<q) qtyEl.classList.add('bg-rose-100'); else qtyEl.classList.remove('bg-rose-100'); }
         });
-
         const rGrand = Math.round(grand);
-        document.getElementById('bill-taxable').innerText = "₹"+tax.toLocaleString('en-IN',{minimumFractionDigits:2});
-        document.getElementById('bill-gst').innerText = "₹"+gstAmt.toLocaleString('en-IN',{minimumFractionDigits:2});
-        document.getElementById('bill-grand-total').innerText = "₹"+rGrand.toLocaleString('en-IN');
-
-        const pInp = document.getElementById('bill-paid'), p = document.getElementById('pay-primary').value, s = document.getElementById('pay-secondary').value;
-        let am = p; if(s==='Finance') am=document.getElementById('fin-dp-mode').value; if(s==='Dues') am=document.getElementById('dues-dp-mode').value;
-        
+        document.getElementById('bill-taxable').innerText = "₹"+tax.toLocaleString('en-IN',{minimumFractionDigits:2}); document.getElementById('bill-gst').innerText = "₹"+gstAmt.toLocaleString('en-IN',{minimumFractionDigits:2}); document.getElementById('bill-grand-total').innerText = "₹"+rGrand.toLocaleString('en-IN');
+        const pInp = document.getElementById('bill-paid'), p = document.getElementById('pay-primary').value, s = document.getElementById('pay-secondary').value; let am = p; if(s==='Finance') am=document.getElementById('fin-dp-mode').value; if(s==='Dues') am=document.getElementById('dues-dp-mode').value;
         let rawP = 0;
         if(am && am.includes('/')) {
             rawP += (Number(document.getElementById('split-cash').value)||0) + (Number(document.getElementById('split-qr').value)||0) + (Number(document.getElementById('split-card').value)||0);
             if(!isTyping) { pInp.value = rawP; if(s==='Finance') document.getElementById('fin-dp-amt').value=rawP; if(s==='Dues') document.getElementById('dues-dp-amt').value=rawP; }
         } else {
-            if(!isTyping) {
-                if(!am) { pInp.value=""; rawP=0; }
-                else if(s==="Finance") { rawP=Number(document.getElementById('fin-dp-amt').value)||0; pInp.value=rawP; }
-                else if(s==="Dues") { rawP=Number(document.getElementById('dues-dp-amt').value)||0; pInp.value=rawP; }
-                else { pInp.value=rGrand; rawP=rGrand; }
-            } else rawP = Number(pInp.value)||0;
+            if(!isTyping) { if(!am) { pInp.value=""; rawP=0; } else if(s==="Finance") { rawP=Number(document.getElementById('fin-dp-amt').value)||0; pInp.value=rawP; } else if(s==="Dues") { rawP=Number(document.getElementById('dues-dp-amt').value)||0; pInp.value=rawP; } else { pInp.value=rGrand; rawP=rGrand; } } else rawP = Number(pInp.value)||0;
         }
-        
         if(rawP > rGrand) { rawP = rGrand; pInp.value = rawP; }
         document.getElementById('bill-due').innerText = "₹"+Math.max(0, rGrand-rawP).toLocaleString('en-IN');
-        return { tax, gstAmt, rGrand, rawP, due:Math.max(0, rGrand-rawP) };
+        return { tax, gstAmt, rGrand, rawP, due:Math.max(0, rGrand-rawP), profit: currentMode==="SALE" ? (rGrand - gstAmt - purCost) : 0 };
     }
 
     function saveFinalBill() {
         if(isSaving) return;
-        const pName = document.getElementById('bill-party').value.trim().toUpperCase();
-        if(!pName) return showToast("Required", "Party Name needed", "error");
+        const pName = document.getElementById('bill-party').value.trim().toUpperCase(); if(!pName) return showToast("Required", "Party Name needed", "error");
         const t = calcBill(true); if(t.rGrand <= 0) return showToast("Empty", "Bill is zero", "error");
-
-        const pm = document.getElementById('pay-primary').value, sm = document.getElementById('pay-secondary').value;
-        if(!pm && !sm) return showToast("Payment", "Select Mode", "error");
+        const pm = document.getElementById('pay-primary').value, sm = document.getElementById('pay-secondary').value; if(!pm && !sm) return showToast("Payment", "Select Mode", "error");
 
         let items=[], err=null, setImeis=new Set();
         for(let row of document.querySelectorAll('#bill-items-body tr')) {
             const n=row.querySelector('.b-name').value.trim().toUpperCase(); if(!n) continue;
             const r=Number(row.querySelector('.b-rate').value)||0, q=Number(row.querySelector('.b-qty').value)||1, g=Number(row.querySelector('.b-gst').value)||0;
             const im = row.querySelector('.b-imei-main').value.trim().toUpperCase();
-            let vImeis = []; if(im) vImeis.push(im);
-            row.querySelectorAll('.b-imei-extra').forEach(inp=>{ if(inp.value.trim()) vImeis.push(inp.value.trim().toUpperCase()); });
+            let vImeis = []; if(im) vImeis.push(im); row.querySelectorAll('.b-imei-extra').forEach(inp=>{ if(inp.value.trim()) vImeis.push(inp.value.trim().toUpperCase()); });
             
             let prod = productsDB.find(p=>p.name===n);
+            // AUTO CREATE NEW PRODUCT ON PURCHASE
+            if(currentMode === "PURCHASE" && !prod) {
+                prod = { id:'PRD-'+Date.now(), name:n, brand:"-", category:categoriesDB[0], sku:"SKU-"+Date.now(), hsn:"-", mrp:0, pur:r, sale:r*1.2, gst:g, stock:0, lowStock:5, track:vImeis.length>0, imeiList:[] };
+                productsDB.push(prod);
+            }
+
             if(prod && prod.track) {
                 if(vImeis.length !== q) { err=`Require exactly ${q} IMEI(s) for ${n}`; break; }
                 for(let i of vImeis) {
                     if(setImeis.has(i)) { err=`Duplicate IMEI ${i} in bill`; break; } setImeis.add(i);
-                    if(currentMode==="SALE" && !prod.imeiList.includes(i)) { err=`IMEI ${i} not in stock`; break; }
+                    if(currentMode==="SALE" && (!prod.imeiList || !prod.imeiList.includes(i))) { err=`IMEI ${i} not in stock`; break; }
                     if(currentMode==="PURCHASE" && prod.imeiList && prod.imeiList.includes(i)) { err=`IMEI ${i} already in stock`; break; }
                 }
             }
@@ -849,167 +460,72 @@
         });
 
         let pData = partiesDB.find(p=>p.name===pName);
-        let finData = null; if(sm==="Finance") finData = { company: document.getElementById('fin-company').value, dp: t.rawP };
-
-        const billRec = { id:'INV-'+Date.now(), invNo:document.getElementById('bill-inv').value||`${invPrefix}Auto`, date:document.getElementById('bill-date').value, type:currentMode, party:pName, mobile:pData?pData.mobile:"", items, basic:t.tax, gst:t.gstAmt, total:t.rGrand, paid:t.rawP, due:t.due, paymentMode:sm||pm, finance:finData, profit:0 };
+        const billRec = { id:'INV-'+Date.now(), invNo:document.getElementById('bill-inv').value||`${invPrefix}Auto`, date:document.getElementById('bill-date').value, type:currentMode, party:pName, mobile:pData?pData.mobile:"", items, basic:t.tax, gst:t.gstAmt, total:t.rGrand, paid:t.rawP, due:t.due, paymentMode:sm||pm, profit:t.profit };
         billsDB.unshift(billRec); Storage.set('sre_bills', billsDB); Storage.set('sre_products', productsDB);
         
         if(t.due>0 || currentMode==="PURCHASE") { if(pData) { pData.ob += (currentMode==="SALE" ? t.due : -t.due); Storage.set('sre_parties', partiesDB); } }
         
-        showToast("Success", "Bill Saved");
-        generateInvoiceHTML(billRec); // FIX: Calling the restored Invoice popup function!
-        setTimeout(()=>{ isSaving=false; document.getElementById('btn-save-bill').innerHTML=`💾 SAVE <span class="text-[8px] text-blue-200 font-normal ml-1 hidden lg:inline">(F9)</span>`; }, 1000);
+        showToast("Success", "Bill Saved"); generateInvoiceHTML(billRec); setTimeout(()=> { isSaving=false; document.getElementById('btn-save-bill').innerHTML=`💾 SAVE <span class="text-[8px] font-normal hidden lg:inline">(F9)</span>`; }, 1000);
     }
 
-    // --- 100% RESTORED INVOICE & PRINT FUNCTIONS ---
-    function printFormat(type) {
-        const container = document.getElementById('invoice-capture');
-        if (type === 'THERMAL') { container.classList.add('thermal-mode'); } else { container.classList.remove('thermal-mode'); }
-        window.print(); setTimeout(() => { container.classList.remove('thermal-mode'); }, 1000);
-    }
-
-    function shareViaWhatsApp() {
-        const party = document.getElementById('inv-party').innerText;
-        let mobile = document.getElementById('inv-phone').innerText.replace('Ph:', '').trim();
-        const invNo = document.getElementById('inv-no').innerText;
-        const total = document.getElementById('inv-total-print').innerText;
-
-        if(!mobile || mobile === "-") {
-            mobile = prompt("Enter WhatsApp number for " + party + ":");
-            if(!mobile) return;
-        }
-
-        let text = `*SRI RAM ENTERPRISES*\n------------------------\nHello *${party}*,\nYour invoice *${invNo}* for *${total}* has been successfully generated.\n\nThank you for your business!`;
-        let url = `https://wa.me/91${mobile}?text=${encodeURIComponent(text)}`;
-        window.open(url, '_blank');
-    }
-
+    // --- INVOICE ENGINE ---
+    function printFormat(type) { const c = document.getElementById('invoice-capture'); if (type === 'THERMAL') c.classList.add('thermal-mode'); else c.classList.remove('thermal-mode'); window.print(); setTimeout(() => c.classList.remove('thermal-mode'), 1000); }
+    function shareViaWhatsApp() { const p = document.getElementById('inv-party').innerText, i = document.getElementById('inv-no').innerText, t = document.getElementById('inv-total-print').innerText; let m = document.getElementById('inv-phone').innerText; if(!m) m=prompt("WhatsApp No:"); if(m) window.open(`https://wa.me/91${m}?text=${encodeURIComponent(`*SRI RAM ENTERPRISES*\nHello *${p}*,\nInvoice *${i}* for *${t}* is generated.\nThank you!`)}`, '_blank'); }
     function generateInvoiceHTML(bill) {
-        document.getElementById('inv-party').innerText = bill.party; 
-        document.getElementById('inv-phone').innerText = "Ph: " + (bill.mobile || "-"); 
-        document.getElementById('inv-no').innerText = bill.invNo; 
-        document.getElementById('inv-date').innerText = bill.date;
-        document.getElementById('inv-type-title').innerText = bill.type === "PURCHASE" ? "PURCHASE VOUCHER" : "TAX INVOICE";
-        
+        document.getElementById('inv-party').innerText=bill.party; document.getElementById('inv-phone').innerText=bill.mobile||"-"; document.getElementById('inv-no').innerText=bill.invNo; document.getElementById('inv-date').innerText=bill.date; document.getElementById('inv-type-title').innerText=bill.type==="PURCHASE"?"PURCHASE VOUCHER":"TAX INVOICE";
         let pData = partiesDB.find(p => p.name === bill.party); document.getElementById('inv-address').innerText = pData ? (pData.address || "-") : "-";
-        
-        let html = ''; bill.items.forEach((it, i) => { html += `<tr class="border-b border-slate-200"><td class="p-2 border-r border-slate-900 text-center">${i+1}</td><td class="p-2 border-r border-slate-900">${it.name} <span class="text-[8px] text-slate-500 font-black tracking-widest ml-1">[GST ${it.gst}%]</span></td><td class="p-2 border-r border-slate-900 font-mono text-[10px] break-all">${it.imei || '-'}</td><td class="p-2 border-r border-slate-900 text-center text-sm">${it.qty}</td><td class="p-2 border-r border-slate-900 text-right">${it.rate.toLocaleString('en-IN')}</td><td class="p-2 text-right text-slate-900">${it.amt.toLocaleString('en-IN')}</td></tr>`; });
+        let html=''; bill.items.forEach((it, i) => { html += `<tr><td class="p-1 border text-center">${i+1}</td><td class="p-1 border">${it.name} <span class="text-[8px] text-slate-500">[GST ${it.gst}%]</span></td><td class="p-1 border font-mono text-[9px] break-all">${it.imei||'-'}</td><td class="p-1 border text-center">${it.qty}</td><td class="p-1 border text-right">${it.rate}</td><td class="p-1 border text-right">${it.amt}</td></tr>`; });
         document.getElementById('inv-items').innerHTML = html;
-        
-        document.getElementById('inv-taxable-print').innerText = "₹ " + bill.basic.toLocaleString('en-IN', {minimumFractionDigits: 2}); 
-        document.getElementById('inv-gst-print').innerText = "₹ " + bill.gst.toLocaleString('en-IN', {minimumFractionDigits: 2}); 
-        document.getElementById('inv-total-print').innerText = "₹ " + bill.total.toLocaleString('en-IN'); 
-        document.getElementById('inv-paid').innerText = "₹ " + bill.paid.toLocaleString('en-IN'); 
-        document.getElementById('inv-bal').innerText = "₹ " + bill.due.toLocaleString('en-IN');
-        
-        document.getElementById("inv-qr").innerHTML = ""; new QRCode(document.getElementById("inv-qr"), { text: `upi://pay?pa=sriram.enterprise@upi&pn=SriRamEnterprises&am=${bill.total}`, width: 64, height: 64 });
-        showView('invoice');
+        document.getElementById('inv-taxable-print').innerText = "₹"+bill.basic.toLocaleString('en-IN'); document.getElementById('inv-gst-print').innerText = "₹"+bill.gst.toLocaleString('en-IN'); document.getElementById('inv-total-print').innerText = "₹"+bill.total.toLocaleString('en-IN'); document.getElementById('inv-paid').innerText = "₹"+bill.paid.toLocaleString('en-IN'); document.getElementById('inv-bal').innerText = "₹"+bill.due.toLocaleString('en-IN');
+        document.getElementById("inv-qr").innerHTML = ""; new QRCode(document.getElementById("inv-qr"), { text: `upi://pay?pa=sriram.enterprise@upi&pn=SRE&am=${bill.total}`, width: 50, height: 50 }); showView('invoice');
     }
-
     function downloadPDF() {
-        const { jsPDF } = window.jspdf; const doc = new jsPDF("p", "mm", "a4"); const isPur = document.getElementById('inv-type-title').innerText === "PURCHASE VOUCHER"; const themeColor = [15, 23, 42]; 
-        doc.setDrawColor(...themeColor); doc.setLineWidth(0.8); doc.rect(10, 10, 190, 277);
-        doc.setFont("helvetica", "bold"); doc.setFontSize(22); doc.setTextColor(...themeColor); doc.text("SRI RAM ENTERPRISES", 105, 25, null, null, "center");
-        doc.setFontSize(9); doc.setTextColor(80, 80, 80); doc.text("MOBILE • ACCESSORIES • REPAIRING", 105, 31, null, null, "center"); doc.setFont("helvetica", "normal"); doc.setFontSize(8); doc.text("GB-15, City Centre, Sector-4, Bokaro Steel City | Ph: 9334765000", 105, 36, null, null, "center");
-        doc.setLineWidth(0.5); doc.line(10, 42, 200, 42); doc.setFontSize(10); doc.setTextColor(0, 0, 0); doc.setFont("helvetica", "bold"); doc.text("Bill To:", 15, 52); doc.setFontSize(14); doc.setTextColor(...themeColor); doc.text(document.getElementById('inv-party').innerText, 15, 58); doc.setFontSize(9); doc.setTextColor(0, 0, 0); doc.text(document.getElementById('inv-phone').innerText, 15, 64);
-        doc.setFontSize(14); doc.setTextColor(...themeColor); doc.text(document.getElementById('inv-type-title').innerText, 195, 52, null, null, "right"); doc.setFontSize(9); doc.setTextColor(80, 80, 80); doc.text(`Invoice No: ${document.getElementById('inv-no').innerText}`, 195, 58, null, null, "right"); doc.text(`Date: ${document.getElementById('inv-date').innerText}`, 195, 63, null, null, "right");
-        let startY = 72; doc.setFillColor(...themeColor); doc.rect(10, startY, 190, 8, "F"); doc.setTextColor(255, 255, 255); doc.setFont("helvetica", "bold"); doc.setFontSize(9); doc.text("#", 14, startY + 5.5); doc.text("Product Description", 25, startY + 5.5); doc.text("IMEI / Serial", 100, startY + 5.5); doc.text("Qty", 145, startY + 5.5, null, null, "center"); doc.text("Rate", 165, startY + 5.5, null, null, "right"); doc.text("Amount", 195, startY + 5.5, null, null, "right");
-        startY += 8; doc.setTextColor(0, 0, 0); doc.setFont("helvetica", "normal"); doc.setFontSize(8.5);
-        const rows = document.getElementById('inv-items').getElementsByTagName('tr');
-        for(let i=0; i<rows.length; i++) { const cols = rows[i].getElementsByTagName('td'); doc.rect(10, startY, 190, 8); doc.text(cols[0].innerText, 14, startY + 5.5); doc.text(cols[1].innerText.replace('[GST', ' GST'), 25, startY + 5.5); doc.text(cols[2].innerText, 100, startY + 5.5); doc.text(cols[3].innerText, 145, startY + 5.5, null, null, "center"); doc.text(cols[4].innerText, 165, startY + 5.5, null, null, "right"); doc.text(cols[5].innerText, 195, startY + 5.5, null, null, "right"); startY += 8; }
-        doc.setDrawColor(...themeColor); doc.setLineWidth(0.5); doc.line(10, startY, 200, startY); startY += 8;
-        doc.setFont("helvetica", "bold"); doc.setFontSize(9); doc.text("Taxable Value:", 155, startY); doc.text(document.getElementById('inv-taxable-print').innerText, 195, startY, null, null, "right"); startY += 6; doc.text("Total GST:", 155, startY); doc.text(document.getElementById('inv-gst-print').innerText, 195, startY, null, null, "right"); startY += 8;
-        doc.setFillColor(...themeColor); doc.rect(130, startY-5, 70, 10, "F"); doc.setTextColor(255, 255, 255); doc.setFontSize(11); doc.text("GRAND TOTAL", 133, startY+2); doc.text(document.getElementById('inv-total-print').innerText, 197, startY+2, null, null, "right"); startY += 12;
-        doc.setTextColor(0, 0, 0); doc.setFontSize(9); doc.text("Amount Paid:", 155, startY); doc.text(document.getElementById('inv-paid').innerText, 195, startY, null, null, "right"); startY += 6; doc.text("Balance Due:", 155, startY); doc.text(document.getElementById('inv-bal').innerText, 195, startY, null, null, "right");
-        
-        startY += 20; doc.setLineWidth(0.3); doc.line(15, startY, 60, startY); doc.text("Customer Signature", 37, startY + 5, null, null, "center");
-        doc.line(140, startY, 195, startY); doc.setFont("helvetica", "bold"); doc.text("For Sri Ram Enterprises", 167, startY + 5, null, null, "center"); doc.setFont("helvetica", "normal"); doc.setFontSize(7); doc.setTextColor(150,150,150); doc.text("Authorized Signatory", 167, startY + 9, null, null, "center");
+        const { jsPDF } = window.jspdf; const doc = new jsPDF("p", "mm", "a4");
+        doc.setFont("helvetica", "bold"); doc.setFontSize(22); doc.text("SRI RAM ENTERPRISES", 105, 25, null, null, "center"); doc.setFontSize(9); doc.text("MOBILE • ACCESSORIES • REPAIRING", 105, 31, null, null, "center"); doc.setFontSize(8); doc.text("GB-15, City Centre, Sector-4, Bokaro | Ph: 9334765000", 105, 36, null, null, "center");
+        doc.text("Bill To: " + document.getElementById('inv-party').innerText, 15, 52); doc.text("Inv No: " + document.getElementById('inv-no').innerText, 195, 52, null, null, "right");
+        doc.text("Grand Total: " + document.getElementById('inv-total-print').innerText, 195, 80, null, null, "right");
         doc.save(`${document.getElementById('inv-no').innerText}.pdf`);
     }
 
-    // --- 100% RESTORED LEDGER & PARTY VIEWS ---
-    function startPayment(type) {
-        currentPaymentType = type; document.getElementById('pay-title').innerText = type === 'OUT' ? 'PAYMENT OUT' : 'RECEIPT IN'; document.getElementById('pay-party-lbl').innerText = type === 'OUT' ? 'Supplier Name *' : 'Customer Name *';
-        document.getElementById('pay-party').value = ''; document.getElementById('pay-amt').value = ''; document.getElementById('pay-mode').value = 'Cash'; document.getElementById('pay-remarks').value = ''; showView('payment');
-    }
-
-    function savePaymentTransaction() {
-       const party = document.getElementById('pay-party').value.trim().toUpperCase(); const amt = Number(document.getElementById('pay-amt').value) || 0; const mode = document.getElementById('pay-mode').value; const remarks = document.getElementById('pay-remarks').value.trim();
-       if(!party || amt <= 0) return showToast("Validation", "Party Name and Amount required.", "error");
-       const isOut = currentPaymentType === 'OUT'; const prefix = isOut ? "PAY" : "REC"; const invNo = `${prefix}-26-${(billsDB.length+1).toString().padStart(3,"0")}`;
-       const billRecord = { id: 'INV-'+Date.now(), invNo: invNo, date: getToday(), type: isOut ? "PAYMENT" : "RECEIPT", party: party, mobile: "", items: [{name: remarks || (isOut?"Payment Given":"Payment Received"), rate: amt, qty: 1, gst: 0, imei: "-", amt: amt}], basic: amt, gst: 0, total: amt, paid: amt, due: 0, paymentMode: mode, finance: null, profit: 0 };
-       billsDB.unshift(billRecord); Storage.set('sre_bills', billsDB);
-       let pData = partiesDB.find(p => p.name === party); if(pData) { if(currentPaymentType === "IN") pData.ob -= amt; if(currentPaymentType === "OUT") pData.ob += amt; Storage.set('sre_parties', partiesDB); }
-       showPopup("Success", "Transaction logged successfully!"); showView('ledger');
-    }
-
-    function switchLedgerTab(type) {
-      document.getElementById('tab-CUSTOMER').className = type === 'CUSTOMER' ? "flex-1 py-2.5 rounded-lg text-[10px] font-black bg-blue-600 text-white shadow tracking-widest" : "flex-1 py-2.5 rounded-lg text-[10px] font-black text-slate-500 tracking-widest hover:text-blue-600";
-      document.getElementById('tab-SUPPLIER').className = type === 'SUPPLIER' ? "flex-1 py-2.5 rounded-lg text-[10px] font-black bg-blue-600 text-white shadow tracking-widest" : "flex-1 py-2.5 rounded-lg text-[10px] font-black text-slate-500 tracking-widest hover:text-blue-600";
-      document.getElementById("ledger-search").value = ""; updateLedgerView(type);
-    }
-
-    function updateLedgerView(forceType = null) {
-        const isCust = forceType ? forceType === 'CUSTOMER' : document.getElementById('tab-CUSTOMER').classList.contains('bg-blue-600');
-        const searchText = document.getElementById("ledger-search")?.value.trim().toUpperCase() || '';
-        let totalBilled = 0; let totalPaid = 0; let openingBal = 0;
-        const filteredParties = partiesDB.filter(p => p.type === (isCust ? 'CUSTOMER' : 'SUPPLIER') && ((p.name||'').toUpperCase().includes(searchText) || (p.mobile||'').includes(searchText)));
-        filteredParties.forEach(p => { openingBal += (Number(p.ob) || 0); });
-
-        let runBal = openingBal; let html = '';
-        let partyBills = billsDB.filter(b => { const pName = (b.party || '').toUpperCase(); return (pName.includes(searchText) || (b.invNo||'').toUpperCase().includes(searchText)) && (isCust ? (b.type.includes("SALE") || b.type.includes("RECEIPT")) : (b.type.includes("PURCHASE") || b.type.includes("PAYMENT"))); });
-
-        partyBills.reverse().forEach(b => {
-            const amt = Number(b.total) || 0; const paid = Number(b.paid) || 0;
-            if (isCust) { totalBilled += amt; totalPaid += paid; runBal += (amt - paid); } else { totalBilled += amt; totalPaid += paid; runBal -= (amt - paid); }
-            b._runBal = runBal;
-        });
-
-        const tbody = document.getElementById("ledger-table-body");
-        tbody.innerHTML = partyBills.length === 0 ? `<tr><td colspan="8" class="text-center p-8 text-slate-400 font-bold uppercase tracking-widest text-[10px]">No Transaction Logs</td></tr>` :
-        partyBills.reverse().map(b => {
-            let drStr = "-", crStr = "-"; const amt = Number(b.total) || 0, paid = Number(b.paid) || 0;
-            if (isCust) { if(amt>0) drStr = amt.toLocaleString("en-IN"); if(paid>0) crStr = paid.toLocaleString("en-IN"); } 
-            else { if(paid>0) drStr = paid.toLocaleString("en-IN"); if(amt>0) crStr = amt.toLocaleString("en-IN"); }
-            return `<tr><td>${b.date}</td><td class="font-mono font-bold">${b.invNo}</td><td class="text-center"><span class="px-2 py-0.5 rounded text-[8px] font-black ${b.type.includes('SALE')?'bg-blue-50 text-blue-700':'bg-rose-50 text-rose-700'}">${b.type}</span></td><td class="font-black text-slate-800 uppercase">${b.party}</td><td class="text-right font-black text-blue-700">${drStr}</td><td class="text-right font-black text-emerald-700">${crStr}</td><td class="text-right font-black text-slate-900">${b._runBal.toLocaleString("en-IN")} ${isCust?'Dr':'Cr'}</td><td class="text-center space-x-1 whitespace-nowrap"><button onclick="generateInvoiceHTML(billsDB.find(x=>x.id==='${b.id}'))" class="bg-slate-100 text-slate-700 px-2 py-1 rounded text-[8px] font-bold shadow-sm">VIEW</button></td></tr>`;
-        }).join('');
-        
-        if(document.getElementById("ledger-ob")) document.getElementById("ledger-ob").innerText = "₹ " + openingBal.toLocaleString("en-IN");
-        if(document.getElementById("ledger-billed")) document.getElementById("ledger-billed").innerText = "₹ " + totalBilled.toLocaleString("en-IN");
-        if(document.getElementById("ledger-paid")) document.getElementById("ledger-paid").innerText = "₹ " + totalPaid.toLocaleString("en-IN");
-        if(document.getElementById("ledger-bal")) document.getElementById("ledger-bal").innerText = "₹ " + runBal.toLocaleString("en-IN");
-    }
-
-    function renderParties() {
-        const search = document.getElementById('party-search')?.value.toUpperCase() || ''; const filtered = partiesDB.filter(p => p.name.includes(search) || p.mobile.includes(search));
-        const tbody = document.getElementById('party-table-body');
-        tbody.innerHTML = filtered.length === 0 ? `<tr><td colspan="6" class="text-center p-6 text-slate-400 font-bold uppercase text-[9px]">No Accounts Found</td></tr>` : 
-        filtered.map(p => `<tr><td><span class="${p.type==='CUSTOMER'?'bg-blue-50 text-blue-700':'bg-rose-50 text-rose-700'} px-2 py-1 rounded-md text-[8px] font-black">${p.type}</span></td><td class="font-black text-xs text-blue-700 uppercase">${p.name}</td><td class="font-mono text-slate-600 font-bold">${p.mobile||'-'}</td><td><p class="text-[10px] font-bold text-slate-700 uppercase">${p.address||'-'}</p><p class="text-[8px] text-slate-400 font-mono mt-1">GST: ${p.gstin||'Unregistered'}</p></td><td class="text-right font-black text-sm">₹${(p.ob||0).toLocaleString()}</td><td class="text-center space-x-1.5 whitespace-nowrap"><button onclick="editParty('${p.id}')" class="bg-blue-50 text-blue-600 w-8 h-8 rounded-lg font-black hover:bg-blue-600 hover:text-white transition-all shadow-sm">✏️</button></td></tr>`).join('');
-        document.getElementById('party-list').innerHTML = partiesDB.map(p => `<option value="${p.name}">Ph: ${p.mobile || 'N/A'}</option>`).join('');
-    }
-
-    function editParty(id) {
-        const p = partiesDB.find(x => x.id === id); if(!p) return;
-        document.getElementById('pt-id').value = p.id; document.getElementById('pt-type').value = p.type; document.getElementById('pt-name').value = p.name; document.getElementById('pt-mobile').value = p.mobile; document.getElementById('pt-address').value = p.address || ""; document.getElementById('pt-gstin').value = p.gstin || ""; document.getElementById('pt-ob').value = p.ob || 0;
-        document.getElementById('view-party').scrollIntoView({behavior:'smooth'});
-    }
-
+    // --- PRODUCT & PARTY & LEDGER MANAGERS ---
     function renderProducts() {
-        const search = document.getElementById('prod-search').value.toUpperCase(), catFilter = document.getElementById('filter-category').value;
-        const filtered = productsDB.filter(p => {
-            const matchSearch = p.name.includes(search) || p.sku.includes(search) || (p.brand && p.brand.includes(search)) || (p.category && p.category.toUpperCase().includes(search)) || (p.imeiList && p.imeiList.join(' ').includes(search));
-            const matchCat = catFilter === "ALL" || !catFilter || p.category === catFilter; return matchSearch && matchCat;
-        });
-        const tbody = document.getElementById('product-table-body');
-        tbody.innerHTML = filtered.length === 0 ? `<tr><td colspan="8" class="text-center p-8 text-slate-400 font-bold uppercase tracking-widest text-[10px]">No Products Found</td></tr>` : 
-        filtered.map(p => {
-            let statBadge = p.stock <= 0 ? '<span class="bg-rose-100 text-rose-700 px-3 py-1 rounded-md text-[9px] font-black uppercase tracking-widest">Out of Stock</span>' : (p.stock <= (p.lowStock||5) ? '<span class="bg-amber-100 text-amber-700 px-3 py-1 rounded-md text-[9px] font-black uppercase tracking-widest">Low Stock</span>' : '<span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-md text-[9px] font-black uppercase tracking-widest">In Stock</span>');
-            let imgHtml = p.image ? `<img src="${p.image}" class="w-10 h-10 rounded-xl object-cover mx-auto shadow-sm">` : `<div class="w-10 h-10 bg-slate-100 rounded-xl mx-auto flex items-center justify-center text-lg shadow-inner">📦</div>`;
-            return `<tr><td class="text-center">${imgHtml}</td><td><p class="font-black text-xs text-blue-700 uppercase">${p.name}</p><p class="text-[9px] text-slate-400 uppercase tracking-widest mt-1">${p.brand} • ${p.category}</p></td><td><p class="font-mono text-slate-700 font-bold text-[10px]">${p.sku}</p><p class="font-mono text-slate-400 text-[8px] mt-0.5">HSN: ${p.hsn||'-'}</p></td><td class="text-right font-bold text-slate-500">₹ ${p.pur.toLocaleString()}</td><td class="text-right font-black text-sm text-slate-900">₹ ${p.sale.toLocaleString()}</td><td class="text-center font-black text-base ${p.stock <= 0 ? 'text-rose-600' : 'text-emerald-600'}">${p.stock}</td><td class="text-center">${statBadge}</td><td class="text-center space-x-1.5 whitespace-nowrap"><button onclick="editProduct('${p.id}')" class="bg-blue-50 text-blue-600 w-8 h-8 rounded-lg font-black hover:bg-blue-600 hover:text-white transition-all text-xs shadow-sm">✏️</button></td></tr>`;
-        }).join('');
+        const s = document.getElementById('prod-search').value.toUpperCase(), c = document.getElementById('filter-category').value;
+        const f = productsDB.filter(p => (p.name.includes(s) || p.sku.includes(s) || (p.imeiList && p.imeiList.join(' ').includes(s))) && (c === "ALL" || !c || p.category === c));
+        document.getElementById('product-table-body').innerHTML = f.map(p => `<tr><td class="text-center text-lg">📦</td><td><p class="font-black text-xs text-blue-700 uppercase">${p.name}</p><p class="text-[9px] text-slate-400">${p.category}</p></td><td><p class="font-mono font-bold text-[10px]">${p.sku}</p></td><td class="text-right font-bold text-slate-500">₹${p.pur}</td><td class="text-right font-black text-sm text-slate-900">₹${p.sale}</td><td class="text-center font-black ${p.stock<=0?'text-rose-600':'text-emerald-600'}">${p.stock}</td><td class="text-center">${p.stock<=0?'<span class="bg-rose-100 text-rose-700 px-2 py-1 rounded text-[9px]">Out</span>':'<span class="bg-emerald-100 text-emerald-700 px-2 py-1 rounded text-[9px]">In</span>'}</td><td class="text-center"><button onclick="editProduct('${p.id}')" class="bg-blue-50 text-blue-600 px-2 py-1 rounded text-xs shadow-sm">✏️</button></td></tr>`).join('');
         document.getElementById('item-list').innerHTML = productsDB.map(p => `<option value="${p.name}">`).join('');
     }
+    function editProduct(id) { const p = productsDB.find(x=>x.id===id); if(!p) return; document.getElementById('p-id').value=p.id; document.getElementById('p-name').value=p.name; document.getElementById('p-brand').value=p.brand; document.getElementById('p-category').value=p.category; document.getElementById('p-variant').value=p.variant; document.getElementById('p-sku').value=p.sku; document.getElementById('p-hsn').value=p.hsn||""; document.getElementById('p-mrp').value=p.mrp; document.getElementById('p-pur').value=p.pur; document.getElementById('p-sale').value=p.sale; document.getElementById('p-gst').value=p.gst; document.getElementById('p-stock').value=p.stock; document.getElementById('p-low').value=p.lowStock||5; document.getElementById('p-track').checked=p.track; generateImeiBoxes(); if(p.track && p.stock>0 && p.imeiList) { const ins = document.querySelectorAll('.p-imei-val'); ins.forEach((i,idx)=>{if(p.imeiList[idx]) i.value=p.imeiList[idx];}); } document.getElementById('add-product-form').scrollIntoView({behavior:'smooth'}); }
+    function saveProduct() { const id=document.getElementById('p-id').value, nm=escapeHTML(document.getElementById('p-name').value.trim().toUpperCase()); if(!nm) return; let obj = { id:id||'PRD-'+Date.now(), name:nm, brand:document.getElementById('p-brand').value, category:document.getElementById('p-category').value, variant:document.getElementById('p-variant').value, sku:document.getElementById('p-sku').value||"SKU-"+Date.now(), hsn:document.getElementById('p-hsn').value, mrp:Number(document.getElementById('p-mrp').value), pur:Number(document.getElementById('p-pur').value), sale:Number(document.getElementById('p-sale').value), gst:Number(document.getElementById('p-gst').value), stock:Number(document.getElementById('p-stock').value), lowStock:Number(document.getElementById('p-low').value), track:document.getElementById('p-track').checked, imeiList:[] }; if(id){ const ix=productsDB.findIndex(x=>x.id===id); productsDB[ix]=obj; } else productsDB.push(obj); Storage.set('sre_products', productsDB); renderProducts(); showToast("Saved", "Product Saved"); clearProductForm(); }
+    function clearProductForm() { ['p-id','p-name','p-brand','p-variant','p-sku','p-hsn','p-mrp','p-pur','p-sale','p-stock'].forEach(id=>document.getElementById(id).value=''); document.getElementById('p-gst').value='18'; document.getElementById('p-track').checked=true; generateImeiBoxes(); }
+    function generateImeiBoxes() { const st=Number(document.getElementById('p-stock').value)||0, tr=document.getElementById('p-track').checked, c=document.getElementById('p-imei-container'), l=document.getElementById('p-imei-list'); l.innerHTML=''; if(tr&&st>0){ c.classList.remove('hidden'); for(let i=0;i<st;i++) l.innerHTML+=`<input type="text" class="premium-input font-mono uppercase text-[10px] p-imei-val" placeholder="IMEI ${i+1}">`; } else c.classList.add('hidden'); }
+    function handleProductImage(e) { } function clearProductImage() { } function importProductsCSV(e) { } function exportProductsCSV() { }
 
+    function renderParties() {
+        const s = document.getElementById('party-search').value.toUpperCase(); const f = partiesDB.filter(p => p.name.includes(s) || p.mobile.includes(s));
+        document.getElementById('party-table-body').innerHTML = f.map(p => `<tr><td><span class="${p.type==='CUSTOMER'?'bg-blue-50 text-blue-700':'bg-rose-50 text-rose-700'} px-2 py-1 rounded-md text-[8px] font-black">${p.type}</span></td><td class="font-black text-xs text-blue-700 uppercase">${p.name}</td><td class="font-mono text-slate-600 font-bold">${p.mobile||'-'}</td><td><p class="text-[10px] font-bold text-slate-700 uppercase">${p.address||'-'}</p></td><td class="text-right font-black text-sm">₹${(p.ob||0).toLocaleString()}</td><td class="text-center"><button onclick="editParty('${p.id}')" class="bg-blue-50 text-blue-600 px-2 py-1 rounded text-xs shadow-sm">✏️</button></td></tr>`).join('');
+        document.getElementById('party-list').innerHTML = partiesDB.map(p => `<option value="${p.name}">Ph: ${p.mobile||'-'}</option>`).join('');
+    }
+    function editParty(id) { const p = partiesDB.find(x=>x.id===id); if(!p) return; document.getElementById('pt-id').value=p.id; document.getElementById('pt-type').value=p.type; document.getElementById('pt-name').value=p.name; document.getElementById('pt-mobile').value=p.mobile; document.getElementById('pt-address').value=p.address; document.getElementById('pt-gstin').value=p.gstin; document.getElementById('pt-ob').value=p.ob; }
+    function saveParty() { const id=document.getElementById('pt-id').value, nm=escapeHTML(document.getElementById('pt-name').value.trim().toUpperCase()); if(!nm) return; let obj = { id:id||'PTY-'+Date.now(), type:document.getElementById('pt-type').value, name:nm, mobile:document.getElementById('pt-mobile').value, address:document.getElementById('pt-address').value, gstin:document.getElementById('pt-gstin').value, ob:Number(document.getElementById('pt-ob').value) }; if(id){ const ix=partiesDB.findIndex(x=>x.id===id); partiesDB[ix]=obj; } else partiesDB.push(obj); Storage.set('sre_parties', partiesDB); renderParties(); showToast("Saved", "Party Saved"); clearPartyForm(); }
+    function clearPartyForm() { ['pt-id','pt-name','pt-mobile','pt-address','pt-gstin','pt-ob'].forEach(id=>document.getElementById(id).value=''); }
+
+    function startPayment(type) { currentPaymentType=type; document.getElementById('pay-title').innerText=type==='OUT'?'PAYMENT OUT':'RECEIPT IN'; document.getElementById('pay-party-lbl').innerText=type==='OUT'?'Supplier *':'Customer *'; ['pay-party','pay-amt','pay-remarks'].forEach(id=>document.getElementById(id).value=''); showView('payment'); }
+    function savePaymentTransaction() {
+        const p=document.getElementById('pay-party').value.toUpperCase(), a=Number(document.getElementById('pay-amt').value), m=document.getElementById('pay-mode').value, r=document.getElementById('pay-remarks').value;
+        if(!p || a<=0) return showToast("Error", "Party & Amount needed", "error");
+        const bRec = { id:'INV-'+Date.now(), invNo:`${currentPaymentType==='OUT'?'PAY':'REC'}-26-${Date.now()}`, date:getToday(), type:currentPaymentType==='OUT'?'PAYMENT':'RECEIPT', party:p, items:[{name:r||"Voucher", rate:a, qty:1, gst:0, amt:a}], basic:a, gst:0, total:a, paid:a, due:0, paymentMode:m };
+        billsDB.unshift(bRec); Storage.set('sre_bills', billsDB); let pD=partiesDB.find(x=>x.name===p); if(pD) { pD.ob += (currentPaymentType==="IN"?-a:a); Storage.set('sre_parties', partiesDB); } showPopup("Success", "Voucher Posted"); showView('ledger');
+    }
+
+    function switchLedgerTab(t) { document.getElementById('tab-CUSTOMER').className=t==='CUSTOMER'?"flex-1 py-1.5 rounded text-[10px] font-black bg-blue-600 text-white shadow":"flex-1 py-1.5 rounded text-[10px] font-black text-slate-500"; document.getElementById('tab-SUPPLIER').className=t==='SUPPLIER'?"flex-1 py-1.5 rounded text-[10px] font-black bg-blue-600 text-white shadow":"flex-1 py-1.5 rounded text-[10px] font-black text-slate-500"; document.getElementById("ledger-search").value=""; updateLedgerView(t); }
+    function updateLedgerView(fType=null) {
+        const isC = fType ? fType==='CUSTOMER' : document.getElementById('tab-CUSTOMER').classList.contains('bg-blue-600'); const src = document.getElementById("ledger-search").value.toUpperCase();
+        let ob=0, bl=0, pd=0; partiesDB.filter(p=>p.type===(isC?'CUSTOMER':'SUPPLIER') && (p.name.includes(src)||p.mobile.includes(src))).forEach(p=>ob+=Number(p.ob));
+        let run = ob; let bList = billsDB.filter(b=>(b.party.includes(src)||b.invNo.includes(src)) && (isC?(b.type==="SALE"||b.type==="RECEIPT"):(b.type==="PURCHASE"||b.type==="PAYMENT")));
+        bList.reverse().forEach(b=>{ const am=Number(b.total), p=Number(b.paid); if(isC){bl+=am; pd+=p; run+=(am-p);} else{bl+=am; pd+=p; run-=(am-p);} b._run=run; });
+        document.getElementById("ledger-table-body").innerHTML = bList.reverse().map(b=>`<tr><td>${b.date}</td><td class="font-bold">${b.invNo}</td><td><span class="px-2 py-0.5 rounded text-[8px] font-black ${b.type.includes('SALE')?'bg-blue-50 text-blue-700':'bg-rose-50 text-rose-700'}">${b.type}</span></td><td class="font-black text-slate-800 uppercase">${b.party}</td><td class="text-right text-blue-700 font-bold">${isC&&b.total>0?b.total:(!isC&&b.paid>0?b.paid:'-')}</td><td class="text-right text-emerald-700 font-bold">${isC&&b.paid>0?b.paid:(!isC&&b.total>0?b.total:'-')}</td><td class="text-right font-black">${b._run} ${isC?'Dr':'Cr'}</td><td class="text-center"><button onclick="generateInvoiceHTML(billsDB.find(x=>x.id==='${b.id}'))" class="bg-slate-100 px-2 py-1 rounded text-[9px] shadow-sm">View</button></td></tr>`).join('');
+        document.getElementById("ledger-ob").innerText="₹"+ob; document.getElementById("ledger-billed").innerText="₹"+bl; document.getElementById("ledger-paid").innerText="₹"+pd; document.getElementById("ledger-bal").innerText="₹"+run;
+    }
   </script>
 </body>
 </html>
