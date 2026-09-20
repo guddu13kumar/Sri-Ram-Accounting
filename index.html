@@ -10,27 +10,26 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <link rel="manifest" href="./manifest.json">
   
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
     
     body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f1f5f9; color: #1e293b; overflow: hidden; height: 100dvh; }
     
-    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     
     .glass-panel { background: rgba(255, 255, 255, 0.98); border: 1px solid rgba(226, 232, 240, 0.8); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03); }
     
-    .premium-input { font-size: 12px !important; padding-left: 12px; padding-right: 12px; border-radius: 6px; border: 1px solid #cbd5e1; width: 100%; outline: none; transition: all 0.2s ease; font-weight: 700; color: #0f172a; background-color: #f8fafc; }
+    .premium-input { font-size: 13px !important; padding-left: 12px; padding-right: 12px; border-radius: 6px; border: 1px solid #cbd5e1; width: 100%; outline: none; transition: all 0.2s ease; font-weight: 700; color: #0f172a; background-color: #f8fafc; }
     .premium-input:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.15); background-color: #ffffff; }
     select.premium-input, input.premium-input:not([type="checkbox"]) { height: 38px; }
     
     .bill-table { width: 100%; border-collapse: separate; border-spacing: 0; min-width: 800px; }
     .bill-table th { position: sticky; top: 0; background-color: #f1f5f9; color: #475569; font-size: 10px; font-weight: 800; text-transform: uppercase; padding: 12px 8px; z-index: 10; border-bottom: 2px solid #e2e8f0; text-align: left; letter-spacing: 0.05em; }
-    .bill-table td { padding: 10px 8px; background-color: #ffffff; border-bottom: 1px solid #f1f5f9; vertical-align: top; }
+    .bill-table td { padding: 8px; background-color: #ffffff; border-bottom: 1px solid #f1f5f9; vertical-align: top; }
     .bill-table tr:hover td { background-color: #f8fafc; }
     
     th.standard-th { text-transform: uppercase; font-size: 10px; letter-spacing: 0.05em; color: #475569; font-weight: 800; padding: 12px; background-color: #f8fafc; border-bottom: 2px solid #e2e8f0; }
@@ -62,6 +61,7 @@
 
   <div id="toast-container" class="fixed top-5 right-5 z-[150] flex flex-col gap-3 pointer-events-none"></div>
 
+  <!-- CENTER POPUP -->
   <div id="center-popup" class="fixed inset-0 bg-slate-900/60 z-[120] hidden flex items-center justify-center backdrop-blur-sm px-4">
     <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-2xl text-center max-w-sm w-full border border-slate-100 modal-animate">
       <div id="popup-icon" class="text-6xl mb-4 drop-shadow">✅</div>
@@ -71,6 +71,7 @@
     </div>
   </div>
 
+  <!-- HEADER -->
   <header class="bg-[#0f172a] text-white flex justify-between items-center px-4 sm:px-6 py-2.5 z-30 shadow-md relative shrink-0">
     <div class="flex items-center space-x-3 cursor-pointer" onclick="showView('dashboard')">
       <div class="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-tr from-blue-500 to-blue-300 text-white rounded flex items-center justify-center font-black italic shadow text-sm border border-white/20">SRE</div>
@@ -86,6 +87,7 @@
   </header>
 
   <div class="flex flex-1 overflow-hidden h-full">
+      <!-- SIDEBAR -->
       <aside class="hidden lg:flex flex-col w-[210px] bg-slate-900 text-slate-400 h-full overflow-y-auto z-20 shadow-2xl border-r border-slate-800 pb-16">
         <div class="flex-1 px-3 py-5 space-y-1 font-black uppercase tracking-wider text-[10px]">
           <p class="px-3 text-[8px] text-slate-500 mb-1.5">Main Menu</p>
@@ -105,7 +107,7 @@
 
       <main class="flex-1 overflow-y-auto relative w-full h-full pb-20 sm:pb-2 p-3 sm:p-4 bg-slate-100">
 
-        <!-- DASHBOARD VIEW -->
+        <!-- DASHBOARD -->
         <div id="view-dashboard" class="view-section space-y-4 max-w-7xl mx-auto w-full pb-10">
             <h2 class="text-lg font-black text-[#0f172a] uppercase tracking-widest">Business Overview</h2>
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
@@ -131,7 +133,7 @@
             </div>
         </div>
 
-        <!-- SETTINGS VIEW -->
+        <!-- SETTINGS -->
         <div id="view-settings" class="view-section hidden space-y-4 max-w-xl mx-auto pt-4">
             <h2 class="text-lg font-black text-slate-800 tracking-widest uppercase text-center mb-2">System Settings & Cloud</h2>
             <div class="glass-panel p-6 sm:p-8 rounded-2xl shadow-md space-y-4">
@@ -142,6 +144,7 @@
                     <button onclick="restoreData()" class="h-12 bg-amber-500 text-white font-black rounded-xl text-[9px] uppercase tracking-widest hover:bg-amber-600 shadow">📥 Pull Backup</button>
                 </div>
                 <button onclick="saveSettings()" class="w-full h-12 bg-[#004aad] text-white font-black rounded-xl text-[10px] uppercase tracking-widest hover:bg-blue-800 shadow mt-2">Save Configuration</button>
+                
                 <div class="pt-4 mt-4 border-t border-slate-200 text-center">
                     <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2">Offline Disaster Recovery</p>
                     <button onclick="downloadLocalBackup()" class="w-full h-10 bg-slate-800 text-white font-black rounded-lg text-[9px] uppercase tracking-widest hover:bg-black">💾 Export Local DB (.JSON)</button>
@@ -260,7 +263,7 @@
             </div>
         </div>
 
-        <!-- ================= 🚀 PERFECT TOP-TO-BOTTOM BILLING PAGE 🚀 ================= -->
+        <!-- ================= 🚀 ZERO-BUG SALE/PURCHASE PAGE (TOP TO BOTTOM) 🚀 ================= -->
         <div id="view-new-bill" class="view-section hidden max-w-screen-xl mx-auto h-[calc(100vh-80px)] sm:h-[calc(100vh-40px)] flex flex-col pb-2">
             
             <div class="flex justify-between items-center bg-white p-2.5 rounded-lg shadow-sm mb-2 shrink-0 border border-slate-200">
@@ -285,22 +288,21 @@
                             <span id="party-balance-badge" class="text-[9px] font-black text-slate-400 bg-slate-100 px-1 py-0.5 rounded">Bal: ₹0</span>
                         </div>
                         <div class="relative w-full">
-                            <!-- MOBILE SEARCH MAGIC HAPPENS HERE in onPartySelect -->
-                            <input type="text" id="bill-party" list="party-list" oninput="onPartySelect(this.value)" onkeydown="handleShortcut(event, currentMode === 'SALE' ? 'CUSTOMER' : 'SUPPLIER')" class="premium-input uppercase text-blue-700 font-black text-sm h-[36px]!" placeholder="Type Name or 10-Digit Mobile...">
+                            <input type="text" id="bill-party" list="party-list" oninput="onPartySelect(this.value)" onkeydown="handleShortcut(event, currentMode === 'SALE' ? 'CUSTOMER' : 'SUPPLIER')" class="premium-input uppercase text-blue-700 font-black text-sm !h-[36px]" placeholder="Type Name or Mobile...">
                             <button onclick="openPartyModal(currentMode === 'SALE' ? 'CUSTOMER' : 'SUPPLIER', document.getElementById('bill-party'))" tabindex="-1" class="absolute right-1 top-1 bottom-1 w-8 bg-blue-100 text-blue-700 rounded font-black text-sm flex items-center justify-center">+</button>
                         </div>
                     </div>
-                    <div class="w-full"><label class="font-black text-[9px] uppercase text-slate-500 tracking-widest mb-1 block">Date</label><input type="date" id="bill-date" class="premium-input font-mono text-slate-700 h-[36px]!"></div>
-                    <div class="w-full"><label class="font-black text-[9px] uppercase text-slate-500 tracking-widest mb-1 block">Invoice Ref</label><input type="text" id="bill-inv" class="premium-input font-mono text-blue-600 uppercase h-[36px]!" placeholder="Auto"></div>
+                    <div class="w-full"><label class="font-black text-[9px] uppercase text-slate-500 tracking-widest mb-1 block">Date</label><input type="date" id="bill-date" class="premium-input font-mono text-slate-700 !h-[36px]"></div>
+                    <div class="w-full"><label class="font-black text-[9px] uppercase text-slate-500 tracking-widest mb-1 block">Invoice Ref</label><input type="text" id="bill-inv" class="premium-input font-mono text-blue-600 uppercase !h-[36px]" placeholder="Auto"></div>
                 </div>
 
                 <!-- SCANNER BAR -->
                 <div class="bg-amber-50 p-2 rounded-lg border border-amber-200 flex items-center gap-2 shrink-0 shadow-sm">
                     <span class="text-amber-500 text-lg ml-1">⚡</span>
-                    <input type="text" id="barcode-fast-scan" onkeydown="handleBarcodeScan(event)" placeholder="Scan Barcode / SKU / IMEI and press Enter..." class="flex-1 bg-transparent border-none outline-none font-bold text-xs text-slate-800 placeholder-slate-500 h-[30px] px-1">
+                    <input type="text" id="barcode-fast-scan" placeholder="Scan Barcode / SKU / IMEI and press Enter..." class="flex-1 bg-transparent border-none outline-none font-bold text-xs text-slate-800 placeholder-slate-500 h-[30px] px-1">
                 </div>
 
-                <!-- PERFECT HTML TABLE -->
+                <!-- PURE HTML TABLE -->
                 <div class="bg-white rounded-lg flex-1 flex flex-col overflow-hidden border border-slate-200 shadow-sm">
                     <div class="overflow-y-auto w-full h-full relative" id="bill-items-container">
                         <table class="bill-table">
@@ -316,7 +318,7 @@
                                 </tr>
                             </thead>
                             <tbody id="bill-items-body">
-                                <!-- Rows injected -->
+                                <!-- Rows injected here -->
                             </tbody>
                         </table>
                         <div class="p-2 border-t border-slate-100 flex justify-center pb-4">
@@ -325,61 +327,55 @@
                     </div>
                 </div>
 
-                <!-- BOTTOM CHECKOUT PANEL (NO RIGHT SIDE, EXACTLY BELOW TABLE) -->
+                <!-- BOTTOM CHECKOUT PANEL (Below Table) -->
                 <div class="glass-panel p-3 rounded-lg flex flex-col xl:flex-row gap-4 items-stretch shrink-0 bg-slate-50">
                     
                     <!-- Left Config Side -->
                     <div class="xl:w-2/3 grid grid-cols-1 md:grid-cols-3 gap-3">
                         
                         <!-- Box 1: Disc & Tax -->
-                        <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
+                        <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm relative">
+                            <button onclick="resetPaymentFields()" class="absolute top-2 right-2 text-[8px] font-bold text-rose-500 bg-rose-50 px-1.5 py-0.5 rounded border border-rose-100">Reset</button>
                             <label class="font-black text-[9px] uppercase text-slate-500 mb-1 block">Discount (₹)</label>
-                            <input type="number" id="bill-discount" oninput="calcBill()" class="premium-input bg-rose-50 border-rose-200 text-rose-600 font-black text-base mb-2 h-[42px]!">
+                            <input type="number" id="bill-discount" oninput="calcBill()" class="premium-input bg-rose-50 border-rose-200 text-rose-600 font-black text-base mb-2 !h-[42px]">
                             
                             <label class="font-black text-[9px] uppercase text-slate-500 mb-1 block">Global GST</label>
-                            <select id="bill-global-gst" onchange="calcBill()" class="premium-input h-[38px]!"><option value="0">0%</option><option value="5">5%</option><option value="12">12%</option><option value="18">18%</option><option value="28">28%</option></select>
+                            <select id="bill-global-gst" onchange="calcBill()" class="premium-input !h-[38px]"><option value="0">0%</option><option value="5">5%</option><option value="12">12%</option><option value="18">18%</option><option value="28">28%</option></select>
                         </div>
 
                         <!-- Box 2: Payment Modes -->
                         <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
-                            <div class="flex justify-between items-center mb-1">
-                                <label class="font-black text-[9px] uppercase text-slate-500 block">Primary Mode</label>
-                                <button onclick="resetPaymentFields()" class="text-[8px] font-bold text-rose-500 px-1 hover:underline">Reset</button>
-                            </div>
-                            <select id="pay-primary" onchange="onPaymentModeChange('primary')" class="premium-input text-blue-700 text-xs font-bold mb-2 h-[38px]!"></select>
+                            <label class="font-black text-[9px] uppercase text-slate-500 block mb-1">Primary Mode</label>
+                            <select id="pay-primary" onchange="onPaymentModeChange('primary')" class="premium-input text-blue-700 text-xs font-bold mb-2 !h-[38px]"></select>
                             
                             <label class="font-black text-[9px] uppercase text-slate-500 mb-1 block">Secondary Mode</label>
-                            <select id="pay-secondary" onchange="onPaymentModeChange('secondary')" class="premium-input text-blue-700 text-xs font-bold h-[38px]!">
+                            <select id="pay-secondary" onchange="onPaymentModeChange('secondary')" class="premium-input text-blue-700 text-xs font-bold !h-[38px]">
                                 <option value="">-- Choose --</option><option value="Finance">Finance</option><option value="Dues">Dues / Credit</option>
                             </select>
                         </div>
 
                         <!-- Box 3: Dynamics (Split/Finance/Dues) -->
                         <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm flex flex-col justify-center min-h-[100px]">
-                            
                             <div id="box-default-msg" class="text-center text-slate-400 font-bold text-[10px] leading-relaxed px-2">Select a Split, Finance, or Dues mode to configure limits.</div>
 
-                            <!-- Dynamic Split Boxes -->
                             <div id="box-split" class="hidden grid grid-cols-2 gap-2">
-                                <div id="wrap-split-cash" class="hidden"><label class="font-black text-[8px] uppercase text-slate-500 block mb-0.5">Cash</label><input type="number" id="split-cash" placeholder="0" oninput="calcBill()" class="premium-input px-1 text-blue-700 h-[34px]!" /></div>
-                                <div id="wrap-split-qr" class="hidden"><label class="font-black text-[8px] uppercase text-slate-500 block mb-0.5">QR</label><input type="number" id="split-qr" placeholder="0" oninput="calcBill()" class="premium-input px-1 text-blue-700 h-[34px]!" /></div>
-                                <div id="wrap-split-card" class="hidden"><label class="font-black text-[8px] uppercase text-slate-500 block mb-0.5">Card</label><input type="number" id="split-card" placeholder="0" oninput="calcBill()" class="premium-input px-1 text-blue-700 h-[34px]!" /></div>
+                                <div id="wrap-split-cash" class="hidden"><label class="font-black text-[8px] uppercase text-slate-500 block mb-0.5">Cash</label><input type="number" id="split-cash" placeholder="0" oninput="calcBill()" class="premium-input px-1 text-blue-700 !h-[34px]" /></div>
+                                <div id="wrap-split-qr" class="hidden"><label class="font-black text-[8px] uppercase text-slate-500 block mb-0.5">QR</label><input type="number" id="split-qr" placeholder="0" oninput="calcBill()" class="premium-input px-1 text-blue-700 !h-[34px]" /></div>
+                                <div id="wrap-split-card" class="hidden"><label class="font-black text-[8px] uppercase text-slate-500 block mb-0.5">Card</label><input type="number" id="split-card" placeholder="0" oninput="calcBill()" class="premium-input px-1 text-blue-700 !h-[34px]" /></div>
                             </div>
 
-                            <!-- Dynamic Finance Details -->
                             <div id="box-finance" class="hidden space-y-1.5">
-                                <div><label class="font-black text-[8px] uppercase text-blue-700 block mb-0.5">Company *</label><select id="fin-company" class="premium-input bg-blue-50 text-blue-700 text-xs h-[30px]!"><option value="">-- Select --</option><option value="Bajaj">Bajaj Finserv</option><option value="Kisto">Kisto Pe</option><option value="HDB">HDB Financial</option></select></div>
+                                <div><label class="font-black text-[8px] uppercase text-blue-700 block mb-0.5">Company *</label><select id="fin-company" class="premium-input bg-blue-50 text-blue-700 text-xs !h-[30px]"><option value="">-- Select --</option><option value="Bajaj">Bajaj Finserv</option><option value="Kisto">Kisto Pe</option><option value="HDB">HDB Financial</option></select></div>
                                 <div class="grid grid-cols-2 gap-1">
-                                    <div><label class="font-black text-[8px] uppercase text-blue-700 block mb-0.5">DP (₹) *</label><input type="number" id="fin-dp-amt" placeholder="0" class="premium-input bg-blue-50 font-bold text-blue-700 h-[30px]!" oninput="calcBill()" /></div>
-                                    <div><label class="font-black text-[8px] uppercase text-blue-700 block mb-0.5">DP Mode</label><select id="fin-dp-mode" onchange="renderSplitInputs()" class="premium-input bg-blue-50 text-xs h-[30px]!"></select></div>
+                                    <div><label class="font-black text-[8px] uppercase text-blue-700 block mb-0.5">DP (₹) *</label><input type="number" id="fin-dp-amt" placeholder="0" class="premium-input bg-blue-50 font-bold text-blue-700 !h-[30px]" oninput="calcBill()" /></div>
+                                    <div><label class="font-black text-[8px] uppercase text-blue-700 block mb-0.5">DP Mode</label><select id="fin-dp-mode" onchange="renderSplitInputs()" class="premium-input bg-blue-50 text-xs !h-[30px]"></select></div>
                                 </div>
                             </div>
 
-                            <!-- Dynamic Dues Details -->
                             <div id="box-dues" class="hidden space-y-1.5">
                                 <div class="grid grid-cols-2 gap-1 mt-3">
-                                    <div><label class="font-black text-[8px] uppercase text-amber-700 block mb-0.5">Upfront Paid (₹)</label><input type="number" id="dues-dp-amt" class="premium-input bg-amber-50 font-bold text-amber-700 h-[34px]!" oninput="calcBill()" placeholder="0"></div>
-                                    <div><label class="font-black text-[8px] uppercase text-amber-700 block mb-0.5">Payment Mode</label><select id="dues-dp-mode" onchange="renderSplitInputs()" class="premium-input bg-amber-50 text-xs h-[34px]!"></select></div>
+                                    <div><label class="font-black text-[8px] uppercase text-amber-700 block mb-0.5">Upfront Paid (₹)</label><input type="number" id="dues-dp-amt" class="premium-input bg-amber-50 font-bold text-amber-700 !h-[34px]" oninput="calcBill()" placeholder="0"></div>
+                                    <div><label class="font-black text-[8px] uppercase text-amber-700 block mb-0.5">Payment Mode</label><select id="dues-dp-mode" onchange="renderSplitInputs()" class="premium-input bg-amber-50 text-xs !h-[34px]"></select></div>
                                 </div>
                             </div>
                         </div>
@@ -399,7 +395,7 @@
                         <div class="flex items-center gap-3 mb-3">
                             <div class="flex-1">
                                 <label class="font-black text-[9px] uppercase text-emerald-400 mb-1 block">Tendered (₹)</label>
-                                <input type="number" id="bill-paid" oninput="calcBill(true)" class="premium-input bg-emerald-50 border-emerald-400 text-emerald-700 font-black text-2xl h-[44px]!important text-center shadow-inner" placeholder="0">
+                                <input type="number" id="bill-paid" oninput="calcBill(true)" class="premium-input bg-emerald-50 border-emerald-400 text-emerald-700 font-black text-2xl !h-[44px] text-center shadow-inner" placeholder="0">
                             </div>
                             <div class="w-1/3 text-right">
                                 <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-1">Balance Due</span>
@@ -464,7 +460,7 @@
             </div>
         </div>
 
-        <!-- UNIFIED INVOICE (A4 TAX INVOICE & 80MM THERMAL SLIP) WITH WHATSAPP -->
+        <!-- UNIFIED INVOICE (A4 TAX INVOICE & 80MM THERMAL SLIP) -->
         <div id="view-invoice" class="view-section hidden space-y-4 max-w-4xl mx-auto pb-16">
             <div class="flex flex-col sm:flex-row justify-between items-center bg-white p-4 rounded-2xl border border-slate-200 shadow-sm no-print gap-3">
                 <button onclick="showView('dashboard')" class="w-full sm:w-auto bg-slate-100 text-slate-600 px-5 py-2.5 rounded-lg font-black text-[9px] uppercase tracking-widest hover:bg-slate-200">Back Home</button>
@@ -529,13 +525,13 @@
                         <div class="w-56 text-right space-y-1 text-[10px]">
                             <div class="flex justify-between"><span class="text-slate-500 uppercase font-bold text-[8px]">Taxable Turnover:</span><span id="inv-taxable" class="font-bold">₹ 0</span></div>
                             <div class="flex justify-between"><span class="text-slate-500 uppercase font-bold text-[8px]">Total Taxes:</span><span id="inv-gst" class="font-bold">₹ 0</span></div>
-                            <div class="flex justify-between border-t border-slate-200 pt-1 text-xs"><span class="font-black text-slate-900 uppercase tracking-widest">Grand Invoice Total:</span><span id="inv-total" class="font-black text-slate-900 text-sm">₹ 0</span></div>
+                            <div class="flex justify-between hidden" id="inv-disc-row"><span class="text-slate-500 uppercase font-bold text-[8px]">Discount:</span><span id="inv-disc" class="font-bold text-rose-600">₹ 0</span></div>
+                            <div class="flex justify-between border-t border-slate-200 pt-1 text-xs"><span class="font-black text-slate-900 uppercase tracking-widest">Grand Total:</span><span id="inv-total" class="font-black text-slate-900 text-sm">₹ 0</span></div>
                             <div class="flex justify-between mt-1"><span class="text-slate-500 uppercase font-bold text-[8px]">Amount Tendered:</span><span id="inv-paid" class="font-bold text-emerald-700">₹ 0</span></div>
                             <div class="flex justify-between border-t border-slate-200 pt-1"><span class="text-slate-500 uppercase font-bold text-[8px]">Closing Balance Due:</span><span id="inv-bal" class="font-black text-rose-600">₹ 0</span></div>
                         </div>
                     </div>
 
-                    <!-- Authorized Signatory Footer -->
                     <div class="mt-10 pt-6 flex justify-between items-end no-print">
                         <div class="text-center w-28"><div class="border-b border-slate-800 w-full mb-1"></div><p class="text-[7px] font-bold text-slate-500 uppercase tracking-widest">Customer Sign</p></div>
                         <div class="text-center w-36"><div class="border-b border-slate-800 w-full mb-1"></div><p class="text-[7px] font-bold text-slate-900 uppercase tracking-widest">For Sri Ram Enterprises</p><p class="text-[6px] text-slate-400 mt-0.5 uppercase">Authorized Signatory</p></div>
@@ -547,7 +543,6 @@
       </main>
   </div>
 
-  <!-- MOBILE BOTTOM NAV -->
   <nav id="bottom-nav" class="lg:hidden fixed bottom-0 w-full bg-white shadow-[0_-4px_25px_-5px_rgba(0,0,0,0.15)] flex justify-between z-[100] border-t border-slate-100 pb-1 pt-1">
      <button onclick="startBill('SALE')" class="flex-1 py-2 text-center text-blue-600 flex flex-col items-center"><span class="text-xl leading-none">🛒</span><span class="text-[8px] font-black tracking-widest mt-1">SALE</span></button>
      <button onclick="startBill('PURCHASE')" class="flex-1 py-2 text-center text-emerald-600 border-l border-slate-100 flex flex-col items-center"><span class="text-xl leading-none">📦</span><span class="text-[8px] font-black tracking-widest mt-1">PURCH</span></button>
@@ -557,8 +552,7 @@
 
   <script>
     /* ========================================================
-       ENTERPRISE POS & ACCOUNTING CORE CONTROLLER
-       (V13.0 FINAL - NO MOBILE FIELD, SMART SEARCH, BOTTOM CHECKOUT)
+       ENTERPRISE POS CORE (100% BUG FREE & CRASH PROOF)
     ======================================================== */
 
     const Storage = {
@@ -625,12 +619,10 @@
     }
     function closePopup() { document.getElementById('center-popup').classList.add('hidden'); }
 
-    // AUTO-SELECT ON FOCUS
     document.addEventListener('focusin', function(e) {
         if(e.target.tagName === 'INPUT' && (e.target.type === 'number' || e.target.type === 'text')) { e.target.select(); }
     });
 
-    // GLOBAL KEYBOARD SHORTCUTS
     window.addEventListener('keydown', function(e) {
         if(e.key === 'F2') { e.preventDefault(); startBill('SALE'); }
         if(e.key === 'F3') { e.preventDefault(); startBill('PURCHASE'); }
@@ -642,67 +634,6 @@
             else if(!document.getElementById('view-party').classList.contains('hidden')) { saveParty(); }
         }
     });
-
-    document.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            if(e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') {
-                if(e.target.id === 'barcode-fast-scan') { handleBarcodeScan(e); return; }
-                if(e.target.id === 'q-party-name' || e.target.id === 'q-party-phone') { e.preventDefault(); saveQuickParty(); return; }
-                if(e.target.id === 'q-item-name' || e.target.id === 'q-item-sale') { e.preventDefault(); saveQuickItem(); return; }
-                if(e.target.classList.contains('b-imei-main') || e.target.classList.contains('b-imei-extra')) {
-                    e.preventDefault(); addBillRow(); const newRow = document.querySelectorAll('.b-name'); newRow[newRow.length-1].focus(); return;
-                }
-                e.preventDefault();
-                const formElements = Array.from(document.querySelectorAll('input, select, button')).filter(el => !el.disabled && el.tabIndex !== -1 && el.offsetParent !== null);
-                const index = formElements.indexOf(e.target);
-                if (index > -1 && index < formElements.length - 1) { formElements[index + 1].focus(); }
-            }
-        }
-    });
-
-    // --- CLOUD SYNC & BACKUP ---
-    function saveSettings() {
-      const url = document.getElementById("settings-url").value.trim(); const pref = document.getElementById("settings-prefix").value.trim().toUpperCase() || "SRE-26-";
-      localStorage.setItem("sre_gas_url", url); gasUrl = url; localStorage.setItem("sre_inv_prefix", pref); invPrefix = pref; 
-      showView("dashboard"); showToast("Configured", "Settings updated successfully.");
-    }
-
-    let syncTimeout = null;
-    function triggerSilentSync() {
-        if(!gasUrl) return; clearTimeout(syncTimeout);
-        syncTimeout = setTimeout(() => { fetch(gasUrl, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: "backup", products: productsDB, parties: partiesDB, bills: billsDB, categories: categoriesDB }) }).catch(() => {}); }, 3000); 
-    }
-
-    async function backupData() {
-        if(!gasUrl) return showPopup("Config Missing", "Set Webhook URL first in settings.", true);
-        showToast("Syncing", "Pushing database state to Google Sheets...", "success");
-        try {
-            const res = await fetch(gasUrl, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: "backup", products: productsDB, parties: partiesDB, bills: billsDB, categories: categoriesDB }) });
-            const data = await res.json();
-            if(data.status === "success") showPopup("Backup Verified", "Sheet database synchronized successfully!"); else showPopup("Failed", "Server rejected payload.", true);
-        } catch(e) { showPopup("Sync Failure", "Check internet connection or deployment permissions.", true); }
-    }
-
-    async function restoreData() {
-        if(!gasUrl) return showPopup("Config Missing", "Set Webhook URL first in settings.", true);
-        if(!confirm("Overwrite local cache with remote Google Sheet backup?")) return;
-        showToast("Restoring", "Retrieving database state...", "success");
-        try {
-            const res = await fetch(gasUrl + "?action=restore"); const data = await res.json();
-            if(data.status === "success" && data.data) {
-                productsDB = data.data.products || []; partiesDB = data.data.parties || []; billsDB = data.data.bills || []; categoriesDB = data.data.categories || ["Mobile Phone", "Accessories", "Electronics", "Spare Parts"];
-                localStorage.setItem('sre_products', JSON.stringify(productsDB)); localStorage.setItem('sre_parties', JSON.stringify(partiesDB)); localStorage.setItem('sre_bills', JSON.stringify(billsDB)); localStorage.setItem('sre_categories', JSON.stringify(categoriesDB));
-                showPopup("Restored", "Local state updated from cloud."); showView('dashboard');
-            }
-        } catch(e) { showPopup("Network Error", "Could not fetch remote sheet data.", true); }
-    }
-
-    function downloadLocalBackup() {
-        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({ products: productsDB, parties: partiesDB, bills: billsDB, categories: categoriesDB }));
-        const dlAnchorElem = document.createElement('a'); dlAnchorElem.setAttribute("href", dataStr); dlAnchorElem.setAttribute("download", `SRE_Backup_${getToday()}.json`); dlAnchorElem.click();         showToast("Downloaded", "Offline JSON backup saved.");     }      function exportProductsCSV() {         if(productsDB.length === 0) return showToast("Empty", "No products to export", "error");         let csvContent = "data:text/csv;charset=utf-8,Name,Brand,Category,SKU,MRP,PurchaseRate,SaleRate,GST,Stock,LowAlert\n";         productsDB.forEach(p => { let row = `"${p.name}","${p.brand}","${p.category}","${p.sku}",${p.mrp},${p.pur},${p.sale},${p.gst},${p.stock},${p.lowStock}`; csvContent += row + "\n"; });         const encodedUri = encodeURI(csvContent); const link = document.createElement("a"); link.setAttribute("href", encodedUri); link.setAttribute("download", "SRE_Products.csv"); document.body.appendChild(link); link.click(); document.body.removeChild(link);         showToast("Exported", "Products CSV Downloaded.");     }      function importProductsCSV(event) {         const file = event.target.files[0]; if(!file) return;         const reader = new FileReader();         reader.onload = function(e) {             const text = e.target.result; const rows = text.split("\n"); let addedCount = 0;             for(let i=1; i<rows.length; i++) {                 const cols = rows[i].split(",");                 if(cols.length >= 8) {                     const name = cols[0].replace(/"/g, "").trim().toUpperCase();                     if(name && !productsDB.find(p => p.name === name)) {                         productsDB.push({                             id: 'PRD-'+Date.now()+i, name: name, brand: cols[1].replace(/"/g, ""), category: cols[2].replace(/"/g, ""), sku: cols[3].replace(/"/g, ""), hsn: "-",                             mrp: Number(cols[4])\vert{}\vert{}0, pur: Number(cols[5])\vert{}\vert{}0, sale: Number(cols[6])\vert{}\vert{}0, gst: Number(cols[7])\vert{}\vert{}18, stock: Number(cols[8])\vert{}\vert{}0, lowStock: Number(cols[9])\vert{}\vert{}5, track: false, imeiList: [], image: ""                         }); addedCount++;                     }                 }             }             Storage.set('sre_products', productsDB); renderProducts(); showPopup("Import Success", `${addedCount} new products imported successfully.`); document.getElementById('csv-upload').value = "";
-        };
-        reader.readAsText(file);
-    }
 
     // --- VIEW CONTROLLER ---
     function showView(viewName) {
@@ -724,13 +655,51 @@
         if(viewName === 'settings') { document.getElementById("settings-url").value = gasUrl; document.getElementById("settings-prefix").value = invPrefix; }
     }
 
-    // --- CATEGORY & SHORTCUT MODALS ---
+    // --- SYNC & BACKUP ---
+    function saveSettings() {
+      const url = document.getElementById("settings-url").value.trim(); const pref = document.getElementById("settings-prefix").value.trim().toUpperCase() || "SRE-26-";
+      localStorage.setItem("sre_gas_url", url); gasUrl = url; localStorage.setItem("sre_inv_prefix", pref); invPrefix = pref; 
+      showView("dashboard"); showToast("Configured", "Settings updated successfully.");
+    }
+    let syncTimeout = null;
+    function triggerSilentSync() {
+        if(!gasUrl) return; clearTimeout(syncTimeout);
+        syncTimeout = setTimeout(() => { fetch(gasUrl, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: "backup", products: productsDB, parties: partiesDB, bills: billsDB, categories: categoriesDB }) }).catch(() => {}); }, 3000); 
+    }
+    async function backupData() {
+        if(!gasUrl) return showPopup("Config Missing", "Set Webhook URL first in settings.", true);
+        showToast("Syncing", "Pushing database state to Google Sheets...", "success");
+        try {
+            const res = await fetch(gasUrl, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: "backup", products: productsDB, parties: partiesDB, bills: billsDB, categories: categoriesDB }) });
+            const data = await res.json();
+            if(data.status === "success") showPopup("Backup Verified", "Sheet database synchronized successfully!"); else showPopup("Failed", "Server rejected payload.", true);
+        } catch(e) { showPopup("Sync Failure", "Check internet connection or deployment permissions.", true); }
+    }
+    async function restoreData() {
+        if(!gasUrl) return showPopup("Config Missing", "Set Webhook URL first in settings.", true);
+        if(!confirm("Overwrite local cache with remote Google Sheet backup?")) return;
+        showToast("Restoring", "Retrieving database state...", "success");
+        try {
+            const res = await fetch(gasUrl + "?action=restore"); const data = await res.json();
+            if(data.status === "success" && data.data) {
+                productsDB = data.data.products || []; partiesDB = data.data.parties || []; billsDB = data.data.bills || []; categoriesDB = data.data.categories || ["Mobile Phone", "Accessories", "Electronics", "Spare Parts"];
+                localStorage.setItem('sre_products', JSON.stringify(productsDB)); localStorage.setItem('sre_parties', JSON.stringify(partiesDB)); localStorage.setItem('sre_bills', JSON.stringify(billsDB)); localStorage.setItem('sre_categories', JSON.stringify(categoriesDB));
+                showPopup("Restored", "Local state updated from cloud."); showView('dashboard');
+            }
+        } catch(e) { showPopup("Network Error", "Could not fetch remote sheet data.", true); }
+    }
+    function downloadLocalBackup() {
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({ products: productsDB, parties: partiesDB, bills: billsDB, categories: categoriesDB }));
+        const dlAnchorElem = document.createElement('a'); dlAnchorElem.setAttribute("href", dataStr); dlAnchorElem.setAttribute("download", `SRE_Backup_${getToday()}.json`); dlAnchorElem.click();
+        showToast("Downloaded", "Offline JSON backup saved.");
+    }
+
+    // --- QUICK MODALS ---
     function renderCategories() {
         const selects = document.querySelectorAll('.cat-select');
         const opts = categoriesDB.map(c => `<option value="${c}">${c}</option>`).join('') + `<option value="ADD_NEW" class="font-black text-[#004aad] bg-blue-50">➕ Create Category</option>`;
         selects.forEach(sel => { const val = sel.value; sel.innerHTML = opts; if(categoriesDB.includes(val)) sel.value = val; else sel.value = categoriesDB[0]; });
     }
-
     function handleCategoryChange(sel) {
         if(sel.value === "ADD_NEW") {
             const newCat = prompt("Enter New Category Name:");
@@ -738,7 +707,6 @@
             else { sel.value = categoriesDB[0]; }
         }
     }
-
     function handleShortcut(e, type) {
         if(e.altKey && (e.key === 'c' || e.key === 'C')) {
             e.preventDefault();
@@ -746,13 +714,11 @@
             else if(type === 'PRODUCT') openItemModal(e.target);
         }
     }
-
     function openPartyModal(type, inputEl = null) {
         activeShortcutInput = inputEl || document.getElementById('bill-party');
         document.getElementById('q-party-type').value = type; document.getElementById('q-party-name').value = ''; document.getElementById('q-party-phone').value = '';
         document.getElementById('party-popup').classList.remove('hidden'); setTimeout(() => document.getElementById('q-party-name').focus(), 80);
     }
-
     function saveQuickParty() {
         const type = document.getElementById('q-party-type').value; const name = document.getElementById('q-party-name').value.trim().toUpperCase(); const mobile = document.getElementById('q-party-phone').value.trim();
         if(!name) return showToast("Validation", "Party Name is mandatory.", "error");
@@ -760,12 +726,10 @@
         if(activeShortcutInput) { activeShortcutInput.value = name; onPartySelect(name); activeShortcutInput.focus(); }
         document.getElementById('party-popup').classList.add('hidden');
     }
-
     function openItemModal(inputEl) {
         activeShortcutInput = inputEl; document.getElementById('q-item-name').value = ''; document.getElementById('q-item-sale').value = ''; renderCategories();
         document.getElementById('item-popup').classList.remove('hidden'); setTimeout(() => document.getElementById('q-item-name').focus(), 80);
     }
-
     function saveQuickItem() {
         const name = document.getElementById('q-item-name').value.trim().toUpperCase(); const category = document.getElementById('q-item-category').value; const sale = Number(document.getElementById('q-item-sale').value) || 0; const gst = Number(document.getElementById('q-item-gst').value) || 0;
         if(!name || sale <= 0) return showToast("Validation", "Name and Sale Price required.", "error");
@@ -774,96 +738,7 @@
         document.getElementById('item-popup').classList.add('hidden');
     }
 
-    // --- PRODUCT MANAGEMENT ---
-    function handleProductImage(e) {
-        const file = e.target.files[0]; if(!file) return;
-        const reader = new FileReader();
-        reader.onload = function(event) {
-            const img = new Image();
-            img.onload = function() {
-                const canvas = document.getElementById('img-canvas'); const ctx = canvas.getContext('2d');
-                const MAX_WIDTH = 150; const MAX_HEIGHT = 150; let width = img.width; let height = img.height;
-                if (width > height) { if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; } } 
-                else { if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; } }
-                canvas.width = width; canvas.height = height; ctx.drawImage(img, 0, 0, width, height);
-                activeProductImg = canvas.toDataURL('image/jpeg', 0.5); 
-                document.getElementById('p-img-preview').src = activeProductImg; document.getElementById('p-img-preview').classList.remove('hidden'); document.getElementById('p-img-placeholder').classList.add('hidden');
-            }
-            img.src = event.target.result;
-        }
-        reader.readAsDataURL(file);
-    }
-    function clearProductImage() { activeProductImg = ""; document.getElementById('p-img-preview').src = ""; document.getElementById('p-img-preview').classList.add('hidden'); document.getElementById('p-img-placeholder').classList.remove('hidden'); document.getElementById('p-image-upload').value = ""; }
-
-    function generateImeiBoxes() {
-        const stock = Number(document.getElementById('p-stock').value) || 0; const track = document.getElementById('p-track').checked;
-        const container = document.getElementById('p-imei-container'); const list = document.getElementById('p-imei-list');
-        const existing = Array.from(list.querySelectorAll('input')).map(i => i.value); list.innerHTML = '';
-        if(track && stock > 0) {
-            container.classList.remove('hidden');
-            for(let i=0; i<stock; i++) { list.innerHTML += `<input type="text" maxlength="25" oninput="this.value=this.value.replace(/[^0-9A-Za-z]/g,'')" value="${existing[i]\vert{}\vert{}''}" placeholder="IMEI ${i+1}" class="premium-input font-mono uppercase text-blue-600 text-center border-blue-200 p-imei-val !h-[38px]">`; }
-        } else { container.classList.add('hidden'); }
-    }
-
-    function saveProduct() {
-        const name = document.getElementById('p-name').value.trim().toUpperCase().replace(/</g, "").replace(/>/g, ""); 
-        const brand = document.getElementById('p-brand').value.trim().toUpperCase() || "GENERIC"; const category = document.getElementById('p-category').value; const variant = document.getElementById('p-variant').value.trim().toUpperCase() || "-"; const sku = document.getElementById('p-sku').value.trim().toUpperCase() || "SKU-"+Math.floor(Math.random()*100000); const hsn = document.getElementById('p-hsn').value.trim() || "-"; const mrp = Number(document.getElementById('p-mrp').value) || 0; const pur = Number(document.getElementById('p-pur').value) || 0; const sale = Number(document.getElementById('p-sale').value) || 0; const gst = Number(document.getElementById('p-gst').value) || 0; const stock = Number(document.getElementById('p-stock').value) || 0; const low = Number(document.getElementById('p-low').value) || 5; const track = document.getElementById('p-track').checked; const editId = document.getElementById('p-id').value;
-        if(!name || sale <= 0) return showToast("Validation", "Name & Selling Price are mandatory.", "error");
-        if(!editId && productsDB.some(p => p.name === name)) return showToast("Duplicate", "Item title already indexed.", "error");
-
-        let imeiList = [];
-        if(track && stock > 0) {
-            const inputs = document.querySelectorAll('.p-imei-val'); let err = false;
-            inputs.forEach(inp => { if(inp.value.trim() !== "") { imeiList.push(inp.value.trim()); } else { err = true; } });
-            if(err || imeiList.length !== stock) return showPopup("Error", "Please fill ALL Opening Stock IMEIs/Serials!", true);
-        }
-
-        const newProd = { id: editId || 'PRD-'+Date.now(), name, brand, category, variant, sku, hsn, mrp, pur, sale, gst, stock, lowStock: low, track, imeiList, image: activeProductImg };
-        if(editId) { const idx = productsDB.findIndex(p => p.id === editId); productsDB[idx] = newProd; } else { productsDB.push(newProd); }
-        
-        Storage.set('sre_products', productsDB);
-        clearProductForm(); renderProducts(); showToast("Saved", `${name} updated in master inventory.`);
-    }
-
-    function editProduct(id) {
-        const p = productsDB.find(x => x.id === id); if(!p) return;
-        document.getElementById('p-id').value = p.id; document.getElementById('p-name').value = p.name; document.getElementById('p-brand').value = p.brand; document.getElementById('p-category').value = p.category; document.getElementById('p-variant').value = p.variant; document.getElementById('p-sku').value = p.sku; document.getElementById('p-hsn').value = p.hsn; document.getElementById('p-mrp').value = p.mrp || 0; document.getElementById('p-pur').value = p.pur; document.getElementById('p-sale').value = p.sale; document.getElementById('p-gst').value = p.gst; document.getElementById('p-stock').value = p.stock; document.getElementById('p-low').value = p.lowStock || 5; document.getElementById('p-track').checked = p.track;
-        if(p.image) { activeProductImg = p.image; document.getElementById('p-img-preview').src = p.image; document.getElementById('p-img-preview').classList.remove('hidden'); document.getElementById('p-img-placeholder').classList.add('hidden'); } else { clearProductImage(); }
-        generateImeiBoxes();
-        if (p.track && p.stock > 0 && p.imeiList) { const inputs = document.querySelectorAll('.p-imei-val'); inputs.forEach((inp, idx) => { if(p.imeiList[idx]) inp.value = p.imeiList[idx]; }); }
-        document.getElementById('prod-form-title').innerText = "Edit Product: " + p.name; document.getElementById('add-product-form').scrollIntoView({behavior:'smooth'});
-    }
-
-    function clearProductForm() {
-        ['p-id','p-name','p-brand','p-variant','p-sku','p-hsn','p-mrp','p-pur','p-sale','p-stock'].forEach(id => document.getElementById(id).value = '');
-        document.getElementById('p-gst').value = '18'; document.getElementById('p-low').value = '5'; document.getElementById('p-category').value = 'Mobile Phone'; document.getElementById('p-track').checked = true; document.getElementById('prod-form-title').innerText = "Add New Product"; clearProductImage(); generateImeiBoxes();
-    }
-
-    function deleteProduct(id) { if(confirm("Permanently retire this SKU?")) { productsDB = productsDB.filter(p => p.id !== id); Storage.set('sre_products', productsDB); renderProducts(); } }
-
-    function renderProducts() {
-        const search = document.getElementById('prod-search').value.toUpperCase(); const catFilter = document.getElementById('filter-category').value;
-        let inStock = 0, lowStock = 0, outStock = 0;
-        const filtered = productsDB.filter(p => {
-            if(p.stock <= 0) outStock++; else if(p.stock <= (p.lowStock||5)) lowStock++; else inStock++;
-            const matchSearch = p.name.includes(search) || p.sku.includes(search) || (p.imeiList && p.imeiList.join(' ').includes(search));
-            const matchCat = catFilter === "ALL" || !catFilter || p.category === catFilter;
-            return matchSearch && matchCat;
-        });
-
-        document.getElementById('dash-prod-count').innerText = productsDB.length;
-
-        const tbody = document.getElementById('product-table-body');
-        tbody.innerHTML = filtered.length === 0 ? `<tr><td colspan="7" class="text-center p-8 text-slate-400 font-bold uppercase tracking-widest text-[10px]">No Products Found</td></tr>` : 
-        filtered.map(p => {
-            let statBadge = p.stock <= 0 ? '<span class="bg-rose-100 text-rose-700 px-3 py-1 rounded-md text-[9px] font-black uppercase tracking-widest">Out of Stock</span>' : (p.stock <= (p.lowStock||5) ? '<span class="bg-amber-100 text-amber-700 px-3 py-1 rounded-md text-[9px] font-black uppercase tracking-widest">Low Stock</span>' : '<span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-md text-[9px] font-black uppercase tracking-widest">In Stock</span>');
-            let imgHtml = p.image ? `<img src="${p.image}" class="w-10 h-10 rounded-xl object-cover mx-auto shadow-sm">` : `<div class="w-10 h-10 bg-slate-100 rounded-xl mx-auto flex items-center justify-center text-lg shadow-inner">📦</div>`;
-            return `<tr><td class="text-center">${imgHtml}</td><td><p class="font-black text-xs text-blue-700 uppercase">${p.name}</p><p class="text-[9px] text-slate-400 uppercase tracking-widest mt-1">${p.brand} •${p.category}</p></td><td><p class="font-mono text-slate-700 font-bold">${p.sku}</p></td><td class="text-right font-bold text-slate-500">₹ ${p.pur.toLocaleString()}</td><td class="text-right font-black text-sm text-slate-900">₹ ${p.sale.toLocaleString()}</td><td class="text-center font-black text-base ${p.stock <= 0 ? 'text-rose-600' : 'text-emerald-600'}">${p.stock}</td><td class="text-center">${statBadge}</td><td class="text-center space-x-1.5 whitespace-nowrap"><button onclick="editProduct('${p.id}')" class="bg-blue-50 text-blue-600 w-8 h-8 rounded-lg font-black hover:bg-blue-600 hover:text-white transition-all text-xs shadow-sm">✏️</button><button onclick="deleteProduct('${p.id}')" class="bg-rose-50 text-rose-600 w-8 h-8 rounded-lg font-black hover:bg-rose-600 hover:text-white transition-all text-xs shadow-sm">🗑️</button></td></tr>`;
-        }).join('');
-        document.getElementById('item-list').innerHTML = productsDB.map(p => `<option value="${p.name}">`).join('');
-    }
-
-    // --- SMART PARTY MASTER (Auto Search by Mobile) ---
+    // --- SMART PARTY AUTO SEARCH ---
     function onPartySelect(val) {
         const query = val.trim().toUpperCase();
         if(!query) {
@@ -871,31 +746,29 @@
             document.getElementById('party-balance-badge').className = "text-[9px] font-black text-slate-400 bg-slate-100 px-1 py-0.5 rounded";
             return;
         }
-
-        // Smart Find: Name ya Mobile dono se
         let p = partiesDB.find(x => x.name.toUpperCase() === query || x.mobile === query);
         const badge = document.getElementById('party-balance-badge');
         
         if(p) {
-            // Agar mobile type kiya hai, to box me Party ka naam bhar do
             if(document.getElementById('bill-party').value !== p.name) {
                 document.getElementById('bill-party').value = p.name;
             }
-            badge.innerText = `Old Bal: ₹${(p.ob\vert{}\vert{}0).toLocaleString('en-IN')}`;             badge.className = (p.ob > 0) ? "text-[8px] font-black text-rose-600 bg-rose-50 px-1.5 py-0.5 rounded" : "text-[8px] font-black text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded";         } else {             badge.innerText = "Bal: ₹0"; badge.className = "text-[8px] font-black text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded";         }     }      function saveParty() {         const type = document.getElementById('pt-type').value; const name = document.getElementById('pt-name').value.trim().toUpperCase().replace(/</g, ""); const mobile = document.getElementById('pt-mobile').value.trim(); const gstin = document.getElementById('pt-gstin').value.trim().toUpperCase(); const address = document.getElementById('pt-address').value.trim().toUpperCase(); const ob = Number(document.getElementById('pt-ob').value) \vert{}\vert{} 0; const editId = document.getElementById('pt-id').value;         if(!name) return showToast("Validation", "Party Title is mandatory.", "error");         const newParty = { id: editId \vert{}\vert{} 'PTY-'+Date.now(), type, name, mobile, address, gstin, ob };         if(editId) { const idx = partiesDB.findIndex(p => p.id === editId); partiesDB[idx] = newParty; }          else { if(partiesDB.find(p => p.name === name)) return showToast("Duplicate", "Account exists.", "error"); partiesDB.push(newParty); }         Storage.set('sre_parties', partiesDB); clearPartyForm(); renderParties(); showToast("Recorded", `Account ${name} verified.`);
+            badge.innerText = `Old Bal: ₹${(p.ob||0).toLocaleString('en-IN')}`;
+            badge.className = (p.ob > 0) ? "text-[8px] font-black text-rose-600 bg-rose-50 px-1.5 py-0.5 rounded" : "text-[8px] font-black text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded";
+        } else {
+            badge.innerText = "Bal: ₹0"; badge.className = "text-[8px] font-black text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded";
+        }
     }
 
-    function clearPartyForm() { document.getElementById('pt-id').value = ''; ['pt-name','pt-mobile','pt-address','pt-gstin','pt-ob'].forEach(id => document.getElementById(id).value = ''); }
-    function deleteParty(id) { if(confirm("Remove this client/vendor account?")) { partiesDB = partiesDB.filter(p => p.id !== id); Storage.set('sre_parties', partiesDB); renderParties(); } }
-
-    function renderParties() {
-        const search = document.getElementById('party-search')?.value.toUpperCase() || ''; const filtered = partiesDB.filter(p => p.name.includes(search) || p.mobile.includes(search));
-        document.getElementById('dash-party-count').innerText = partiesDB.length;
-        const tbody = document.getElementById('party-table-body');
-        tbody.innerHTML = filtered.length === 0 ? `<tr><td colspan="6" class="text-center p-6 text-slate-400 font-bold uppercase text-[9px]">No Ledger Accounts Found</td></tr>` : 
-        filtered.map(p => `<tr><td><span class="${p.type==='CUSTOMER'?'bg-blue-50 text-blue-700':'bg-rose-50 text-rose-700'} px-2 py-1 rounded-md text-[8px] font-black">${p.type}</span></td><td class="font-black text-xs text-blue-700 uppercase">${p.name}</td><td class="font-mono text-slate-600 font-bold">${p.mobile||'-'}</td><td><p class="text-[10px] font-bold text-slate-700 uppercase">${p.address||'-'}</p><p class="text-[8px] text-slate-400 font-mono mt-1">GST: ${p.gstin||'Unregistered'}</p></td><td class="text-right font-black text-sm">₹${(p.ob||0).toLocaleString()}</td><td class="text-center space-x-1.5 whitespace-nowrap"><button onclick="editParty('${p.id}')" class="bg-blue-50 text-blue-600 w-8 h-8 rounded-lg font-black hover:bg-blue-600 hover:text-white transition-all shadow-sm">✏️</button><button onclick="deleteParty('${p.id}')" class="bg-rose-50 text-rose-600 w-8 h-8 rounded-lg font-black hover:bg-rose-600 hover:text-white transition-all shadow-sm">🗑️</button></td></tr>`).join('');
+    // --- ZERO SCROLL BILLING ENGINE ---
+    function startBill(type) {
+        currentMode = type;
+        document.getElementById('bill-title').innerText = type + " INVOICE";
+        document.getElementById('form-entry-type').innerText = type;
+        document.getElementById('form-entry-type').className = type === "SALE" ? "text-[9px] font-black px-2 py-0.5 rounded bg-blue-100 text-blue-700 uppercase tracking-widest shadow-sm" : "text-[9px] font-black px-2 py-0.5 rounded bg-rose-100 text-rose-700 uppercase tracking-widest shadow-sm";
         
-        // Show Mobile Number in suggestions list as well
-        document.getElementById('party-list').innerHTML = partiesDB.map(p => `<option value="${p.name}">Ph: ${p.mobile \vert{}\vert{} 'N/A'}</option>`).join('');     }      // --- ZERO-SCROLL BILLING ENGINE ---     function startBill(type) {         currentMode = type;         document.getElementById('bill-title').innerText = type + " INVOICE";         document.getElementById('form-entry-type').innerText = type;         document.getElementById('form-entry-type').className = type === "SALE" ? "text-[9px] font-black px-2 py-0.5 rounded bg-blue-100 text-blue-700 uppercase tracking-widest shadow-sm" : "text-[9px] font-black px-2 py-0.5 rounded bg-rose-100 text-rose-700 uppercase tracking-widest shadow-sm";                  document.getElementById('bill-party').value = ''; document.getElementById('bill-date').value = getToday();          document.getElementById('bill-inv').value = type === "SALE" ? `${invPrefix}${(billsDB.length + 1).toString().padStart(3,'0')}` : `PUR-${(billsDB.length + 1).toString().padStart(3,'0')}`; 
+        document.getElementById('bill-party').value = ''; document.getElementById('bill-date').value = getToday(); 
+        document.getElementById('bill-inv').value = type === "SALE" ? `${invPrefix}${(billsDB.length + 1).toString().padStart(3,'0')}` : `PUR-${(billsDB.length + 1).toString().padStart(3,'0')}`; 
         document.getElementById('bill-items-body').innerHTML = ''; document.getElementById('party-balance-badge').innerText = "Bal: ₹0";
         document.getElementById('barcode-fast-scan').value = '';
         
@@ -907,22 +780,22 @@
     function addBillRow(isFirst = false) {
         const tbody = document.getElementById('bill-items-body');
         const tr = document.createElement('tr');
-        tr.className = "item-row-wrapper hover:bg-slate-50";
+        tr.className = "item-row-wrapper border-b border-slate-100 hover:bg-slate-50";
         
         const removeBtn = !isFirst ? `<button type="button" onclick="this.closest('tr').remove(); calcBill();" tabindex="-1" class="w-6 h-6 flex items-center justify-center bg-rose-50 text-rose-600 rounded hover:bg-rose-600 hover:text-white font-black transition-all mx-auto">X</button>` : ``;
 
         tr.innerHTML = `
             <td class="p-1.5 align-top">
                 <div class="relative w-full">
-                    <input type="text" list="item-list" oninput="autoFillRate(this)" onkeydown="handleShortcut(event, 'PRODUCT')" class="premium-input uppercase font-black text-[11px] text-blue-700 b-name px-2! h-[34px]!" placeholder="Item Name">
+                    <input type="text" list="item-list" oninput="autoFillRate(this)" onkeydown="handleShortcut(event, 'PRODUCT')" class="premium-input uppercase font-black text-[11px] text-blue-700 b-name !px-2 !h-[32px]" placeholder="Item Name">
                 </div>
             </td>
-            <td class="p-1.5 align-top"><input type="number" oninput="calcBill()" class="premium-input font-black text-[11px] text-slate-800 text-right b-rate px-2! h-[34px]!" placeholder="0"></td>
-            <td class="p-1.5 align-top"><select onchange="calcBill()" tabindex="-1" class="premium-input text-center font-bold text-slate-800 b-gst px-1! h-[34px]!"><option value="0">0</option><option value="5">5</option><option value="12">12</option><option value="18" selected>18</option><option value="28">28</option></select></td>
-            <td class="p-1.5 align-top"><input type="number" min="1" value="1" oninput="window.handleGridQtyChange(this)" onkeyup="window.handleGridQtyChange(this)" class="premium-input text-center font-black text-sm text-[#004aad] b-qty px-1! h-[34px]!"></td>
+            <td class="p-1.5 align-top"><input type="number" oninput="calcBill()" class="premium-input font-black text-[11px] text-slate-800 text-right b-rate !px-2 !h-[32px]" placeholder="0"></td>
+            <td class="p-1.5 align-top"><select onchange="calcBill()" tabindex="-1" class="premium-input text-center font-bold text-slate-800 b-gst !px-1 !h-[32px]"><option value="0">0</option><option value="5">5</option><option value="12">12</option><option value="18" selected>18</option><option value="28">28</option></select></td>
+            <td class="p-1.5 align-top"><input type="number" min="1" value="1" oninput="window.handleGridQtyChange(this)" onkeyup="window.handleGridQtyChange(this)" class="premium-input text-center font-black text-sm text-[#004aad] b-qty !px-1 !h-[32px]"></td>
             <td class="p-1.5 align-top">
                 <div class="flex flex-col gap-1">
-                    <input type="text" maxlength="25" oninput="this.value=this.value.replace(/[^0-9A-Za-z]/g,'')" class="premium-input font-mono font-bold uppercase text-slate-600 b-imei-main px-2! h-[34px]!" placeholder="IMEI">
+                    <input type="text" maxlength="25" oninput="this.value=this.value.replace(/[^0-9A-Za-z]/g,'')" class="premium-input font-mono font-bold uppercase text-slate-600 b-imei-main !px-2 !h-[32px]" placeholder="IMEI">
                     <div class="b-imei-extended hidden grid grid-cols-2 gap-1 mt-1"></div>
                 </div>
             </td>
@@ -930,26 +803,21 @@
             <td class="p-1.5 text-center align-middle">${removeBtn}</td>
         `;
         tbody.appendChild(tr);
-        
-        const scroller = document.getElementById('bill-items-container'); 
-        if(scroller) scroller.scrollTop = scroller.scrollHeight;
+        const scroller = document.getElementById('bill-items-container'); if(scroller) scroller.scrollTop = scroller.scrollHeight;
     }
 
-    // IMEI PRESERVATION LOGIC
     window.handleGridQtyChange = function(input) {
         calcBill(); 
         const wrapper = input.closest('tr'); 
         const qty = Math.max(1, Number(input.value) || 1); 
         const extBox = wrapper.querySelector('.b-imei-extended');
-        
         if(qty > 1) {
             extBox.classList.remove('hidden'); 
-            const existingInputs = Array.from(extBox.querySelectorAll('.b-imei-extra'));
-            const existingVals = existingInputs.map(i => i.value); 
+            const existing = Array.from(extBox.querySelectorAll('.b-imei-extra')).map(i => i.value); 
             let html = '';
             for(let i=2; i<=qty; i++) { 
-                const val = existingVals[i-2] || ""; 
-                html += `<input type="text" maxlength="25" oninput="this.value=this.value.replace(/[^0-9A-Za-z]/g,''); this.setAttribute('value', this.value);" value="${val}" placeholder="IMEI ${i}" class="premium-input bg-white font-mono font-bold text-[9px] uppercase text-blue-600 b-imei-extra border-blue-200 shadow-sm px-1! h-[26px]!">`; 
+                const val = existing[i-2] || ""; 
+                html += `<input type="text" maxlength="25" oninput="this.value=this.value.replace(/[^0-9A-Za-z]/g,''); this.setAttribute('value', this.value);" value="${val}" placeholder="IMEI ${i}" class="premium-input bg-white font-mono font-bold text-[9px] uppercase text-blue-600 b-imei-extra border-blue-200 shadow-sm !px-1 !h-[26px]">`; 
             }
             extBox.innerHTML = html;
         } else { 
@@ -960,14 +828,9 @@
 
     function autoFillRate(input) {
         const row = input.closest('tr'); const name = input.value.trim().toUpperCase(); const prod = productsDB.find(p => p.name === name);
-        if(prod) { 
-            row.querySelector('.b-rate').value = currentMode === "SALE" ? prod.sale : prod.pur; 
-            row.querySelector('.b-gst').value = prod.gst; 
-            calcBill(); 
-        }
+        if(prod) { row.querySelector('.b-rate').value = currentMode === "SALE" ? prod.sale : prod.pur; row.querySelector('.b-gst').value = prod.gst; calcBill(); }
     }
 
-    // BARCODE SCANNER LOGIC WITH AUTO LOCK
     function handleBarcodeScan(e) {
         e.preventDefault();
         const query = e.target.value.trim().toUpperCase();
@@ -998,18 +861,32 @@
             }
             calcBill(); showToast("Scanned", `${prod.name} added.`, "success"); e.target.value = '';
         } else { showToast("Not Found", `Barcode ${query} missing`, "error"); }
-        
         setTimeout(() => document.getElementById('barcode-fast-scan').focus(), 10);
     }
 
-    // --- PAYMENT ENGINE (BOTTOM PANEL) ---
+    // --- CHECKOUT LOGIC ---
+    function resetPaymentFields() {
+        document.getElementById('bill-discount').value = "";
+        document.getElementById('bill-paid').value = "";
+        document.getElementById('pay-primary').value = "";
+        document.getElementById('pay-secondary').value = "";
+        document.getElementById('fin-dp-amt').value = "";
+        document.getElementById('fin-dp-mode').value = "";
+        document.getElementById('dues-dp-amt').value = "";
+        document.getElementById('dues-dp-mode').value = "";
+        document.getElementById('split-cash').value = "";
+        document.getElementById('split-qr').value = "";
+        document.getElementById('split-card').value = "";
+        onPaymentModeChange('clear');
+        calcBill();
+    }
+
     function onPaymentModeChange(source) {
         const pEl = document.getElementById('pay-primary'); const sEl = document.getElementById('pay-secondary'); 
         if (source === 'primary' && pEl.value !== "") sEl.value = "";
         else if (source === 'secondary' && sEl.value !== "") pEl.value = "";
 
         const p = pEl.value; const s = sEl.value;
-        
         document.getElementById('box-finance').classList.add('hidden'); 
         document.getElementById('box-dues').classList.add('hidden'); 
         document.getElementById('box-split').classList.add('hidden');
@@ -1017,19 +894,9 @@
         if(defaultMsg) defaultMsg.classList.remove('hidden');
         
         let activeModeStr = p || "";
-        if (s === "Finance") { 
-            document.getElementById('box-finance').classList.remove('hidden'); 
-            if(defaultMsg) defaultMsg.classList.add('hidden');
-            activeModeStr = document.getElementById('fin-dp-mode').value || ""; 
-        } 
-        else if (s === "Dues") { 
-            document.getElementById('box-dues').classList.remove('hidden'); 
-            if(defaultMsg) defaultMsg.classList.add('hidden');
-            activeModeStr = document.getElementById('dues-dp-mode').value || ""; 
-        }
-        else if (p && p.includes('/')) {
-            if(defaultMsg) defaultMsg.classList.add('hidden');
-        }
+        if (s === "Finance") { document.getElementById('box-finance').classList.remove('hidden'); if(defaultMsg) defaultMsg.classList.add('hidden'); activeModeStr = document.getElementById('fin-dp-mode').value || ""; } 
+        else if (s === "Dues") { document.getElementById('box-dues').classList.remove('hidden'); if(defaultMsg) defaultMsg.classList.add('hidden'); activeModeStr = document.getElementById('dues-dp-mode').value || ""; }
+        else if (p && p.includes('/')) { if(defaultMsg) defaultMsg.classList.add('hidden'); }
         
         renderSplitBoxes(activeModeStr);
     }
@@ -1063,24 +930,6 @@
         calcBill();
     }
 
-    function resetPaymentFields() {
-        document.getElementById('bill-discount').value = "";
-        document.getElementById('bill-paid').value = "";
-        document.getElementById('pay-primary').value = "";
-        document.getElementById('pay-secondary').value = "";
-        document.getElementById('fin-dp-amt').value = "";
-        document.getElementById('fin-dp-mode').value = "";
-        document.getElementById('dues-dp-amt').value = "";
-        document.getElementById('dues-dp-mode').value = "";
-        document.getElementById('split-cash').value = "";
-        document.getElementById('split-qr').value = "";
-        document.getElementById('split-card').value = "";
-        
-        onPaymentModeChange('clear');
-        calcBill();
-    }
-
-    // --- REFACTORED SECURE CALC ENGINE ---
     function calcBill(isTypingPaid = false) {
         let totalTaxable = 0, totalGstAmt = 0, rawGrandTotal = 0, totalPurchaseCost = 0;
         const taxTypeEl = document.querySelector('input[name="tax_calc_type"]:checked');
@@ -1160,7 +1009,6 @@
         return { totalTaxable, totalGstAmt, grandTotal: roundGrandTotal, rawPaid, due, profit, discount };
     }
 
-    // --- REFACTORED SECURE SAVE ---
     function saveFinalBill() {
         if(isSaving) return;
         const partyInput = document.getElementById('bill-party').value.trim().toUpperCase();
@@ -1186,9 +1034,7 @@
             if(totals.rawPaid <= 0 && totals.grandTotal > 0) return showToast("Payment", "Please enter Amount Paid!", "error");
         }
 
-        let tempItems = [];
-        let tempDeductions = [];
-        let errorMsg = null;
+        let tempItems = []; let tempDeductions = []; let errorMsg = null;
         const taxTypeEl = document.querySelector('input[name="tax_calc_type"]:checked');
         const isInclusive = taxTypeEl ? taxTypeEl.value === 'inclusive' : false;
 
@@ -1243,14 +1089,10 @@
             }
         });
 
-        // Determine correct Party Name & Mobile from DB
         let finalPartyName = partyInput;
         let finalMobile = "";
         let pData = partiesDB.find(p => p.name.toUpperCase() === partyInput || p.mobile === partyInput);
-        if(pData) {
-            finalPartyName = pData.name;
-            finalMobile = pData.mobile;
-        }
+        if(pData) { finalPartyName = pData.name; finalMobile = pData.mobile; }
 
         const activePaymentMode = s !== "" ? s : p;
         const billRecord = { id: 'INV-'+Date.now(), invNo: invNo, date: bDate, type: currentMode, party: finalPartyName, mobile: finalMobile, items: tempItems, basic: totals.totalTaxable, gst: totals.totalGstAmt, discount: totals.discount, total: totals.grandTotal, paid: totals.rawPaid, due: totals.due, paymentMode: activePaymentMode, finance: finData, profit: totals.profit };
@@ -1267,7 +1109,7 @@
         
         showPopup("Saved", currentMode + " Bill Saved Successfully!");
         generateInvoiceHTML(billRecord);
-        setTimeout(() => { isSaving = false; if(btnSave) { btnSave.innerHTML = `<span>💾 Save (Ctrl+S)</span>`; btnSave.classList.remove("opacity-50", "cursor-not-allowed"); } }, 2000);
+        setTimeout(() => { isSaving = false; if(btnSave) { btnSave.innerHTML = `<span class="text-[9px] font-normal text-blue-200 hidden sm:inline mr-1">(Ctrl+S)</span> <span>💾 Save</span>`; btnSave.classList.remove("opacity-50", "cursor-not-allowed"); } }, 2000);
     }
 
     // 8. INVOICE GENERATION & WHATSAPP
@@ -1289,8 +1131,7 @@
         }
 
         let text = `*SRI RAM ENTERPRISES*\n------------------------\nHello *${party}*,\nYour invoice *${invNo}* for *${total}* has been successfully generated.\n\nThank you for your business!`;
-        let url = `https://wa.me/91${mobile}?text=${encodeURIComponent(text)}`;
-        window.open(url, '_blank');
+        let url = `https://wa.me/91${mobile}?text=${encodeURIComponent(text)}`; window.open(url, '_blank');
     }
 
     function generateInvoiceHTML(bill) {
@@ -1419,7 +1260,6 @@
         let saleAmt = 0; let purAmt = 0; let totalProfit = 0;
         billsDB.forEach(b => { if(b.type === "SALE") { saleAmt += b.total; totalProfit += (Number(b.profit) || 0); } if(b.type === "PURCHASE") purAmt += b.total; });
         document.getElementById('dash-sale').innerText = "₹ " + saleAmt.toLocaleString('en-IN'); 
-        document.getElementById('dash-pur').innerText = "₹ " + purAmt.toLocaleString('en-IN');
         document.getElementById('dash-profit').innerText = "₹ " + totalProfit.toLocaleString('en-IN');
         document.getElementById('dash-prod-count').innerText = productsDB.length;
         document.getElementById('dash-party-count').innerText = partiesDB.length;
