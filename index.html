@@ -10,14 +10,13 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <link rel="manifest" href="./manifest.json">
   
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
     
     body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f1f5f9; color: #1e293b; overflow: hidden; height: 100dvh; }
     
-    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
@@ -28,6 +27,7 @@
     .premium-input:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.15); background-color: #ffffff; }
     select.premium-input, input.premium-input:not([type="checkbox"]) { height: 38px; }
     
+    /* Perfect Table Alignment */
     .bill-table { width: 100%; border-collapse: separate; border-spacing: 0; min-width: 600px; }
     .bill-table th { position: sticky; top: 0; background-color: #f1f5f9; color: #475569; font-size: 10px; font-weight: 800; text-transform: uppercase; padding: 12px 8px; z-index: 10; border-bottom: 2px solid #e2e8f0; text-align: left; letter-spacing: 0.05em; }
     .bill-table td { padding: 8px; background-color: #ffffff; border-bottom: 1px solid #f1f5f9; vertical-align: top; position: relative; }
@@ -513,6 +513,7 @@
                         <div class="w-56 text-right space-y-1 text-[10px]">
                             <div class="flex justify-between"><span class="text-slate-500 uppercase font-bold text-[8px]">Taxable Turnover:</span><span id="inv-taxable" class="font-bold">₹ 0</span></div>
                             <div class="flex justify-between"><span class="text-slate-500 uppercase font-bold text-[8px]">Total Taxes:</span><span id="inv-gst" class="font-bold">₹ 0</span></div>
+                            <div class="flex justify-between hidden" id="inv-disc-row"><span class="text-slate-500 uppercase font-bold text-[8px]">Discount:</span><span id="inv-disc" class="font-bold text-rose-600">₹ 0</span></div>
                             <div class="flex justify-between border-t border-slate-200 pt-1 text-xs"><span class="font-black text-slate-900 uppercase tracking-widest">Grand Invoice Total:</span><span id="inv-total" class="font-black text-slate-900 text-sm">₹ 0</span></div>
                             <div class="flex justify-between mt-1"><span class="text-slate-500 uppercase font-bold text-[8px]">Amount Tendered:</span><span id="inv-paid" class="font-bold text-emerald-700">₹ 0</span></div>
                             <div class="flex justify-between border-t border-slate-200 pt-1"><span class="text-slate-500 uppercase font-bold text-[8px]">Closing Balance Due:</span><span id="inv-bal" class="font-black text-rose-600">₹ 0</span></div>
@@ -539,8 +540,7 @@
 
   <script>
     /* ========================================================
-       ENTERPRISE POS & ACCOUNTING CORE CONTROLLER
-       (V15.0 OMEGA - 100% BUG FREE & PREMIUM)
+       ENTERPRISE POS CORE (V15.0 FINAL OMEGA - BUG FREE)
     ======================================================== */
 
     const Storage = {
@@ -892,7 +892,7 @@
         currentMode = type;
         document.getElementById('bill-title').innerText = type + " INVOICE";
         document.getElementById('form-entry-type').innerText = type;
-        document.getElementById('form-entry-type').className = type === "SALE" ? "text-[9px] font-black px-2 py-0.5 rounded bg-blue-100 text-blue-700 uppercase tracking-widest shadow-sm" : "text-[9px] font-black px-2 py-0.5 rounded bg-rose-100 text-rose-700 uppercase tracking-widest shadow-sm";
+        document.getElementById('form-entry-type').className = type === "SALE" ? "text-[9px] font-black px-2 py-0.5 rounded-md bg-blue-100 text-blue-700 uppercase tracking-widest" : "text-[9px] font-black px-2 py-0.5 rounded-md bg-rose-100 text-rose-700 uppercase tracking-widest";
         
         document.getElementById('bill-party').value = ''; 
         document.getElementById('bill-date').value = getToday(); 
@@ -903,7 +903,6 @@
         resetPaymentFields();
         addBillRow(true); calcBill(); showView('new-bill');
         
-        // FOCUS DIRECTLY ON ITEM SCANNER
         setTimeout(() => {
             const firstItem = document.querySelector('.b-name');
             if(firstItem) firstItem.focus();
@@ -915,8 +914,6 @@
         const tr = document.createElement('tr');
         tr.className = "item-row-wrapper border-b border-slate-100 hover:bg-slate-50";
         
-        const removeBtn = !isFirst ? `<button type="button" onclick="this.closest('tr').remove(); calcBill();" tabindex="-1" class="absolute right-1 top-2.5 w-6 h-6 flex items-center justify-center bg-rose-50 text-rose-600 rounded hover:bg-rose-600 hover:text-white font-black opacity-0 group-hover:opacity-100 transition-all">✕</button>` : `<div class="absolute right-1 w-6"></div>`;
-
         tr.innerHTML = `
             <td class="p-1.5 align-top">
                 <div class="relative w-full">
@@ -933,14 +930,13 @@
                     <input type="text" maxlength="25" oninput="this.value=this.value.replace(/[^0-9A-Za-z]/g,'')" class="premium-input font-mono font-bold uppercase text-slate-600 b-imei-main !px-2 !h-[34px]" placeholder="IMEI / Serial">
                     <div class="b-imei-extended hidden grid-cols-1 sm:grid-cols-2 gap-1 mt-1"></div>
                 </div>
-                ${removeBtn}
+                ${!isFirst ? `<button type="button" onclick="this.closest('tr').remove(); calcBill();" tabindex="-1" class="absolute right-1 top-2.5 w-6 h-6 flex items-center justify-center bg-rose-50 text-rose-600 rounded hover:bg-rose-600 hover:text-white font-black opacity-0 group-hover:opacity-100 transition-all">✕</button>` : ``}
             </td>
         `;
         tbody.appendChild(tr);
         const scroller = document.getElementById('bill-items-container'); if(scroller) scroller.scrollTop = scroller.scrollHeight;
     }
 
-    // IMEI GRID PRESERVATION
     window.handleGridQtyChange = function(input) {
         calcBill(); 
         const wrapper = input.closest('tr'); 
@@ -974,7 +970,6 @@
         }
     }
 
-    // SMART ITEM ENTRY / BARCODE EMBEDDED
     function handleItemEnter(e, input) {
         if (e.key === 'Enter') {
             e.preventDefault();
@@ -982,7 +977,7 @@
             if (!query) return;
 
             const prod = productsDB.find(p => p.sku === query || (p.imeiList && p.imeiList.includes(query)));
-            if (prod) { // Barcode Matched perfectly
+            if (prod) {
                 let existingInput = Array.from(document.querySelectorAll('.b-name')).find(inp => inp.value.trim().toUpperCase() === prod.name);
                 if (existingInput && existingInput !== input) {
                     const row = existingInput.closest('tr');
@@ -997,7 +992,7 @@
                            if(emptyExtra) emptyExtra.value = query;
                         }
                     } else { window.handleGridQtyChange(qtyInput); }
-                    input.value = ''; // clear current input box
+                    input.value = ''; 
                 } else {
                     input.value = prod.name;
                     const row = input.closest('tr');
@@ -1019,7 +1014,7 @@
         }
     }
 
-    // --- PAYMENT ENGINE (PREMIUM DARK UI FOR SPLIT) ---
+    // --- PAYMENT ENGINE ---
     function onPaymentModeChange(source) {
         const pEl = document.getElementById('pay-primary'); const sEl = document.getElementById('pay-secondary'); 
         if (source === 'primary' && pEl.value !== "") sEl.value = "";
@@ -1153,7 +1148,6 @@
         return { totalTaxable, totalGstAmt, grandTotal: roundGrandTotal, rawPaid, due, profit, discount: 0 };
     }
 
-    // --- REFACTORED SECURE SAVE ---
     function saveFinalBill() {
         if(isSaving) return;
         const partyInput = document.getElementById('bill-party').value.trim().toUpperCase();
