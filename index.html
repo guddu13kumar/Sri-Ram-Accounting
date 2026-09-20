@@ -28,7 +28,7 @@
     select.premium-input, input.premium-input:not([type="checkbox"]) { height: 38px; }
     
     /* Perfect Table Alignment */
-    .bill-table { width: 100%; border-collapse: separate; border-spacing: 0; min-width: 600px; }
+    .bill-table { width: 100%; border-collapse: separate; border-spacing: 0; min-width: 800px; }
     .bill-table th { position: sticky; top: 0; background-color: #f1f5f9; color: #475569; font-size: 10px; font-weight: 800; text-transform: uppercase; padding: 12px 8px; z-index: 10; border-bottom: 2px solid #e2e8f0; text-align: left; letter-spacing: 0.05em; }
     .bill-table td { padding: 8px; background-color: #ffffff; border-bottom: 1px solid #f1f5f9; vertical-align: top; position: relative; }
     .bill-table tr:hover td { background-color: #f8fafc; }
@@ -73,6 +73,7 @@
     </div>
   </div>
 
+  <!-- HEADER -->
   <header class="bg-[#0f172a] text-white flex justify-between items-center px-4 sm:px-6 py-2.5 z-30 shadow-md relative shrink-0">
     <div class="flex items-center space-x-3 cursor-pointer" onclick="showView('dashboard')">
       <div class="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-tr from-blue-500 to-blue-300 text-white rounded flex items-center justify-center font-black italic shadow text-sm border border-white/20">SRE</div>
@@ -263,10 +264,10 @@
             </div>
         </div>
 
-        <!-- ================= 🚀 FINAL BUG-FREE ZERO-SCROLL BILLING PAGE 🚀 ================= -->
+        <!-- ================= 🚀 THE FLAWLESS BILLING ENGINE 🚀 ================= -->
         <div id="view-new-bill" class="view-section hidden max-w-screen-xl mx-auto h-[calc(100vh-80px)] sm:h-[calc(100vh-40px)] flex flex-col pb-2">
             
-            <!-- TOP META BAR -->
+            <!-- TOP META BAR (DATE & INVOICE NO) -->
             <div class="flex justify-between items-center bg-white p-2.5 rounded-lg shadow-sm mb-2 shrink-0 border border-slate-200">
                 <div class="flex items-center gap-4 ml-1">
                     <h2 id="bill-title" class="text-sm font-black text-slate-800 uppercase tracking-widest">SALE ENTRY</h2>
@@ -284,7 +285,6 @@
                 </div>
             </div>
             
-            <!-- CENTRAL LAYOUT -->
             <div class="flex flex-col h-full overflow-hidden pb-10 sm:pb-0 gap-2">
                 
                 <!-- PARTY ROW -->
@@ -513,7 +513,6 @@
                         <div class="w-56 text-right space-y-1 text-[10px]">
                             <div class="flex justify-between"><span class="text-slate-500 uppercase font-bold text-[8px]">Taxable Turnover:</span><span id="inv-taxable" class="font-bold">₹ 0</span></div>
                             <div class="flex justify-between"><span class="text-slate-500 uppercase font-bold text-[8px]">Total Taxes:</span><span id="inv-gst" class="font-bold">₹ 0</span></div>
-                            <div class="flex justify-between hidden" id="inv-disc-row"><span class="text-slate-500 uppercase font-bold text-[8px]">Discount:</span><span id="inv-disc" class="font-bold text-rose-600">₹ 0</span></div>
                             <div class="flex justify-between border-t border-slate-200 pt-1 text-xs"><span class="font-black text-slate-900 uppercase tracking-widest">Grand Invoice Total:</span><span id="inv-total" class="font-black text-slate-900 text-sm">₹ 0</span></div>
                             <div class="flex justify-between mt-1"><span class="text-slate-500 uppercase font-bold text-[8px]">Amount Tendered:</span><span id="inv-paid" class="font-bold text-emerald-700">₹ 0</span></div>
                             <div class="flex justify-between border-t border-slate-200 pt-1"><span class="text-slate-500 uppercase font-bold text-[8px]">Closing Balance Due:</span><span id="inv-bal" class="font-black text-rose-600">₹ 0</span></div>
@@ -540,7 +539,7 @@
 
   <script>
     /* ========================================================
-       ENTERPRISE POS CORE (V15.0 FINAL OMEGA - BUG FREE)
+       ENTERPRISE POS CORE (V16.0 FINAL OMEGA - BUG FREE)
     ======================================================== */
 
     const Storage = {
@@ -682,6 +681,36 @@
         const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({ products: productsDB, parties: partiesDB, bills: billsDB, categories: categoriesDB }));
         const dlAnchorElem = document.createElement('a'); dlAnchorElem.setAttribute("href", dataStr); dlAnchorElem.setAttribute("download", `SRE_Backup_${getToday()}.json`); dlAnchorElem.click();
         showToast("Downloaded", "Offline JSON backup saved.");
+    }
+
+    function exportProductsCSV() {
+        if(productsDB.length === 0) return showToast("Empty", "No products to export", "error");
+        let csvContent = "data:text/csv;charset=utf-8,Name,Brand,Category,SKU,MRP,PurchaseRate,SaleRate,GST,Stock,LowAlert\n";
+        productsDB.forEach(p => { let row = `"${p.name}","${p.brand}","${p.category}","${p.sku}",${p.mrp},${p.pur},${p.sale},${p.gst},${p.stock},${p.lowStock}`; csvContent += row + "\n"; });
+        const encodedUri = encodeURI(csvContent); const link = document.createElement("a"); link.setAttribute("href", encodedUri); link.setAttribute("download", "SRE_Products.csv"); document.body.appendChild(link); link.click(); document.body.removeChild(link);
+        showToast("Exported", "Products CSV Downloaded.");
+    }
+
+    function importProductsCSV(event) {
+        const file = event.target.files[0]; if(!file) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const text = e.target.result; const rows = text.split("\n"); let addedCount = 0;
+            for(let i=1; i<rows.length; i++) {
+                const cols = rows[i].split(",");
+                if(cols.length >= 8) {
+                    const name = cols[0].replace(/"/g, "").trim().toUpperCase();
+                    if(name && !productsDB.find(p => p.name === name)) {
+                        productsDB.push({
+                            id: 'PRD-'+Date.now()+i, name: name, brand: cols[1].replace(/"/g, ""), category: cols[2].replace(/"/g, ""), sku: cols[3].replace(/"/g, ""), hsn: "-",
+                            mrp: Number(cols[4])||0, pur: Number(cols[5])||0, sale: Number(cols[6])||0, gst: Number(cols[7])||18, stock: Number(cols[8])||0, lowStock: Number(cols[9])||5, track: false, imeiList: [], image: ""
+                        }); addedCount++;
+                    }
+                }
+            }
+            Storage.set('sre_products', productsDB); renderProducts(); showPopup("Import Success", `${addedCount} new products imported successfully.`); document.getElementById('csv-upload').value = "";
+        };
+        reader.readAsText(file);
     }
 
     // --- VIEW CONTROLLER ---
@@ -901,7 +930,9 @@
         document.getElementById('party-balance-badge').innerText = "Bal: ₹0";
         
         resetPaymentFields();
-        addBillRow(true); calcBill(); showView('new-bill');
+        addBillRow(true); 
+        
+        showView('new-bill');
         
         setTimeout(() => {
             const firstItem = document.querySelector('.b-name');
@@ -914,6 +945,8 @@
         const tr = document.createElement('tr');
         tr.className = "item-row-wrapper border-b border-slate-100 hover:bg-slate-50";
         
+        const removeBtn = !isFirst ? `<button type="button" onclick="this.closest('tr').remove();" tabindex="-1" class="absolute right-1 top-2.5 w-6 h-6 flex items-center justify-center bg-rose-50 text-rose-600 rounded hover:bg-rose-600 hover:text-white font-black opacity-0 group-hover:opacity-100 transition-all">✕</button>` : `<div class="absolute right-1 w-6"></div>`;
+
         tr.innerHTML = `
             <td class="p-1.5 align-top">
                 <div class="relative w-full">
@@ -930,13 +963,14 @@
                     <input type="text" maxlength="25" oninput="this.value=this.value.replace(/[^0-9A-Za-z]/g,'')" class="premium-input font-mono font-bold uppercase text-slate-600 b-imei-main !px-2 !h-[34px]" placeholder="IMEI / Serial">
                     <div class="b-imei-extended hidden grid-cols-1 sm:grid-cols-2 gap-1 mt-1"></div>
                 </div>
-                ${!isFirst ? `<button type="button" onclick="this.closest('tr').remove(); calcBill();" tabindex="-1" class="absolute right-1 top-2.5 w-6 h-6 flex items-center justify-center bg-rose-50 text-rose-600 rounded hover:bg-rose-600 hover:text-white font-black opacity-0 group-hover:opacity-100 transition-all">✕</button>` : ``}
+                ${removeBtn}
             </td>
         `;
         tbody.appendChild(tr);
         const scroller = document.getElementById('bill-items-container'); if(scroller) scroller.scrollTop = scroller.scrollHeight;
     }
 
+    // IMEI GRID PRESERVATION
     window.handleGridQtyChange = function(input) {
         calcBill(); 
         const wrapper = input.closest('tr'); 
@@ -951,7 +985,7 @@
             let html = '';
             for(let i=2; i<=qty; i++) { 
                 const val = existingVals[i-2] || ""; 
-                html += `<input type="text" maxlength="25" oninput="this.value=this.value.replace(/[^0-9A-Za-z]/g,''); this.setAttribute('value', this.value);" value="${val}" placeholder="IMEI ${i}" class="premium-input bg-slate-50 font-mono font-bold text-[9px] uppercase text-blue-600 b-imei-extra border-slate-300 shadow-sm !px-1 !h-[26px]">`; 
+                html += `<input type="text" maxlength="25" oninput="this.value=this.value.replace(/[^0-9A-Za-z]/g,''); this.setAttribute('value', this.value);" value="${val}" placeholder="IMEI ${i}" class="premium-input bg-slate-50 font-mono font-bold text-[9px] uppercase text-blue-600 b-imei-extra border-slate-200 shadow-sm !px-1 !h-[26px]">`; 
             }
             extBox.innerHTML = html;
         } else { 
@@ -1281,10 +1315,6 @@
         document.getElementById('inv-taxable').innerText = "₹ " + bill.basic.toLocaleString('en-IN', {minimumFractionDigits: 2}); 
         document.getElementById('inv-gst').innerText = "₹ " + bill.gst.toLocaleString('en-IN', {minimumFractionDigits: 2}); 
         
-        const discRow = document.getElementById('inv-disc-row');
-        if(bill.discount > 0 && discRow) { discRow.classList.remove('hidden'); document.getElementById('inv-disc').innerText = "- ₹ " + bill.discount.toLocaleString('en-IN'); } 
-        else if (discRow) { discRow.classList.add('hidden'); }
-
         document.getElementById('inv-total').innerText = "₹ " + bill.total.toLocaleString('en-IN'); document.getElementById('inv-paid').innerText = "₹ " + bill.paid.toLocaleString('en-IN'); document.getElementById('inv-bal').innerText = "₹ " + bill.due.toLocaleString('en-IN');
         document.getElementById("inv-qr").innerHTML = ""; new QRCode(document.getElementById("inv-qr"), { text: `upi://pay?pa=sriram.enterprise@upi&pn=SriRamEnterprises&am=${bill.total}`, width: 64, height: 64 });
         showView('invoice');
