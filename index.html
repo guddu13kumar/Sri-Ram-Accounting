@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>Sri Ram Enterprises - Premium POS</title>
+  <title>Sri Ram Enterprises - Enterprise POS</title>
   <meta name="theme-color" content="#0f172a" />
   
   <script src="https://cdn.tailwindcss.com"></script>
@@ -43,12 +43,25 @@
     .btn-ghost:hover { border-color: #3b82f6; color: #2563eb; background: #eff6ff; }
     .btn-ghost:active { transform: scale(0.96); }
 
+    /* ENTERPRISE SIDEBAR MENU SYSTEM */
+    .sidebar-category { font-size: 10px; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; margin-top: 20px; padding-left: 12px; opacity: 0.8; }
+    .sidebar-btn { width: 100%; display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 8px; color: #94a3b8; font-weight: 600; font-size: 12px; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); border-left: 3px solid transparent; position: relative; overflow: hidden; cursor: pointer; background: transparent; }
+    .sidebar-btn:hover { background-color: rgba(255, 255, 255, 0.05); color: #f8fafc; }
+    .sidebar-btn.active { background: linear-gradient(90deg, rgba(37,99,235,0.15) 0%, transparent 100%); color: #60a5fa; border-left-color: #3b82f6; }
+    .sidebar-btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent); transition: 0.4s; pointer-events: none; }
+    .sidebar-btn:hover::before { left: 100%; }
+    
+    .submenu-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: rgba(0,0,0,0.2); border-radius: 8px; margin-top: 4px; margin-left: 4px; margin-right: 4px; }
+    .has-submenu.open .submenu-content { max-height: 200px; }
+    .has-submenu.open .chevron { transform: rotate(180deg); }
+    .submenu-item { display: block; width: 100%; text-align: left; padding: 8px 12px 8px 36px; font-size: 11px; color: #94a3b8; font-weight: 600; transition: all 0.2s; border-radius: 6px; }
+    .submenu-item:hover { color: #fff; background: rgba(255,255,255,0.05); }
+
     /* DESIGN SYSTEM: TABLES */
     .bill-table { width: 100%; border-collapse: separate; border-spacing: 0; }
     .bill-table th { position: sticky; top: 0; background: rgba(248, 250, 252, 0.95); backdrop-filter: blur(8px); color: #64748b; font-size: 9px; font-weight: 900; text-transform: uppercase; padding: 10px; z-index: 10; border-bottom: 2px solid #e2e8f0; letter-spacing: 0.05em; }
     .bill-table td { padding: 8px 10px; background-color: #ffffff; border-bottom: 1px solid #f1f5f9; vertical-align: middle; transition: background-color 0.2s; }
     .bill-table tr:hover td { background-color: #f8fafc; }
-    
     th.standard-th { text-transform: uppercase; font-size: 10px; letter-spacing: 0.05em; color: #64748b; font-weight: 800; padding: 14px 12px; background-color: #f8fafc; border-bottom: 2px solid #e2e8f0; }
     td.standard-td { padding: 12px; font-size: 12px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; font-weight: 700; color: #334155; }
 
@@ -59,14 +72,11 @@
     /* ANIMATIONS */
     @keyframes slideUpFade { 0% { opacity: 0; transform: translateY(10px); } 100% { opacity: 1; transform: translateY(0); } }
     .view-section { animation: slideUpFade 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-    
     @keyframes popIn { 0% { transform: scale(0.95); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
     .modal-animate { animation: popIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-
     @keyframes slideInRight { 0% { transform: translateX(100%); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
     .toast-enter { animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
-    /* UTILS */
     input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
     
     @media print {
@@ -98,16 +108,18 @@
   <!-- THE PREMIUM ENTERPRISE HEADER -->
   <header class="glass-nav text-white flex justify-between items-center px-4 sm:px-6 py-2 z-30 shrink-0 shadow-lg relative">
     
-    <!-- LEFT: Logo & Brand -->
-    <div class="flex items-center space-x-3 cursor-pointer transition-transform active:scale-95 z-20" onclick="showView('dashboard')">
-      <div class="w-8 h-8 sm:w-9 sm:h-9 bg-gradient-to-tr from-blue-600 to-indigo-500 rounded-lg flex items-center justify-center font-black italic text-xs shadow-[0_0_15px_rgba(59,130,246,0.4)] border border-blue-400/30">SRE</div>
+    <!-- LEFT: Logo & Brand (Hidden on LG since it moves to Sidebar) -->
+    <div class="flex items-center space-x-3 cursor-pointer lg:hidden" onclick="showView('dashboard')">
+      <div class="w-8 h-8 bg-gradient-to-tr from-blue-600 to-indigo-500 rounded-lg flex items-center justify-center font-black italic text-xs shadow-[0_0_15px_rgba(59,130,246,0.4)] border border-blue-400/30">SRE</div>
       <div class="hidden sm:block">
         <h1 class="text-[13px] font-black tracking-widest uppercase leading-tight text-slate-50">Sri Ram Enterprises</h1>
-        <div class="flex items-center gap-1.5 mt-0.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]" id="network-indicator" title="Online"></span>
-            <p class="text-[8px] text-slate-400 font-bold tracking-widest uppercase">Enterprise Accounting</p>
-        </div>
       </div>
+    </div>
+    
+    <!-- LEFT (LG): Network Status (since logo is in sidebar) -->
+    <div class="hidden lg:flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]" id="network-indicator" title="System Online"></span>
+        <p class="text-[10px] text-slate-400 font-bold tracking-widest uppercase">System Online</p>
     </div>
 
     <!-- CENTER: Active Module Indicator -->
@@ -117,8 +129,7 @@
     </div>
 
     <!-- RIGHT: Controls & User Profile -->
-    <div class="flex items-center space-x-3 sm:space-x-4 z-20">
-       
+    <div class="flex items-center space-x-3 sm:space-x-4 z-20 ml-auto">
        <div class="hidden sm:flex items-center gap-2 mr-2">
            <button onclick="triggerSilentSync()" class="flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-800/80 hover:bg-slate-700 border border-slate-600/50 rounded-lg transition-colors text-slate-300 active:scale-95" title="Cloud Sync">
                <span class="text-[10px]">🔄</span> <span class="text-[8px] font-black tracking-widest uppercase">Sync</span>
@@ -155,21 +166,78 @@
   </header>
 
   <div class="flex flex-1 overflow-hidden">
-      <!-- SIDEBAR (Premium Dark Navy) -->
-      <aside class="hidden lg:flex flex-col w-[190px] bg-[#0f172a] text-slate-400 overflow-y-auto shrink-0 border-r border-slate-800 shadow-[4px_0_24px_rgba(0,0,0,0.1)] z-20">
-        <div class="p-3 space-y-1.5 font-black uppercase tracking-wider text-[9px] mt-2">
-          <p class="px-2 text-[8px] text-slate-500 mb-2">Main Menu</p>
-          <button onclick="showView('dashboard')" class="nav-btn w-full flex items-center space-x-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-3 py-2.5 rounded-xl transition-all shadow-lg shadow-blue-900/50" id="nav-dashboard"><span class="text-sm">🏠</span><span>Dashboard</span></button>
-          <button onclick="showView('product')" class="nav-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-slate-800 hover:text-slate-200 transition-colors" id="nav-product"><span class="text-sm">📦</span><span>Inventory</span></button>
-          
-          <p class="px-2 text-[8px] text-slate-500 mb-2 mt-4 border-t border-slate-800 pt-3">Billing & Trans.</p>
-          <button onclick="startBill('SALE')" class="nav-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-slate-800 hover:text-slate-200 transition-colors" id="nav-new-bill"><span class="text-sm text-blue-400">📈</span><span>Sales Bill</span></button>
-          <button onclick="startBill('PURCHASE')" class="nav-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-slate-800 hover:text-slate-200 transition-colors"><span class="text-sm text-emerald-400">🛒</span><span>Purchase</span></button>
-          <button onclick="startPayment('IN')" class="nav-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-slate-800 hover:text-slate-200 transition-colors" id="nav-payment"><span class="text-sm text-teal-400">💳</span><span>Voucher</span></button>
-          
-          <p class="px-2 text-[8px] text-slate-500 mb-2 mt-4 border-t border-slate-800 pt-3">Accounting</p>
-          <button onclick="showView('party')" class="nav-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-slate-800 hover:text-slate-200 transition-colors" id="nav-party"><span class="text-sm text-purple-400">👥</span><span>Accounts</span></button>
-          <button onclick="showView('ledger')" class="nav-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-slate-800 hover:text-slate-200 transition-colors" id="nav-ledger"><span class="text-sm text-amber-400">📒</span><span>Ledger</span></button>
+      
+      <!-- ENTERPRISE SIDEBAR -->
+      <aside class="hidden lg:flex flex-col w-[240px] bg-[#0f172a] text-slate-400 overflow-y-auto shrink-0 border-r border-slate-800 shadow-[4px_0_24px_rgba(0,0,0,0.2)] z-20">
+        
+        <!-- Sidebar Brand Logo -->
+        <div class="p-4 border-b border-slate-800/50 flex items-center gap-3">
+            <div class="w-10 h-10 bg-gradient-to-tr from-blue-600 to-indigo-500 rounded-xl flex items-center justify-center font-black text-white shadow-[0_0_15px_rgba(59,130,246,0.4)] text-sm border border-blue-400/20">SRE</div>
+            <div>
+                <h2 class="text-[13px] font-black tracking-widest text-slate-50 uppercase leading-tight">Sri Ram<br>Enterprises</h2>
+            </div>
+        </div>
+
+        <div class="p-3 pb-10 flex-1">
+            <!-- MAIN -->
+            <p class="sidebar-category">MAIN</p>
+            <button onclick="showView('dashboard')" class="sidebar-btn active" id="nav-dashboard" title="View Dashboard">
+                <span class="text-base drop-shadow">📊</span> <span>Dashboard</span>
+            </button>
+
+            <!-- TRANSACTIONS -->
+            <p class="sidebar-category">TRANSACTIONS</p>
+            <button onclick="startBill('SALE')" class="sidebar-btn" id="nav-sale" title="Create Sales Invoice">
+                <span class="text-base text-blue-400 drop-shadow">🛒</span> <span>Sales</span>
+            </button>
+            <button onclick="startBill('PURCHASE')" class="sidebar-btn" id="nav-purchase" title="Enter Purchase Bill">
+                <span class="text-base text-emerald-400 drop-shadow">📦</span> <span>Purchase</span>
+            </button>
+            <button onclick="startPayment('IN')" class="sidebar-btn" id="nav-receipt" title="Receive Payment">
+                <span class="text-base text-teal-400 drop-shadow">📥</span> <span>Receipt</span>
+            </button>
+            <button onclick="startPayment('OUT')" class="sidebar-btn" id="nav-payment-out" title="Make Payment">
+                <span class="text-base text-rose-400 drop-shadow">📤</span> <span>Payment</span>
+            </button>
+
+            <!-- MASTER -->
+            <p class="sidebar-category">MASTER</p>
+            <button onclick="showView('product')" class="sidebar-btn" id="nav-product" title="Manage Inventory">
+                <span class="text-base text-amber-400 drop-shadow">🏷️</span> <span>Products</span>
+            </button>
+            
+            <!-- Submenu Integration -->
+            <div class="has-submenu" id="nav-party-group">
+                <button onclick="this.parentElement.classList.toggle('open')" class="sidebar-btn justify-between" title="Manage Parties">
+                    <div class="flex items-center gap-3"><span class="text-base text-purple-400 drop-shadow">👥</span> <span>Directory</span></div>
+                    <span class="chevron text-[10px] transition-transform duration-300">▼</span>
+                </button>
+                <div class="submenu-content flex flex-col">
+                    <button onclick="showView('party'); setTimeout(()=>document.getElementById('pt-type').value='CUSTOMER',100);" class="submenu-item">Customers</button>
+                    <button onclick="showView('party'); setTimeout(()=>document.getElementById('pt-type').value='SUPPLIER',100);" class="submenu-item">Suppliers</button>
+                </div>
+            </div>
+
+            <!-- ACCOUNTS -->
+            <p class="sidebar-category">ACCOUNTS</p>
+            <button onclick="showView('ledger')" class="sidebar-btn" id="nav-ledger" title="View Financial Ledger">
+                <span class="text-base text-indigo-400 drop-shadow">📒</span> <span>Ledger</span>
+            </button>
+            <button onclick="showToast('Coming Soon', 'Outstanding module is under construction', 'success')" class="sidebar-btn" title="View Outstanding Balances">
+                <span class="text-base text-orange-400 drop-shadow">⏳</span> <span>Outstanding</span>
+            </button>
+            <button onclick="showToast('Coming Soon', 'Analytics & Reports engine under construction', 'success')" class="sidebar-btn" title="View Reports">
+                <span class="text-base text-cyan-400 drop-shadow">📈</span> <span>Reports</span>
+            </button>
+
+            <!-- SYSTEM -->
+            <p class="sidebar-category">SYSTEM</p>
+            <button onclick="backupData()" class="sidebar-btn" title="Push Data to Cloud">
+                <span class="text-base text-emerald-500 drop-shadow">☁️</span> <span>Backup</span>
+            </button>
+            <button onclick="showView('settings')" class="sidebar-btn" id="nav-settings" title="System Settings">
+                <span class="text-base text-slate-300 drop-shadow">⚙️</span> <span>Settings</span>
+            </button>
         </div>
       </aside>
 
@@ -212,9 +280,9 @@
                <div class="lg:col-span-1 glass-panel p-6 flex flex-col">
                    <h3 class="font-black text-xs uppercase text-slate-800 mb-4 border-b border-slate-100 pb-3 tracking-widest">Quick Actions</h3>
                  <div class="grid gap-3 flex-1">
-                   <button onclick="startBill('SALE')" class="w-full h-12 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700 rounded-xl font-black uppercase text-[10px] border border-blue-100 hover:border-blue-300 hover:shadow-md transition-all active:scale-95 flex items-center justify-center gap-2 tracking-widest"><span class="text-lg">🛒</span> Sales Invoice</button>
-                   <button onclick="startBill('PURCHASE')" class="w-full h-12 bg-gradient-to-r from-emerald-50 to-teal-50 text-emerald-700 rounded-xl font-black uppercase text-[10px] border border-emerald-100 hover:border-emerald-300 hover:shadow-md transition-all active:scale-95 flex items-center justify-center gap-2 tracking-widest"><span class="text-lg">📦</span> Purchase Entry</button>
-                   <button onclick="startPayment('IN')" class="w-full h-12 bg-gradient-to-r from-purple-50 to-fuchsia-50 text-purple-700 rounded-xl font-black uppercase text-[10px] border border-purple-100 hover:border-purple-300 hover:shadow-md transition-all active:scale-95 flex items-center justify-center gap-2 tracking-widest"><span class="text-lg">💳</span> Post Voucher</button>
+                   <button onclick="startBill('SALE')" class="w-full h-12 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700 rounded-xl font-black uppercase text-[10px] border border-blue-100 hover:border-blue-300 hover:shadow-md transition-all active:scale-95 flex items-center justify-center gap-2"><span class="text-lg">🛒</span> Sales Invoice</button>
+                   <button onclick="startBill('PURCHASE')" class="w-full h-12 bg-gradient-to-r from-emerald-50 to-teal-50 text-emerald-700 rounded-xl font-black uppercase text-[10px] border border-emerald-100 hover:border-emerald-300 hover:shadow-md transition-all active:scale-95 flex items-center justify-center gap-2"><span class="text-lg">📦</span> Purchase Entry</button>
+                   <button onclick="startPayment('IN')" class="w-full h-12 bg-gradient-to-r from-purple-50 to-fuchsia-50 text-purple-700 rounded-xl font-black uppercase text-[10px] border border-purple-100 hover:border-purple-300 hover:shadow-md transition-all active:scale-95 flex items-center justify-center gap-2"><span class="text-lg">💳</span> Post Voucher</button>
                  </div>
                </div>
             </div>
@@ -223,7 +291,7 @@
         <!-- 2. SETTINGS -->
         <div id="view-settings" class="view-section hidden space-y-4 max-w-xl mx-auto p-6 overflow-y-auto w-full">
             <h2 class="text-xl font-black text-slate-800 tracking-widest uppercase text-center mb-4 flex items-center justify-center gap-2">
-                <span class="text-2xl">☁️</span> Cloud Configuration
+                <span class="text-2xl">⚙️</span> System Settings
             </h2>
             <div class="glass-panel p-8 space-y-5">
                 <div>
@@ -235,14 +303,14 @@
                     <input type="text" id="settings-prefix" class="premium-input uppercase font-bold text-sm" placeholder="SRE-26-">
                 </div>
                 <div class="grid grid-cols-2 gap-3 mt-4">
-                    <button onclick="backupData()" class="bg-emerald-600 text-white font-black rounded-xl h-11 text-[10px] uppercase tracking-widest hover:bg-emerald-500 active:scale-95 transition-all shadow-md">Push Backup</button>
-                    <button onclick="restoreData()" class="bg-amber-500 text-white font-black rounded-xl h-11 text-[10px] uppercase tracking-widest hover:bg-amber-400 active:scale-95 transition-all shadow-md">Pull Data</button>
+                    <button onclick="backupData()" class="bg-emerald-600 text-white font-black rounded-xl h-11 text-[10px] uppercase tracking-widest hover:bg-emerald-500 active:scale-95 transition-all shadow-md">☁️ Push Backup</button>
+                    <button onclick="restoreData()" class="bg-amber-500 text-white font-black rounded-xl h-11 text-[10px] uppercase tracking-widest hover:bg-amber-400 active:scale-95 transition-all shadow-md">📥 Pull Data</button>
                 </div>
-                <button onclick="saveSettings()" class="btn-primary w-full h-12 text-[11px] mt-4">Save Settings</button>
+                <button onclick="saveSettings()" class="btn-primary w-full h-12 text-[11px] mt-4">Save Configuration</button>
                 
                 <div class="pt-6 mt-6 border-t border-slate-200 text-center">
                     <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">Offline Disaster Recovery</p>
-                    <button onclick="downloadLocalBackup()" class="w-full h-11 bg-slate-800 text-white font-black rounded-xl text-[10px] uppercase tracking-widest hover:bg-slate-700 active:scale-95 transition-all shadow-md">💾 Export JSON Database</button>
+                    <button onclick="downloadLocalBackup()" class="w-full h-11 bg-slate-800 text-white font-black rounded-xl text-[10px] uppercase tracking-widest hover:bg-slate-700 active:scale-95 transition-all shadow-md">💾 Export Local JSON Database</button>
                 </div>
             </div>
         </div>
@@ -474,7 +542,7 @@
             </div>
         </div>
 
-        <!-- 7. THE MASTER BILLING ENGINE (Compact & Premium) -->
+        <!-- 7. THE MASTER BILLING ENGINE (Zero Scroll + Compact UI) -->
         <div id="view-new-bill" class="view-section hidden h-full w-full flex-col p-2 sm:p-3 gap-2 sm:gap-3">
             
             <div class="glass-panel px-4 py-2.5 flex flex-wrap lg:flex-nowrap items-center justify-between gap-3 shrink-0 relative overflow-hidden">
@@ -661,8 +729,8 @@
         renderCategories(); renderProducts(); renderParties(); startBill('SALE'); 
     };
 
-    window.addEventListener('online', () => { document.getElementById('network-indicator').className = "w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]"; document.getElementById('network-indicator').title = "Online"; });
-    window.addEventListener('offline', () => { document.getElementById('network-indicator').className = "w-1.5 h-1.5 rounded-full bg-rose-500 shadow-[0_0_8px_#f43f5e]"; document.getElementById('network-indicator').title = "Offline"; });
+    window.addEventListener('online', () => { document.getElementById('network-indicator').className = "w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]"; document.getElementById('network-indicator').title = "System Online"; });
+    window.addEventListener('offline', () => { document.getElementById('network-indicator').className = "w-2 h-2 rounded-full bg-rose-500 shadow-[0_0_8px_#f43f5e]"; document.getElementById('network-indicator').title = "System Offline"; });
 
     function showToast(title, msg, type = 'success') {
         const container = document.getElementById('toast-container'); const t = document.createElement('div');
@@ -686,11 +754,20 @@
         document.getElementById('view-' + viewName).classList.remove('hidden');
         if(viewName==='new-bill') document.getElementById('view-' + viewName).classList.add('flex');
         
-        document.querySelectorAll('.nav-btn').forEach(el => { el.classList.remove('bg-gradient-to-r', 'from-blue-600', 'to-indigo-600', 'text-white', 'shadow-lg', 'shadow-blue-900/50'); el.classList.add('hover:bg-slate-800', 'hover:text-slate-200'); });
-        const activeNav = document.getElementById('nav-' + (viewName==='new-bill'?'new-bill':viewName));
-        if(activeNav) { activeNav.classList.add('bg-gradient-to-r', 'from-blue-600', 'to-indigo-600', 'text-white', 'shadow-lg', 'shadow-blue-900/50'); activeNav.classList.remove('hover:bg-slate-800', 'hover:text-slate-200'); }
+        // Handle Menu Highlights
+        document.querySelectorAll('.sidebar-btn').forEach(el => el.classList.remove('active'));
+        let navId = 'nav-' + viewName;
+        if(viewName === 'new-bill') navId = currentMode === 'SALE' ? 'nav-sale' : 'nav-purchase';
+        if(viewName === 'payment') navId = currentPaymentType === 'IN' ? 'nav-receipt' : 'nav-payment-out';
+        if(viewName === 'party') navId = 'nav-party-group';
         
-        const moduleTitles = { 'dashboard': 'BUSINESS OVERVIEW', 'product': 'INVENTORY MASTER', 'party': 'PARTY ACCOUNTS', 'ledger': 'FINANCIAL LEDGER', 'new-bill': currentMode + ' ENTRY', 'payment': 'VOUCHER ENTRY', 'settings': 'CLOUD SETTINGS', 'invoice': 'INVOICE PREVIEW' };
+        const activeNav = document.getElementById(navId);
+        if(activeNav) {
+            if(navId === 'nav-party-group') { activeNav.querySelector('button').classList.add('active'); activeNav.classList.add('open'); }
+            else activeNav.classList.add('active');
+        }
+        
+        const moduleTitles = { 'dashboard': 'BUSINESS OVERVIEW', 'product': 'INVENTORY MASTER', 'party': 'PARTY DIRECTORY', 'ledger': 'FINANCIAL LEDGER', 'new-bill': currentMode + ' ENTRY', 'payment': currentPaymentType === 'IN' ? 'RECEIPT VOUCHER' : 'PAYMENT VOUCHER', 'settings': 'CLOUD SETTINGS', 'invoice': 'INVOICE PREVIEW' };
         document.getElementById('header-module-title').innerText = moduleTitles[viewName] || viewName.toUpperCase();
 
         const bottomNav = document.getElementById("bottom-nav");
@@ -723,15 +800,14 @@
 
     function onPartySelect(val) {
         const q = val.trim().toUpperCase(), p = partiesDB.find(x => x.name.toUpperCase() === q || x.mobile === q), b = document.getElementById('party-balance-badge');
-        if(p) { document.getElementById('bill-party').value = p.name; b.innerText = `Old Bal: ₹${(p.ob||0).toLocaleString('en-IN')}`; b.className = `absolute right-12 text-[9px] font-black ${p.ob>0?'text-rose-600 bg-rose-50 border-rose-200':'text-emerald-600 bg-emerald-50 border-emerald-200'} px-2 py-1 rounded shadow-sm whitespace-nowrap transition-colors`; } 
-        else { b.innerText = "Bal: ₹0"; b.className = "absolute right-12 text-[9px] font-black text-slate-500 bg-slate-100 px-2 py-1 rounded border border-slate-200 shadow-sm whitespace-nowrap transition-colors"; }
+        if(p) { document.getElementById('bill-party').value = p.name; b.innerText = `Old Bal: ₹${(p.ob||0).toLocaleString('en-IN')}`; b.className = `text-[10px] font-black ${p.ob>0?'text-rose-600 bg-rose-50 border-rose-200':'text-emerald-600 bg-emerald-50 border-emerald-200'} px-2 py-1 rounded border shadow-sm whitespace-nowrap transition-colors`; } 
+        else { b.innerText = "Bal: ₹0"; b.className = "text-[10px] font-black text-slate-500 bg-slate-100 px-2 py-1 rounded border border-slate-200 shadow-sm whitespace-nowrap transition-colors"; }
     }
 
     // --- BILLING ENGINE ---
     function startBill(type) {
         currentMode = type;
         const bTitle = document.getElementById('bill-title'); if(bTitle) bTitle.innerText = type + " ENTRY";
-        document.getElementById('header-module-title').innerText = type + " ENTRY";
         const stp = document.getElementById('bill-color-strip'); if(stp) stp.className = type==="SALE"?"absolute left-0 top-0 w-1.5 h-full bg-blue-600":"absolute left-0 top-0 w-1.5 h-full bg-rose-600";
         document.getElementById('form-entry-type').innerText = type; document.getElementById('form-entry-type').className = type === "SALE" ? "text-[9px] font-black px-2.5 py-1 rounded bg-blue-100 text-blue-700 uppercase tracking-widest shrink-0 shadow-sm border border-blue-200/50" : "text-[9px] font-black px-2.5 py-1 rounded bg-rose-100 text-rose-700 uppercase tracking-widest shrink-0 shadow-sm border border-rose-200/50";
         document.getElementById('bill-party').value=''; document.getElementById('master-item-scan').value=''; document.getElementById('bill-date').value = getToday(); document.getElementById('bill-inv').value = type === "SALE" ? `${invPrefix}${(billsDB.length + 1).toString().padStart(3,'0')}` : `PUR-${(billsDB.length + 1).toString().padStart(3,'0')}`; 
@@ -750,7 +826,7 @@
                     if(prod.imeiList && prod.imeiList.includes(val)) { let m = found.querySelector('.b-imei-main'); if(!m.value) m.value = val; else { window.handleGridQtyChange(q); let ex = Array.from(found.querySelectorAll('.b-imei-extra')).find(i=>!i.value); if(ex) ex.value = val; } } else window.handleGridQtyChange(q);
                 } else { addBillRow(prod, val); if(rows[0] && !rows[0].querySelector('.b-name').value) rows[0].remove(); }
                 calcBill(); showToast("Added", `${prod.name} added to cart`);
-            } else showToast("Error", "Item not found in master", "error");
+            } else showToast("Not Found", "Item not in database", "error");
             e.target.value = ''; setTimeout(() => e.target.focus(), 10);
         }
     }
@@ -758,10 +834,11 @@
     function addBillRow(prod=null, scanVal=null, isFirst=false) {
         const tbody = document.getElementById('bill-items-body'), tr = document.createElement('tr'); tr.className = "group hover:bg-slate-50 transition-colors";
         let pName = prod ? prod.name : "", pRate = prod ? (currentMode === "SALE" ? prod.sale : prod.pur) : "", pGst = prod ? prod.gst : 18, pImei = (prod && prod.imeiList && prod.imeiList.includes(scanVal)) ? scanVal : "";
-        tr.innerHTML = `<td class="p-1.5 align-top pl-4"><input type="text" list="item-list" onchange="autoFillRate(this)" class="premium-input uppercase text-[11px] text-blue-800 font-black b-name !px-2 !h-[34px] border-transparent bg-transparent hover:border-slate-300 focus:bg-white transition-all shadow-none focus:shadow-sm" placeholder="Item Name" value="${pName}"></td><td class="p-1.5 align-top"><input type="number" oninput="calcBill()" class="premium-input text-[12px] text-right b-rate !px-2 !h-[34px] font-bold" placeholder="0" value="${pRate}"></td><td class="p-1.5 align-top"><select onchange="calcBill()" tabindex="-1" class="premium-input text-center text-[11px] font-bold b-gst !px-1 !h-[34px]"><option value="0" ${pGst==0?'selected':''}>0</option><option value="5" ${pGst==5?'selected':''}>5</option><option value="12" ${pGst==12?'selected':''}>12</option><option value="18" ${pGst==18?'selected':''}>18</option><option value="28" ${pGst==28?'selected':''}>28</option></select></td><td class="p-1.5 align-top"><input type="number" min="1" value="1" oninput="window.handleGridQtyChange(this)" onkeyup="window.handleGridQtyChange(this)" class="premium-input text-center font-black text-[#004aad] text-[13px] b-qty !px-1 !h-[34px]"></td><td class="p-1.5 align-top relative pr-6"><input type="text" maxlength="25" oninput="this.value=this.value.replace(/[^0-9A-Za-z]/g,'')" class="premium-input font-mono font-bold text-[11px] uppercase text-slate-600 b-imei-main !px-3 !h-[34px]" placeholder="IMEI 1" value="${pImei}"><div class="b-imei-extended hidden imei-grid-container"></div>${!isFirst ? `<button onclick="this.closest('tr').remove(); calcBill();" tabindex="-1" class="absolute right-2 top-2.5 w-6 h-6 flex items-center justify-center text-rose-400 hover:text-rose-600 hover:bg-rose-50 rounded-full font-black opacity-0 group-hover:opacity-100 transition-all">✕</button>` : ''}</td>`;
+        tr.innerHTML = `<td class="p-1.5 align-top pl-4"><input type="text" list="item-list" onchange="autoFillRate(this)" class="premium-input uppercase text-[11px] text-blue-800 font-black b-name !px-2 !h-[34px] border-transparent bg-transparent hover:border-slate-300 focus:bg-white transition-all shadow-none focus:shadow-sm" placeholder="Item Name" value="${pName}"></td><td class="p-1.5 align-top"><input type="number" oninput="calcBill()" class="premium-input text-[12px] text-right b-rate !px-2 !h-[34px] font-bold" placeholder="0" value="${pRate}"></td><td class="p-1.5 align-top"><select onchange="calcBill()" tabindex="-1" class="premium-input text-center text-[11px] font-bold b-gst !px-1 !h-[34px]"><option value="0" ${pGst==0?'selected':''}>0</option><option value="5" ${pGst==5?'selected':''}>5</option><option value="12" ${pGst==12?'selected':''}>12</option><option value="18" ${pGst==18?'selected':''}>18</option><option value="28" ${pGst==28?'selected':''}>28</option></select></td><td class="p-1.5 align-top"><input type="number" min="1" value="1" oninput="window.handleGridQtyChange(this)" onkeyup="window.handleGridQtyChange(this)" class="premium-input text-center font-black text-[#004aad] text-[13px] b-qty !px-1 !h-[34px]"></td><td class="p-1.5 align-top relative pr-6"><input type="text" maxlength="25" oninput="this.value=this.value.replace(/[^0-9A-Za-z]/g,'')" class="premium-input font-mono font-bold text-[11px] uppercase text-slate-600 b-imei-main !px-3 !h-[34px]" placeholder="IMEI 1" value="${pImei}"><div class="b-imei-extended hidden imei-grid-container mt-1 gap-1"></div>${!isFirst ? `<button onclick="this.closest('tr').remove(); calcBill();" tabindex="-1" class="absolute right-2 top-2.5 w-6 h-6 flex items-center justify-center text-rose-400 hover:text-rose-600 hover:bg-rose-50 rounded-full font-black opacity-0 group-hover:opacity-100 transition-all">✕</button>` : ''}</td>`;
         tbody.appendChild(tr); const s = document.getElementById('bill-items-container'); if(s) s.scrollTop = s.scrollHeight;
     }
 
+    // THE APPLE-STYLE IMEI GRID
     window.handleGridQtyChange = function(input) {
         calcBill(); const tr = input.closest('tr'), qty = Math.max(1, Number(input.value)||1), extBox = tr.querySelector('.b-imei-extended');
         if(qty > 1) {
