@@ -3,34 +3,71 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>Sri Ram Enterprises - Enterprise POS</title>
+  <title>Sri Ram Enterprises - Premium POS</title>
   <meta name="theme-color" content="#0f172a" />
+  
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
-    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f1f5f9; color: #1e293b; overflow: hidden; height: 100vh; width: 100vw; margin: 0; display: flex; flex-direction: column; }
-    ::-webkit-scrollbar { width: 4px; height: 4px; }
-    ::-webkit-scrollbar-track { background: transparent; }
+    
+    /* GLOBAL RESET & STRICT NO-SCROLL */
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f4f7fb; color: #1e293b; overflow: hidden; height: 100vh; width: 100vw; margin: 0; display: flex; flex-direction: column; }
+    
+    /* PREMIUM SCROLLBAR */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: rgba(0,0,0,0.02); border-radius: 10px; }
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-    .glass-panel { background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-    .premium-input { font-size: 12px !important; padding-left: 10px; padding-right: 10px; border-radius: 4px; border: 1px solid #cbd5e1; width: 100%; outline: none; transition: all 0.2s; font-weight: 700; color: #0f172a; background-color: #fff; }
-    .premium-input:focus { border-color: #2563eb; box-shadow: 0 0 0 2px rgba(37,99,235,0.15); }
-    select.premium-input, input.premium-input:not([type="checkbox"]) { height: 32px; }
+    
+    /* DESIGN SYSTEM: PANELS & GLASS */
+    .glass-panel { background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.8); box-shadow: 0 8px 30px rgba(0,0,0,0.03); border-radius: 16px; transition: all 0.3s ease; }
+    .glass-nav { background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+    
+    /* DESIGN SYSTEM: INPUTS */
+    .premium-input { font-size: 12px !important; padding-left: 12px; padding-right: 12px; border-radius: 10px; border: 1.5px solid #e2e8f0; width: 100%; outline: none; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); font-weight: 700; color: #0f172a; background-color: #f8fafc; box-shadow: inset 0 2px 4px rgba(0,0,0,0.01); }
+    .premium-input:focus { border-color: #3b82f6; background-color: #ffffff; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1); transform: translateY(-1px); }
+    .premium-input::placeholder { color: #94a3b8; font-weight: 600; }
+    select.premium-input, input.premium-input:not([type="checkbox"]) { height: 36px; }
+    
+    /* DESIGN SYSTEM: BUTTONS */
+    .btn-primary { background: linear-gradient(135deg, #2563eb, #4f46e5); color: white; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3); transition: all 0.2s; border-radius: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em; }
+    .btn-primary:hover { box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4); transform: translateY(-1px); }
+    .btn-primary:active { transform: scale(0.96); box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3); }
+    
+    .btn-ghost { background: transparent; border: 1.5px dashed #94a3b8; color: #475569; transition: all 0.2s; border-radius: 10px; font-weight: 800; }
+    .btn-ghost:hover { border-color: #3b82f6; color: #2563eb; background: #eff6ff; }
+    .btn-ghost:active { transform: scale(0.96); }
+
+    /* DESIGN SYSTEM: TABLES */
     .bill-table { width: 100%; border-collapse: separate; border-spacing: 0; }
-    .bill-table th { position: sticky; top: 0; background-color: #f8fafc; color: #475569; font-size: 9px; font-weight: 800; text-transform: uppercase; padding: 8px; z-index: 10; border-bottom: 2px solid #e2e8f0; text-align: left; }
-    .bill-table td { padding: 6px 8px; background-color: #ffffff; border-bottom: 1px solid #f1f5f9; vertical-align: top; }
+    .bill-table th { position: sticky; top: 0; background: rgba(248, 250, 252, 0.95); backdrop-filter: blur(8px); color: #64748b; font-size: 9px; font-weight: 900; text-transform: uppercase; padding: 10px; z-index: 10; border-bottom: 2px solid #e2e8f0; letter-spacing: 0.05em; }
+    .bill-table td { padding: 8px 10px; background-color: #ffffff; border-bottom: 1px solid #f1f5f9; vertical-align: middle; transition: background-color 0.2s; }
     .bill-table tr:hover td { background-color: #f8fafc; }
-    .imei-extra-input { border: 1px dashed #94a3b8; border-radius: 4px; padding: 2px 6px; font-size: 9px; font-family: monospace; font-weight: bold; color: #2563eb; width: 110px; height: 24px; outline: none; background: #f8fafc; }
-    .imei-extra-input:focus { border-color: #2563eb; background: #fff; }
-    th.standard-th { text-transform: uppercase; font-size: 10px; letter-spacing: 0.05em; color: #475569; font-weight: 800; padding: 12px; background-color: #f8fafc; border-bottom: 2px solid #e2e8f0; text-align: left; }
-    td.standard-td { padding: 12px; font-size: 12px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; font-weight: 600; }
-    @keyframes popIn { 0% { transform: scale(0.9); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+    
+    th.standard-th { text-transform: uppercase; font-size: 10px; letter-spacing: 0.05em; color: #64748b; font-weight: 800; padding: 14px 12px; background-color: #f8fafc; border-bottom: 2px solid #e2e8f0; }
+    td.standard-td { padding: 12px; font-size: 12px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; font-weight: 700; color: #334155; }
+
+    /* IMEI GRID (Apple Style) */
+    .imei-extra-input { border: 1.5px dashed #cbd5e1; border-radius: 8px; padding: 4px 8px; font-size: 10px; font-family: 'Courier New', Courier, monospace; font-weight: 900; color: #3b82f6; width: 120px; height: 28px; outline: none; background: #f8fafc; transition: all 0.2s; }
+    .imei-extra-input:focus { border-color: #3b82f6; background: #ffffff; box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
+
+    /* ANIMATIONS */
+    @keyframes slideUpFade { 0% { opacity: 0; transform: translateY(10px); } 100% { opacity: 1; transform: translateY(0); } }
+    .view-section { animation: slideUpFade 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    
+    @keyframes popIn { 0% { transform: scale(0.95); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
     .modal-animate { animation: popIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+    @keyframes slideInRight { 0% { transform: translateX(100%); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
+    .toast-enter { animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+    /* UTILS */
     input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    
     @media print {
         @page { size: auto; margin: 0mm; } body * { visibility: hidden; } #print-container, #print-container * { visibility: visible; }
         #print-container { position: absolute; left: 0; top: 0; width: 100% !important; margin: 0 !important; background: white; display:flex; justify-content:center; }
@@ -40,226 +77,637 @@
   </style>
 </head>
 <body>
+
   <datalist id="item-list"></datalist>
   <datalist id="party-list"></datalist>
-  <div id="toast-container" class="fixed top-5 right-5 z-[150] flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- TOAST CONTAINER -->
+  <div id="toast-container" class="fixed top-5 right-5 z-[150] flex flex-col gap-3 pointer-events-none"></div>
 
   <!-- CENTER POPUP -->
-  <div id="center-popup" class="fixed inset-0 bg-slate-900/60 z-[120] hidden flex items-center justify-center backdrop-blur-sm">
-    <div class="bg-white p-6 rounded-2xl shadow-2xl text-center max-w-sm w-full modal-animate">
-      <div id="popup-icon" class="text-5xl mb-2">✅</div>
-      <h3 id="popup-title" class="text-lg font-black text-[#004aad] uppercase tracking-wider">Message</h3>
-      <p id="popup-message" class="text-xs font-bold text-slate-500 mt-1 mb-4">Success</p>
-      <button onclick="closePopup()" class="w-full py-2.5 bg-[#004aad] text-white font-black rounded-lg uppercase tracking-widest text-xs shadow hover:bg-blue-800">OK (Enter)</button>
+  <div id="center-popup" class="fixed inset-0 bg-slate-900/40 z-[120] hidden flex items-center justify-center backdrop-blur-[2px]">
+    <div class="bg-white p-8 rounded-2xl shadow-2xl text-center max-w-sm w-full modal-animate border border-slate-100">
+      <div id="popup-icon" class="text-5xl mb-3">✅</div>
+      <h3 id="popup-title" class="text-lg font-black text-slate-800 uppercase tracking-widest">Message</h3>
+      <p id="popup-message" class="text-xs font-bold text-slate-500 mt-2 mb-6">Operation successful.</p>
+      <button onclick="closePopup()" class="btn-primary w-full py-3 text-xs">OK (Enter)</button>
     </div>
   </div>
 
-  <!-- HEADER -->
-  <header class="bg-[#0f172a] text-white flex justify-between items-center px-4 py-1.5 z-30 shrink-0 shadow-md">
-    <div class="flex items-center space-x-3 cursor-pointer" onclick="showView('dashboard')">
-      <div class="w-7 h-7 bg-blue-500 text-white rounded flex items-center justify-center font-black italic text-xs border border-white/20">SRE</div>
-      <h1 class="text-xs font-black tracking-widest uppercase">Sri Ram Enterprises</h1>
+  <!-- HEADER (Glassmorphism & Dark Navy) -->
+  <header class="glass-nav text-white flex justify-between items-center px-5 py-2.5 z-30 shrink-0 shadow-md">
+    <div class="flex items-center space-x-3 cursor-pointer transition-transform active:scale-95" onclick="showView('dashboard')">
+      <div class="w-8 h-8 bg-gradient-to-tr from-blue-500 to-indigo-500 rounded-lg flex items-center justify-center font-black italic text-xs shadow-lg border border-white/20">SRE</div>
+      <div>
+        <h1 class="text-sm font-black tracking-widest uppercase leading-tight">Sri Ram Enterprises</h1>
+        <p class="text-[8px] text-blue-300 font-bold tracking-widest uppercase opacity-80">Premium Enterprise POS</p>
+      </div>
     </div>
-    <div class="flex items-center space-x-3">
-       <span class="text-[9px] text-blue-300 font-bold tracking-widest hidden sm:inline border-r border-slate-700 pr-3">F2: SALE | F3: PUR | F4: PAY</span>
-       <button onclick="showView('settings')" class="hover:text-blue-300">⚙️</button>
+    <div class="flex items-center space-x-4">
+       <span class="text-[9px] text-slate-400 font-bold tracking-widest hidden sm:flex items-center gap-2 border-r border-slate-700 pr-4">
+           <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">F2: SALE</span>
+           <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">F3: PUR</span>
+           <span class="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">F4: PAY</span>
+       </span>
+       <button onclick="showView('settings')" class="text-slate-300 hover:text-white transition-colors hover:rotate-90 duration-300">
+           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+       </button>
     </div>
   </header>
 
   <div class="flex flex-1 overflow-hidden">
-      <!-- SIDEBAR -->
-      <aside class="hidden lg:flex flex-col w-[180px] bg-slate-900 text-slate-400 overflow-y-auto shrink-0 border-r border-slate-800">
-        <div class="p-2 space-y-1 font-black uppercase tracking-wider text-[9px]">
-          <button onclick="showView('dashboard')" class="nav-btn w-full flex items-center space-x-2 bg-blue-600 text-white px-2 py-2 rounded transition-all" id="nav-dashboard"><span class="text-base">🏠</span><span>Dashboard</span></button>
-          <button onclick="showView('product')" class="nav-btn w-full flex items-center space-x-2 px-2 py-2 rounded hover:bg-slate-800 hover:text-white" id="nav-product"><span class="text-base">📦</span><span>Items Master</span></button>
-          <button onclick="startBill('SALE')" class="nav-btn w-full flex items-center space-x-2 px-2 py-2 rounded hover:bg-slate-800 hover:text-white" id="nav-new-bill"><span class="text-base text-blue-400">📈</span><span>Sales Bill</span></button>
-          <button onclick="startBill('PURCHASE')" class="nav-btn w-full flex items-center space-x-2 px-2 py-2 rounded hover:bg-slate-800 hover:text-white"><span class="text-base text-emerald-400">🛒</span><span>Purchase</span></button>
-          <button onclick="startPayment('IN')" class="nav-btn w-full flex items-center space-x-2 px-2 py-2 rounded hover:bg-slate-800 hover:text-white" id="nav-payment"><span class="text-base text-teal-400">💳</span><span>Voucher</span></button>
-          <button onclick="showView('party')" class="nav-btn w-full flex items-center space-x-2 px-2 py-2 rounded hover:bg-slate-800 hover:text-white" id="nav-party"><span class="text-base text-purple-400">👥</span><span>Accounts</span></button>
-          <button onclick="showView('ledger')" class="nav-btn w-full flex items-center space-x-2 px-2 py-2 rounded hover:bg-slate-800 hover:text-white" id="nav-ledger"><span class="text-base text-amber-400">📒</span><span>Ledger</span></button>
+      <!-- SIDEBAR (Premium Dark Navy) -->
+      <aside class="hidden lg:flex flex-col w-[190px] bg-[#0f172a] text-slate-400 overflow-y-auto shrink-0 border-r border-slate-800 shadow-[4px_0_24px_rgba(0,0,0,0.1)] z-20">
+        <div class="p-3 space-y-1.5 font-black uppercase tracking-wider text-[9px] mt-2">
+          <p class="px-2 text-[8px] text-slate-500 mb-2">Main Menu</p>
+          <button onclick="showView('dashboard')" class="nav-btn w-full flex items-center space-x-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-3 py-2.5 rounded-xl transition-all shadow-lg shadow-blue-900/50" id="nav-dashboard"><span class="text-sm">🏠</span><span>Dashboard</span></button>
+          <button onclick="showView('product')" class="nav-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-slate-800 hover:text-slate-200 transition-colors" id="nav-product"><span class="text-sm">📦</span><span>Inventory</span></button>
+          
+          <p class="px-2 text-[8px] text-slate-500 mb-2 mt-4 border-t border-slate-800 pt-3">Billing & Trans.</p>
+          <button onclick="startBill('SALE')" class="nav-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-slate-800 hover:text-slate-200 transition-colors" id="nav-new-bill"><span class="text-sm text-blue-400">📈</span><span>Sales Bill</span></button>
+          <button onclick="startBill('PURCHASE')" class="nav-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-slate-800 hover:text-slate-200 transition-colors"><span class="text-sm text-emerald-400">🛒</span><span>Purchase</span></button>
+          <button onclick="startPayment('IN')" class="nav-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-slate-800 hover:text-slate-200 transition-colors" id="nav-payment"><span class="text-sm text-teal-400">💳</span><span>Voucher</span></button>
+          
+          <p class="px-2 text-[8px] text-slate-500 mb-2 mt-4 border-t border-slate-800 pt-3">Accounting</p>
+          <button onclick="showView('party')" class="nav-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-slate-800 hover:text-slate-200 transition-colors" id="nav-party"><span class="text-sm text-purple-400">👥</span><span>Accounts</span></button>
+          <button onclick="showView('ledger')" class="nav-btn w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-slate-800 hover:text-slate-200 transition-colors" id="nav-ledger"><span class="text-sm text-amber-400">📒</span><span>Ledger</span></button>
         </div>
       </aside>
 
-      <main class="flex-1 flex flex-col overflow-hidden bg-slate-200 w-full relative">
+      <!-- MAIN CONTENT AREA -->
+      <main class="flex-1 flex flex-col overflow-hidden bg-[#f4f7fb] w-full relative">
 
         <!-- 1. DASHBOARD -->
-        <div id="view-dashboard" class="view-section hidden flex-col space-y-4 max-w-7xl mx-auto w-full p-4 overflow-y-auto">
-            <h2 class="text-lg font-black text-[#0f172a] uppercase tracking-widest">Business Overview</h2>
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
-                <div class="glass-panel p-4 rounded-xl border-l-4 border-l-blue-500"><p class="text-[9px] text-slate-500 font-bold uppercase">Gross Sales</p><h3 class="text-xl font-black text-slate-800 mt-1" id="dash-sale">₹ 0</h3></div>
-                <div class="glass-panel p-4 rounded-xl border-l-4 border-l-emerald-500"><p class="text-[9px] text-emerald-600 font-bold uppercase">Net Profit</p><h3 class="text-xl font-black text-emerald-700 mt-1" id="dash-profit">₹ 0</h3></div>
-                <div class="glass-panel p-4 rounded-xl border-l-4 border-l-amber-500"><p class="text-[9px] text-slate-500 font-bold uppercase">SKUs</p><h3 class="text-xl font-black text-slate-800 mt-1" id="dash-prod-count">0</h3></div>
-                <div class="glass-panel p-4 rounded-xl border-l-4 border-l-purple-500"><p class="text-[9px] text-slate-500 font-bold uppercase">Accounts</p><h3 class="text-xl font-black text-slate-800 mt-1" id="dash-party-count">0</h3></div>
+        <div id="view-dashboard" class="view-section hidden flex-col space-y-4 max-w-7xl mx-auto w-full p-6 overflow-y-auto">
+            <h2 class="text-xl font-black text-slate-800 uppercase tracking-widest flex items-center gap-2">
+                <span class="w-1.5 h-6 bg-blue-600 rounded-full inline-block"></span> Business Overview
+            </h2>
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="glass-panel p-5 relative overflow-hidden group">
+                    <div class="absolute -right-4 -top-4 w-16 h-16 bg-blue-50 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest relative z-10">Gross Sales</p>
+                    <h3 class="text-2xl font-black text-slate-800 mt-1 relative z-10" id="dash-sale">₹ 0</h3>
+                </div>
+                <div class="glass-panel p-5 relative overflow-hidden group bg-gradient-to-br from-white to-emerald-50/30 border-emerald-100">
+                    <div class="absolute -right-4 -top-4 w-16 h-16 bg-emerald-50 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+                    <p class="text-[10px] text-emerald-600 font-bold uppercase tracking-widest relative z-10">Net Profit</p>
+                    <h3 class="text-2xl font-black text-emerald-700 mt-1 relative z-10" id="dash-profit">₹ 0</h3>
+                </div>
+                <div class="glass-panel p-5 relative overflow-hidden group">
+                    <div class="absolute -right-4 -top-4 w-16 h-16 bg-amber-50 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest relative z-10">Active SKUs</p>
+                    <h3 class="text-2xl font-black text-slate-800 mt-1 relative z-10" id="dash-prod-count">0</h3>
+                </div>
+                <div class="glass-panel p-5 relative overflow-hidden group">
+                    <div class="absolute -right-4 -top-4 w-16 h-16 bg-purple-50 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest relative z-10">Ledger Accounts</p>
+                    <h3 class="text-2xl font-black text-slate-800 mt-1 relative z-10" id="dash-party-count">0</h3>
+                </div>
             </div>
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-2">
-               <div class="lg:col-span-2 glass-panel rounded-xl p-4"><h3 class="font-black text-[11px] uppercase text-slate-800 mb-2 border-b pb-2">Analytics</h3><div class="h-[250px] w-full"><canvas id="businessChart"></canvas></div></div>
-               <div class="lg:col-span-1 glass-panel rounded-xl p-4 flex flex-col"><h3 class="font-black text-[11px] uppercase text-slate-800 mb-2 border-b pb-2">Operations</h3>
-                 <div class="grid gap-2 flex-1"><button onclick="startBill('SALE')" class="w-full h-10 bg-blue-50 text-blue-700 rounded font-black uppercase text-[10px] border border-blue-200">🛒 Sales Invoice</button><button onclick="startBill('PURCHASE')" class="w-full h-10 bg-emerald-50 text-emerald-700 rounded font-black uppercase text-[10px] border border-emerald-200">📦 Purchase Entry</button><button onclick="startPayment('IN')" class="w-full h-10 bg-purple-50 text-purple-700 rounded font-black uppercase text-[10px] border border-purple-200">💳 Voucher</button></div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-4">
+               <div class="lg:col-span-2 glass-panel p-6">
+                   <h3 class="font-black text-xs uppercase text-slate-800 mb-4 border-b border-slate-100 pb-3 tracking-widest">Revenue Analytics</h3>
+                   <div class="h-[250px] w-full"><canvas id="businessChart"></canvas></div>
+               </div>
+               <div class="lg:col-span-1 glass-panel p-6 flex flex-col">
+                   <h3 class="font-black text-xs uppercase text-slate-800 mb-4 border-b border-slate-100 pb-3 tracking-widest">Quick Actions</h3>
+                 <div class="grid gap-3 flex-1">
+                   <button onclick="startBill('SALE')" class="w-full h-12 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700 rounded-xl font-black uppercase text-[10px] border border-blue-100 hover:border-blue-300 hover:shadow-md transition-all active:scale-95 flex items-center justify-center gap-2"><span class="text-lg">🛒</span> Sales Invoice</button>
+                   <button onclick="startBill('PURCHASE')" class="w-full h-12 bg-gradient-to-r from-emerald-50 to-teal-50 text-emerald-700 rounded-xl font-black uppercase text-[10px] border border-emerald-100 hover:border-emerald-300 hover:shadow-md transition-all active:scale-95 flex items-center justify-center gap-2"><span class="text-lg">📦</span> Purchase Entry</button>
+                   <button onclick="startPayment('IN')" class="w-full h-12 bg-gradient-to-r from-purple-50 to-fuchsia-50 text-purple-700 rounded-xl font-black uppercase text-[10px] border border-purple-100 hover:border-purple-300 hover:shadow-md transition-all active:scale-95 flex items-center justify-center gap-2"><span class="text-lg">💳</span> Post Voucher</button>
+                 </div>
                </div>
             </div>
         </div>
 
         <!-- 2. SETTINGS -->
-        <div id="view-settings" class="view-section hidden space-y-4 max-w-xl mx-auto p-4 overflow-y-auto">
-            <h2 class="text-lg font-black text-slate-800 tracking-widest uppercase text-center mb-2">Cloud Sync Settings</h2>
-            <div class="glass-panel p-6 rounded-xl space-y-4">
-                <div><label class="text-[10px] font-black text-slate-500 uppercase block mb-1">Google AppScript URL</label><input type="text" id="settings-url" class="premium-input"></div>
-                <div><label class="text-[10px] font-black text-slate-500 uppercase block mb-1">Invoice Prefix</label><input type="text" id="settings-prefix" class="premium-input uppercase" placeholder="SRE-26-"></div>
-                <div class="grid grid-cols-2 gap-2 mt-2"><button onclick="backupData()" class="bg-emerald-600 text-white font-black rounded h-10 text-[9px] uppercase">☁️ Push Backup</button><button onclick="restoreData()" class="bg-amber-500 text-white font-black rounded h-10 text-[9px] uppercase">📥 Pull Backup</button></div>
-                <button onclick="saveSettings()" class="w-full h-10 bg-[#004aad] text-white font-black rounded text-[10px] uppercase mt-2">Save Setup</button>
-                <div class="pt-4 mt-4 border-t text-center"><button onclick="downloadLocalBackup()" class="w-full h-10 bg-slate-800 text-white font-black rounded text-[9px] uppercase">💾 Local Offline JSON Backup</button></div>
+        <div id="view-settings" class="view-section hidden space-y-4 max-w-xl mx-auto p-6 overflow-y-auto">
+            <h2 class="text-xl font-black text-slate-800 tracking-widest uppercase text-center mb-4 flex items-center justify-center gap-2">
+                <span class="text-2xl">☁️</span> Cloud Configuration
+            </h2>
+            <div class="glass-panel p-8 space-y-5">
+                <div>
+                    <label class="text-[10px] font-black text-slate-500 uppercase block mb-1.5 tracking-widest">Google AppScript URL *</label>
+                    <input type="text" id="settings-url" class="premium-input text-blue-700 font-mono text-xs">
+                </div>
+                <div>
+                    <label class="text-[10px] font-black text-slate-500 uppercase block mb-1.5 tracking-widest">Invoice Prefix</label>
+                    <input type="text" id="settings-prefix" class="premium-input uppercase font-bold text-sm" placeholder="SRE-26-">
+                </div>
+                <div class="grid grid-cols-2 gap-3 mt-4">
+                    <button onclick="backupData()" class="bg-emerald-600 text-white font-black rounded-xl h-11 text-[10px] uppercase tracking-widest hover:bg-emerald-500 active:scale-95 transition-all shadow-md">Push Backup</button>
+                    <button onclick="restoreData()" class="bg-amber-500 text-white font-black rounded-xl h-11 text-[10px] uppercase tracking-widest hover:bg-amber-400 active:scale-95 transition-all shadow-md">Pull Data</button>
+                </div>
+                <button onclick="saveSettings()" class="btn-primary w-full h-12 text-[11px] mt-4">Save Settings</button>
+                
+                <div class="pt-6 mt-6 border-t border-slate-200 text-center">
+                    <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">Offline Disaster Recovery</p>
+                    <button onclick="downloadLocalBackup()" class="w-full h-11 bg-slate-800 text-white font-black rounded-xl text-[10px] uppercase tracking-widest hover:bg-slate-700 active:scale-95 transition-all shadow-md">💾 Export JSON Database</button>
+                </div>
             </div>
         </div>
 
         <!-- 3. PRODUCT MASTER -->
-        <div id="view-product" class="view-section hidden flex-col h-full w-full p-2 overflow-y-auto">
-            <div class="flex justify-between items-center pb-2 shrink-0">
-                <h2 class="text-lg font-black text-slate-800 uppercase">Inventory Master</h2>
-                <div class="flex gap-2">
+        <div id="view-product" class="view-section hidden flex-col h-full w-full p-4 overflow-y-auto">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-4 shrink-0">
+                <h2 class="text-xl font-black text-slate-800 uppercase tracking-widest flex items-center gap-2">
+                    <span class="w-1.5 h-6 bg-blue-600 rounded-full inline-block"></span> Inventory Master
+                </h2>
+                <div class="flex flex-wrap gap-2 w-full sm:w-auto">
                     <input type="file" id="csv-upload" accept=".csv" class="hidden" onchange="importProductsCSV(event)" />
-                    <button onclick="document.getElementById('csv-upload').click()" class="px-3 h-8 bg-emerald-50 text-emerald-700 border border-emerald-200 font-black text-[9px] uppercase rounded">Import</button>
-                    <button onclick="exportProductsCSV()" class="px-3 h-8 bg-slate-100 text-slate-700 border border-slate-200 font-black text-[9px] uppercase rounded">Export</button>
-                    <button onclick="document.getElementById('add-product-form').scrollIntoView({behavior:'smooth'})" class="px-4 h-8 bg-blue-600 text-white font-black text-[10px] uppercase rounded shadow">➕ Add Item</button>
+                    <button onclick="document.getElementById('csv-upload').click()" class="px-4 h-9 bg-emerald-50 text-emerald-700 border border-emerald-200 font-black text-[10px] uppercase rounded-xl hover:bg-emerald-100 active:scale-95 transition-all">Import CSV</button>
+                    <button onclick="exportProductsCSV()" class="px-4 h-9 bg-slate-100 text-slate-700 border border-slate-200 font-black text-[10px] uppercase rounded-xl hover:bg-slate-200 active:scale-95 transition-all">Export</button>
+                    <button onclick="document.getElementById('add-product-form').scrollIntoView({behavior:'smooth'})" class="btn-primary px-5 h-9 text-[10px] shadow-md ml-1">➕ Add Item</button>
                 </div>
             </div>
-            <div class="glass-panel rounded flex flex-col shadow-sm mb-4 shrink-0">
-                <div class="p-2 border-b bg-white flex gap-2"><input type="text" id="prod-search" oninput="debouncedRenderProducts()" placeholder="Search Name, SKU, IMEI..." class="premium-input text-xs flex-1" /><select id="filter-category" onchange="renderProducts()" class="cat-select premium-input w-40"></select></div>
-                <div class="overflow-x-auto max-h-[40vh]"><table class="w-full text-left min-w-[900px]"><thead class="bg-slate-50 sticky top-0 shadow-sm"><tr><th class="standard-th w-12 text-center">Img</th><th class="standard-th">Product Details</th><th class="standard-th">SKU/HSN</th><th class="standard-th text-right">Pur. Rate</th><th class="standard-th text-right text-blue-600">Sale Price</th><th class="standard-th text-center">Stock</th><th class="standard-th text-center">Status</th><th class="standard-th text-center">Act</th></tr></thead><tbody id="product-table-body" class="text-slate-700 divide-y divide-slate-100"></tbody></table></div>
+
+            <div class="glass-panel flex flex-col shadow-sm mb-5 shrink-0 overflow-hidden">
+                <div class="p-3 border-b border-slate-100 bg-slate-50/50 flex flex-col sm:flex-row gap-3 items-center">
+                    <div class="relative w-full flex-1">
+                        <span class="absolute left-3 top-2.5 text-slate-400">🔍</span>
+                        <input type="text" id="prod-search" oninput="debouncedRenderProducts()" placeholder="Search Item, Brand, Category, SKU or IMEI..." class="premium-input !pl-9 text-xs w-full shadow-sm" />
+                    </div>
+                    <select id="filter-category" onchange="renderProducts()" class="cat-select premium-input w-full sm:w-48 shadow-sm"></select>
+                </div>
+                <div class="overflow-x-auto max-h-[40vh]">
+                    <table class="w-full text-left min-w-[900px]">
+                        <thead class="bg-slate-50 sticky top-0 shadow-sm z-10">
+                            <tr>
+                                <th class="standard-th w-14 text-center">Img</th>
+                                <th class="standard-th">Product Details</th>
+                                <th class="standard-th">SKU/HSN</th>
+                                <th class="standard-th text-right">Pur. Rate</th>
+                                <th class="standard-th text-right text-[#004aad]">Sale Price</th>
+                                <th class="standard-th text-center">Stock</th>
+                                <th class="standard-th text-center">Status</th>
+                                <th class="standard-th text-center">Act</th>
+                            </tr>
+                        </thead>
+                        <tbody id="product-table-body" class="divide-y divide-slate-100"></tbody>
+                    </table>
+                </div>
             </div>
-            <div id="add-product-form" class="glass-panel p-4 rounded shadow-sm shrink-0">
-                <h3 id="prod-form-title" class="font-black text-xs text-slate-800 uppercase mb-3 border-b pb-2">✏️ Product Setup</h3>
+
+            <div id="add-product-form" class="glass-panel p-5 sm:p-6 shrink-0 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-indigo-500"></div>
+                <h3 id="prod-form-title" class="font-black text-xs text-slate-800 uppercase tracking-widest mb-5">✏️ Product Setup</h3>
                 <input type="hidden" id="p-id" value="">
-                <div class="flex flex-col lg:flex-row gap-4">
+                
+                <div class="flex flex-col lg:flex-row gap-6">
+                    <!-- Image Upload -->
                     <div class="w-full lg:w-1/4 flex flex-col items-center">
-                        <input type="file" id="p-image-upload" accept="image/*" class="hidden" onchange="handleProductImage(event)" /><canvas id="img-canvas" class="hidden"></canvas>
-                        <div class="w-full h-[150px] bg-slate-50 border-2 border-dashed border-slate-300 rounded flex flex-col items-center justify-center relative cursor-pointer" onclick="document.getElementById('p-image-upload').click()"><div id="p-img-placeholder" class="flex flex-col items-center"><span class="text-3xl">📸</span><span class="text-[8px] font-black text-blue-600 bg-blue-50 px-2 py-1 rounded mt-1">Upload</span></div><img id="p-img-preview" class="hidden absolute inset-0 w-full h-full object-cover" /></div>
-                        <button type="button" onclick="clearProductImage()" class="mt-2 text-[8px] font-black text-rose-500 uppercase">Remove</button>
+                        <label class="text-[9px] font-black text-slate-500 uppercase tracking-widest block mb-2 w-full text-left">Product Image</label>
+                        <input type="file" id="p-image-upload" accept="image/*" class="hidden" onchange="handleProductImage(event)" />
+                        <canvas id="img-canvas" class="hidden"></canvas>
+                        <div class="w-full aspect-square max-h-[200px] bg-slate-50 border-2 border-dashed border-slate-300 hover:border-blue-400 rounded-2xl flex flex-col items-center justify-center relative cursor-pointer transition-colors group" onclick="document.getElementById('p-image-upload').click()">
+                            <div id="p-img-placeholder" class="flex flex-col items-center transition-transform group-hover:scale-105">
+                                <span class="text-4xl drop-shadow-sm mb-2">📸</span>
+                                <span class="text-[9px] font-black text-blue-600 bg-blue-50 px-3 py-1.5 rounded-lg uppercase tracking-widest">Upload Photo</span>
+                            </div>
+                            <img id="p-img-preview" class="hidden absolute inset-0 w-full h-full object-cover rounded-2xl shadow-inner" />
+                        </div>
+                        <button type="button" onclick="clearProductImage()" class="mt-3 text-[9px] font-black text-rose-500 uppercase tracking-widest hover:bg-rose-50 px-3 py-1 rounded transition-colors">Remove</button>
                     </div>
-                    <div class="w-full lg:w-3/4 space-y-3">
-                        <div class="grid grid-cols-3 gap-2"><div class="col-span-2"><label class="text-[9px] font-black text-slate-500 uppercase block mb-1">Item Name *</label><input type="text" id="p-name" class="premium-input uppercase text-blue-700"></div><div><label class="text-[9px] font-black text-slate-500 uppercase block mb-1">Brand</label><input type="text" id="p-brand" class="premium-input uppercase"></div></div>
-                        <div class="grid grid-cols-4 gap-2"><div><label class="text-[9px] font-black text-slate-500 uppercase block mb-1">Category</label><select id="p-category" onchange="handleCategoryChange(this)" class="cat-select premium-input"></select></div><div><label class="text-[9px] font-black text-slate-500 uppercase block mb-1">Variant</label><input type="text" id="p-variant" class="premium-input uppercase"></div><div><label class="text-[9px] font-black text-slate-500 uppercase block mb-1">SKU</label><input type="text" id="p-sku" class="premium-input uppercase font-mono"></div><div><label class="text-[9px] font-black text-slate-500 uppercase block mb-1">HSN</label><input type="text" id="p-hsn" class="premium-input uppercase font-mono"></div></div>
-                        <div class="grid grid-cols-5 gap-2 p-2 bg-slate-50 border rounded"><div><label class="text-[9px] font-black text-slate-500 uppercase block mb-1">MRP</label><input type="number" id="p-mrp" class="premium-input"></div><div><label class="text-[9px] font-black text-slate-500 uppercase block mb-1">Pur Price</label><input type="number" id="p-pur" class="premium-input text-rose-600"></div><div><label class="text-[9px] font-black text-blue-600 uppercase block mb-1">Sale Price *</label><input type="number" id="p-sale" class="premium-input border-blue-400 text-blue-700"></div><div><label class="text-[9px] font-black text-slate-500 uppercase block mb-1">GST %</label><select id="p-gst" class="premium-input"><option value="0">0%</option><option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option></select></div><div><label class="text-[9px] font-black text-slate-500 uppercase block mb-1">Low Alert</label><input type="number" id="p-low" value="5" class="premium-input"></div></div>
-                        <div class="grid grid-cols-4 gap-2 items-end"><div><label class="text-[9px] font-black text-slate-500 uppercase block mb-1">Op. Stock</label><input type="number" id="p-stock" oninput="generateImeiBoxes()" class="premium-input text-center text-blue-600 font-black"></div><div class="col-span-2 flex items-center h-[32px]"><label class="flex items-center space-x-2 bg-white border rounded px-2 w-full h-full"><input type="checkbox" id="p-track" checked onchange="generateImeiBoxes()"><span class="text-[9px] font-black text-slate-700 uppercase">Track IMEI</span></label></div></div>
-                        <div id="p-imei-container" class="hidden p-2 bg-blue-50 border border-blue-100 rounded mt-2"><div id="p-imei-list" class="grid grid-cols-4 gap-2"></div></div>
+
+                    <!-- Details -->
+                    <div class="w-full lg:w-3/4 space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div class="col-span-2"><label class="text-[9px] font-black text-slate-500 uppercase tracking-widest block mb-1.5">Item Name *</label><input type="text" id="p-name" class="premium-input uppercase text-blue-800"></div>
+                            <div><label class="text-[9px] font-black text-slate-500 uppercase tracking-widest block mb-1.5">Brand</label><input type="text" id="p-brand" class="premium-input uppercase" list="brand-list"></div>
+                            <datalist id="brand-list"></datalist>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                            <div><label class="text-[9px] font-black text-slate-500 uppercase tracking-widest block mb-1.5">Category</label><select id="p-category" onchange="handleCategoryChange(this)" class="cat-select premium-input"></select></div>
+                            <div><label class="text-[9px] font-black text-slate-500 uppercase tracking-widest block mb-1.5">Variant</label><input type="text" id="p-variant" class="premium-input uppercase"></div>
+                            <div><label class="text-[9px] font-black text-slate-500 uppercase tracking-widest block mb-1.5">SKU Auto</label><input type="text" id="p-sku" class="premium-input uppercase font-mono text-slate-500" placeholder="Auto"></div>
+                            <div><label class="text-[9px] font-black text-slate-500 uppercase tracking-widest block mb-1.5">HSN Code</label><input type="text" id="p-hsn" class="premium-input uppercase font-mono"></div>
+                        </div>
+
+                        <div class="grid grid-cols-2 sm:grid-cols-5 gap-4 p-4 bg-slate-50 border border-slate-200 rounded-xl shadow-inner">
+                            <div><label class="text-[9px] font-black text-slate-500 uppercase tracking-widest block mb-1.5">MRP (₹)</label><input type="number" id="p-mrp" class="premium-input bg-white"></div>
+                            <div><label class="text-[9px] font-black text-slate-500 uppercase tracking-widest block mb-1.5">Pur Price</label><input type="number" id="p-pur" class="premium-input bg-white text-rose-600"></div>
+                            <div><label class="text-[9px] font-black text-blue-600 uppercase tracking-widest block mb-1.5">Sale Price *</label><input type="number" id="p-sale" class="premium-input border-blue-300 text-blue-700 shadow-[0_0_0_2px_rgba(59,130,246,0.1)]"></div>
+                            <div><label class="text-[9px] font-black text-slate-500 uppercase tracking-widest block mb-1.5">GST %</label><select id="p-gst" class="premium-input bg-white"><option value="0">0%</option><option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option></select></div>
+                            <div><label class="text-[9px] font-black text-slate-500 uppercase tracking-widest block mb-1.5">Low Alert</label><input type="number" id="p-low" value="5" class="premium-input bg-white"></div>
+                        </div>
+
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 items-end">
+                            <div><label class="text-[9px] font-black text-slate-500 uppercase tracking-widest block mb-1.5">Op. Stock</label><input type="number" id="p-stock" oninput="generateImeiBoxes()" class="premium-input text-center text-blue-600 font-black text-lg"></div>
+                            <div class="col-span-2 flex items-center h-[36px]">
+                                <label class="flex items-center space-x-3 bg-white border border-slate-200 rounded-xl px-4 w-full h-full shadow-sm cursor-pointer hover:border-blue-300 transition-colors">
+                                    <input type="checkbox" id="p-track" checked onchange="generateImeiBoxes()" class="w-4 h-4 text-blue-600 rounded">
+                                    <span class="text-[10px] font-black text-slate-700 uppercase tracking-widest mt-0.5">Enable Serial/IMEI Tracking</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div id="p-imei-container" class="hidden p-4 bg-blue-50/50 border border-blue-100 rounded-xl mt-2 shadow-inner">
+                            <p class="text-[8px] font-black text-blue-500 uppercase tracking-widest mb-2">Enter Opening Stock IMEIs</p>
+                            <div id="p-imei-list" class="grid grid-cols-2 sm:grid-cols-4 gap-2"></div>
+                        </div>
                     </div>
                 </div>
-                <div class="flex justify-end gap-2 mt-4 pt-3 border-t"><button onclick="clearProductForm()" class="px-5 py-2 bg-slate-200 text-slate-600 font-black text-[9px] uppercase rounded">Clear</button><button onclick="saveProduct()" class="px-6 py-2 bg-blue-600 text-white font-black text-[10px] uppercase rounded shadow">💾 Save Item</button></div>
+                <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-slate-100">
+                    <button onclick="clearProductForm()" class="btn-ghost px-6 py-2.5 text-[10px] uppercase tracking-widest">Clear Form</button>
+                    <button onclick="saveProduct()" class="btn-primary px-8 py-2.5 text-[10px] flex items-center gap-2">💾 Save Inventory</button>
+                </div>
             </div>
         </div>
 
         <!-- 4. PARTY MASTER -->
-        <div id="view-party" class="view-section hidden flex-col h-full w-full p-2 overflow-y-auto">
-            <h2 class="text-lg font-black text-slate-800 uppercase tracking-widest pb-2 shrink-0">Party Master</h2>
-            <div class="glass-panel p-4 rounded shadow-sm shrink-0 mb-3">
+        <div id="view-party" class="view-section hidden flex-col h-full w-full p-4 overflow-y-auto">
+            <h2 class="text-xl font-black text-slate-800 uppercase tracking-widest pb-3 shrink-0 flex items-center gap-2">
+                <span class="w-1.5 h-6 bg-purple-600 rounded-full inline-block"></span> Party Accounts
+            </h2>
+            <div class="glass-panel p-5 sm:p-6 shrink-0 mb-4 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 to-fuchsia-500"></div>
                 <input type="hidden" id="pt-id" value="">
-                <div class="grid grid-cols-4 gap-2"><div><label class="text-[8px] font-black text-slate-500 uppercase block mb-1">Type</label><select id="pt-type" class="premium-input"><option value="CUSTOMER">Customer</option><option value="SUPPLIER">Supplier</option></select></div><div class="col-span-2"><label class="text-[8px] font-black text-slate-500 uppercase block mb-1">Name *</label><input type="text" id="pt-name" class="premium-input uppercase text-blue-700"></div><div><label class="text-[8px] font-black text-slate-500 uppercase block mb-1">Mobile</label><input type="text" id="pt-mobile" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'')" class="premium-input font-mono"></div></div>
-                <div class="grid grid-cols-4 gap-2 mt-2"><div class="col-span-2"><label class="text-[8px] font-black text-slate-500 uppercase block mb-1">Address</label><input type="text" id="pt-address" class="premium-input uppercase"></div><div><label class="text-[8px] font-black text-slate-500 uppercase block mb-1">GSTIN</label><input type="text" id="pt-gstin" class="premium-input uppercase font-mono"></div><div><label class="text-[8px] font-black text-slate-500 uppercase block mb-1">Opening Bal (₹)</label><input type="number" id="pt-ob" class="premium-input text-rose-600 font-bold" placeholder="0"></div></div>
-                <div class="flex justify-end gap-2 mt-3 pt-2 border-t"><button onclick="clearPartyForm()" class="px-4 py-1.5 bg-slate-100 font-black text-[9px] uppercase rounded text-slate-600">Clear</button><button onclick="saveParty()" class="px-5 py-1.5 bg-blue-600 font-black text-[9px] uppercase rounded text-white shadow">Save Party</button></div>
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+                    <div><label class="text-[9px] font-black text-slate-500 uppercase tracking-widest block mb-1.5">Account Type</label><select id="pt-type" class="premium-input"><option value="CUSTOMER">Customer</option><option value="SUPPLIER">Supplier</option></select></div>
+                    <div class="sm:col-span-2"><label class="text-[9px] font-black text-slate-500 uppercase tracking-widest block mb-1.5">Party Name *</label><input type="text" id="pt-name" class="premium-input uppercase text-blue-800"></div>
+                    <div><label class="text-[9px] font-black text-slate-500 uppercase tracking-widest block mb-1.5">Mobile No</label><input type="text" id="pt-mobile" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'')" class="premium-input font-mono"></div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 mt-4">
+                    <div class="sm:col-span-2"><label class="text-[9px] font-black text-slate-500 uppercase tracking-widest block mb-1.5">Billing Address</label><input type="text" id="pt-address" class="premium-input uppercase"></div>
+                    <div><label class="text-[9px] font-black text-slate-500 uppercase tracking-widest block mb-1.5">GSTIN Number</label><input type="text" id="pt-gstin" class="premium-input uppercase font-mono"></div>
+                    <div><label class="text-[9px] font-black text-slate-500 uppercase tracking-widest block mb-1.5">Opening Balance (₹)</label><input type="number" id="pt-ob" class="premium-input text-rose-600 font-black bg-rose-50 border-rose-200" placeholder="0"></div>
+                </div>
+                <div class="flex justify-end gap-3 mt-5 pt-4 border-t border-slate-100">
+                    <button onclick="clearPartyForm()" class="btn-ghost px-6 py-2 text-[10px] uppercase tracking-widest">Clear Form</button>
+                    <button onclick="saveParty()" class="btn-primary px-8 py-2 text-[10px] shadow-lg shadow-purple-500/30">Save Account</button>
+                </div>
             </div>
-            <div class="glass-panel rounded flex flex-col shadow-sm flex-1 overflow-hidden">
-                <div class="p-2 border-b bg-white"><input type="text" id="party-search" oninput="debouncedRenderParties()" placeholder="Search Party..." class="premium-input max-w-sm text-xs" /></div>
-                <div class="overflow-y-auto"><table class="w-full text-left min-w-[800px]"><thead class="bg-slate-50 sticky top-0 shadow-sm"><tr><th class="standard-th">Type</th><th class="standard-th">Name</th><th class="standard-th">Contact</th><th class="standard-th">Address/GST</th><th class="standard-th text-right">Balance</th><th class="standard-th text-center">Act</th></tr></thead><tbody id="party-table-body" class="text-slate-700 divide-y divide-slate-100"></tbody></table></div>
+
+            <div class="glass-panel flex flex-col flex-1 overflow-hidden">
+                <div class="p-3 border-b border-slate-100 bg-slate-50/50 relative">
+                    <span class="absolute left-6 top-5 text-slate-400">🔍</span>
+                    <input type="text" id="party-search" oninput="debouncedRenderParties()" placeholder="Search by Name, Mobile or GSTIN..." class="premium-input !pl-10 max-w-md text-xs shadow-sm" />
+                </div>
+                <div class="overflow-y-auto w-full">
+                    <table class="w-full text-left min-w-[800px]">
+                        <thead class="bg-slate-50 sticky top-0 z-10 shadow-sm">
+                            <tr><th class="standard-th">Type</th><th class="standard-th">Account Name</th><th class="standard-th">Contact Info</th><th class="standard-th">Address / GST</th><th class="standard-th text-right">Net Balance</th><th class="standard-th text-center">Act</th></tr>
+                        </thead>
+                        <tbody id="party-table-body" class="divide-y divide-slate-100"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
         <!-- 5. ACCOUNTING VOUCHER (IN/OUT) -->
-        <div id="view-payment" class="view-section hidden space-y-4 max-w-md mx-auto pt-6 p-4 w-full h-full">
-            <h2 id="pay-title" class="text-lg font-black text-slate-800 tracking-widest uppercase text-center mb-3">VOUCHER ENTRY</h2>
-            <div class="glass-panel p-6 rounded-2xl shadow-sm bg-white border border-slate-200">
-              <div class="mb-3"><label class="text-[10px] font-black text-slate-500 uppercase block mb-1" id="pay-party-lbl">Party *</label><div class="relative"><input type="text" id="pay-party" list="party-list" onkeydown="handleShortcut(event, currentPaymentType === 'OUT' ? 'SUPPLIER' : 'CUSTOMER')" class="premium-input uppercase text-blue-700 font-black pr-8"><button onclick="openPartyModal(currentPaymentType === 'OUT' ? 'SUPPLIER' : 'CUSTOMER', document.getElementById('pay-party'))" tabindex="-1" class="absolute right-1 top-1 bottom-1 w-6 bg-blue-50 text-blue-600 rounded font-black">+</button></div></div>
-              <div class="grid grid-cols-2 gap-3 mb-3"><div><label class="text-[10px] font-black text-slate-500 uppercase block mb-1">Amount (₹) *</label><input type="number" id="pay-amt" class="premium-input border-emerald-400 bg-emerald-50 text-emerald-700 font-black text-lg h-[40px]!"></div><div><label class="text-[10px] font-black text-slate-500 uppercase block mb-1">Mode *</label><select id="pay-mode" class="premium-input h-[40px]!"><option value="Cash">Cash</option><option value="QR">UPI/QR</option><option value="Bank">Bank Transfer</option></select></div></div>
-              <div class="mb-4"><label class="text-[10px] font-black text-slate-500 uppercase block mb-1">Remarks</label><input type="text" id="pay-remarks" class="premium-input text-xs" placeholder="Optional narration"></div>
-              <button onclick="savePaymentTransaction()" class="w-full h-11 bg-blue-600 text-white font-black rounded-lg text-[10px] uppercase tracking-widest shadow">Post Transaction</button>
+        <div id="view-payment" class="view-section hidden space-y-4 max-w-lg mx-auto pt-10 w-full h-full px-4">
+            <div class="glass-panel p-8 rounded-2xl shadow-xl relative overflow-hidden border-t-4 border-t-teal-500">
+              <h2 id="pay-title" class="text-xl font-black text-slate-800 tracking-widest uppercase text-center mb-6">VOUCHER ENTRY</h2>
+              
+              <div class="mb-5">
+                <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-2" id="pay-party-lbl">Party Account *</label>
+                <div class="relative w-full">
+                    <span class="absolute left-3 top-2.5 text-slate-400">👤</span>
+                    <input type="text" id="pay-party" list="party-list" onkeydown="handleShortcut(event, currentPaymentType === 'OUT' ? 'SUPPLIER' : 'CUSTOMER')" class="premium-input !pl-9 !pr-10 text-blue-800 uppercase font-black !h-[42px]" placeholder="Select Ledger Account">
+                    <button onclick="openPartyModal(currentPaymentType === 'OUT' ? 'SUPPLIER' : 'CUSTOMER', document.getElementById('pay-party'))" tabindex="-1" class="absolute right-1.5 top-1.5 bottom-1.5 w-8 bg-blue-50 hover:bg-blue-600 hover:text-white text-blue-600 rounded-lg flex items-center justify-center text-lg font-black transition-colors">+</button>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-4 mb-5">
+                <div>
+                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-2">Amount (₹) *</label>
+                    <input type="number" id="pay-amt" class="premium-input border-emerald-300 bg-emerald-50 text-2xl font-black text-emerald-700 !h-[48px] text-center shadow-inner" placeholder="0">
+                </div>
+                <div>
+                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-2">Payment Mode *</label>
+                    <select id="pay-mode" class="premium-input font-bold text-slate-700 !h-[48px]"><option value="Cash">Cash</option><option value="QR">UPI / QR</option><option value="Bank">Bank Transfer NEFT</option></select>
+                </div>
+              </div>
+
+              <div class="mb-8">
+                  <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-2">Narration / Remarks</label>
+                  <input type="text" id="pay-remarks" class="premium-input text-sm !h-[42px]" placeholder="e.g. Cleared Outstanding Invoice #102">
+              </div>
+
+              <button onclick="savePaymentTransaction()" class="btn-primary w-full h-14 text-[12px] shadow-[0_8px_20px_rgba(20,184,166,0.3)] bg-gradient-to-r from-teal-500 to-emerald-500">Post Transaction to Ledger</button>
             </div>
         </div>
 
         <!-- 6. FINANCIAL LEDGER -->
-        <div id="view-ledger" class="view-section hidden flex-col h-full w-full p-2 overflow-y-auto">
-            <h2 class="text-xl font-black text-slate-800 uppercase tracking-widest pb-1 shrink-0">Financial Ledger</h2>
-            <div class="flex bg-slate-200 p-1 rounded w-64 mb-2 shrink-0"><button type="button" onclick="switchLedgerTab('CUSTOMER')" id="tab-CUSTOMER" class="flex-1 py-1.5 rounded text-[10px] font-black bg-blue-600 text-white shadow">CUSTOMERS</button><button type="button" onclick="switchLedgerTab('SUPPLIER')" id="tab-SUPPLIER" class="flex-1 py-1.5 rounded text-[10px] font-black text-slate-500 hover:text-blue-600">SUPPLIERS</button></div>
-            <div class="grid grid-cols-4 gap-2 mb-2 shrink-0"><div class="glass-panel p-3 border-l-4 border-l-slate-400 rounded"><p class="text-[8px] text-slate-500 font-bold uppercase">Opening</p><h3 class="text-sm font-black text-slate-800" id="ledger-ob">₹0</h3></div><div class="glass-panel p-3 border-l-4 border-l-blue-500 rounded"><p class="text-[8px] text-slate-500 font-bold uppercase">Billed</p><h3 class="text-sm font-black text-blue-600" id="ledger-billed">₹0</h3></div><div class="glass-panel p-3 border-l-4 border-l-emerald-500 rounded"><p class="text-[8px] text-slate-500 font-bold uppercase">Paid/Recv</p><h3 class="text-sm font-black text-emerald-600" id="ledger-paid">₹0</h3></div><div class="glass-panel p-3 border-l-4 border-l-rose-500 rounded"><p class="text-[8px] text-slate-500 font-bold uppercase">Closing Bal</p><h3 class="text-sm font-black text-rose-600" id="ledger-bal">₹0</h3></div></div>
-            <div class="glass-panel rounded flex flex-col shadow-sm flex-1 overflow-hidden"><div class="p-2 border-b bg-white"><input type="text" id="ledger-search" oninput="debouncedRenderLedger()" placeholder="Search Ref/Name..." class="premium-input max-w-sm text-xs" /></div><div class="overflow-y-auto w-full flex-1"><table class="w-full text-left min-w-[900px]"><thead class="bg-slate-50 sticky top-0 shadow-sm"><tr><th class="standard-th">Date</th><th class="standard-th">Ref No</th><th class="standard-th text-center">Type</th><th class="standard-th">Party</th><th class="standard-th text-right">Debit(Dr)</th><th class="standard-th text-right">Credit(Cr)</th><th class="standard-th text-right">Balance</th><th class="standard-th text-center">Act</th></tr></thead><tbody id="ledger-table-body" class="text-slate-700 divide-y divide-slate-100"></tbody></table></div></div>
-        </div>
-
-        <!-- 7. THE MASTER BILLING ENGINE (Compact & Flawless) -->
-        <div id="view-new-bill" class="view-section hidden h-full w-full flex-col p-1.5 gap-1.5">
-            <!-- Top Bar -->
-            <div class="bg-white p-1.5 rounded shadow-sm border border-slate-300 flex flex-wrap lg:flex-nowrap items-center gap-2 shrink-0">
-                <span id="form-entry-type" class="text-[9px] font-black px-2 py-1 rounded bg-blue-100 text-blue-700 uppercase tracking-widest shrink-0">SALE</span>
-                <input type="text" id="bill-inv" class="premium-input !w-20 !h-[30px] font-mono text-blue-600 text-[10px]" placeholder="INV NO">
-                <input type="date" id="bill-date" class="premium-input !w-28 !h-[30px] font-mono text-[10px]">
-                
-                <div class="flex-1 flex items-center relative min-w-[200px]">
-                    <span class="absolute left-2 text-slate-400 text-xs">👤</span>
-                    <input type="text" id="bill-party" list="party-list" oninput="onPartySelect(this.value)" onkeydown="handleShortcut(event, currentMode === 'SALE' ? 'CUSTOMER' : 'SUPPLIER')" class="premium-input !pl-7 !h-[30px] uppercase text-blue-800" placeholder="Party Name or Mobile (Alt+C)">
-                    <span id="party-balance-badge" class="absolute right-8 text-[9px] font-black text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded">₹0</span>
-                    <button onclick="openPartyModal(currentMode === 'SALE' ? 'CUSTOMER' : 'SUPPLIER', document.getElementById('bill-party'))" tabindex="-1" class="absolute right-1 bg-blue-100 text-blue-700 w-5 h-5 rounded font-black text-xs hover:bg-blue-600 hover:text-white">+</button>
+        <div id="view-ledger" class="view-section hidden flex-col h-full w-full p-4 overflow-y-auto">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-3 shrink-0">
+                <h2 class="text-xl font-black text-slate-800 uppercase tracking-widest flex items-center gap-2">
+                    <span class="w-1.5 h-6 bg-amber-500 rounded-full inline-block"></span> Financial Ledger
+                </h2>
+                <div class="flex bg-slate-200/80 p-1.5 rounded-xl w-full sm:w-72 shadow-inner">
+                    <button type="button" onclick="switchLedgerTab('CUSTOMER')" id="tab-CUSTOMER" class="flex-1 py-2 rounded-lg text-[10px] font-black bg-white text-blue-700 shadow-sm tracking-widest transition-all">CUSTOMERS</button>
+                    <button type="button" onclick="switchLedgerTab('SUPPLIER')" id="tab-SUPPLIER" class="flex-1 py-2 rounded-lg text-[10px] font-black text-slate-500 hover:text-slate-800 tracking-widest transition-all">SUPPLIERS</button>
                 </div>
-                <div class="flex-1 flex items-center relative min-w-[200px]">
-                    <span class="absolute left-2 text-amber-500 text-xs">⚡</span>
-                    <input type="text" id="master-item-scan" list="item-list" onkeydown="handleMasterScan(event)" class="premium-input !pl-7 !h-[30px] bg-amber-50/50 border-amber-300 focus:bg-white uppercase text-slate-900" placeholder="Scan Barcode or Type Item (Alt+C)">
-                    <button onclick="openItemModal(document.getElementById('master-item-scan'))" tabindex="-1" class="absolute right-1 bg-amber-100 text-amber-700 w-5 h-5 rounded font-black text-xs hover:bg-amber-600 hover:text-white">+</button>
+            </div>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4 shrink-0">
+                <div class="glass-panel p-4 border-l-4 border-l-slate-400 relative overflow-hidden group">
+                    <div class="absolute -right-2 -top-2 w-12 h-12 bg-slate-50 rounded-full group-hover:scale-150 transition-transform"></div>
+                    <p class="text-[9px] text-slate-500 font-bold uppercase tracking-widest relative z-10">Opening Balance</p><h3 class="text-lg font-black text-slate-800 mt-1 relative z-10" id="ledger-ob">₹ 0</h3>
                 </div>
-                <!-- ID required for JS logic -->
-                <h2 id="bill-title" class="hidden">SALE ENTRY</h2> 
+                <div class="glass-panel p-4 border-l-4 border-l-blue-500 relative overflow-hidden group">
+                    <div class="absolute -right-2 -top-2 w-12 h-12 bg-blue-50 rounded-full group-hover:scale-150 transition-transform"></div>
+                    <p class="text-[9px] text-slate-500 font-bold uppercase tracking-widest relative z-10">Total Billed</p><h3 class="text-lg font-black text-blue-600 mt-1 relative z-10" id="ledger-billed">₹ 0</h3>
+                </div>
+                <div class="glass-panel p-4 border-l-4 border-l-emerald-500 relative overflow-hidden group">
+                    <div class="absolute -right-2 -top-2 w-12 h-12 bg-emerald-50 rounded-full group-hover:scale-150 transition-transform"></div>
+                    <p class="text-[9px] text-slate-500 font-bold uppercase tracking-widest relative z-10">Received / Paid</p><h3 class="text-lg font-black text-emerald-600 mt-1 relative z-10" id="ledger-paid">₹ 0</h3>
+                </div>
+                <div class="glass-panel p-4 border-l-4 border-l-rose-500 relative overflow-hidden group">
+                    <div class="absolute -right-2 -top-2 w-12 h-12 bg-rose-50 rounded-full group-hover:scale-150 transition-transform"></div>
+                    <p class="text-[9px] text-slate-500 font-bold uppercase tracking-widest relative z-10">Net Closing Balance</p><h3 class="text-lg font-black text-rose-600 mt-1 relative z-10" id="ledger-bal">₹ 0</h3>
+                </div>
             </div>
 
-            <!-- Table -->
-            <div class="flex-1 bg-white border border-slate-300 rounded shadow-sm flex flex-col overflow-hidden relative">
-                <div class="overflow-y-auto flex-1 w-full" id="bill-items-container">
-                    <table class="bill-table w-full">
-                        <thead><tr><th class="w-[35%]">Item Description</th><th class="w-[12%] text-right">Rate</th><th class="w-[8%] text-center">GST%</th><th class="w-[10%] text-center">Qty</th><th class="w-[35%] pl-2">IMEI / Serial Numbers</th></tr></thead>
-                        <tbody id="bill-items-body"></tbody>
+            <div class="glass-panel flex flex-col flex-1 overflow-hidden">
+                <div class="p-3 border-b border-slate-100 bg-slate-50/50 relative">
+                    <span class="absolute left-6 top-5 text-slate-400">🔍</span>
+                    <input type="text" id="ledger-search" oninput="debouncedRenderLedger()" placeholder="Search Transactions by Ref, Name..." class="premium-input !pl-10 max-w-md text-xs shadow-sm" />
+                </div>
+                <div class="overflow-y-auto w-full flex-1">
+                    <table class="w-full text-left min-w-[900px]">
+                        <thead class="bg-slate-50 sticky top-0 shadow-sm z-10">
+                            <tr><th class="standard-th">Date</th><th class="standard-th">Ref No</th><th class="standard-th text-center">Type</th><th class="standard-th">Party Name</th><th class="standard-th text-right">Debit(Dr)</th><th class="standard-th text-right">Credit(Cr)</th><th class="standard-th text-right">Running Bal</th><th class="standard-th text-center">Act</th></tr>
+                        </thead>
+                        <tbody id="ledger-table-body" class="divide-y divide-slate-100"></tbody>
                     </table>
                 </div>
-                <div class="p-1 border-t border-slate-200 bg-slate-50 flex justify-center shrink-0"><button onclick="addBillRow()" class="h-6 px-6 text-blue-600 font-black uppercase text-[9px] tracking-widest rounded border border-dashed border-blue-400 bg-blue-50 hover:bg-blue-600 hover:text-white transition-all shadow-sm">➕ Add Blank Row</button></div>
+            </div>
+        </div>
+
+        <!-- ================= 🚀 THE ULTIMATE ZERO-SCROLL BILLING ENGINE 🚀 ================= -->
+        <div id="view-new-bill" class="view-section hidden h-full w-full flex-col p-2 sm:p-3 gap-2 sm:gap-3">
+            
+            <!-- Floating Header Bar -->
+            <div class="glass-panel px-4 py-2.5 flex flex-wrap lg:flex-nowrap items-center justify-between gap-3 shrink-0 relative overflow-hidden">
+                <div class="absolute left-0 top-0 w-1.5 h-full bg-blue-600" id="bill-color-strip"></div>
+                <div class="flex items-center gap-3">
+                    <h2 id="bill-title" class="text-xs sm:text-sm font-black text-slate-800 uppercase tracking-widest ml-1">SALE ENTRY</h2>
+                    <span id="form-entry-type" class="text-[9px] font-black px-2.5 py-1 rounded bg-blue-100 text-blue-700 uppercase tracking-widest shrink-0">SALE</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2">
+                        <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Date:</label>
+                        <input type="date" id="bill-date" class="bg-transparent border-none outline-none text-[11px] font-mono font-bold text-slate-800 w-[105px] cursor-pointer hover:text-blue-600 transition-colors">
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Inv:</label>
+                        <input type="text" id="bill-inv" class="bg-transparent border-none outline-none text-[11px] font-mono font-bold text-blue-600 uppercase w-20" placeholder="AUTO">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Master Inputs Bar -->
+            <div class="flex flex-col sm:flex-row gap-3 shrink-0">
+                <div class="flex-1 relative flex items-center group">
+                    <span class="absolute left-4 text-slate-400 group-focus-within:text-blue-500 transition-colors">👤</span>
+                    <input type="text" id="bill-party" list="party-list" oninput="onPartySelect(this.value)" onkeydown="handleShortcut(event, currentMode === 'SALE' ? 'CUSTOMER' : 'SUPPLIER')" class="premium-input uppercase text-blue-800 font-black text-sm !pl-10 !pr-28 !h-[48px] shadow-sm" placeholder="Search Party or Mobile (Alt+C)">
+                    <div class="absolute right-2 flex items-center gap-2">
+                        <span id="party-balance-badge" class="text-[10px] font-black text-slate-500 bg-slate-100 px-2 py-1 rounded border border-slate-200 shadow-sm whitespace-nowrap transition-colors">Bal: ₹0</span>
+                        <button onclick="openPartyModal(currentMode === 'SALE' ? 'CUSTOMER' : 'SUPPLIER', document.getElementById('bill-party'))" tabindex="-1" class="w-8 h-8 bg-blue-50 text-blue-600 rounded font-black text-lg hover:bg-blue-600 hover:text-white transition-all shadow-sm">+</button>
+                    </div>
+                </div>
+                
+                <div class="flex-1 relative flex items-center group">
+                    <span class="absolute left-4 text-amber-500 text-lg group-focus-within:scale-110 transition-transform drop-shadow-sm">⚡</span>
+                    <input type="text" id="master-item-scan" list="item-list" onkeydown="handleMasterScan(event)" class="premium-input uppercase text-slate-900 font-black text-sm !pl-11 !pr-12 !h-[48px] border-amber-200 bg-gradient-to-r from-amber-50/40 to-transparent focus:border-amber-400 focus:from-white shadow-sm placeholder-slate-400" placeholder="Scan Barcode or Type Item (Alt+C)">
+                    <button onclick="openItemModal(document.getElementById('master-item-scan'))" tabindex="-1" class="absolute right-2 w-8 h-8 bg-amber-100 text-amber-700 rounded font-black text-lg hover:bg-amber-500 hover:text-white transition-all shadow-sm">+</button>
+                </div>
             </div>
 
-            <!-- Bottom Strip -->
-            <div class="flex flex-col shrink-0 gap-1.5">
-                <div class="bg-white border border-slate-300 rounded px-2 py-1.5 flex flex-wrap gap-2 items-center shadow-sm">
-                    <span class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Pay Mode:</span><select id="pay-primary" onchange="onPaymentModeChange('primary')" class="premium-input !w-24 !h-[26px] !text-[10px] !py-0 bg-slate-50 border-slate-300 text-blue-700"></select>
-                    <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Sec:</span><select id="pay-secondary" onchange="onPaymentModeChange('secondary')" class="premium-input !w-24 !h-[26px] !text-[10px] !py-0 bg-slate-50 border-slate-300 text-blue-700"><option value="">-- None --</option><option value="Finance">Finance</option><option value="Dues">Dues / Credit</option></select>
-                    <div class="w-px h-4 bg-slate-300 hidden sm:block"></div>
-                    <div id="box-split" class="hidden items-center gap-1.5"><span class="text-[9px] text-slate-400 uppercase font-black">SPLIT:</span><input type="number" id="split-cash" placeholder="Cash (₹)" class="premium-input !h-[26px] !w-20 !text-[10px] border-emerald-300 bg-emerald-50 text-emerald-700" oninput="calcBill()"><input type="number" id="split-qr" placeholder="QR (₹)" class="premium-input !h-[26px] !w-20 !text-[10px] border-blue-300 bg-blue-50 text-blue-700" oninput="calcBill()"><input type="number" id="split-card" placeholder="Card (₹)" class="premium-input !h-[26px] !w-20 !text-[10px] border-purple-300 bg-purple-50 text-purple-700" oninput="calcBill()"></div>
-                    <div id="box-finance" class="hidden items-center gap-1.5"><span class="text-[9px] text-blue-500 uppercase font-black">FIN:</span><select id="fin-company" class="premium-input !h-[26px] !w-24 !text-[10px] border-blue-300 bg-blue-50 text-blue-800"><option value="">- Company -</option><option value="Bajaj">Bajaj</option><option value="Kisto">Kisto Pe</option><option value="HDB">HDB</option></select><input type="number" id="fin-dp-amt" placeholder="DP (₹)" class="premium-input !h-[26px] !w-20 !text-[10px] border-blue-300 bg-blue-50 text-blue-800" oninput="calcBill()" /><select id="fin-dp-mode" onchange="renderSplitInputs()" class="premium-input !h-[26px] !w-24 !text-[10px] border-blue-300 bg-blue-50 text-blue-800"></select></div>
-                    <div id="box-dues" class="hidden items-center gap-1.5"><span class="text-[9px] text-amber-600 uppercase font-black">DUES:</span><input type="number" id="dues-dp-amt" placeholder="Paid (₹)" class="premium-input !h-[26px] !w-20 !text-[10px] border-amber-300 bg-amber-50 text-amber-800" oninput="calcBill()"><select id="dues-dp-mode" onchange="renderSplitInputs()" class="premium-input !h-[26px] !w-24 !text-[10px] border-amber-300 bg-amber-50 text-amber-800"></select></div>
-                    <button type="button" onclick="resetPaymentFields()" class="ml-auto text-[9px] font-black uppercase text-rose-500 hover:text-rose-700">Reset Pay</button>
+            <!-- TABLE CONTAINER (Pure white, separate rows style) -->
+            <div class="flex-1 glass-panel flex flex-col overflow-hidden relative border-t-0">
+                <div class="overflow-y-auto flex-1 w-full" id="bill-items-container">
+                    <table class="bill-table w-full">
+                        <thead>
+                            <tr>
+                                <th class="w-[35%] bg-slate-50/90 py-3 pl-4">Item Description</th>
+                                <th class="w-[12%] text-right bg-slate-50/90 py-3">Rate (₹)</th>
+                                <th class="w-[8%] text-center bg-slate-50/90 py-3">GST%</th>
+                                <th class="w-[10%] text-center bg-slate-50/90 py-3">Qty</th>
+                                <th class="w-[35%] pl-4 bg-slate-50/90 py-3">IMEI / Serials</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bill-items-body" class="divide-y divide-slate-100"></tbody>
+                    </table>
                 </div>
-                <div class="bg-slate-900 border border-slate-800 rounded px-3 py-2 flex justify-between items-center text-white shadow-lg shrink-0 overflow-x-auto">
-                    <div class="flex items-center gap-4 sm:gap-6"><div class="flex flex-col"><span class="text-[8px] text-slate-400 uppercase font-black">Taxable</span><span class="font-mono font-bold text-[11px]" id="bill-taxable">₹ 0</span></div><div class="flex flex-col"><span class="text-[8px] text-slate-400 uppercase font-black">GST</span><span class="font-mono font-bold text-[11px] text-blue-300" id="bill-gst">₹ 0</span></div><div class="border-l border-slate-700 pl-4 flex items-center gap-2"><label class="text-[9px] text-emerald-400 uppercase font-black hidden sm:block">Tendered(₹)</label><input type="number" id="bill-paid" oninput="calcBill(true)" class="bg-slate-800 border border-emerald-500/50 text-emerald-400 font-black text-sm h-[26px] w-24 rounded px-2 outline-none text-center shadow-inner" placeholder="0"></div><div class="flex flex-col border-l border-slate-700 pl-4"><span class="text-[8px] text-slate-400 uppercase font-black">Balance</span><span class="font-black text-sm text-rose-400" id="bill-due">₹ 0</span></div></div>
-                    <div class="flex items-center gap-3 bg-slate-800 rounded p-1 shadow-inner border border-slate-700"><div class="text-right px-2"><p class="text-[8px] text-slate-300 uppercase font-black">Grand Total</p><p class="text-xl font-black text-amber-400 leading-none" id="bill-grand-total">₹ 0</p></div><button onclick="saveFinalBill()" id="btn-save-bill" class="h-[36px] px-6 bg-blue-600 text-white rounded font-black uppercase tracking-widest text-[11px] hover:bg-blue-500 shadow flex items-center gap-1.5">💾 SAVE <span class="text-[8px] font-normal hidden lg:inline">(F9)</span></button></div>
+                <!-- Premium Add Row Button -->
+                <div class="p-2 border-t border-slate-100 bg-slate-50/50 flex justify-center shrink-0">
+                    <button onclick="addBillRow()" class="h-8 px-8 text-blue-600 font-black uppercase text-[10px] tracking-widest rounded-lg border-1.5 border-dashed border-blue-300 bg-white hover:bg-blue-50 hover:border-blue-400 active:scale-95 transition-all shadow-sm">➕ Add Custom Blank Row</button>
                 </div>
+            </div>
+
+            <!-- COMPACT PAYMENT FOOTER -->
+            <div class="flex flex-col shrink-0 gap-2 sm:gap-3">
+                
+                <!-- Payment Config Strip -->
+                <div class="glass-panel px-3 py-2 flex flex-wrap md:flex-nowrap gap-3 items-center relative overflow-visible z-10">
+                    <div class="flex items-center gap-2">
+                        <label class="text-[9px] font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">Pay Mode:</label>
+                        <select id="pay-primary" onchange="onPaymentModeChange('primary')" class="premium-input !w-28 !h-[32px] !py-0 !px-2 bg-slate-50 border-slate-200 text-blue-700 shadow-inner"></select>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Sec:</label>
+                        <select id="pay-secondary" onchange="onPaymentModeChange('secondary')" class="premium-input !w-28 !h-[32px] !py-0 !px-2 bg-slate-50 border-slate-200 text-blue-700 shadow-inner">
+                            <option value="">-- None --</option><option value="Finance">Finance</option><option value="Dues">Dues / Credit</option>
+                        </select>
+                    </div>
+                    
+                    <div class="hidden sm:block w-px h-5 bg-slate-200" id="payment-divider"></div>
+
+                    <!-- Dynamic Inline Payment Elements -->
+                    <div id="dynamic-payment-area" class="flex-1 flex justify-start sm:justify-end items-center gap-2 overflow-x-auto pb-1 sm:pb-0 scrollbar-hide">
+                        
+                        <div id="box-split" class="hidden items-center gap-2 animate-fade-in">
+                            <span class="text-[9px] text-slate-400 uppercase font-black tracking-widest">SPLIT:</span>
+                            <div id="wrap-split-cash" class="hidden"><input type="number" id="split-cash" placeholder="Cash (₹)" class="premium-input !h-[30px] !w-24 text-[11px] border-emerald-200 bg-emerald-50 text-emerald-700 shadow-inner" oninput="calcBill()"></div>
+                            <div id="wrap-split-qr" class="hidden"><input type="number" id="split-qr" placeholder="QR (₹)" class="premium-input !h-[30px] !w-24 text-[11px] border-blue-200 bg-blue-50 text-blue-700 shadow-inner" oninput="calcBill()"></div>
+                            <div id="wrap-split-card" class="hidden"><input type="number" id="split-card" placeholder="Card (₹)" class="premium-input !h-[30px] !w-24 text-[11px] border-purple-200 bg-purple-50 text-purple-700 shadow-inner" oninput="calcBill()"></div>
+                        </div>
+                        
+                        <div id="box-finance" class="hidden items-center gap-2 animate-fade-in">
+                            <span class="text-[9px] text-blue-500 uppercase font-black tracking-widest">FIN:</span>
+                            <select id="fin-company" class="premium-input !h-[30px] !w-28 text-[11px] !px-2 border-blue-200 bg-blue-50 text-blue-800 shadow-inner"><option value="">- Company -</option><option value="Bajaj">Bajaj</option><option value="Kisto">Kisto Pe</option><option value="HDB">HDB</option></select>
+                            <input type="number" id="fin-dp-amt" placeholder="DP (₹)" class="premium-input !h-[30px] !w-24 text-[11px] border-blue-200 bg-blue-50 text-blue-800 shadow-inner" oninput="calcBill()" />
+                            <select id="fin-dp-mode" onchange="renderSplitInputs()" class="premium-input !h-[30px] !w-28 text-[11px] !px-2 border-blue-200 bg-blue-50 text-blue-800 shadow-inner"></select>
+                        </div>
+
+                        <div id="box-dues" class="hidden items-center gap-2 animate-fade-in">
+                            <span class="text-[9px] text-amber-500 uppercase font-black tracking-widest">DUES:</span>
+                            <input type="number" id="dues-dp-amt" placeholder="Paid (₹)" class="premium-input !h-[30px] !w-24 text-[11px] border-amber-200 bg-amber-50 text-amber-800 shadow-inner" oninput="calcBill()">
+                            <select id="dues-dp-mode" onchange="renderSplitInputs()" class="premium-input !h-[30px] !w-28 text-[11px] !px-2 border-amber-200 bg-amber-50 text-amber-800 shadow-inner"></select>
+                        </div>
+                        
+                        <button type="button" onclick="resetPaymentFields()" class="ml-2 w-7 h-7 rounded-full bg-slate-100 hover:bg-rose-100 text-slate-400 hover:text-rose-500 transition-colors flex items-center justify-center shadow-inner shrink-0" title="Reset Payment">↺</button>
+                    </div>
+                </div>
+
+                <!-- Grand Total Strip (Dark Terminal Look) -->
+                <div class="bg-[#0f172a] rounded-xl flex items-center justify-between text-white shadow-[0_8px_30px_rgba(15,23,42,0.4)] shrink-0 gap-4 pr-1.5 pl-5 py-2 overflow-x-auto relative">
+                    <div class="absolute left-0 top-0 w-full h-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 opacity-50"></div>
+                    <div class="flex items-center gap-6 sm:gap-10 whitespace-nowrap mt-1">
+                        <div class="flex flex-col"><span class="text-[9px] text-slate-400 uppercase font-black tracking-widest mb-0.5">Taxable</span><span class="font-mono font-bold text-xs" id="bill-taxable">₹ 0</span></div>
+                        <div class="flex flex-col"><span class="text-[9px] text-slate-400 uppercase font-black tracking-widest mb-0.5">GST Amt</span><span class="font-mono font-bold text-xs text-blue-300" id="bill-gst">₹ 0</span></div>
+                        
+                        <div class="border-l border-slate-700 pl-6 flex items-center">
+                            <div class="flex flex-col relative group">
+                                <label class="text-[9px] text-emerald-400 uppercase font-black tracking-widest mb-1 group-focus-within:text-emerald-300 transition-colors">Amount Tendered (₹) *</label>
+                                <input type="number" id="bill-paid" oninput="calcBill(true)" class="bg-[#1e293b] border border-emerald-500/50 focus:border-emerald-400 text-emerald-400 font-black text-xl h-[36px] w-32 sm:w-40 rounded-lg px-2 outline-none text-center shadow-inner transition-colors" placeholder="0">
+                            </div>
+                        </div>
+                        
+                        <div class="flex flex-col border-l border-slate-700 pl-6"><span class="text-[9px] text-slate-400 uppercase font-black tracking-widest mb-0.5">Balance Due</span><span class="font-black text-lg text-rose-400 leading-none drop-shadow-sm" id="bill-due">₹ 0</span></div>
+                    </div>
+                    
+                    <div class="flex items-center gap-5 bg-slate-800/80 rounded-xl p-1.5 shadow-inner border border-slate-700/50 mt-1">
+                        <div class="text-right px-3 hidden sm:block">
+                            <p class="text-[9px] text-slate-300 uppercase font-black tracking-widest mb-0.5 opacity-80">Grand Total</p>
+                            <p class="text-3xl font-black text-amber-400 leading-none drop-shadow-[0_2px_10px_rgba(251,191,36,0.2)]" id="bill-grand-total">₹ 0</p>
+                        </div>
+                        <button onclick="saveFinalBill()" id="btn-save-bill" class="btn-primary h-[48px] px-8 text-[12px] shadow-[0_4px_20px_rgba(37,99,235,0.4)] flex items-center gap-2 border border-blue-400/50">
+                            💾 SAVE <span class="text-[9px] text-blue-200 font-normal hidden lg:inline bg-blue-800/50 px-1.5 rounded ml-1">(F9)</span>
+                        </button>
+                    </div>
+                </div>
+
             </div>
         </div>
 
         <!-- 8. INVOICE POPUP / PRINT VIEW -->
-        <div id="view-invoice" class="view-section hidden flex-col h-full w-full p-4 overflow-y-auto">
-            <div class="flex justify-between items-center bg-white p-3 rounded border shadow-sm no-print mb-4 shrink-0"><button onclick="showView('dashboard')" class="bg-slate-100 text-slate-700 px-4 py-2 rounded text-[10px] font-black uppercase shadow">Home</button><div class="flex gap-2"><button onclick="shareViaWhatsApp()" class="bg-[#25D366] text-white px-4 py-2 rounded text-[10px] font-black uppercase shadow">WhatsApp</button><button onclick="printFormat('A4')" class="bg-slate-800 text-white px-4 py-2 rounded text-[10px] font-black uppercase shadow">A4 Print</button><button onclick="printFormat('THERMAL')" class="bg-emerald-600 text-white px-4 py-2 rounded text-[10px] font-black uppercase shadow">Thermal 80mm</button><button onclick="downloadPDF()" class="bg-blue-600 text-white px-4 py-2 rounded text-[10px] font-black uppercase shadow">PDF</button></div></div>
-            <div id="print-container" class="w-full flex justify-center"><div id="invoice-capture" class="bg-white p-8 border text-slate-800 w-full max-w-[800px]"><div class="text-center border-b-2 border-slate-800 pb-2 mb-3"><h1 class="text-2xl font-black uppercase">Sri Ram Enterprises</h1><p class="text-[9px] font-bold text-slate-600">Wholesale Mobile & Accessories</p><p class="text-[8px] font-bold text-slate-500">GB-15, City Centre, Sector-4, Bokaro | GSTIN: 20APOPK6864K1ZH | Ph: 9334765000</p></div><div class="flex justify-between text-xs mb-3"><div><p class="text-[8px] font-black uppercase text-slate-400">Bill To:</p><p id="inv-party" class="font-black uppercase text-base"></p><p id="inv-phone" class="font-mono text-[9px]"></p><p id="inv-address" class="text-[9px] uppercase"></p></div><div class="text-right"><h2 id="inv-type-title" class="font-black uppercase border border-slate-800 px-1 py-0.5 rounded text-[10px] mb-1 inline-block">INVOICE</h2><p class="text-[9px]">Inv No: <span id="inv-no" class="font-bold"></span></p><p class="text-[9px]">Date: <span id="inv-date" class="font-bold"></span></p></div></div><table class="w-full text-left text-[10px] mb-3 border-collapse"><thead><tr class="bg-slate-900 text-white uppercase text-[8px]"><th class="p-1 border text-center">#</th><th class="p-1 border">Item</th><th class="p-1 border">IMEI/Serial</th><th class="p-1 border text-center">Qty</th><th class="p-1 border text-right">Rate</th><th class="p-1 border text-right">Amt</th></tr></thead><tbody id="inv-items" class="font-bold border-b border-slate-800"></tbody></table><div class="flex justify-between text-[10px]"><div class="w-40"><div id="inv-qr" class="mb-1 border p-1 rounded inline-block"></div><p class="text-[7px]">* Warranty by authorized center only. No Returns.</p></div><div class="w-48 text-right space-y-0.5"><div class="flex justify-between"><span class="uppercase text-[8px] text-slate-500 font-bold">Taxable:</span><span id="inv-taxable-print" class="font-bold">₹0</span></div><div class="flex justify-between"><span class="uppercase text-[8px] text-slate-500 font-bold">GST:</span><span id="inv-gst-print" class="font-bold">₹0</span></div><div class="flex justify-between border-t border-slate-300 pt-0.5 text-xs"><span class="uppercase font-black">Total:</span><span id="inv-total-print" class="font-black">₹0</span></div><div class="flex justify-between text-emerald-700 mt-1"><span class="uppercase text-[8px] font-bold">Paid:</span><span id="inv-paid" class="font-bold">₹0</span></div><div class="flex justify-between text-rose-600 border-t border-slate-300 pt-0.5"><span class="uppercase text-[8px] font-bold">Due:</span><span id="inv-bal" class="font-black">₹0</span></div></div></div><div class="mt-8 flex justify-between text-[8px] uppercase font-bold no-print"><div class="w-32 border-t border-slate-800 text-center pt-1">Customer Sign</div><div class="w-40 border-t border-slate-800 text-center pt-1">For Sri Ram Enterprises</div></div></div></div>
+        <div id="view-invoice" class="view-section hidden flex-col h-full w-full p-4 overflow-y-auto bg-slate-200/50">
+            <div class="max-w-4xl mx-auto w-full">
+                <div class="glass-panel flex flex-col sm:flex-row justify-between items-center p-4 shadow-sm no-print mb-4 shrink-0 gap-4">
+                    <button onclick="showView('dashboard')" class="btn-ghost px-5 py-2 text-[10px] uppercase tracking-widest">Dashboard</button>
+                    <div class="flex flex-wrap gap-2 w-full sm:w-auto justify-end">
+                        <button onclick="shareViaWhatsApp()" class="bg-[#25D366] text-white px-5 py-2.5 rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-green-600 active:scale-95 transition-all shadow-md flex items-center gap-2"><span class="text-sm">💬</span> WhatsApp</button>
+                        <button onclick="printFormat('A4')" class="bg-slate-800 text-white px-5 py-2.5 rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-black active:scale-95 transition-all shadow-md flex items-center gap-2"><span class="text-sm">🖨️</span> A4 Print</button>
+                        <button onclick="printFormat('THERMAL')" class="bg-emerald-600 text-white px-5 py-2.5 rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-emerald-700 active:scale-95 transition-all shadow-md flex items-center gap-2"><span class="text-sm">🧾</span> Receipt</button>
+                        <button onclick="downloadPDF()" class="btn-primary px-5 py-2.5 text-[10px] flex items-center gap-2"><span class="text-sm">📄</span> PDF</button>
+                    </div>
+                </div>
+                
+                <div id="print-container" class="w-full flex justify-center pb-10">
+                    <div id="invoice-capture" class="bg-white p-10 sm:p-14 shadow-2xl border border-slate-100 text-slate-800 w-full max-w-[800px] relative">
+                        <!-- Watermark -->
+                        <div class="absolute inset-0 flex items-center justify-center opacity-[0.02] pointer-events-none select-none overflow-hidden">
+                            <span class="text-[150px] font-black transform -rotate-45" id="watermark-type">SALE</span>
+                        </div>
+
+                        <div class="text-center border-b-2 border-slate-800 pb-4 mb-5 relative z-10">
+                            <h1 class="text-3xl font-black uppercase tracking-widest text-slate-900">Sri Ram Enterprises</h1>
+                            <p class="text-[11px] font-bold text-slate-600 mt-1.5 uppercase tracking-widest">Wholesale & Retail Mobile Phones, Accessories & Repairing</p>
+                            <p class="text-[9px] font-bold text-slate-500 uppercase tracking-wide mt-1">GB-15, City Centre, Sector-4, Bokaro Steel City, Jharkhand - 827004</p>
+                            <p class="text-[10px] font-mono font-bold text-slate-800 mt-1 bg-slate-100 inline-block px-3 py-0.5 rounded">GSTIN: 20APOPK6864K1ZH | Mobile: +91 9334765000</p>
+                        </div>
+                        
+                        <div class="flex justify-between items-end mb-5 text-xs relative z-10">
+                            <div>
+                                <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Billed To:</p>
+                                <p id="inv-party" class="text-lg font-black uppercase text-slate-900 leading-none"></p>
+                                <p id="inv-phone" class="font-mono text-[11px] text-slate-600 mt-1"></p>
+                                <p id="inv-address" class="text-[10px] uppercase text-slate-500 mt-1 max-w-[250px]"></p>
+                            </div>
+                            <div class="text-right">
+                                <h2 id="inv-type-title" class="text-sm font-black text-slate-900 uppercase tracking-widest border-2 border-slate-900 px-3 py-1 rounded mb-2 inline-block shadow-sm">TAX INVOICE</h2>
+                                <p class="text-[10px] mb-0.5"><span class="text-slate-500 uppercase tracking-widest font-bold">Inv No:</span> <span id="inv-no" class="font-black font-mono"></span></p>
+                                <p class="text-[10px]"><span class="text-slate-500 uppercase tracking-widest font-bold">Date:</span> <span id="inv-date" class="font-black font-mono"></span></p>
+                            </div>
+                        </div>
+
+                        <table class="w-full text-left text-[11px] mb-4 border-collapse relative z-10">
+                            <thead>
+                                <tr class="bg-slate-900 text-white uppercase text-[9px] tracking-widest">
+                                    <th class="p-2 border border-slate-900 text-center w-10">#</th>
+                                    <th class="p-2 border border-slate-900">Item & Description</th>
+                                    <th class="p-2 border border-slate-900 w-44">IMEI / Serial</th>
+                                    <th class="p-2 border border-slate-900 text-center w-10">Qty</th>
+                                    <th class="p-2 border border-slate-900 text-right w-20">Rate</th>
+                                    <th class="p-2 border border-slate-900 text-right w-24">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inv-items" class="font-bold border-b-2 border-slate-900"></tbody>
+                        </table>
+
+                        <div class="flex justify-between items-start pt-2 text-xs relative z-10">
+                            <div class="space-y-3 w-[60%]">
+                                <div class="flex items-center gap-3 p-2 bg-slate-50 border border-slate-200 rounded-lg inline-flex">
+                                    <div id="inv-qr" class="bg-white p-1 rounded border border-slate-300"></div>
+                                    <div class="text-[9px] text-slate-600 font-bold uppercase leading-relaxed">
+                                        <span class="text-slate-900 font-black block text-[11px] mb-0.5">Scan to Pay</span>
+                                        sriram.enterprise@upi<br>A/C: 5020008492019<br>IFSC: HDFC0000240
+                                    </div>
+                                </div>
+                                <p class="text-[8px] font-bold text-slate-400 uppercase tracking-wide leading-snug">* Subject to Bokaro Jurisdiction. Warranty by authorized service centers only. Goods once sold will not be taken back.</p>
+                            </div>
+                            
+                            <div class="w-[35%] text-right space-y-1.5 text-[11px]">
+                                <div class="flex justify-between"><span class="uppercase text-[9px] text-slate-500 font-bold tracking-widest">Taxable:</span><span id="inv-taxable-print" class="font-bold">₹0</span></div>
+                                <div class="flex justify-between"><span class="uppercase text-[9px] text-slate-500 font-bold tracking-widest">Total Taxes:</span><span id="inv-gst-print" class="font-bold">₹0</span></div>
+                                <div class="flex justify-between border-t border-slate-300 pt-1.5 mt-1 text-sm"><span class="uppercase font-black tracking-widest">Grand Total:</span><span id="inv-total-print" class="font-black">₹0</span></div>
+                                <div class="flex justify-between text-emerald-700 mt-2"><span class="uppercase text-[9px] font-bold tracking-widest">Amount Paid:</span><span id="inv-paid" class="font-bold">₹0</span></div>
+                                <div class="flex justify-between text-rose-600 border-t border-slate-200 pt-1.5 mt-1"><span class="uppercase text-[9px] font-bold tracking-widest">Balance Due:</span><span id="inv-bal" class="font-black">₹0</span></div>
+                            </div>
+                        </div>
+
+                        <div class="mt-16 flex justify-between text-[9px] uppercase font-bold text-slate-500 tracking-widest no-print relative z-10">
+                            <div class="w-40 border-t-2 border-slate-400 text-center pt-2">Customer Signature</div>
+                            <div class="w-48 border-t-2 border-slate-800 text-center pt-2 text-slate-900">For Sri Ram Enterprises<p class="text-[7px] text-slate-400 mt-0.5">Authorized Signatory</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <!-- QUICK MODALS -->
-        <div id="party-popup" class="fixed inset-0 bg-slate-900/60 z-[120] flex items-center justify-center hidden backdrop-blur-sm px-4">
-            <div class="bg-white p-5 rounded-xl shadow-xl w-full max-w-sm modal-animate"><h3 class="text-sm font-black text-blue-700 uppercase border-b pb-2 mb-3">Quick Party Setup</h3><input type="hidden" id="q-party-type"><div class="space-y-3"><input type="text" id="q-party-name" class="premium-input uppercase text-blue-700" placeholder="Party Name *"><input type="tel" id="q-party-phone" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'')" class="premium-input font-mono" placeholder="Mobile Number"></div><div class="flex gap-2 mt-4"><button onclick="document.getElementById('party-popup').classList.add('hidden');" class="flex-1 py-2 bg-slate-100 rounded text-xs font-bold text-slate-600">Cancel</button><button onclick="saveQuickParty()" class="flex-1 py-2 bg-blue-600 text-white rounded text-xs font-black shadow">Save</button></div></div>
+        <!-- QUICK POPUPS (Premium Design) -->
+        <div id="party-popup" class="fixed inset-0 bg-slate-900/40 z-[120] flex items-center justify-center hidden backdrop-blur-[2px] px-4">
+            <div class="glass-panel p-6 w-full max-w-sm modal-animate border-t-4 border-t-blue-600">
+                <h3 class="text-sm font-black text-slate-800 uppercase tracking-widest mb-4">Quick Party Setup</h3>
+                <input type="hidden" id="q-party-type">
+                <div class="space-y-4">
+                    <div><label class="text-[9px] font-black text-slate-500 uppercase block mb-1">Party Name *</label><input type="text" id="q-party-name" class="premium-input uppercase text-blue-800"></div>
+                    <div><label class="text-[9px] font-black text-slate-500 uppercase block mb-1">Mobile No</label><input type="tel" id="q-party-phone" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'')" class="premium-input font-mono"></div>
+                </div>
+                <div class="flex gap-3 mt-6">
+                    <button onclick="document.getElementById('party-popup').classList.add('hidden'); if(activeShortcutInput) activeShortcutInput.focus();" class="btn-ghost flex-1 py-2.5 text-[10px] uppercase">Cancel</button>
+                    <button onclick="saveQuickParty()" class="btn-primary flex-1 py-2.5 text-[10px]">Save Auto</button>
+                </div>
+            </div>
         </div>
-        <div id="item-popup" class="fixed inset-0 bg-slate-900/60 z-[120] flex items-center justify-center hidden backdrop-blur-sm px-4">
-            <div class="bg-white p-5 rounded-xl shadow-xl w-full max-w-sm modal-animate"><h3 class="text-sm font-black text-amber-600 uppercase border-b pb-2 mb-3">Quick Item Setup</h3><div class="space-y-3"><input type="text" id="q-item-name" class="premium-input uppercase text-blue-700" placeholder="Item Name *"><select id="q-item-category" class="cat-select premium-input" onchange="handleCategoryChange(this)"></select><div class="flex gap-2"><input type="number" id="q-item-sale" class="premium-input text-blue-700" placeholder="Sale Rate *"><select id="q-item-gst" class="premium-input"><option value="0">0% GST</option><option value="5">5% GST</option><option value="12">12% GST</option><option value="18" selected>18% GST</option><option value="28">28% GST</option></select></div></div><div class="flex gap-2 mt-4"><button onclick="document.getElementById('item-popup').classList.add('hidden');" class="flex-1 py-2 bg-slate-100 rounded text-xs font-bold text-slate-600">Cancel</button><button onclick="saveQuickItem()" class="flex-1 py-2 bg-amber-500 text-white rounded text-xs font-black shadow">Save</button></div></div>
+
+        <div id="item-popup" class="fixed inset-0 bg-slate-900/40 z-[120] flex items-center justify-center hidden backdrop-blur-[2px] px-4">
+            <div class="glass-panel p-6 w-full max-w-sm modal-animate border-t-4 border-t-amber-500">
+                <h3 class="text-sm font-black text-slate-800 uppercase tracking-widest mb-4">Quick Item Setup</h3>
+                <div class="space-y-4">
+                    <div><label class="text-[9px] font-black text-slate-500 uppercase block mb-1">Item Name *</label><input type="text" id="q-item-name" class="premium-input uppercase text-blue-800"></div>
+                    <div><label class="text-[9px] font-black text-slate-500 uppercase block mb-1">Category *</label><select id="q-item-category" class="cat-select premium-input" onchange="handleCategoryChange(this)"></select></div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div><label class="text-[9px] font-black text-slate-500 uppercase block mb-1">Sale Rate (₹) *</label><input type="number" id="q-item-sale" class="premium-input text-blue-700 font-black"></div>
+                        <div><label class="text-[9px] font-black text-slate-500 uppercase block mb-1">GST %</label><select id="q-item-gst" class="premium-input"><option value="0">0%</option><option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option></select></div>
+                    </div>
+                </div>
+                <div class="flex gap-3 mt-6">
+                    <button onclick="document.getElementById('item-popup').classList.add('hidden'); if(activeShortcutInput) activeShortcutInput.focus();" class="btn-ghost flex-1 py-2.5 text-[10px] uppercase">Cancel</button>
+                    <button onclick="saveQuickItem()" class="btn-primary flex-1 py-2.5 text-[10px] !bg-gradient-to-r !from-amber-500 !to-orange-500 !shadow-amber-500/30">Save & Fill</button>
+                </div>
+            </div>
         </div>
 
       </main>
   </div>
 
-  <nav id="bottom-nav" class="lg:hidden fixed bottom-0 w-full bg-white shadow-md flex justify-between z-[100] border-t pb-1 pt-1">
-     <button onclick="startBill('SALE')" class="flex-1 py-1 text-center text-blue-600 flex flex-col items-center"><span class="text-lg leading-none">🛒</span><span class="text-[8px] font-black mt-1">SALE</span></button>
-     <button onclick="startBill('PURCHASE')" class="flex-1 py-1 text-center text-emerald-600 flex flex-col items-center border-l"><span class="text-lg leading-none">📦</span><span class="text-[8px] font-black mt-1">PURCH</span></button>
-     <button onclick="startPayment('IN')" class="flex-1 py-1 text-center text-teal-600 flex flex-col items-center border-l"><span class="text-lg leading-none">💳</span><span class="text-[8px] font-black mt-1">VOUCH</span></button>
-     <button onclick="showView('ledger')" class="flex-1 py-1 text-center text-amber-600 flex flex-col items-center border-l"><span class="text-lg leading-none">📒</span><span class="text-[8px] font-black mt-1">LEDGER</span></button>
+  <!-- MOBILE BOTTOM NAV -->
+  <nav id="bottom-nav" class="lg:hidden fixed bottom-0 w-full bg-white shadow-[0_-4px_25px_-5px_rgba(0,0,0,0.1)] flex justify-between z-[100] border-t border-slate-100 pb-safe pt-1">
+     <button onclick="startBill('SALE')" class="flex-1 py-2 text-center text-blue-600 flex flex-col items-center active:scale-95 transition-transform"><span class="text-xl leading-none mb-1">🛒</span><span class="text-[9px] font-black tracking-widest">SALE</span></button>
+     <button onclick="startBill('PURCHASE')" class="flex-1 py-2 text-center text-emerald-600 flex flex-col items-center active:scale-95 transition-transform relative before:absolute before:left-0 before:h-2/3 before:w-px before:bg-slate-200 before:top-1/6"><span class="text-xl leading-none mb-1">📦</span><span class="text-[9px] font-black tracking-widest">PURCH</span></button>
+     <button onclick="startPayment('IN')" class="flex-1 py-2 text-center text-teal-600 flex flex-col items-center active:scale-95 transition-transform relative before:absolute before:left-0 before:h-2/3 before:w-px before:bg-slate-200 before:top-1/6"><span class="text-xl leading-none mb-1">💳</span><span class="text-[9px] font-black tracking-widest">VOUCH</span></button>
+     <button onclick="showView('ledger')" class="flex-1 py-2 text-center text-amber-600 flex flex-col items-center active:scale-95 transition-transform relative before:absolute before:left-0 before:h-2/3 before:w-px before:bg-slate-200 before:top-1/6"><span class="text-xl leading-none mb-1">📒</span><span class="text-[9px] font-black tracking-widest">LEDGER</span></button>
   </nav>
 
   <script>
     /* ========================================================
-       ENTERPRISE POS CORE (V-OMEGA: 100% MODULES INTEGRATED)
+       ENTERPRISE POS CORE (V-ULTRA PREMIUM)
     ======================================================== */
 
     const Storage = { get: (key) => { try { return JSON.parse(localStorage.getItem(key)) || []; } catch(e) { return []; } }, set: (key, data) => { try { localStorage.setItem(key, JSON.stringify(data)); } catch(e) { console.error("Storage Full"); } } };
@@ -281,11 +729,11 @@
 
     function showToast(title, msg, type = 'success') {
         const container = document.getElementById('toast-container'); const t = document.createElement('div');
-        t.className = `glass-panel p-2 rounded shadow-xl flex items-center space-x-2 border-l-4 ${type==='error'?'border-rose-500':'border-emerald-500'} animate-bounce`;
-        t.innerHTML = `<div class="text-sm">${type==='error'?'❌':'✅'}</div><div><h4 class="font-black text-[9px] uppercase">${title}</h4><p class="text-[9px] font-bold text-slate-500">${msg}</p></div>`;
-        container.appendChild(t); setTimeout(() => t.remove(), 2500);
+        t.className = `glass-panel p-3 flex items-center space-x-3 border-l-4 ${type==='error'?'border-rose-500':'border-emerald-500'} toast-enter`;
+        t.innerHTML = `<div class="text-lg">${type==='error'?'❌':'✅'}</div><div><h4 class="font-black text-[10px] uppercase tracking-widest text-slate-800">${title}</h4><p class="text-[10px] font-bold text-slate-500 mt-0.5">${msg}</p></div>`;
+        container.appendChild(t); setTimeout(() => { t.style.opacity = '0'; setTimeout(()=>t.remove(),300); }, 3000);
     }
-    function showPopup(title, msg, isError = false) { document.getElementById('popup-icon').innerText = isError ? '❌' : '✅'; document.getElementById('popup-title').innerText = title; document.getElementById('popup-title').className = isError ? 'text-lg font-black text-rose-600 uppercase' : 'text-lg font-black text-[#004aad] uppercase'; document.getElementById('popup-message').innerText = msg; document.getElementById('center-popup').classList.remove('hidden'); }
+    function showPopup(title, msg, isError = false) { document.getElementById('popup-icon').innerText = isError ? '❌' : '✅'; document.getElementById('popup-title').innerText = title; document.getElementById('popup-title').className = isError ? 'text-lg font-black text-rose-600 uppercase tracking-widest' : 'text-lg font-black text-[#004aad] uppercase tracking-widest'; document.getElementById('popup-message').innerText = msg; document.getElementById('center-popup').classList.remove('hidden'); }
     function closePopup() { document.getElementById('center-popup').classList.add('hidden'); }
 
     document.addEventListener('focusin', e => { if(e.target.tagName === 'INPUT' && (e.target.type === 'number' || e.target.type === 'text')) e.target.select(); });
@@ -294,7 +742,6 @@
         if(e.key === 'F9' || ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S'))) { e.preventDefault(); if(!document.getElementById('view-new-bill').classList.contains('hidden')) saveFinalBill(); else if(!document.getElementById('add-product-form').parentElement.parentElement.classList.contains('hidden')) saveProduct(); else if(!document.getElementById('pt-name').closest('.view-section').classList.contains('hidden')) saveParty(); }
     });
 
-    // Handle Enter mapping for forms
     function handleShortcut(e, type) { if(e.altKey && (e.key === 'c' || e.key === 'C')) { e.preventDefault(); if(type === 'CUSTOMER' || type === 'SUPPLIER') openPartyModal(type, e.target); else if(type === 'PRODUCT') openItemModal(e.target); } }
 
     function showView(viewName) {
@@ -302,9 +749,9 @@
         document.getElementById('view-' + viewName).classList.remove('hidden');
         if(viewName==='new-bill') document.getElementById('view-' + viewName).classList.add('flex');
         
-        document.querySelectorAll('.nav-btn').forEach(el => { el.classList.remove('bg-blue-600', 'text-white', 'shadow-md'); el.classList.add('text-slate-400'); });
+        document.querySelectorAll('.nav-btn').forEach(el => { el.classList.remove('bg-gradient-to-r', 'from-blue-600', 'to-indigo-600', 'text-white', 'shadow-lg', 'shadow-blue-900/50'); el.classList.add('hover:bg-slate-800', 'hover:text-slate-200'); });
         const activeNav = document.getElementById('nav-' + (viewName==='new-bill'?'new-bill':viewName));
-        if(activeNav) { activeNav.classList.add('bg-blue-600', 'text-white', 'shadow-md'); activeNav.classList.remove('text-slate-400'); }
+        if(activeNav) { activeNav.classList.add('bg-gradient-to-r', 'from-blue-600', 'to-indigo-600', 'text-white', 'shadow-lg', 'shadow-blue-900/50'); activeNav.classList.remove('hover:bg-slate-800', 'hover:text-slate-200'); }
         
         const bottomNav = document.getElementById("bottom-nav");
         if (viewName === 'invoice' || viewName === 'new-bill') { if(bottomNav) bottomNav.classList.add("hidden"); } else { if(bottomNav) bottomNav.classList.remove("hidden"); }
@@ -336,15 +783,16 @@
 
     function onPartySelect(val) {
         const q = val.trim().toUpperCase(), p = partiesDB.find(x => x.name.toUpperCase() === q || x.mobile === q), b = document.getElementById('party-balance-badge');
-        if(p) { document.getElementById('bill-party').value = p.name; b.innerText = `Old Bal: ₹${(p.ob||0).toLocaleString('en-IN')}`; b.className = `absolute right-8 text-[9px] font-black ${p.ob>0?'text-rose-600 bg-rose-100':'text-emerald-600 bg-emerald-100'} px-1.5 py-0.5 rounded shadow-sm whitespace-nowrap`; } 
-        else { b.innerText = "₹0"; b.className = "absolute right-8 text-[9px] font-black text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded shadow-sm whitespace-nowrap"; }
+        if(p) { document.getElementById('bill-party').value = p.name; b.innerText = `Old Bal: ₹${(p.ob||0).toLocaleString('en-IN')}`; b.className = `text-[10px] font-black ${p.ob>0?'text-rose-600 bg-rose-50 border-rose-200':'text-emerald-600 bg-emerald-50 border-emerald-200'} px-2 py-1 rounded border shadow-sm whitespace-nowrap transition-colors`; } 
+        else { b.innerText = "Bal: ₹0"; b.className = "text-[10px] font-black text-slate-500 bg-slate-100 px-2 py-1 rounded border border-slate-200 shadow-sm whitespace-nowrap transition-colors"; }
     }
 
     // --- BILLING ENGINE ---
     function startBill(type) {
         currentMode = type;
         const bTitle = document.getElementById('bill-title'); if(bTitle) bTitle.innerText = type + " ENTRY";
-        document.getElementById('form-entry-type').innerText = type; document.getElementById('form-entry-type').className = type === "SALE" ? "text-[9px] font-black px-2 py-1 rounded bg-blue-100 text-blue-700 uppercase shrink-0" : "text-[9px] font-black px-2 py-1 rounded bg-rose-100 text-rose-700 uppercase shrink-0";
+        const stp = document.getElementById('bill-color-strip'); if(stp) stp.className = type==="SALE"?"absolute left-0 top-0 w-1.5 h-full bg-blue-600":"absolute left-0 top-0 w-1.5 h-full bg-rose-600";
+        document.getElementById('form-entry-type').innerText = type; document.getElementById('form-entry-type').className = type === "SALE" ? "text-[9px] font-black px-2.5 py-1 rounded bg-blue-100 text-blue-700 uppercase tracking-widest shrink-0" : "text-[9px] font-black px-2.5 py-1 rounded bg-rose-100 text-rose-700 uppercase tracking-widest shrink-0";
         document.getElementById('bill-party').value=''; document.getElementById('master-item-scan').value=''; document.getElementById('bill-date').value = getToday(); document.getElementById('bill-inv').value = type === "SALE" ? `${invPrefix}${(billsDB.length + 1).toString().padStart(3,'0')}` : `PUR-${(billsDB.length + 1).toString().padStart(3,'0')}`; 
         document.getElementById('bill-items-body').innerHTML=''; onPartySelect('');
         resetPaymentFields(); addBillRow(null, null, true); showView('new-bill'); setTimeout(() => document.getElementById('master-item-scan').focus(), 100);
@@ -360,34 +808,40 @@
                     let q = found.querySelector('.b-qty'); q.value = Number(q.value)+1;
                     if(prod.imeiList && prod.imeiList.includes(val)) { let m = found.querySelector('.b-imei-main'); if(!m.value) m.value = val; else { window.handleGridQtyChange(q); let ex = Array.from(found.querySelectorAll('.b-imei-extra')).find(i=>!i.value); if(ex) ex.value = val; } } else window.handleGridQtyChange(q);
                 } else { addBillRow(prod, val); if(rows[0] && !rows[0].querySelector('.b-name').value) rows[0].remove(); }
-                calcBill(); showToast("Scanned", `${prod.name} added`);
-            } else showToast("Error", "Item not found in master", "error");
+                calcBill(); showToast("Added", `${prod.name} added to cart`);
+            } else showToast("Not Found", "Item not in database", "error");
             e.target.value = ''; setTimeout(() => e.target.focus(), 10);
         }
     }
 
     function addBillRow(prod=null, scanVal=null, isFirst=false) {
-        const tbody = document.getElementById('bill-items-body'), tr = document.createElement('tr'); tr.className = "group hover:bg-slate-50 border-b border-slate-100 transition-colors";
+        const tbody = document.getElementById('bill-items-body'), tr = document.createElement('tr'); tr.className = "group hover:bg-slate-50 transition-colors";
         let pName = prod ? prod.name : "", pRate = prod ? (currentMode === "SALE" ? prod.sale : prod.pur) : "", pGst = prod ? prod.gst : 18, pImei = (prod && prod.imeiList && prod.imeiList.includes(scanVal)) ? scanVal : "";
-        tr.innerHTML = `<td class="p-1 align-top pl-4"><input type="text" list="item-list" onchange="autoFillRate(this)" class="premium-input uppercase text-[10px] text-blue-700 b-name !px-2 !h-[28px] border-transparent bg-transparent hover:border-slate-300 focus:bg-white" placeholder="Item Name" value="${pName}"></td><td class="p-1 align-top"><input type="number" oninput="calcBill()" class="premium-input text-[11px] text-right b-rate !px-2 !h-[28px]" placeholder="0" value="${pRate}"></td><td class="p-1 align-top"><select onchange="calcBill()" tabindex="-1" class="premium-input text-center text-[10px] b-gst !px-1 !h-[28px]"><option value="0" ${pGst==0?'selected':''}>0</option><option value="5" ${pGst==5?'selected':''}>5</option><option value="12" ${pGst==12?'selected':''}>12</option><option value="18" ${pGst==18?'selected':''}>18</option><option value="28" ${pGst==28?'selected':''}>28</option></select></td><td class="p-1 align-top"><input type="number" min="1" value="1" oninput="window.handleGridQtyChange(this)" onkeyup="window.handleGridQtyChange(this)" class="premium-input text-center font-black text-[#004aad] b-qty !px-1 !h-[28px]"></td><td class="p-1 align-top relative pr-6"><input type="text" maxlength="25" oninput="this.value=this.value.replace(/[^0-9A-Za-z]/g,'')" class="premium-input font-mono text-[10px] uppercase text-slate-600 b-imei-main !px-2 !h-[28px]" placeholder="IMEI 1" value="${pImei}"><div class="b-imei-extended hidden mt-1 flex-wrap gap-1"></div>${!isFirst ? `<button onclick="this.closest('tr').remove(); calcBill();" tabindex="-1" class="absolute right-1 top-1.5 text-rose-400 hover:text-rose-600 font-black opacity-0 group-hover:opacity-100 px-1">✕</button>` : ''}</td>`;
+        tr.innerHTML = `<td class="p-1.5 align-top pl-4"><input type="text" list="item-list" onchange="autoFillRate(this)" class="premium-input uppercase text-[11px] text-blue-800 font-black b-name !px-2 !h-[34px] border-transparent bg-transparent hover:border-slate-300 focus:bg-white transition-all shadow-none focus:shadow-sm" placeholder="Item Name" value="${pName}"></td><td class="p-1.5 align-top"><input type="number" oninput="calcBill()" class="premium-input text-[12px] text-right b-rate !px-2 !h-[34px] font-bold" placeholder="0" value="${pRate}"></td><td class="p-1.5 align-top"><select onchange="calcBill()" tabindex="-1" class="premium-input text-center text-[11px] font-bold b-gst !px-1 !h-[34px]"><option value="0" ${pGst==0?'selected':''}>0</option><option value="5" ${pGst==5?'selected':''}>5</option><option value="12" ${pGst==12?'selected':''}>12</option><option value="18" ${pGst==18?'selected':''}>18</option><option value="28" ${pGst==28?'selected':''}>28</option></select></td><td class="p-1.5 align-top"><input type="number" min="1" value="1" oninput="window.handleGridQtyChange(this)" onkeyup="window.handleGridQtyChange(this)" class="premium-input text-center font-black text-[#004aad] text-[13px] b-qty !px-1 !h-[34px]"></td><td class="p-1.5 align-top relative pr-6"><input type="text" maxlength="25" oninput="this.value=this.value.replace(/[^0-9A-Za-z]/g,'')" class="premium-input font-mono font-bold text-[11px] uppercase text-slate-600 b-imei-main !px-3 !h-[34px]" placeholder="IMEI 1" value="${pImei}"><div class="b-imei-extended hidden imei-grid-container"></div>${!isFirst ? `<button onclick="this.closest('tr').remove(); calcBill();" tabindex="-1" class="absolute right-2 top-2.5 w-6 h-6 flex items-center justify-center text-rose-400 hover:text-rose-600 hover:bg-rose-50 rounded-full font-black opacity-0 group-hover:opacity-100 transition-all">✕</button>` : ''}</td>`;
         tbody.appendChild(tr); const s = document.getElementById('bill-items-container'); if(s) s.scrollTop = s.scrollHeight;
     }
 
+    // THE APPLE-STYLE IMEI GRID
     window.handleGridQtyChange = function(input) {
         calcBill(); const tr = input.closest('tr'), qty = Math.max(1, Number(input.value)||1), extBox = tr.querySelector('.b-imei-extended');
-        if(qty > 1) { extBox.classList.remove('hidden'); extBox.classList.add('flex'); const vals = Array.from(extBox.querySelectorAll('.imei-extra-input')).map(i=>i.value); let html = ''; for(let i=2; i<=qty; i++) html += `<input type="text" maxlength="25" oninput="this.value=this.value.replace(/[^0-9A-Za-z]/g,''); this.setAttribute('value', this.value);" value="${vals[i-2]||''}" placeholder="IMEI ${i}" class="imei-extra-input b-imei-extra">`; extBox.innerHTML = html; } 
-        else { extBox.classList.add('hidden'); extBox.innerHTML = ''; }
+        if(qty > 1) {
+            extBox.classList.remove('hidden'); 
+            const vals = Array.from(extBox.querySelectorAll('.imei-extra-input')).map(i=>i.value); let html = '';
+            for(let i=2; i<=qty; i++) html += `<input type="text" maxlength="25" oninput="this.value=this.value.replace(/[^0-9A-Za-z]/g,''); this.setAttribute('value', this.value);" value="${vals[i-2]||''}" placeholder="IMEI ${i}" class="imei-extra-input b-imei-extra">`;
+            extBox.innerHTML = html;
+        } else { extBox.classList.add('hidden'); extBox.innerHTML = ''; }
     };
 
     function autoFillRate(input) { const prod = productsDB.find(p => p.name === input.value.trim().toUpperCase()); if(prod) { const tr=input.closest('tr'); tr.querySelector('.b-rate').value=currentMode==="SALE"?prod.sale:prod.pur; tr.querySelector('.b-gst').value=prod.gst; calcBill(); } }
 
     function onPaymentModeChange(s) {
         const pEl=document.getElementById('pay-primary'), sEl=document.getElementById('pay-secondary'); if(s==='primary'&&pEl.value!=="") sEl.value=""; else if(s==='secondary'&&sEl.value!=="") pEl.value="";
-        ['box-split','box-finance','box-dues'].forEach(id=>document.getElementById(id).classList.add('hidden'));
+        ['box-split','box-finance','box-dues'].forEach(id=>document.getElementById(id).classList.add('hidden')); document.getElementById('payment-divider').classList.add('hidden');
         const p = pEl.value, sec = sEl.value; let am = p;
-        if(sec === "Finance") { document.getElementById('box-finance').classList.remove('hidden'); document.getElementById('box-finance').classList.add('flex'); am = document.getElementById('fin-dp-mode').value; } else if(sec === "Dues") { document.getElementById('box-dues').classList.remove('hidden'); document.getElementById('box-dues').classList.add('flex'); am = document.getElementById('dues-dp-mode').value; } else if(p.includes('/')) { document.getElementById('box-split').classList.remove('hidden'); document.getElementById('box-split').classList.add('flex'); }
-        const pInp = document.getElementById('bill-paid');
-        if(am && am.includes('/')) { ['cash','qr','card'].forEach(t => document.getElementById(`split-${t}`).parentElement.classList.toggle('hidden', !am.toLowerCase().includes(t))); pInp.readOnly=true; pInp.classList.add('opacity-50'); pInp.placeholder="Auto"; } else { pInp.readOnly=false; pInp.classList.remove('opacity-50'); pInp.placeholder="0"; if(!am) pInp.value=""; } calcBill();
+        if(sec === "Finance") { document.getElementById('box-finance').classList.remove('hidden'); document.getElementById('box-finance').classList.add('flex'); document.getElementById('payment-divider').classList.remove('hidden'); am = document.getElementById('fin-dp-mode').value; } else if(sec === "Dues") { document.getElementById('box-dues').classList.remove('hidden'); document.getElementById('box-dues').classList.add('flex'); document.getElementById('payment-divider').classList.remove('hidden'); am = document.getElementById('dues-dp-mode').value; } else if(p && p.includes('/')) { document.getElementById('box-split').classList.remove('hidden'); document.getElementById('box-split').classList.add('flex'); document.getElementById('payment-divider').classList.remove('hidden'); }
+        const pInp = document.getElementById('bill-paid'), fDp=document.getElementById('fin-dp-amt'), dDp=document.getElementById('dues-dp-amt');
+        if(am && am.includes('/')) { ['cash','qr','card'].forEach(t => document.getElementById(`split-${t}`).parentElement.classList.toggle('hidden', !am.toLowerCase().includes(t))); pInp.readOnly=true; pInp.classList.add('opacity-50','cursor-not-allowed'); pInp.placeholder="Auto"; fDp.readOnly=true; fDp.classList.add('opacity-50','cursor-not-allowed'); fDp.placeholder="Auto"; dDp.readOnly=true; dDp.classList.add('opacity-50','cursor-not-allowed'); dDp.placeholder="Auto"; } 
+        else { pInp.readOnly=false; pInp.classList.remove('opacity-50','cursor-not-allowed'); pInp.placeholder="0"; fDp.readOnly=false; fDp.classList.remove('opacity-50','cursor-not-allowed'); fDp.placeholder="DP (₹)"; dDp.readOnly=false; dDp.classList.remove('opacity-50','cursor-not-allowed'); dDp.placeholder="Paid (₹)"; if(!am) pInp.value=""; } calcBill();
     }
     function renderSplitInputs() { onPaymentModeChange(''); }
     function resetPaymentFields() { ['bill-paid','pay-primary','pay-secondary','fin-company','fin-dp-amt','fin-dp-mode','dues-dp-amt','dues-dp-mode','split-cash','split-qr','split-card'].forEach(id=>document.getElementById(id).value=""); onPaymentModeChange(''); }
@@ -429,11 +883,7 @@
             let vImeis = []; if(im) vImeis.push(im); row.querySelectorAll('.b-imei-extra').forEach(inp=>{ if(inp.value.trim()) vImeis.push(inp.value.trim().toUpperCase()); });
             
             let prod = productsDB.find(p=>p.name===n);
-            // AUTO CREATE NEW PRODUCT ON PURCHASE
-            if(currentMode === "PURCHASE" && !prod) {
-                prod = { id:'PRD-'+Date.now(), name:n, brand:"-", category:categoriesDB[0], sku:"SKU-"+Date.now(), hsn:"-", mrp:0, pur:r, sale:r*1.2, gst:g, stock:0, lowStock:5, track:vImeis.length>0, imeiList:[] };
-                productsDB.push(prod);
-            }
+            if(currentMode === "PURCHASE" && !prod) { prod = { id:'PRD-'+Date.now(), name:n, brand:"-", category:categoriesDB[0], sku:"SKU-"+Date.now(), hsn:"-", mrp:0, pur:r, sale:r*1.2, gst:g, stock:0, lowStock:5, track:vImeis.length>0, imeiList:[] }; productsDB.push(prod); }
 
             if(prod && prod.track) {
                 if(vImeis.length !== q) { err=`Require exactly ${q} IMEI(s) for ${n}`; break; }
@@ -460,12 +910,14 @@
         });
 
         let pData = partiesDB.find(p=>p.name===pName);
-        const billRec = { id:'INV-'+Date.now(), invNo:document.getElementById('bill-inv').value||`${invPrefix}Auto`, date:document.getElementById('bill-date').value, type:currentMode, party:pName, mobile:pData?pData.mobile:"", items, basic:t.tax, gst:t.gstAmt, total:t.rGrand, paid:t.rawP, due:t.due, paymentMode:sm||pm, profit:t.profit };
+        let finData = null; if(sm==="Finance") finData = { company: document.getElementById('fin-company').value, dp: t.rawP };
+
+        const billRec = { id:'INV-'+Date.now(), invNo:document.getElementById('bill-inv').value||`${invPrefix}Auto`, date:document.getElementById('bill-date').value, type:currentMode, party:pName, mobile:pData?pData.mobile:"", items, basic:t.tax, gst:t.gstAmt, total:t.rGrand, paid:t.rawP, due:t.due, paymentMode:sm||pm, finance:finData, profit:t.profit };
         billsDB.unshift(billRec); Storage.set('sre_bills', billsDB); Storage.set('sre_products', productsDB);
         
         if(t.due>0 || currentMode==="PURCHASE") { if(pData) { pData.ob += (currentMode==="SALE" ? t.due : -t.due); Storage.set('sre_parties', partiesDB); } }
         
-        showToast("Success", "Bill Saved"); generateInvoiceHTML(billRec); setTimeout(()=> { isSaving=false; document.getElementById('btn-save-bill').innerHTML=`💾 SAVE <span class="text-[8px] font-normal hidden lg:inline">(F9)</span>`; }, 1000);
+        showToast("Success", "Bill Saved Successfully"); generateInvoiceHTML(billRec); setTimeout(()=>{ isSaving=false; document.getElementById('btn-save-bill').innerHTML=`💾 SAVE <span class="text-[9px] text-blue-200 font-normal hidden lg:inline bg-blue-800/50 px-1.5 rounded ml-1">(F9)</span>`; }, 1000);
     }
 
     // --- INVOICE ENGINE ---
@@ -473,11 +925,12 @@
     function shareViaWhatsApp() { const p = document.getElementById('inv-party').innerText, i = document.getElementById('inv-no').innerText, t = document.getElementById('inv-total-print').innerText; let m = document.getElementById('inv-phone').innerText; if(!m) m=prompt("WhatsApp No:"); if(m) window.open(`https://wa.me/91${m}?text=${encodeURIComponent(`*SRI RAM ENTERPRISES*\nHello *${p}*,\nInvoice *${i}* for *${t}* is generated.\nThank you!`)}`, '_blank'); }
     function generateInvoiceHTML(bill) {
         document.getElementById('inv-party').innerText=bill.party; document.getElementById('inv-phone').innerText=bill.mobile||"-"; document.getElementById('inv-no').innerText=bill.invNo; document.getElementById('inv-date').innerText=bill.date; document.getElementById('inv-type-title').innerText=bill.type==="PURCHASE"?"PURCHASE VOUCHER":"TAX INVOICE";
+        document.getElementById('watermark-type').innerText = bill.type;
         let pData = partiesDB.find(p => p.name === bill.party); document.getElementById('inv-address').innerText = pData ? (pData.address || "-") : "-";
-        let html=''; bill.items.forEach((it, i) => { html += `<tr><td class="p-1 border text-center">${i+1}</td><td class="p-1 border">${it.name} <span class="text-[8px] text-slate-500">[GST ${it.gst}%]</span></td><td class="p-1 border font-mono text-[9px] break-all">${it.imei||'-'}</td><td class="p-1 border text-center">${it.qty}</td><td class="p-1 border text-right">${it.rate}</td><td class="p-1 border text-right">${it.amt}</td></tr>`; });
+        let html=''; bill.items.forEach((it, i) => { html += `<tr><td class="p-2 border border-slate-900 text-center">${i+1}</td><td class="p-2 border border-slate-900">${it.name} <span class="text-[8px] text-slate-500">[GST ${it.gst}%]</span></td><td class="p-2 border border-slate-900 font-mono text-[9px] break-all">${it.imei||'-'}</td><td class="p-2 border border-slate-900 text-center">${it.qty}</td><td class="p-2 border border-slate-900 text-right">${it.rate}</td><td class="p-2 border border-slate-900 text-right">${it.amt}</td></tr>`; });
         document.getElementById('inv-items').innerHTML = html;
         document.getElementById('inv-taxable-print').innerText = "₹"+bill.basic.toLocaleString('en-IN'); document.getElementById('inv-gst-print').innerText = "₹"+bill.gst.toLocaleString('en-IN'); document.getElementById('inv-total-print').innerText = "₹"+bill.total.toLocaleString('en-IN'); document.getElementById('inv-paid').innerText = "₹"+bill.paid.toLocaleString('en-IN'); document.getElementById('inv-bal').innerText = "₹"+bill.due.toLocaleString('en-IN');
-        document.getElementById("inv-qr").innerHTML = ""; new QRCode(document.getElementById("inv-qr"), { text: `upi://pay?pa=sriram.enterprise@upi&pn=SRE&am=${bill.total}`, width: 50, height: 50 }); showView('invoice');
+        document.getElementById("inv-qr").innerHTML = ""; new QRCode(document.getElementById("inv-qr"), { text: `upi://pay?pa=sriram.enterprise@upi&pn=SRE&am=${bill.total}`, width: 60, height: 60 }); showView('invoice');
     }
     function downloadPDF() {
         const { jsPDF } = window.jspdf; const doc = new jsPDF("p", "mm", "a4");
@@ -490,23 +943,23 @@
     // --- PRODUCT & PARTY & LEDGER MANAGERS ---
     function renderProducts() {
         const s = document.getElementById('prod-search').value.toUpperCase(), c = document.getElementById('filter-category').value;
-        const f = productsDB.filter(p => (p.name.includes(s) || p.sku.includes(s) || (p.imeiList && p.imeiList.join(' ').includes(s))) && (c === "ALL" || !c || p.category === c));
-        document.getElementById('product-table-body').innerHTML = f.map(p => `<tr><td class="text-center text-lg">📦</td><td><p class="font-black text-xs text-blue-700 uppercase">${p.name}</p><p class="text-[9px] text-slate-400">${p.category}</p></td><td><p class="font-mono font-bold text-[10px]">${p.sku}</p></td><td class="text-right font-bold text-slate-500">₹${p.pur}</td><td class="text-right font-black text-sm text-slate-900">₹${p.sale}</td><td class="text-center font-black ${p.stock<=0?'text-rose-600':'text-emerald-600'}">${p.stock}</td><td class="text-center">${p.stock<=0?'<span class="bg-rose-100 text-rose-700 px-2 py-1 rounded text-[9px]">Out</span>':'<span class="bg-emerald-100 text-emerald-700 px-2 py-1 rounded text-[9px]">In</span>'}</td><td class="text-center"><button onclick="editProduct('${p.id}')" class="bg-blue-50 text-blue-600 px-2 py-1 rounded text-xs shadow-sm">✏️</button></td></tr>`).join('');
+        const f = productsDB.filter(p => (p.name.includes(s) || p.sku.includes(s) || (p.brand && p.brand.includes(s)) || (p.category && p.category.toUpperCase().includes(s)) || (p.imeiList && p.imeiList.join(' ').includes(s))) && (c === "ALL" || !c || p.category === c));
+        document.getElementById('product-table-body').innerHTML = f.map(p => `<tr class="hover:bg-blue-50/50 transition-colors"><td class="text-center text-xl drop-shadow-sm">📦</td><td><p class="font-black text-xs text-blue-700 uppercase">${p.name}</p><p class="text-[9px] text-slate-500 font-bold uppercase tracking-widest mt-1">${p.brand} • ${p.category}</p></td><td><p class="font-mono font-bold text-[10px] bg-slate-100 px-1 py-0.5 inline rounded">${p.sku}</p></td><td class="text-right font-bold text-slate-500">₹${p.pur}</td><td class="text-right font-black text-sm text-slate-900">₹${p.sale}</td><td class="text-center font-black text-lg ${p.stock<=0?'text-rose-600':'text-emerald-600'}">${p.stock}</td><td class="text-center">${p.stock<=0?'<span class="bg-rose-100 text-rose-700 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest">Out</span>':'<span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest">In Stock</span>'}</td><td class="text-center"><button onclick="editProduct('${p.id}')" class="bg-blue-100 text-blue-700 px-3 py-1.5 rounded-lg text-xs font-black shadow-sm hover:bg-blue-600 hover:text-white transition-colors">EDIT</button></td></tr>`).join('');
         document.getElementById('item-list').innerHTML = productsDB.map(p => `<option value="${p.name}">`).join('');
     }
     function editProduct(id) { const p = productsDB.find(x=>x.id===id); if(!p) return; document.getElementById('p-id').value=p.id; document.getElementById('p-name').value=p.name; document.getElementById('p-brand').value=p.brand; document.getElementById('p-category').value=p.category; document.getElementById('p-variant').value=p.variant; document.getElementById('p-sku').value=p.sku; document.getElementById('p-hsn').value=p.hsn||""; document.getElementById('p-mrp').value=p.mrp; document.getElementById('p-pur').value=p.pur; document.getElementById('p-sale').value=p.sale; document.getElementById('p-gst').value=p.gst; document.getElementById('p-stock').value=p.stock; document.getElementById('p-low').value=p.lowStock||5; document.getElementById('p-track').checked=p.track; generateImeiBoxes(); if(p.track && p.stock>0 && p.imeiList) { const ins = document.querySelectorAll('.p-imei-val'); ins.forEach((i,idx)=>{if(p.imeiList[idx]) i.value=p.imeiList[idx];}); } document.getElementById('add-product-form').scrollIntoView({behavior:'smooth'}); }
     function saveProduct() { const id=document.getElementById('p-id').value, nm=escapeHTML(document.getElementById('p-name').value.trim().toUpperCase()); if(!nm) return; let obj = { id:id||'PRD-'+Date.now(), name:nm, brand:document.getElementById('p-brand').value, category:document.getElementById('p-category').value, variant:document.getElementById('p-variant').value, sku:document.getElementById('p-sku').value||"SKU-"+Date.now(), hsn:document.getElementById('p-hsn').value, mrp:Number(document.getElementById('p-mrp').value), pur:Number(document.getElementById('p-pur').value), sale:Number(document.getElementById('p-sale').value), gst:Number(document.getElementById('p-gst').value), stock:Number(document.getElementById('p-stock').value), lowStock:Number(document.getElementById('p-low').value), track:document.getElementById('p-track').checked, imeiList:[] }; if(id){ const ix=productsDB.findIndex(x=>x.id===id); productsDB[ix]=obj; } else productsDB.push(obj); Storage.set('sre_products', productsDB); renderProducts(); showToast("Saved", "Product Saved"); clearProductForm(); }
     function clearProductForm() { ['p-id','p-name','p-brand','p-variant','p-sku','p-hsn','p-mrp','p-pur','p-sale','p-stock'].forEach(id=>document.getElementById(id).value=''); document.getElementById('p-gst').value='18'; document.getElementById('p-track').checked=true; generateImeiBoxes(); }
-    function generateImeiBoxes() { const st=Number(document.getElementById('p-stock').value)||0, tr=document.getElementById('p-track').checked, c=document.getElementById('p-imei-container'), l=document.getElementById('p-imei-list'); l.innerHTML=''; if(tr&&st>0){ c.classList.remove('hidden'); for(let i=0;i<st;i++) l.innerHTML+=`<input type="text" class="premium-input font-mono uppercase text-[10px] p-imei-val" placeholder="IMEI ${i+1}">`; } else c.classList.add('hidden'); }
+    function generateImeiBoxes() { const st=Number(document.getElementById('p-stock').value)||0, tr=document.getElementById('p-track').checked, c=document.getElementById('p-imei-container'), l=document.getElementById('p-imei-list'); l.innerHTML=''; if(tr&&st>0){ c.classList.remove('hidden'); for(let i=0;i<st;i++) l.innerHTML+=`<input type="text" class="premium-input font-mono uppercase text-[10px] p-imei-val shadow-sm border-blue-200" placeholder="IMEI ${i+1}">`; } else c.classList.add('hidden'); }
     function handleProductImage(e) { } function clearProductImage() { } function importProductsCSV(e) { } function exportProductsCSV() { }
 
     function renderParties() {
         const s = document.getElementById('party-search').value.toUpperCase(); const f = partiesDB.filter(p => p.name.includes(s) || p.mobile.includes(s));
-        document.getElementById('party-table-body').innerHTML = f.map(p => `<tr><td><span class="${p.type==='CUSTOMER'?'bg-blue-50 text-blue-700':'bg-rose-50 text-rose-700'} px-2 py-1 rounded-md text-[8px] font-black">${p.type}</span></td><td class="font-black text-xs text-blue-700 uppercase">${p.name}</td><td class="font-mono text-slate-600 font-bold">${p.mobile||'-'}</td><td><p class="text-[10px] font-bold text-slate-700 uppercase">${p.address||'-'}</p></td><td class="text-right font-black text-sm">₹${(p.ob||0).toLocaleString()}</td><td class="text-center"><button onclick="editParty('${p.id}')" class="bg-blue-50 text-blue-600 px-2 py-1 rounded text-xs shadow-sm">✏️</button></td></tr>`).join('');
+        document.getElementById('party-table-body').innerHTML = f.map(p => `<tr class="hover:bg-purple-50/50 transition-colors"><td><span class="${p.type==='CUSTOMER'?'bg-blue-100 text-blue-700':'bg-rose-100 text-rose-700'} px-2.5 py-1 rounded-md text-[8px] font-black uppercase tracking-widest shadow-sm">${p.type}</span></td><td class="font-black text-sm text-slate-800 uppercase">${p.name}</td><td class="font-mono text-slate-600 font-bold bg-slate-50 px-2 py-1 rounded inline-block mt-2">${p.mobile||'-'}</td><td><p class="text-[10px] font-bold text-slate-700 uppercase">${p.address||'-'}</p></td><td class="text-right font-black text-base ${p.ob>0?'text-rose-600':'text-emerald-600'}">₹${(p.ob||0).toLocaleString()}</td><td class="text-center"><button onclick="editParty('${p.id}')" class="bg-slate-100 text-slate-600 px-3 py-1.5 rounded-lg text-xs font-black shadow-sm hover:bg-slate-800 hover:text-white transition-colors">EDIT</button></td></tr>`).join('');
         document.getElementById('party-list').innerHTML = partiesDB.map(p => `<option value="${p.name}">Ph: ${p.mobile||'-'}</option>`).join('');
     }
     function editParty(id) { const p = partiesDB.find(x=>x.id===id); if(!p) return; document.getElementById('pt-id').value=p.id; document.getElementById('pt-type').value=p.type; document.getElementById('pt-name').value=p.name; document.getElementById('pt-mobile').value=p.mobile; document.getElementById('pt-address').value=p.address; document.getElementById('pt-gstin').value=p.gstin; document.getElementById('pt-ob').value=p.ob; }
-    function saveParty() { const id=document.getElementById('pt-id').value, nm=escapeHTML(document.getElementById('pt-name').value.trim().toUpperCase()); if(!nm) return; let obj = { id:id||'PTY-'+Date.now(), type:document.getElementById('pt-type').value, name:nm, mobile:document.getElementById('pt-mobile').value, address:document.getElementById('pt-address').value, gstin:document.getElementById('pt-gstin').value, ob:Number(document.getElementById('pt-ob').value) }; if(id){ const ix=partiesDB.findIndex(x=>x.id===id); partiesDB[ix]=obj; } else partiesDB.push(obj); Storage.set('sre_parties', partiesDB); renderParties(); showToast("Saved", "Party Saved"); clearPartyForm(); }
+    function saveParty() { const id=document.getElementById('pt-id').value, nm=escapeHTML(document.getElementById('pt-name').value.trim().toUpperCase()); if(!nm) return; let obj = { id:id||'PTY-'+Date.now(), type:document.getElementById('pt-type').value, name:nm, mobile:document.getElementById('pt-mobile').value, address:document.getElementById('pt-address').value, gstin:document.getElementById('pt-gstin').value, ob:Number(document.getElementById('pt-ob').value) }; if(id){ const ix=partiesDB.findIndex(x=>x.id===id); partiesDB[ix]=obj; } else partiesDB.push(obj); Storage.set('sre_parties', partiesDB); renderParties(); showToast("Saved", "Party Account Saved"); clearPartyForm(); }
     function clearPartyForm() { ['pt-id','pt-name','pt-mobile','pt-address','pt-gstin','pt-ob'].forEach(id=>document.getElementById(id).value=''); }
 
     function startPayment(type) { currentPaymentType=type; document.getElementById('pay-title').innerText=type==='OUT'?'PAYMENT OUT':'RECEIPT IN'; document.getElementById('pay-party-lbl').innerText=type==='OUT'?'Supplier *':'Customer *'; ['pay-party','pay-amt','pay-remarks'].forEach(id=>document.getElementById(id).value=''); showView('payment'); }
@@ -514,16 +967,16 @@
         const p=document.getElementById('pay-party').value.toUpperCase(), a=Number(document.getElementById('pay-amt').value), m=document.getElementById('pay-mode').value, r=document.getElementById('pay-remarks').value;
         if(!p || a<=0) return showToast("Error", "Party & Amount needed", "error");
         const bRec = { id:'INV-'+Date.now(), invNo:`${currentPaymentType==='OUT'?'PAY':'REC'}-26-${Date.now()}`, date:getToday(), type:currentPaymentType==='OUT'?'PAYMENT':'RECEIPT', party:p, items:[{name:r||"Voucher", rate:a, qty:1, gst:0, amt:a}], basic:a, gst:0, total:a, paid:a, due:0, paymentMode:m };
-        billsDB.unshift(bRec); Storage.set('sre_bills', billsDB); let pD=partiesDB.find(x=>x.name===p); if(pD) { pD.ob += (currentPaymentType==="IN"?-a:a); Storage.set('sre_parties', partiesDB); } showPopup("Success", "Voucher Posted"); showView('ledger');
+        billsDB.unshift(bRec); Storage.set('sre_bills', billsDB); let pD=partiesDB.find(x=>x.name===p); if(pD) { pD.ob += (currentPaymentType==="IN"?-a:a); Storage.set('sre_parties', partiesDB); } showPopup("Success", "Voucher Posted to Ledger"); showView('ledger');
     }
 
-    function switchLedgerTab(t) { document.getElementById('tab-CUSTOMER').className=t==='CUSTOMER'?"flex-1 py-1.5 rounded text-[10px] font-black bg-blue-600 text-white shadow":"flex-1 py-1.5 rounded text-[10px] font-black text-slate-500"; document.getElementById('tab-SUPPLIER').className=t==='SUPPLIER'?"flex-1 py-1.5 rounded text-[10px] font-black bg-blue-600 text-white shadow":"flex-1 py-1.5 rounded text-[10px] font-black text-slate-500"; document.getElementById("ledger-search").value=""; updateLedgerView(t); }
+    function switchLedgerTab(t) { document.getElementById('tab-CUSTOMER').className=t==='CUSTOMER'?"flex-1 py-2 rounded-lg text-[10px] font-black bg-white text-blue-700 shadow-sm tracking-widest transition-all":"flex-1 py-2 rounded-lg text-[10px] font-black text-slate-500 hover:text-slate-800 tracking-widest transition-all"; document.getElementById('tab-SUPPLIER').className=t==='SUPPLIER'?"flex-1 py-2 rounded-lg text-[10px] font-black bg-white text-blue-700 shadow-sm tracking-widest transition-all":"flex-1 py-2 rounded-lg text-[10px] font-black text-slate-500 hover:text-slate-800 tracking-widest transition-all"; document.getElementById("ledger-search").value=""; updateLedgerView(t); }
     function updateLedgerView(fType=null) {
-        const isC = fType ? fType==='CUSTOMER' : document.getElementById('tab-CUSTOMER').classList.contains('bg-blue-600'); const src = document.getElementById("ledger-search").value.toUpperCase();
+        const isC = fType ? fType==='CUSTOMER' : document.getElementById('tab-CUSTOMER').classList.contains('bg-white'); const src = document.getElementById("ledger-search").value.toUpperCase();
         let ob=0, bl=0, pd=0; partiesDB.filter(p=>p.type===(isC?'CUSTOMER':'SUPPLIER') && (p.name.includes(src)||p.mobile.includes(src))).forEach(p=>ob+=Number(p.ob));
         let run = ob; let bList = billsDB.filter(b=>(b.party.includes(src)||b.invNo.includes(src)) && (isC?(b.type==="SALE"||b.type==="RECEIPT"):(b.type==="PURCHASE"||b.type==="PAYMENT")));
         bList.reverse().forEach(b=>{ const am=Number(b.total), p=Number(b.paid); if(isC){bl+=am; pd+=p; run+=(am-p);} else{bl+=am; pd+=p; run-=(am-p);} b._run=run; });
-        document.getElementById("ledger-table-body").innerHTML = bList.reverse().map(b=>`<tr><td>${b.date}</td><td class="font-bold">${b.invNo}</td><td><span class="px-2 py-0.5 rounded text-[8px] font-black ${b.type.includes('SALE')?'bg-blue-50 text-blue-700':'bg-rose-50 text-rose-700'}">${b.type}</span></td><td class="font-black text-slate-800 uppercase">${b.party}</td><td class="text-right text-blue-700 font-bold">${isC&&b.total>0?b.total:(!isC&&b.paid>0?b.paid:'-')}</td><td class="text-right text-emerald-700 font-bold">${isC&&b.paid>0?b.paid:(!isC&&b.total>0?b.total:'-')}</td><td class="text-right font-black">${b._run} ${isC?'Dr':'Cr'}</td><td class="text-center"><button onclick="generateInvoiceHTML(billsDB.find(x=>x.id==='${b.id}'))" class="bg-slate-100 px-2 py-1 rounded text-[9px] shadow-sm">View</button></td></tr>`).join('');
+        document.getElementById("ledger-table-body").innerHTML = bList.reverse().map(b=>`<tr class="hover:bg-amber-50/30 transition-colors"><td><span class="font-mono text-[10px] font-bold text-slate-500 bg-slate-100 px-2 py-1 rounded">${b.date}</span></td><td class="font-bold text-[11px]">${b.invNo}</td><td class="text-center"><span class="px-2.5 py-1 rounded-md text-[8px] font-black uppercase tracking-widest ${b.type.includes('SALE')?'bg-blue-100 text-blue-700':'bg-rose-100 text-rose-700'} shadow-sm">${b.type}</span></td><td class="font-black text-slate-800 uppercase text-xs">${b.party}</td><td class="text-right text-rose-600 font-black text-sm">${isC&&b.total>0?b.total:(!isC&&b.paid>0?b.paid:'-')}</td><td class="text-right text-emerald-600 font-black text-sm">${isC&&b.paid>0?b.paid:(!isC&&b.total>0?b.total:'-')}</td><td class="text-right font-black text-sm text-slate-900">${b._run} ${isC?'Dr':'Cr'}</td><td class="text-center"><button onclick="generateInvoiceHTML(billsDB.find(x=>x.id==='${b.id}'))" class="bg-white border border-slate-200 text-slate-700 px-3 py-1.5 rounded-lg text-[10px] font-black shadow-sm hover:bg-slate-800 hover:text-white transition-colors">VIEW</button></td></tr>`).join('');
         document.getElementById("ledger-ob").innerText="₹"+ob; document.getElementById("ledger-billed").innerText="₹"+bl; document.getElementById("ledger-paid").innerText="₹"+pd; document.getElementById("ledger-bal").innerText="₹"+run;
     }
   </script>
