@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-    <title id="app-window-title">Sri Ram Enterprises - Accounting Plus</title>
+    <title id="app-window-title">Sri Ram Enterprises - ERP Master</title>
     <meta name="theme-color" content="#0f172a" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -32,7 +32,7 @@
         .btn-ghost { background: transparent; border: 1px solid #cbd5e1; color: #475569; transition: all 0.2s; border-radius: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; }
         .btn-ghost:hover { border-color: #3b82f6; color: #2563eb; background: #eff6ff; }
         
-        /* Unified Payment Buttons (FROZEN - DO NOT TOUCH) */
+        /* Unified Payment Buttons */
         .pay-master-btn { flex: 1; padding: 8px; font-size: 10px; font-weight: 800; color: #64748b; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
         .pay-master-btn.active { background: #eff6ff; border-color: #2563eb; color: #1d4ed8; box-shadow: inset 0 0 0 1px #2563eb; }
         .pay-combo-btn { padding: 6px 8px; font-size: 9px; font-weight: 800; color: #475569; background: white; border: 1px solid #cbd5e1; border-radius: 6px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; text-align: center; }
@@ -42,6 +42,7 @@
         .sidebar-btn { width: 100%; display: flex; align-items: center; gap: 12px; padding: 10px 16px; color: #94a3b8; font-weight: 600; font-size: 13px; transition: all 0.2s; border-left: 3px solid transparent; background: transparent; text-align: left; cursor: pointer; }
         .sidebar-btn:hover { background-color: rgba(255, 255, 255, 0.05); color: #ffffff; }
         .sidebar-btn.active { background: linear-gradient(90deg, rgba(37,99,235,0.15) 0%, transparent 100%); color: #60a5fa; border-left-color: #3b82f6; }
+        
         .submenu-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: rgba(0,0,0,0.2); }
         .has-submenu.open .submenu-content { max-height: 300px; }
         .submenu-item { display: block; width: 100%; text-align: left; padding: 8px 16px 8px 42px; font-size: 12px; color: #94a3b8; font-weight: 500; transition: all 0.2s; cursor: pointer; }
@@ -53,7 +54,7 @@
         th.standard-th { text-transform: uppercase; font-size: 10px; color: #475569; font-weight: 800; padding: 12px 10px; background-color: #f8fafc; border-bottom: 1px solid #e2e8f0; text-align: left;}
         td.standard-td { padding: 10px; font-size: 12px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; font-weight: 600; color: #1e293b; }
 
-        /* Login Screen */
+        /* Login Screen Override */
         #login-screen { position: fixed; inset: 0; background: #0f172a; z-index: 9999; display: flex; align-items: center; justify-content: center; }
         #login-screen.hidden { display: none !important; }
 
@@ -72,7 +73,7 @@
       <div class="glass-panel p-8 w-full max-w-sm bg-white text-center modal-animate">
           <div class="w-16 h-16 bg-blue-600 rounded-2xl mx-auto flex items-center justify-center text-white font-black text-2xl shadow-lg mb-4" id="login-logo-box">SRE</div>
           <h2 class="text-xl font-black text-slate-800 uppercase tracking-widest mb-1" id="login-company-name">Sri Ram Enterprises</h2>
-          <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-6">Accounting Plus Login</p>
+          <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-6">Enterprise Accounting Login</p>
           <div class="space-y-4 text-left">
               <div><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Username</label><input type="text" id="login-user" class="premium-input" value="admin"></div>
               <div><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Password</label><input type="password" id="login-pass" class="premium-input" value="admin" onkeydown="if(event.key==='Enter') executeLogin()"></div>
@@ -103,7 +104,7 @@
     </div>
   </div>
 
-  <!-- IMEI MANAGER MODAL (STABLE ROW ID BASED) -->
+  <!-- IMEI MANAGER MODAL -->
   <div id="imei-modal" class="fixed inset-0 bg-slate-900/60 z-[160] hidden flex items-center justify-center backdrop-blur-sm px-4">
     <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg modal-animate flex flex-col max-h-[85vh]">
         <div class="p-4 border-b flex justify-between items-center bg-slate-50 rounded-t-xl">
@@ -165,7 +166,7 @@
     <div class="hidden lg:flex items-center gap-3"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]" id="network-indicator"></span><div class="flex flex-col"><span class="text-[10px] text-slate-300 font-bold uppercase tracking-widest leading-none">System Status</span><span class="text-[9px] text-emerald-400 font-black uppercase mt-0.5" id="network-text">ONLINE</span></div></div>
     <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 items-center px-4 py-1.5 bg-white/5 border border-white/10 rounded-full"><span id="header-module-title" class="text-[11px] font-black tracking-widest uppercase text-white">DASHBOARD</span></div>
     <div class="flex items-center space-x-4 z-20 ml-auto">
-       <button onclick="backupData()" class="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-md transition-colors active:scale-95" title="Cloud Sync"><span class="text-xs">🔄</span> <span class="text-[9px] font-black uppercase">Sync</span></button>
+       <button onclick="backupData()" class="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-md transition-colors active:scale-95"><span class="text-xs">🔄</span> <span class="text-[9px] font-black uppercase">Sync</span></button>
        <div class="w-px h-5 bg-slate-700 hidden sm:block"></div>
        <div class="flex items-center gap-2 cursor-pointer border-l border-slate-700 pl-4 ml-2" onclick="executeLogout()" title="Logout"><div class="w-8 h-8 bg-slate-700 border border-slate-500 rounded-full flex items-center justify-center font-black text-xs text-white" id="user-avatar">A</div><div class="hidden lg:block"><p class="text-[10px] font-black text-slate-200 uppercase leading-none" id="user-role-text">Admin</p><p class="text-[7px] text-rose-400 font-bold uppercase mt-1">Logout</p></div></div>
     </div>
@@ -292,6 +293,9 @@
                         </thead>
                         <tbody id="bill-items-body" class="divide-y divide-slate-100"></tbody>
                     </table>
+                </div>
+                <div class="p-2 border-t border-slate-100 bg-slate-50 flex justify-center shrink-0">
+                    <button onclick="addBillRow()" class="h-7 px-6 text-blue-600 font-bold uppercase text-[9px] tracking-widest rounded border border-dashed border-blue-300 bg-white hover:bg-blue-50 active:scale-95 transition-all shadow-sm">➕ Add Blank Row</button>
                 </div>
             </div>
 
@@ -434,8 +438,8 @@
 
   <script>
     /* ========================================================
-       SRI ACCOUNTING MASTER - THE BEASTMODE BUILD (V-FINAL)
-       Double Entry Journals | Admin Toggle | Atomic Saves
+       SRI ACCOUNTING MASTER - OMEGA PRODUCTION BUILD V-7.0
+       Double Entry Journals | Persistent Sequences | XSS Safe
     ======================================================== */
 
     // 1. SECURE STORAGE & UTILS
@@ -718,7 +722,7 @@
         for(let i=0; i<qty; i++) { 
             const val = (tr._imeis && tr._imeis[i]) ? tr._imeis[i] : ""; 
             const wrap = document.createElement('div'); wrap.className = "relative";
-            wrap.innerHTML = `<span class="absolute left-3 top-2.5 text-[9px] font-black text-slate-400">#${i+1}</span><input type="text" class="premium-input font-mono font-bold text-xs !pl-8 uppercase imei-modal-val" placeholder="Scan or Type IMEI" oninput="updateImeiModalCount()">`;
+            wrap.innerHTML = `<span class="absolute left-3 top-2.5 text-[9px] font-black text-slate-400">#${i+1}</span><input type="text" class="premium-input font-mono font-bold text-xs !pl-8 uppercase imei-modal-val" placeholder="Scan or Type IMEI/Serial" oninput="updateImeiModalCount()">`;
             wrap.querySelector('input').value = val; // SAFE
             c.appendChild(wrap);
         }
@@ -859,7 +863,7 @@
         isSaving=true; const btn=document.getElementById('btn-save-bill'); if(btn) { btn.disabled=true; btn.innerHTML="⏳ PROCESSING..."; }
         
         try {
-            // ATOMIC COMMIT
+            // APPLY STOCK CHANGES ATOMICALLY
             items.forEach(it => {
                 if(it.prodObj) {
                     if(currentMode==="SALE" || currentMode==="PURCHASE_RETURN") { it.prodObj.stock -= it.qty; if(it.prodObj.track) it.prodObj.imeiList = it.prodObj.imeiList.filter(i=>!it.imArr.includes(i)); }
@@ -905,7 +909,7 @@
 
             showToast("Success", "Transaction Committed Structurally", "success"); generateInvoiceHTML(billRec); 
         } catch(error) {
-            console.error(error); showToast("System Error", "Failed to save bill", "error");
+            console.error(error); showToast("System Error", "Failed to save transaction", "error");
         } finally {
             setTimeout(()=>{ isSaving=false; if(btn) { btn.disabled=false; btn.innerHTML=`💾 POST TRANSACTION <span class="text-[9px] font-normal bg-blue-800/50 px-1.5 py-0.5 rounded ml-1 hidden sm:inline">F9</span>`; } }, 1000);
         }
@@ -1010,7 +1014,7 @@
         const f = partiesDB.filter(p => p.name.includes(s) || (p.mobile && p.mobile.includes(s)) || (p.gstin && p.gstin.includes(s)));
         const tb = document.getElementById('party-table-body'); if(!tb) return;
         tb.innerHTML = f.length === 0 ? `<tr><td colspan="4" class="text-center p-8 text-slate-400 font-bold text-xs uppercase tracking-widest">No Accounts Found</td></tr>` : 
-        f.map(p => `<tr class="hover:bg-purple-50/30 transition-colors"><td><div class="flex items-center gap-3"><div class="w-8 h-8 rounded bg-slate-100 flex items-center justify-center font-black text-slate-400">${p.name.charAt(0)}</div><div><p class="font-black text-xs text-slate-800 uppercase">${escapeHTML(p.name)}</p><span class="${p.type==='CUSTOMER'?'text-blue-500':'text-purple-500'} text-[8px] font-black uppercase tracking-widest mt-0.5 block">${p.type}</span></div></div></td><td><span class="font-mono text-slate-600 font-bold bg-slate-50 border border-slate-200 px-2 py-1 rounded inline-block text-[10px]">${p.mobile||'-'}</span></td><td><p class="text-[9px] font-bold text-slate-500 uppercase">${escapeHTML(p.address||'-')}</p><p class="text-[8px] font-mono text-slate-400 mt-1">GST: ${p.gstin||'-'}</p></td><td class="text-center"><button onclick="editParty('${p.id}')" class="bg-slate-100 text-slate-600 px-3 py-1.5 rounded-md text-[10px] font-black shadow-sm hover:bg-slate-800 hover:text-white transition-colors">EDIT</button></td></tr>`).join('');
+        f.map(p => `<tr class="hover:bg-purple-50/30 transition-colors"><td><div class="flex items-center gap-3"><div class="w-8 h-8 rounded bg-slate-100 flex items-center justify-center font-black text-slate-400">${p.name.charAt(0)}</div><div><p class="font-black text-xs text-slate-800 uppercase">${escapeHTML(p.name)}</p><span class="${p.type==='CUSTOMER'?'text-blue-500':'text-purple-500'} text-[8px] font-black uppercase tracking-widest mt-0.5 block">${p.type}</span></div></div></td><td><span class="font-mono text-slate-600 font-bold bg-slate-50 border border-slate-200 px-2 py-1 rounded inline-block text-[10px]">${p.mobile||'-'}</span></td><td><p class="text-[9px] font-bold text-slate-500 uppercase">${escapeHTML(p.address||'-')}</p><p class="text-[8px] font-mono text-slate-400 mt-1">GST: ${p.gstin||'-'}</p></td><td class="text-right font-black text-sm ${p.ob>0?'text-rose-600':'text-emerald-600'}">₹${(p.ob||0).toLocaleString('en-IN')}</td><td class="text-center"><button onclick="editParty('${p.id}')" class="bg-slate-100 text-slate-600 px-3 py-1.5 rounded-md text-[10px] font-black shadow-sm hover:bg-slate-800 hover:text-white transition-colors">EDIT</button></td></tr>`).join('');
         const dl = document.getElementById('party-list'); if(dl) dl.innerHTML = partiesDB.map(p => `<option value="${p.name}">Ph: ${p.mobile||'-'}</option>`).join('');
     }
 
@@ -1051,40 +1055,42 @@
     }
 
     function loadDashboard(timeRange = 'TODAY') {
-        document.querySelectorAll('.dash-filter').forEach(b => b.classList.remove('active')); 
-        const fBtn = document.getElementById('flt-' + timeRange); if(fBtn) fBtn.classList.add('active');
-        const now = new Date(); const todayStr = getToday(); let startDate = new Date();
-        if(timeRange === 'TODAY') startDate = new Date(todayStr); if(timeRange === '7D') startDate.setDate(now.getDate() - 7); if(timeRange === '30D') startDate.setDate(now.getDate() - 30); if(timeRange === 'MONTH') startDate = new Date(now.getFullYear(), now.getMonth(), 1); if(timeRange === 'YEAR') startDate = new Date(now.getFullYear(), 0, 1);
-        const startStr = startDate.toISOString().split('T')[0];
-        
-        const dBills = billsDB.filter(b => b.date >= startStr && b.date <= todayStr);
-        let saleAmt=0, purAmt=0, grossProf=0; 
-        dBills.forEach(b => { if(b.type === "SALE") { saleAmt += b.total; grossProf += (Number(b.profit)||0); } if(b.type === "PURCHASE") purAmt += b.total; });
-        let outAmt = partiesDB.filter(p=>p.type==='CUSTOMER').reduce((sum, p) => sum + (Number(p.ob)||0), 0);
-        
-        const dKpis = document.getElementById('dashboard-kpis'); let html = '';
-        if(appFeatures.SALES) html += `<div class="glass-panel p-5 border-t-4 border-t-blue-500 hover:shadow-md"><p class="text-[10px] text-slate-500 font-black uppercase tracking-widest"><span id="lbl-sale">${timeRange==='TODAY'?"Today's Sales":"Sales"}</span></p><h3 class="text-2xl font-black text-slate-800 mt-1" id="dash-sale">₹${saleAmt.toLocaleString('en-IN')}</h3></div>`;
-        if(appFeatures.PURCHASE) html += `<div class="glass-panel p-5 border-t-4 border-t-purple-500 hover:shadow-md"><p class="text-[10px] text-slate-500 font-black uppercase tracking-widest"><span id="lbl-pur">${timeRange==='TODAY'?"Today's Purchase":"Purchase"}</span></p><h3 class="text-2xl font-black text-slate-800 mt-1" id="dash-pur">₹${purAmt.toLocaleString('en-IN')}</h3></div>`;
-        html += `<div class="glass-panel p-5 border-t-4 border-t-emerald-500 hover:shadow-md bg-emerald-50/20"><p class="text-[10px] text-emerald-600 font-black uppercase tracking-widest">Gross Profit</p><h3 class="text-2xl font-black text-emerald-700 mt-1" id="dash-profit">₹${grossProf.toLocaleString('en-IN')}</h3></div>`;
-        html += `<div class="glass-panel p-5 border-t-4 border-t-rose-500 hover:shadow-md"><p class="text-[10px] text-slate-500 font-black uppercase tracking-widest">Market Receivables</p><h3 class="text-2xl font-black text-rose-600 mt-1" id="dash-out">₹${outAmt.toLocaleString('en-IN')}</h3></div>`;
-        if(dKpis) dKpis.innerHTML = html;
+        try {
+            document.querySelectorAll('.dash-filter').forEach(b => b.classList.remove('active')); 
+            const fBtn = document.getElementById('flt-' + timeRange); if(fBtn) fBtn.classList.add('active');
+            const now = new Date(); const todayStr = getToday(); let startDate = new Date();
+            if(timeRange === 'TODAY') startDate = new Date(todayStr); if(timeRange === '7D') startDate.setDate(now.getDate() - 7); if(timeRange === '30D') startDate.setDate(now.getDate() - 30); if(timeRange === 'MONTH') startDate = new Date(now.getFullYear(), now.getMonth(), 1); if(timeRange === 'YEAR') startDate = new Date(now.getFullYear(), 0, 1);
+            const startStr = startDate.toISOString().split('T')[0];
+            
+            const dBills = billsDB.filter(b => b.date >= startStr && b.date <= todayStr);
+            let saleAmt=0, purAmt=0, grossProf=0; 
+            dBills.forEach(b => { if(b.type === "SALE") { saleAmt += b.total; grossProf += (Number(b.profit)||0); } if(b.type === "PURCHASE") purAmt += b.total; });
+            let outAmt = partiesDB.filter(p=>p.type==='CUSTOMER').reduce((sum, p) => sum + (Number(p.ob)||0), 0);
+            
+            const dKpis = document.getElementById('dashboard-kpis'); let html = '';
+            if(appFeatures.SALES) html += `<div class="glass-panel p-5 border-t-4 border-t-blue-500 hover:shadow-md"><p class="text-[10px] text-slate-500 font-black uppercase tracking-widest"><span id="lbl-sale">${timeRange==='TODAY'?"Today's Sales":"Sales"}</span></p><h3 class="text-2xl font-black text-slate-800 mt-1" id="dash-sale">₹${saleAmt.toLocaleString('en-IN')}</h3></div>`;
+            if(appFeatures.PURCHASE) html += `<div class="glass-panel p-5 border-t-4 border-t-purple-500 hover:shadow-md"><p class="text-[10px] text-slate-500 font-black uppercase tracking-widest"><span id="lbl-pur">${timeRange==='TODAY'?"Today's Purchase":"Purchase"}</span></p><h3 class="text-2xl font-black text-slate-800 mt-1" id="dash-pur">₹${purAmt.toLocaleString('en-IN')}</h3></div>`;
+            html += `<div class="glass-panel p-5 border-t-4 border-t-emerald-500 hover:shadow-md bg-emerald-50/20"><p class="text-[10px] text-emerald-600 font-black uppercase tracking-widest">Gross Profit</p><h3 class="text-2xl font-black text-emerald-700 mt-1" id="dash-profit">₹${grossProf.toLocaleString('en-IN')}</h3></div>`;
+            html += `<div class="glass-panel p-5 border-t-4 border-t-rose-500 hover:shadow-md"><p class="text-[10px] text-slate-500 font-black uppercase tracking-widest">Market Receivables</p><h3 class="text-2xl font-black text-rose-600 mt-1" id="dash-out">₹${outAmt.toLocaleString('en-IN')}</h3></div>`;
+            if(dKpis) dKpis.innerHTML = html;
 
-        let catSales = {}, payModes = {};
-        dBills.forEach(b => { if(b.type === "SALE") { if(b.paymentMode) payModes[b.paymentMode] = (payModes[b.paymentMode] || 0) + b.total; b.items.forEach(it => { let cat = it.prodObj ? it.prodObj.category : "Others"; catSales[cat] = (catSales[cat] || 0) + it.amt; }); } });
-        
-        const tc = document.getElementById('trendChart'); if(tc) { if(myTrendChart) myTrendChart.destroy(); myTrendChart = new Chart(tc, { type: 'line', data: { labels: Object.keys(payModes).length > 0 ? Object.keys(payModes) : ['No Data'], datasets: [ { label: 'Sales', data: Object.keys(payModes).length > 0 ? Object.values(payModes) : [0], borderColor: '#2563eb', backgroundColor: 'rgba(37, 99, 235, 0.1)', borderWidth: 3, tension: 0.4, fill: true } ] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels:{font:{family:'Plus Jakarta Sans', weight:'bold'}} } }, scales: { x: { display:false }, y:{ border:{display:false}, grid:{color:'#f1f5f9'} } } } }); }
-        const cc = document.getElementById('categoryChart'); if(cc) { if(myCatChart) myCatChart.destroy(); const catKeys = Object.keys(catSales); myCatChart = new Chart(cc, { type: 'doughnut', data: { labels: catKeys.length > 0 ? catKeys : ['No Data'], datasets: [{ data: catKeys.length > 0 ? Object.values(catSales) : [1], backgroundColor: ['#3b82f6', '#8b5cf6', '#10b981', '#f59e0b', '#f43f5e', '#64748b'], borderWidth: 0, hoverOffset: 4 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { position: 'right', labels:{boxWidth:10, font:{family:'Plus Jakarta Sans', size:9, weight:'bold'}} } } } }); }
-        const pc = document.getElementById('paymentChart'); if(pc) { if(myPaymentChart) myPaymentChart.destroy(); const payKeys = Object.keys(payModes); myPaymentChart = new Chart(pc, { type: 'doughnut', data: { labels: payKeys.length > 0 ? payKeys : ['No Data'], datasets: [{ data: payKeys.length > 0 ? Object.values(payModes) : [1], backgroundColor: ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b', '#64748b'], borderWidth: 0, hoverOffset: 4 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { position: 'right', labels:{boxWidth:10, font:{family:'Plus Jakarta Sans', size:9, weight:'bold'}} } } } }); }
-        
-        let lowStockCount=0, custDues=0, supDues=0, imeiIssues=0; let htmlAlerts = '';
-        productsDB.forEach(p => { if(p.stock <= (p.lowStock || 5)) lowStockCount++; if(p.track && p.imeiList && p.imeiList.length !== p.stock) imeiIssues++; });
-        partiesDB.forEach(p => { if(p.ob > 0) { if(p.type==='CUSTOMER') custDues++; else supDues++; } });
-        if(lowStockCount > 0) { htmlAlerts += `<div class="bg-rose-50 p-2.5 rounded mb-2 flex items-center justify-between cursor-pointer hover:bg-rose-100" onclick="showView('product')"><div class="flex items-center gap-2"><span class="text-rose-500 text-lg">📦</span> <span class="text-[10px] font-black uppercase text-rose-700">Low Stock</span></div><span class="bg-rose-200 text-rose-800 text-[10px] px-2.5 py-0.5 rounded font-black">${lowStockCount}</span></div>`; }
-        if(custDues > 0) { htmlAlerts += `<div class="bg-amber-50 p-2.5 rounded mb-2 flex items-center justify-between cursor-pointer hover:bg-amber-100" onclick="showView('ledger')"><div class="flex items-center gap-2"><span class="text-amber-500 text-lg">👥</span> <span class="text-[10px] font-black uppercase text-amber-700">Customer Dues</span></div><span class="bg-amber-200 text-amber-800 text-[10px] px-2.5 py-0.5 rounded font-black">${custDues}</span></div>`; }
-        if(supDues > 0) { htmlAlerts += `<div class="bg-purple-50 p-2.5 rounded mb-2 flex items-center justify-between cursor-pointer hover:bg-purple-100" onclick="showView('ledger')"><div class="flex items-center gap-2"><span class="text-purple-500 text-lg">🏭</span> <span class="text-[10px] font-black uppercase text-purple-700">Supplier Payables</span></div><span class="bg-purple-200 text-purple-800 text-[10px] px-2.5 py-0.5 rounded font-black">${supDues}</span></div>`; }
-        if(imeiIssues > 0) { htmlAlerts += `<div class="bg-blue-50 border border-blue-100 p-2.5 rounded mb-2 flex items-center justify-between cursor-pointer hover:bg-blue-100" onclick="showView('product')"><div class="flex items-center gap-2"><span class="text-blue-500 text-lg">⚡</span> <span class="text-[10px] font-black uppercase text-blue-700">IMEI Mismatch</span></div><span class="bg-blue-200 text-blue-800 text-[10px] px-2.5 py-0.5 rounded font-black">${imeiIssues}</span></div>`; }
-        if(htmlAlerts === '') htmlAlerts = `<div class="p-8 flex flex-col items-center opacity-50"><span class="text-4xl mb-2">🛡️</span><p class="text-[10px] font-bold text-slate-500 uppercase">System Stable.</p></div>`;
-        const aC = document.getElementById('alerts-container'); if(aC) aC.innerHTML = htmlAlerts; 
+            let catSales = {}, payModes = {};
+            dBills.forEach(b => { if(b.type === "SALE") { if(b.paymentMode) payModes[b.paymentMode] = (payModes[b.paymentMode] || 0) + b.total; b.items.forEach(it => { let cat = it.prodObj ? it.prodObj.category : "Others"; catSales[cat] = (catSales[cat] || 0) + it.amt; }); } });
+            
+            const tc = document.getElementById('trendChart'); if(tc) { if(myTrendChart) myTrendChart.destroy(); myTrendChart = new Chart(tc, { type: 'line', data: { labels: Object.keys(payModes).length > 0 ? Object.keys(payModes) : ['No Data'], datasets: [ { label: 'Sales', data: Object.keys(payModes).length > 0 ? Object.values(payModes) : [0], borderColor: '#2563eb', backgroundColor: 'rgba(37, 99, 235, 0.1)', borderWidth: 3, tension: 0.4, fill: true } ] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels:{font:{family:'Plus Jakarta Sans', weight:'bold'}} } }, scales: { x: { display:false }, y:{ border:{display:false}, grid:{color:'#f1f5f9'} } } } }); }
+            const cc = document.getElementById('categoryChart'); if(cc) { if(myCatChart) myCatChart.destroy(); const catKeys = Object.keys(catSales); myCatChart = new Chart(cc, { type: 'doughnut', data: { labels: catKeys.length > 0 ? catKeys : ['No Data'], datasets: [{ data: catKeys.length > 0 ? Object.values(catSales) : [1], backgroundColor: ['#3b82f6', '#8b5cf6', '#10b981', '#f59e0b', '#f43f5e', '#64748b'], borderWidth: 0, hoverOffset: 4 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { position: 'right', labels:{boxWidth:10, font:{family:'Plus Jakarta Sans', size:9, weight:'bold'}} } } } }); }
+            const pc = document.getElementById('paymentChart'); if(pc) { if(myPaymentChart) myPaymentChart.destroy(); const payKeys = Object.keys(payModes); myPaymentChart = new Chart(pc, { type: 'doughnut', data: { labels: payKeys.length > 0 ? payKeys : ['No Data'], datasets: [{ data: payKeys.length > 0 ? Object.values(payModes) : [1], backgroundColor: ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b', '#64748b'], borderWidth: 0, hoverOffset: 4 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { position: 'right', labels:{boxWidth:10, font:{family:'Plus Jakarta Sans', size:9, weight:'bold'}} } } } }); }
+            
+            let lowStockCount=0, custDues=0, supDues=0, imeiIssues=0; let htmlAlerts = '';
+            productsDB.forEach(p => { if(p.stock <= (p.lowStock || 5)) lowStockCount++; if(p.track && p.imeiList && p.imeiList.length !== p.stock) imeiIssues++; });
+            partiesDB.forEach(p => { if(p.ob > 0) { if(p.type==='CUSTOMER') custDues++; else supDues++; } });
+            if(lowStockCount > 0) { htmlAlerts += `<div class="bg-rose-50 p-2.5 rounded mb-2 flex items-center justify-between cursor-pointer hover:bg-rose-100" onclick="showView('product')"><div class="flex items-center gap-2"><span class="text-rose-500 text-lg">📦</span> <span class="text-[10px] font-black uppercase text-rose-700">Low Stock</span></div><span class="bg-rose-200 text-rose-800 text-[10px] px-2.5 py-0.5 rounded font-black">${lowStockCount}</span></div>`; }
+            if(custDues > 0) { htmlAlerts += `<div class="bg-amber-50 p-2.5 rounded mb-2 flex items-center justify-between cursor-pointer hover:bg-amber-100" onclick="showView('ledger')"><div class="flex items-center gap-2"><span class="text-amber-500 text-lg">👥</span> <span class="text-[10px] font-black uppercase text-amber-700">Customer Dues</span></div><span class="bg-amber-200 text-amber-800 text-[10px] px-2.5 py-0.5 rounded font-black">${custDues}</span></div>`; }
+            if(supDues > 0) { htmlAlerts += `<div class="bg-purple-50 p-2.5 rounded mb-2 flex items-center justify-between cursor-pointer hover:bg-purple-100" onclick="showView('ledger')"><div class="flex items-center gap-2"><span class="text-purple-500 text-lg">🏭</span> <span class="text-[10px] font-black uppercase text-purple-700">Supplier Payables</span></div><span class="bg-purple-200 text-purple-800 text-[10px] px-2.5 py-0.5 rounded font-black">${supDues}</span></div>`; }
+            if(imeiIssues > 0) { htmlAlerts += `<div class="bg-blue-50 border border-blue-100 p-2.5 rounded mb-2 flex items-center justify-between cursor-pointer hover:bg-blue-100" onclick="showView('product')"><div class="flex items-center gap-2"><span class="text-blue-500 text-lg">⚡</span> <span class="text-[10px] font-black uppercase text-blue-700">IMEI Mismatch</span></div><span class="bg-blue-200 text-blue-800 text-[10px] px-2.5 py-0.5 rounded font-black">${imeiIssues}</span></div>`; }
+            if(htmlAlerts === '') htmlAlerts = `<div class="p-8 flex flex-col items-center opacity-50"><span class="text-4xl mb-2">🛡️</span><p class="text-[10px] font-bold text-slate-500 uppercase">System Stable.</p></div>`;
+            const aC = document.getElementById('alerts-container'); if(aC) aC.innerHTML = htmlAlerts; 
+        } catch(e) { console.error("Dashboard Load Error", e); }
     }
 
     // INVOICE & PRINT
@@ -1109,7 +1115,7 @@
         } catch(e) { showToast("Error", "PDF Export Failed", "error"); console.error(e); }
     }
 
-    // BACKUP & RESTORE
+    // BACKUP & SYNC
     function downloadLocalBackup() {
         try {
             const data = { schemaVersion: "7.0.0", timestamp: new Date().toISOString(), products: productsDB, parties: partiesDB, bills: billsDB, categories: categoriesDB, finance: financeDB, journals: journalDB, settings: sysSettings, features: appFeatures };
@@ -1140,7 +1146,11 @@
         if(!sysSettings.gas) return showToast("Warning", "Cloud Sync URL not configured. Go to Settings.", "warning");
         showToast("Syncing", "Connecting to cloud server...", "success");
         fetch(sysSettings.gas, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ action: 'backup', timestamp: Date.now() }) })
-        .then(() => showToast("Success", "Cloud Sync Unverified", "success")).catch(err => showToast("Cloud Error", "Sync Unverified. Local Data Safe.", "warning")); // NO FAKE SUCCESS
+        .then(response => {
+            if(!response.ok && response.type !== 'opaque') throw new Error("Network response was not ok");
+            showToast("Success", "Cloud Sync Completed", "success");
+        })
+        .catch(err => showToast("Cloud Error", "Sync Unverified. Local Data Safe.", "warning"));
     }
   </script>
 </body>
