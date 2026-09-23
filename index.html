@@ -104,17 +104,22 @@
     </div>
   </div>
 
-  <!-- IMEI MANAGER MODAL -->
+  <!-- IMEI MANAGER MODAL (RE-ARCHITECTED) -->
   <div id="imei-modal" class="fixed inset-0 bg-slate-900/60 z-[160] hidden flex items-center justify-center backdrop-blur-sm px-4">
     <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg modal-animate flex flex-col max-h-[85vh]">
         <div class="p-4 border-b flex justify-between items-center bg-slate-50 rounded-t-xl">
             <div><h3 class="font-black text-sm text-slate-800 uppercase tracking-widest">IMEI / Serial Tracker</h3><p class="text-[10px] text-blue-600 font-bold mt-1" id="imei-modal-sub"></p></div>
             <button onclick="closeImeiModal()" class="text-rose-500 font-black hover:scale-110 transition-transform">✕</button>
         </div>
-        <div class="p-4 overflow-y-auto flex-1 bg-slate-100/50"><input type="hidden" id="imei-modal-row-idx"><div id="imei-modal-inputs" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div></div>
+        <div class="p-4 overflow-y-auto flex-1 bg-slate-100/50">
+            <div id="imei-modal-inputs" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+        </div>
         <div class="p-4 border-t bg-white rounded-b-xl flex justify-between items-center">
             <span class="text-[10px] font-black text-slate-500" id="imei-modal-count">0 / 0 Completed</span>
-            <div class="flex gap-2"><button onclick="closeImeiModal()" class="btn-ghost px-4 py-2 text-[10px]">Cancel</button><button onclick="applyImeiModal()" class="btn-primary px-6 py-2 text-[10px] bg-emerald-600 shadow-emerald-500/30 border-none">Apply Entries</button></div>
+            <div class="flex gap-2">
+                <button onclick="closeImeiModal()" class="btn-ghost px-4 py-2 text-[10px]">Cancel</button>
+                <button onclick="applyImeiModal()" class="btn-primary px-6 py-2 text-[10px] bg-emerald-600 shadow-emerald-500/30 border-none">Apply Entries</button>
+            </div>
         </div>
     </div>
   </div>
@@ -188,7 +193,6 @@
         <div id="view-admin" class="view-section hidden space-y-4 max-w-5xl mx-auto p-4 sm:p-6 overflow-y-auto w-full">
             <h2 class="text-2xl font-black text-slate-800 tracking-widest uppercase mb-4 flex items-center gap-3"><span class="w-1.5 h-8 bg-rose-600 rounded-full"></span> Admin Control Center</h2>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- Branding Config -->
                 <div class="glass-panel p-6 border-t-4 border-t-blue-500">
                     <h3 class="font-black text-sm uppercase border-b pb-2 text-blue-600 mb-4">Company Branding & Profile</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
@@ -196,18 +200,16 @@
                         <div><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Mobile / Phone</label><input type="text" id="set-phone" class="premium-input font-mono"></div>
                         <div><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">GSTIN</label><input type="text" id="set-gstin" class="premium-input uppercase font-mono"></div>
                         <div class="sm:col-span-2"><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Full Address</label><input type="text" id="set-address" class="premium-input uppercase"></div>
-                        <div><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Invoice Seq Prefix</label><input type="text" id="set-prefix" class="premium-input uppercase font-mono"></div>
+                        <div><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Invoice Prefix</label><input type="text" id="set-prefix" class="premium-input uppercase font-mono"></div>
                         <div><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Sidebar Theme Color</label><input type="color" id="set-theme" class="h-10 w-full rounded cursor-pointer border border-slate-200"></div>
                     </div>
                     <button onclick="saveAdminSettings()" class="btn-primary w-full py-2.5 text-xs">Save Branding</button>
                 </div>
-                <!-- Feature Toggles (ON/OFF) -->
                 <div class="glass-panel p-6 border-t-4 border-t-amber-500">
                     <h3 class="font-black text-sm uppercase border-b pb-2 text-amber-600 mb-4">Module ON/OFF Configuration</h3>
                     <div class="space-y-3" id="feature-toggle-container"></div>
                     <p class="text-[9px] text-slate-400 font-bold mt-4">* Disabling a feature hides its UI but does not delete historical data.</p>
                 </div>
-                <!-- Data Backup -->
                 <div class="glass-panel p-6 border-t-4 border-t-emerald-500 sm:col-span-2">
                     <h3 class="font-black text-sm uppercase border-b pb-2 text-emerald-600 mb-4">Database & Recovery Operations</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4"><button onclick="downloadLocalBackup()" class="btn-primary !bg-emerald-600 w-full py-3 text-xs flex items-center justify-center gap-2">💾 Download JSON Backup</button><button onclick="document.getElementById('restore-upload').click()" class="btn-ghost w-full py-3 text-xs border-emerald-300 text-emerald-700 flex items-center justify-center gap-2">📥 Restore from JSON</button><button onclick="dangerClearAll()" class="btn-primary !bg-rose-600 w-full py-3 text-xs flex items-center justify-center gap-2">⚠️ Factory Reset Data</button></div>
@@ -220,7 +222,7 @@
         <div id="view-product" class="view-section hidden flex-col h-full w-full p-4 overflow-y-auto">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-4 shrink-0"><h2 class="text-2xl font-black text-slate-800 uppercase tracking-widest flex items-center gap-3"><span class="w-1.5 h-8 bg-amber-500 rounded-full"></span> Inventory Master</h2><div class="flex flex-wrap gap-2 w-full sm:w-auto"><button onclick="document.getElementById('csv-upload').click()" class="btn-ghost px-4 h-9 text-[10px]">Import CSV</button><button onclick="exportProductsCSV()" class="btn-ghost px-4 h-9 text-[10px]">Export CSV</button><button onclick="openProductForm()" class="btn-primary px-5 h-9 text-[11px] ml-1">➕ New Product</button></div></div>
             <div class="glass-panel flex flex-col shadow-sm mb-4 shrink-0 overflow-hidden"><div class="p-3 border-b border-slate-100 bg-white flex flex-col sm:flex-row gap-3 items-center"><div class="relative w-full flex-1"><span class="absolute left-3 top-2.5 text-slate-400">🔍</span><input type="text" id="prod-search" oninput="debouncedRenderProducts()" placeholder="Search Item, Brand, Category, SKU or IMEI..." class="premium-input !pl-9 text-xs w-full bg-slate-50" /></div><select id="filter-category" onchange="renderProducts()" class="cat-select premium-input w-full sm:w-40 bg-slate-50"></select></div><div class="overflow-x-auto max-h-[50vh]"><table class="w-full text-left min-w-[1000px]"><thead class="bg-slate-50 sticky top-0 z-10 shadow-sm"><tr><th class="standard-th w-14 text-center">Img</th><th class="standard-th">Product Profile</th><th class="standard-th">SKU/Barcode</th><th class="standard-th text-right">Pricing</th><th class="standard-th text-center">Stock</th><th class="standard-th text-center">Actions</th></tr></thead><tbody id="product-table-body" class="divide-y divide-slate-100 bg-white"></tbody></table></div></div>
-            <!-- Embedded Add/Edit Product -->
+            
             <div id="add-product-form" class="glass-panel p-5 shrink-0 hidden relative border-t-4 border-t-amber-500 bg-white"><div class="flex justify-between items-center mb-4"><h3 id="prod-form-title" class="font-black text-sm text-slate-800 uppercase tracking-widest">✏️ Product Setup</h3><button onclick="document.getElementById('add-product-form').classList.add('hidden')" class="text-rose-500 font-black hover:scale-110">✕</button></div><input type="hidden" id="p-id" value=""><div class="flex flex-col lg:flex-row gap-6"><div class="w-full lg:w-1/4 flex flex-col items-center"><div class="w-full aspect-square max-h-[180px] bg-slate-50 border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center relative cursor-pointer overflow-hidden hover:border-blue-400 transition-colors" onclick="document.getElementById('p-image-upload').click()"><div id="p-img-placeholder" class="flex flex-col items-center"><span class="text-4xl mb-2">📸</span><span class="text-[9px] font-black text-blue-600 bg-blue-50 px-3 py-1 rounded-lg uppercase">Upload Photo</span></div><img id="p-img-preview" class="hidden absolute inset-0 w-full h-full object-cover" /></div><button type="button" onclick="clearProductImage()" class="mt-2 text-[9px] font-black text-rose-500 uppercase px-3 py-1 rounded hover:bg-rose-50">Remove</button></div><div class="w-full lg:w-3/4 space-y-4"><div class="grid grid-cols-1 sm:grid-cols-3 gap-3"><div class="col-span-2"><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Item Name *</label><input type="text" id="p-name" class="premium-input uppercase text-blue-800"></div><div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Brand</label><input type="text" id="p-brand" class="premium-input uppercase" list="brand-list"></div></div><div class="grid grid-cols-2 sm:grid-cols-4 gap-3"><div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Category</label><select id="p-category" onchange="handleCategoryChange(this)" class="cat-select premium-input"></select></div><div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">SKU / Barcode</label><input type="text" id="p-sku" class="premium-input uppercase font-mono text-slate-500" placeholder="Auto"></div><div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">HSN Code</label><input type="text" id="p-hsn" class="premium-input uppercase font-mono"></div><div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Min Alert Stock</label><input type="number" id="p-low" value="5" class="premium-input"></div></div><div class="grid grid-cols-2 sm:grid-cols-5 gap-3 p-3 bg-slate-50 border border-slate-200 rounded-lg"><div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Pur Price</label><input type="number" id="p-pur" class="premium-input bg-white text-rose-600" oninput="calcMargin()"></div><div><label class="text-[9px] font-bold text-blue-600 uppercase block mb-1">Sale Price *</label><input type="number" id="p-sale" class="premium-input border-blue-300 text-blue-700 shadow-sm" oninput="calcMargin()"></div><div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">GST %</label><select id="p-gst" class="premium-input bg-white"><option value="0">0</option><option value="5">5</option><option value="12">12</option><option value="18" selected>18</option><option value="28">28</option></select></div><div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Margin %</label><input type="text" id="p-margin" class="premium-input bg-emerald-50 text-emerald-700 font-black" readonly placeholder="0%"></div><div class="flex items-center mt-4 pl-2"><label class="flex items-center gap-2 cursor-pointer hover:bg-slate-100 p-1 rounded"><input type="checkbox" id="p-track" class="w-4 h-4 text-blue-600 rounded"><span class="text-[9px] font-black text-slate-700 uppercase mt-0.5">Track IMEI</span></label></div></div></div></div><div class="flex justify-end gap-3 mt-5 pt-4 border-t border-slate-100"><button onclick="document.getElementById('add-product-form').classList.add('hidden')" class="btn-ghost px-6 py-2 text-xs">Cancel</button><button onclick="saveProduct()" class="btn-primary px-8 py-2 text-xs">💾 Save Inventory</button></div></div>
         </div>
 
@@ -264,7 +266,6 @@
                 <div class="absolute left-0 top-0 w-1.5 h-full bg-blue-600" id="bill-color-strip"></div>
                 <div class="flex items-center gap-3"><h2 id="bill-title" class="text-xs sm:text-sm font-black text-slate-800 uppercase tracking-widest ml-2">SALE ENTRY</h2><span id="form-entry-type" class="text-[9px] font-black px-2.5 py-1 rounded bg-blue-100 text-blue-700 uppercase tracking-widest shrink-0 border border-blue-200/50">SALE</span></div>
                 <div class="flex items-center gap-4">
-                    <!-- Added Reference Info for Returns -->
                     <div id="bill-ref-container" class="hidden items-center gap-2 border-r border-slate-200 pr-4 mr-2"><label class="text-[9px] font-bold text-rose-500 uppercase tracking-widest">Original Inv Ref:</label><input type="text" id="bill-ref-inv" class="bg-rose-50 border border-rose-200 outline-none text-[11px] font-mono font-bold text-rose-700 w-24 rounded px-1.5 py-0.5"></div>
                     <div class="flex items-center gap-2"><label class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Date:</label><input type="date" id="bill-date" class="bg-transparent border-none outline-none text-[11px] font-mono font-bold text-slate-800 w-[105px] cursor-pointer hover:text-blue-600"></div><div class="flex items-center gap-2"><label class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Ref No:</label><input type="text" id="bill-inv" class="bg-transparent border-none outline-none text-[11px] font-mono font-bold text-blue-600 uppercase w-20" placeholder="AUTO"></div>
                 </div>
@@ -280,7 +281,6 @@
                     <table class="bill-table w-full">
                         <thead>
                             <tr>
-                                <th class="w-8 text-center bg-slate-50 py-3 border-r border-slate-100">#</th>
                                 <th class="w-[30%] bg-slate-50 py-3 pl-3">Product Details</th>
                                 <th class="w-[8%] text-center bg-slate-50 py-3">Qty</th>
                                 <th class="w-[15%] text-center bg-slate-50 py-3">IMEI / Serial Tracker</th>
@@ -319,7 +319,7 @@
                     <div class="p-2 bg-slate-50 rounded border border-slate-100">
                         <div class="grid grid-cols-4 sm:grid-cols-7 gap-1.5 w-full">
                             <button class="pay-combo-btn active" id="combo-CASH" onclick="setCombo('CASH')">CASH</button>
-                            <button class="pay-combo-btn" id="combo-QR" onclick="setCombo('QR')">QR</button>
+                            <button class="pay-combo-btn" id="combo-QR" onclick="setCombo('QR')">QR/UPI</button>
                             <button class="pay-combo-btn" id="combo-CARD" onclick="setCombo('CARD')">CARD</button>
                             <button class="pay-combo-btn" id="combo-CASH-QR" onclick="setCombo('CASH-QR')">CASH+QR</button>
                             <button class="pay-combo-btn" id="combo-CASH-CARD" onclick="setCombo('CASH-CARD')">CASH+CARD</button>
@@ -356,27 +356,58 @@
                     <button onclick="showView('dashboard')" class="btn-ghost px-5 py-2 text-[10px] tracking-widest">Back to Dashboard</button>
                     <div class="flex flex-wrap gap-2 w-full sm:w-auto justify-end"><button onclick="shareViaWhatsApp()" class="bg-[#25D366] text-white px-4 py-2 rounded text-[10px] font-black uppercase hover:bg-green-600 shadow-sm flex items-center gap-1.5"><span class="text-sm">💬</span> WhatsApp</button><button onclick="printFormat('A4')" class="bg-slate-800 text-white px-4 py-2 rounded text-[10px] font-black uppercase hover:bg-black shadow-sm flex items-center gap-1.5"><span class="text-sm">🖨️</span> A4 Print</button><button onclick="printFormat('THERMAL')" class="bg-emerald-600 text-white px-4 py-2 rounded text-[10px] font-black uppercase hover:bg-emerald-700 shadow-sm flex items-center gap-1.5"><span class="text-sm">🧾</span> Thermal</button><button onclick="downloadPDF()" class="btn-primary px-4 py-2 text-[10px] flex items-center gap-1.5"><span class="text-sm">📄</span> PDF</button></div>
                 </div>
-                <div id="print-container" class="w-full flex justify-center pb-10"><div id="invoice-capture" class="bg-white p-10 sm:p-14 shadow-xl border border-slate-200 text-slate-900 w-full max-w-[800px] relative"><div class="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none select-none overflow-hidden"><span class="text-[120px] font-black transform -rotate-45" id="watermark-type">SALE</span></div><div class="text-center border-b-2 border-slate-800 pb-4 mb-5 relative z-10"><h1 class="text-3xl font-black uppercase tracking-widest text-slate-900" id="print-co-name">Sri Ram Enterprises</h1><p class="text-[11px] font-bold text-slate-600 mt-1 uppercase tracking-widest">Wholesale & Retail Mobile Phones & Accessories</p><p class="text-[9px] font-bold text-slate-500 uppercase tracking-wide mt-1" id="print-co-address">GB-15, City Centre, Sector-4, Bokaro Steel City</p><p class="text-[10px] font-mono font-bold text-slate-800 mt-1 bg-slate-100 inline-block px-3 py-0.5 rounded">GSTIN: <span id="print-co-gst">20APOPK6864K1ZH</span> | Ph: <span id="print-co-phone">9334765000</span></p></div><div class="flex justify-between items-end mb-5 text-xs relative z-10"><div><p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Billed To:</p><p id="inv-party" class="text-lg font-black uppercase text-slate-900 leading-none"></p><p id="inv-phone" class="font-mono text-[11px] text-slate-700 mt-1"></p></div><div class="text-right"><h2 id="inv-type-title" class="text-sm font-black text-slate-900 uppercase tracking-widest border-2 border-slate-900 px-3 py-1 rounded mb-2 inline-block">TAX INVOICE</h2><p class="text-[10px] mb-0.5"><span class="text-slate-500 uppercase tracking-widest font-bold">Inv No:</span> <span id="inv-no" class="font-black font-mono"></span></p><p class="text-[10px]"><span class="text-slate-500 uppercase tracking-widest font-bold">Date:</span> <span id="inv-date" class="font-black font-mono"></span></p></div></div><table class="w-full text-left text-[11px] mb-4 border-collapse relative z-10"><thead><tr class="bg-slate-900 text-white uppercase text-[9px] tracking-widest"><th class="p-2 border border-slate-900 text-center w-10">#</th><th class="p-2 border border-slate-900">Description</th><th class="p-2 border border-slate-900 w-40">IMEI/Serial</th><th class="p-2 border border-slate-900 text-center w-10">Qty</th><th class="p-2 border border-slate-900 text-right w-16">Rate</th><th class="p-2 border border-slate-900 text-right w-24">Amount</th></tr></thead><tbody id="inv-items" class="font-bold border-b-2 border-slate-900"></tbody></table><div class="flex justify-between items-start pt-2 text-xs relative z-10"><div class="space-y-3 w-[55%]"><div class="flex items-center gap-3 p-2 border border-slate-300 rounded-lg inline-flex bg-slate-50"><div id="inv-qr" class="bg-white p-1 rounded border border-slate-200"></div><div class="text-[9px] text-slate-600 font-bold uppercase leading-relaxed"><span class="text-slate-900 font-black block text-[11px] mb-0.5">Scan to Pay</span><span id="print-co-upi">sriram.enterprise@upi</span></div></div><p class="text-[8px] font-bold text-slate-400 uppercase tracking-wide leading-snug">* Subject to Bokaro Jurisdiction. Warranty by authorized service centers only.</p></div><div class="w-[40%] text-right space-y-1.5 text-[11px]"><div class="flex justify-between"><span class="uppercase text-[9px] text-slate-500 font-bold tracking-widest">Taxable Value:</span><span id="inv-taxable-print" class="font-bold">₹0</span></div><div class="flex justify-between"><span class="uppercase text-[9px] text-slate-500 font-bold tracking-widest">GST Amount:</span><span id="inv-gst-print" class="font-bold">₹0</span></div><div class="flex justify-between border-t border-slate-300 pt-1.5 mt-1 text-sm"><span class="uppercase font-black tracking-widest">Grand Total:</span><span id="inv-total-print" class="font-black">₹0</span></div><div class="flex justify-between text-emerald-700 mt-2"><span class="uppercase text-[9px] font-bold tracking-widest">Amount Paid:</span><span id="inv-paid" class="font-bold">₹0</span></div><div class="flex justify-between text-rose-600 border-t border-slate-200 pt-1.5 mt-1"><span class="uppercase text-[9px] font-bold tracking-widest">Balance Due:</span><span id="inv-bal" class="font-black">₹0</span></div></div></div><div class="mt-16 flex justify-between text-[9px] uppercase font-bold text-slate-500 tracking-widest no-print relative z-10"><div class="w-40 border-t-2 border-slate-400 text-center pt-2">Customer Signature</div><div class="w-48 border-t-2 border-slate-800 text-center pt-2 text-slate-900">For <span id="print-co-sign">Sri Ram Enterprises</span><p class="text-[7px] text-slate-400 mt-0.5">Authorized Signatory</p></div></div></div></div>
+                
+                <div id="print-container" class="w-full flex justify-center pb-10">
+                    <div id="invoice-capture" class="bg-white p-10 sm:p-14 shadow-xl border border-slate-200 text-slate-900 w-full max-w-[800px] relative">
+                        <div class="text-center border-b-2 border-slate-800 pb-4 mb-5 relative z-10">
+                            <h1 class="text-3xl font-black uppercase tracking-widest text-slate-900" id="print-co-name">Sri Ram Enterprises</h1>
+                            <p class="text-[11px] font-bold text-slate-600 mt-1 uppercase tracking-widest">Wholesale & Retail Mobile Phones & Accessories</p>
+                            <p class="text-[9px] font-bold text-slate-500 uppercase tracking-wide mt-1" id="print-co-address">GB-15, City Centre, Sector-4, Bokaro Steel City</p>
+                            <p class="text-[10px] font-mono font-bold text-slate-800 mt-1 bg-slate-100 inline-block px-3 py-0.5 rounded">GSTIN: <span id="print-co-gst">20APOPK6864K1ZH</span> | Ph: <span id="print-co-phone">9334765000</span></p>
+                        </div>
+                        
+                        <div class="flex justify-between items-end mb-5 text-xs relative z-10">
+                            <div><p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Billed To:</p><p id="inv-party" class="text-lg font-black uppercase text-slate-900 leading-none"></p><p id="inv-phone" class="font-mono text-[11px] text-slate-700 mt-1"></p></div>
+                            <div class="text-right"><h2 id="inv-type-title" class="text-sm font-black text-slate-900 uppercase tracking-widest border-2 border-slate-900 px-3 py-1 rounded mb-2 inline-block">TAX INVOICE</h2><p class="text-[10px] mb-0.5"><span class="text-slate-500 uppercase tracking-widest font-bold">Inv No:</span> <span id="inv-no" class="font-black font-mono"></span></p><p class="text-[10px]"><span class="text-slate-500 uppercase tracking-widest font-bold">Date:</span> <span id="inv-date" class="font-black font-mono"></span></p></div>
+                        </div>
+
+                        <table class="w-full text-left text-[11px] mb-4 border-collapse relative z-10">
+                            <thead><tr class="bg-slate-900 text-white uppercase text-[9px] tracking-widest"><th class="p-2 border border-slate-900">Description</th><th class="p-2 border border-slate-900 w-40">IMEI/Serial</th><th class="p-2 border border-slate-900 text-center w-10">Qty</th><th class="p-2 border border-slate-900 text-right w-16">Rate</th><th class="p-2 border border-slate-900 text-right w-24">Amount</th></tr></thead>
+                            <tbody id="inv-items" class="font-bold border-b-2 border-slate-900"></tbody>
+                        </table>
+
+                        <div class="flex justify-between items-start pt-2 text-xs relative z-10">
+                            <div class="space-y-3 w-[55%]">
+                                <div class="flex items-center gap-3 p-2 border border-slate-300 rounded-lg inline-flex bg-slate-50"><div id="inv-qr" class="bg-white p-1 rounded border border-slate-200"></div><div class="text-[9px] text-slate-600 font-bold uppercase leading-relaxed"><span class="text-slate-900 font-black block text-[11px] mb-0.5">Scan to Pay</span><span id="print-co-upi">sriram.enterprise@upi</span></div></div>
+                                <p class="text-[8px] font-bold text-slate-400 uppercase tracking-wide leading-snug">* Subject to Bokaro Jurisdiction. Warranty by authorized service centers only.</p>
+                            </div>
+                            
+                            <div class="w-[40%] text-right space-y-1.5 text-[11px]">
+                                <div class="flex justify-between"><span class="uppercase text-[9px] text-slate-500 font-bold tracking-widest">Taxable Value:</span><span id="inv-taxable-print" class="font-bold">₹0</span></div>
+                                <div class="flex justify-between"><span class="uppercase text-[9px] text-slate-500 font-bold tracking-widest">GST Amount:</span><span id="inv-gst-print" class="font-bold">₹0</span></div>
+                                <div class="flex justify-between border-t border-slate-300 pt-1.5 mt-1 text-sm"><span class="uppercase font-black tracking-widest">Grand Total:</span><span id="inv-total-print" class="font-black">₹0</span></div>
+                                <div class="flex justify-between text-emerald-700 mt-2"><span class="uppercase text-[9px] font-bold tracking-widest">Amount Paid:</span><span id="inv-paid" class="font-bold">₹0</span></div>
+                                <div class="flex justify-between text-rose-600 border-t border-slate-200 pt-1.5 mt-1"><span class="uppercase text-[9px] font-bold tracking-widest">Balance Due:</span><span id="inv-bal" class="font-black">₹0</span></div>
+                            </div>
+                        </div>
+
+                        <div class="mt-16 flex justify-between text-[9px] uppercase font-bold text-slate-500 tracking-widest no-print relative z-10">
+                            <div class="w-40 border-t-2 border-slate-400 text-center pt-2">Customer Signature</div>
+                            <div class="w-48 border-t-2 border-slate-800 text-center pt-2 text-slate-900">For <span id="print-co-sign">Sri Ram Enterprises</span><p class="text-[7px] text-slate-400 mt-0.5">Authorized Signatory</p></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
       </main>
   </div>
 
-  <!-- MOBILE BOTTOM NAV -->
-  <nav id="bottom-nav" class="lg:hidden fixed bottom-0 w-full bg-white shadow-[0_-10px_30px_rgba(0,0,0,0.1)] flex justify-between z-[100] border-t border-slate-200 pb-safe pt-2 px-1 pb-2">
-     <button onclick="startBill('SALE')" class="flex-1 py-1 text-center text-blue-600 flex flex-col items-center active:scale-95"><span class="text-[20px] mb-0.5">🛒</span><span class="text-[8px] font-black tracking-widest">SALE</span></button>
-     <button onclick="startBill('PURCHASE')" class="flex-1 py-1 text-center text-emerald-600 flex flex-col items-center active:scale-95"><span class="text-[20px] mb-0.5">📦</span><span class="text-[8px] font-black tracking-widest">PURCH</span></button>
-     <button onclick="showView('product')" class="flex-1 py-1 text-center text-amber-600 flex flex-col items-center active:scale-95"><span class="text-[20px] mb-0.5">🏷️</span><span class="text-[8px] font-black tracking-widest">ITEMS</span></button>
-     <button onclick="showView('ledger')" class="flex-1 py-1 text-center text-indigo-600 flex flex-col items-center active:scale-95"><span class="text-[20px] mb-0.5">📒</span><span class="text-[8px] font-black tracking-widest">LEDGER</span></button>
-  </nav>
-
   <script>
     /* ========================================================
-       SRI ACCOUNTING MASTER - OMEGA PRODUCTION BUILD V-6.0
-       Double Entry Journals | Admin Toggle | Atomic Saves
+       SRI ACCOUNTING MASTER - OMEGA PRODUCTION BUILD V-7.0
+       Double Entry Journals | Persistent Sequences | XSS Safe
     ======================================================== */
 
-    // 1. SECURE STORAGE & UTILS
     const Storage = { 
         get: (key) => { try { return JSON.parse(localStorage.getItem(key)) || []; } catch(e) { return []; } }, 
         set: (key, data) => { try { localStorage.setItem(key, JSON.stringify(data)); } catch(e) { console.error("Storage Full"); showToast("Warning", "Storage Full", "error"); } } 
@@ -386,13 +417,11 @@
     function getToday() { const d=new Date(); return new Date(d.getTime() - (d.getTimezoneOffset()*60000)).toISOString().split('T')[0]; }
     function debounce(func, wait) { let timeout; return function(...args) { clearTimeout(timeout); timeout = setTimeout(() => func.apply(this, args), wait); }; }
 
-    // DATABASES
     let productsDB = Storage.get('sre_products'), partiesDB = Storage.get('sre_parties'), billsDB = Storage.get('sre_bills'), categoriesDB = Storage.get('sre_categories'), financeDB = Storage.get('sre_finance'), journalDB = Storage.get('sre_journals');
     
-    // CONFIGS & SETTINGS
     let sysSettings = { company:"Sri Ram Enterprises", phone:"9334765000", address:"GB-15, City Centre, Sector-4, Bokaro Steel City", gstin:"20APOPK6864K1ZH", prefix:"SRE-26-", theme:"#0f172a", gas:"" };
     try { const lsSet = JSON.parse(localStorage.getItem('sre_settings')); if(lsSet) sysSettings = {...sysSettings, ...lsSet}; } catch(e){}
-    sysSettings.sequence = Storage.get('sre_sequences'); if(Array.isArray(sysSettings.sequence)) sysSettings.sequence = {SALE:0, PURCHASE:0, SALES_RETURN:0, PURCHASE_RETURN:0, VOUCHER:0};
+    sysSettings.sequence = Storage.get('sre_sequences'); if(!sysSettings.sequence || Array.isArray(sysSettings.sequence)) sysSettings.sequence = {SALE:0, PURCHASE:0, SALES_RETURN:0, PURCHASE_RETURN:0, VOUCHER:0};
     
     let appFeatures = { SALES:true, PURCHASE:true, SALES_RETURN:true, PURCHASE_RETURN:true, INVENTORY:true, IMEI:true, GST:true, FINANCE:true, EXPENSE:true, REPORTS:true };
     try { const fSet = JSON.parse(localStorage.getItem('sre_features')); if(fSet) appFeatures = {...appFeatures, ...fSet}; } catch(e){}
@@ -404,18 +433,17 @@
     let masterPayMode = "INSTANT", comboPayMode = "CASH";     
     let myTrendChart=null, myCatChart=null, myPaymentChart=null; 
     let debouncedRenderProducts, debouncedRenderParties, debouncedRenderLedger;
-    let imeiRowIndexTracker = -1;
+    let activeImeiRowId = null;
 
-    // 2. BOOTSTRAP & AUTHENTICATION
-    let isLogged = sessionStorage.getItem('sre_session_v6') === 'active';
+    let isLogged = sessionStorage.getItem('sre_session_v7') === 'active';
     function executeLogin() {
         const u=document.getElementById('login-user').value, p=document.getElementById('login-pass').value;
         if(u==='admin' && p==='admin') { 
-            sessionStorage.setItem('sre_session_v6', 'active'); document.getElementById('login-screen').classList.add('hidden'); 
+            sessionStorage.setItem('sre_session_v7', 'active'); document.getElementById('login-screen').classList.add('hidden'); 
             showToast("Welcome", "Admin Session Started"); bootstrapApplication();
         } else { showToast("Error", "Invalid Credentials", "error"); }
     }
-    function executeLogout() { sessionStorage.removeItem('sre_session_v6'); location.reload(); }
+    function executeLogout() { sessionStorage.removeItem('sre_session_v7'); location.reload(); }
 
     window.onload = () => { 
         if(!isLogged) { document.getElementById('login-company-name').innerText = sysSettings.company; document.getElementById('login-logo-box').innerText = sysSettings.company.charAt(0); } 
@@ -431,7 +459,6 @@
         } catch(e) { console.error("Startup Error:", e); showToast("System Error", "Startup failed. Check console.", "error"); }
     }
 
-    // 3. TOAST, NETWORK & HOTKEYS
     window.addEventListener('online', () => { const n = document.getElementById('network-indicator'); if(n) { n.className = "w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]"; document.getElementById('network-text').innerText="ONLINE"; document.getElementById('network-text').className="text-[9px] text-emerald-400 font-black uppercase mt-0.5"; }});
     window.addEventListener('offline', () => { const n = document.getElementById('network-indicator'); if(n) { n.className = "w-2.5 h-2.5 rounded-full bg-rose-500 shadow-[0_0_8px_#f43f5e]"; document.getElementById('network-text').innerText="OFFLINE"; document.getElementById('network-text').className="text-[9px] text-rose-400 font-black uppercase mt-0.5"; showToast("Network", "System is Offline.", "error"); }});
     function showToast(title, msg, type = 'success') { const container = document.getElementById('toast-container'); const t = document.createElement('div'); t.className = `glass-panel p-3 flex items-center space-x-3 border-l-4 ${type==='error'?'border-rose-500':'border-emerald-500'} toast-enter bg-white`; t.innerHTML = `<div class="text-xl drop-shadow-sm">${type==='error'?'❌':'✅'}</div><div><h4 class="font-black text-[10px] uppercase tracking-widest text-slate-800">${escapeHTML(title)}</h4><p class="text-[10px] font-bold text-slate-500 mt-0.5">${escapeHTML(msg)}</p></div>`; container.appendChild(t); setTimeout(() => { t.style.opacity = '0'; setTimeout(()=>t.remove(),300); }, 3000); }
@@ -445,7 +472,6 @@
     });
     function handleShortcut(e, type) { if(e.altKey && (e.key === 'c' || e.key === 'C')) { e.preventDefault(); if(type === 'CUSTOMER' || type === 'SUPPLIER') openPartyModal(type, e.target); else if(type === 'PRODUCT') openItemModal(e.target); } }
 
-    // 4. ADMIN CONTROL PANEL
     function buildDynamicSidebar() {
         const c = document.getElementById('sidebar-menu-container'); if(!c) return;
         let html = `<p class="sidebar-category">MAIN</p><button onclick="showView('dashboard')" class="sidebar-btn active" id="nav-dashboard"><span class="text-lg">📊</span> Dashboard</button><p class="sidebar-category">TRANSACTIONS</p>`;
@@ -498,7 +524,6 @@
         Storage.set('sre_settings', sysSettings); applySettingsToUI(); showToast("Settings", "Branding Updated", "success");
     }
 
-    // 5. VIEW ROUTER
     function showView(viewName) {
         document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
         const v = document.getElementById('view-' + viewName); if(v) v.classList.remove('hidden');
@@ -518,7 +543,6 @@
         if(viewName === 'dashboard') loadDashboard('TODAY'); if(viewName === 'ledger' || viewName === 'reports') updateLedgerView();
     }
 
-    // 6. SEQUENCING & DOUBLE ENTRY ACCOUNTING ENGINE
     function getNextSequence(type) {
         if(!sysSettings.sequence[type]) sysSettings.sequence[type] = 0;
         sysSettings.sequence[type]++; Storage.set('sre_sequences', sysSettings.sequence);
@@ -533,7 +557,6 @@
         Storage.set('sre_journals', journalDB);
     }
 
-    // 7. QUICK MODALS
     function renderCategories() { const opts = categoriesDB.map(c => `<option value="${c}">${c}</option>`).join('') + `<option value="ADD_NEW">➕ Create Category</option>`; document.querySelectorAll('.cat-select').forEach(sel => sel.innerHTML = opts); }
     function handleCategoryChange(sel) { if(sel.value === "ADD_NEW") { const nc = prompt("New Category:"); if(nc && nc.trim()!=="") { const c=escapeHTML(nc.trim()); if(!categoriesDB.includes(c)){categoriesDB.push(c); Storage.set('sre_categories',categoriesDB);} renderCategories(); sel.value=c; } else sel.value=categoriesDB[0]; } }
     function renderFinanceSelects() { const opts = `<option value="">-Select Company-</option>` + financeDB.filter(f=>f.status==='ACTIVE').map(f => `<option value="${f.name}">${f.name}</option>`).join(''); const fl=document.getElementById('fin-company-list'); if(fl) fl.innerHTML = opts; }
@@ -561,22 +584,18 @@
         closeProductModal();
     }
 
-    // 8. BILLING ENGINE (ATOMIC & UNIFIED)
+    // ATOMIC BILLING ENGINE
     function startBill(type) {
         currentMode = type;
         const bTitle = document.getElementById('bill-title'); if(bTitle) bTitle.innerText = type.replace('_',' ') + " ENTRY";
-        const stp = document.getElementById('bill-color-strip'); if(stp) stp.className = type.includes("SALE")?"absolute left-0 top-0 w-1.5 h-full bg-blue-600":"absolute left-0 top-0 w-1.5 h-full bg-emerald-500";
         const fType = document.getElementById('form-entry-type'); if(fType) { fType.innerText = type.replace('_',' '); fType.className = type.includes("SALE") ? "text-[9px] font-black px-2.5 py-1 rounded bg-blue-100 text-blue-700 uppercase tracking-widest shrink-0 border border-blue-200/50" : "text-[9px] font-black px-2.5 py-1 rounded bg-emerald-100 text-emerald-700 uppercase tracking-widest shrink-0 border border-emerald-200/50"; }
         const lParty = document.getElementById('lbl-party-type'); if(lParty) lParty.innerText = type.includes("SALE") ? "CUSTOMER" : "SUPPLIER";
         
         ['bill-party','master-item-scan','bill-ref-inv'].forEach(id=>{const el=document.getElementById(id); if(el) el.value='';});
         const dEl=document.getElementById('bill-date'); if(dEl) dEl.value = getToday(); 
-        
         const iEl=document.getElementById('bill-inv'); if(iEl) iEl.value = "AUTO"; 
-        
         const tb=document.getElementById('bill-items-body'); if(tb) tb.innerHTML=''; 
         
-        // Show/Hide Returns Reference & Payment Strip
         const pStrip = document.getElementById('payment-engine-strip');
         const rRef = document.getElementById('bill-ref-container');
         if(type.includes('RETURN')) { if(pStrip) pStrip.classList.add('hidden'); if(rRef) rRef.classList.remove('hidden'); }
@@ -604,7 +623,7 @@
                 calcBill(); showToast("Added", `${prod.name} added`, "success");
             } else {
                 if(currentMode==="PURCHASE") { openItemModal(e.target); setTimeout(()=> { const qn=document.getElementById('qm-item-name'); if(qn) qn.value=val; }, 200); }
-                else showToast("Not Found", "Item not in database.", "error");
+                else showToast("Not Found", "Item not in database. Add it first.", "error");
             }
             e.target.value = '';
         }
@@ -613,35 +632,61 @@
     function addBillRow(prod=null, scanVal=null, isFirst=false) {
         const tbody = document.getElementById('bill-items-body'); if(!tbody) return;
         const tr = document.createElement('tr'); tr.className = "item-row-wrapper group transition-colors";
+        tr.dataset.rowId = 'ROW-' + Date.now() + '-' + Math.floor(Math.random()*10000);
         let pName = prod ? prod.name : "", pRate = prod ? (currentMode.includes("SALE") ? prod.sale : prod.pur) : "", pGst = prod ? prod.gst : 18;
+        tr._productName = pName;
         tr._imeis = []; if(prod && prod.track && scanVal && prod.imeiList && prod.imeiList.includes(scanVal)) tr._imeis.push(scanVal);
         const trackerHtml = (prod && prod.track) ? `<button onclick="openImeiModal(this)" class="bg-blue-50 text-blue-600 px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest shadow-sm border border-blue-200 hover:bg-blue-600 hover:text-white transition-colors row-imei-btn">Manage IMEI (${tr._imeis.length})</button>` : `<span class="text-[9px] text-slate-400 font-bold uppercase row-imei-btn" data-untracked="true">No Tracking</span>`;
 
-        tr.innerHTML = `<td class="p-1.5 text-center"><span class="text-[10px] font-black text-slate-400 row-sl"></span></td><td class="p-1.5"><input type="text" list="item-list" onchange="autoFillRate(this)" class="premium-input uppercase text-[11px] font-black b-name !px-2 !h-[34px]" placeholder="Item Name" value="${pName}"></td><td class="p-1.5"><input type="number" min="1" value="1" oninput="window.handleGridQtyChange(this)" onkeyup="window.handleGridQtyChange(this)" class="premium-input text-center font-black text-blue-700 b-qty !px-1 !h-[34px]"></td><td class="p-1.5 text-center">${trackerHtml}</td><td class="p-1.5"><input type="number" oninput="calcBill()" class="premium-input text-[12px] text-right b-rate !px-2 !h-[34px] font-bold" value="${pRate}"></td><td class="p-1.5"><select onchange="calcBill()" class="premium-input text-center text-[11px] font-bold b-gst !px-1 !h-[34px]"><option value="0" ${pGst==0?'selected':''}>0</option><option value="5" ${pGst==5?'selected':''}>5</option><option value="12" ${pGst==12?'selected':''}>12</option><option value="18" ${pGst==18?'selected':''}>18</option><option value="28" ${pGst==28?'selected':''}>28</option></select></td><td class="p-1.5 text-right"><span class="font-black text-[12px] text-slate-800 row-amt">₹0</span></td><td class="p-1.5 text-center">${!isFirst ? `<button onclick="this.closest('tr').remove(); calcBill();" class="text-rose-400 font-black">✕</button>` : ''}</td>`;
+        tr.innerHTML = `<td class="p-1.5 text-center"><span class="text-[10px] font-black text-slate-400 row-sl"></span></td><td class="p-1.5"><input type="text" list="item-list" onchange="autoFillRate(this)" class="premium-input uppercase text-[11px] font-black b-name !px-2 !h-[34px]" placeholder="Item Name" value="${pName}"></td><td class="p-1.5"><input type="number" min="1" value="1" oninput="window.handleGridQtyChange(this)" class="premium-input text-center font-black text-blue-700 b-qty !px-1 !h-[34px]"></td><td class="p-1.5 text-center">${trackerHtml}</td><td class="p-1.5"><input type="number" oninput="calcBill()" class="premium-input text-[12px] text-right b-rate !px-2 !h-[34px] font-bold" value="${pRate}"></td><td class="p-1.5"><select onchange="calcBill()" class="premium-input text-center text-[11px] font-bold b-gst !px-1 !h-[34px]"><option value="0" ${pGst==0?'selected':''}>0</option><option value="5" ${pGst==5?'selected':''}>5</option><option value="12" ${pGst==12?'selected':''}>12</option><option value="18" ${pGst==18?'selected':''}>18</option><option value="28" ${pGst==28?'selected':''}>28</option></select></td><td class="p-1.5 text-right"><span class="font-black text-[12px] text-slate-800 row-amt">₹0</span></td><td class="p-1.5 text-center">${!isFirst ? `<button onclick="this.closest('tr').remove(); calcBill();" class="text-rose-400 font-black">✕</button>` : ''}</td>`;
         tbody.appendChild(tr); calcBill();
     }
 
     window.handleGridQtyChange = function(input) { calcBill(); const tr = input.closest('tr'); if(tr) updateImeiBadge(tr); };
 
-    function autoFillRate(input) { const prod = productsDB.find(p => p.name === input.value.trim().toUpperCase()); if(prod) { const tr=input.closest('tr'); const r=tr.querySelector('.b-rate'); if(r) r.value=currentMode.includes("SALE")?prod.sale:prod.pur; const g=tr.querySelector('.b-gst'); if(g) g.value=prod.gst; const iCell = tr.querySelectorAll('td')[3]; if(iCell && prod.track) { tr._imeis=[]; iCell.innerHTML = `<button onclick="openImeiModal(this)" class="bg-blue-50 text-blue-600 px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest shadow-sm border border-blue-200 hover:bg-blue-600 hover:text-white transition-colors row-imei-btn">Manage IMEI (0)</button>`; } else if(iCell) { iCell.innerHTML = `<span class="text-[9px] text-slate-400 font-bold uppercase row-imei-btn" data-untracked="true">No Tracking</span>`; } calcBill(); } }
+    function autoFillRate(input) { 
+        const prod = productsDB.find(p => p.name === input.value.trim().toUpperCase()); 
+        if(prod) { 
+            const tr=input.closest('tr'); const r=tr.querySelector('.b-rate'); if(r) r.value=currentMode.includes("SALE")?prod.sale:prod.pur; 
+            const g=tr.querySelector('.b-gst'); if(g) g.value=prod.gst; 
+            const iCell = tr.querySelectorAll('td')[3]; 
+            
+            // Only reset IMEI if product actually changed
+            if(tr._productName !== prod.name) {
+                tr._productName = prod.name;
+                tr._imeis=[]; 
+                if(iCell && prod.track) { iCell.innerHTML = `<button onclick="openImeiModal(this)" class="bg-blue-50 text-blue-600 px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest shadow-sm border border-blue-200 hover:bg-blue-600 hover:text-white transition-colors row-imei-btn">Manage IMEI (0)</button>`; } 
+                else if(iCell) { iCell.innerHTML = `<span class="text-[9px] text-slate-400 font-bold uppercase row-imei-btn" data-untracked="true">No Tracking</span>`; } 
+            }
+            calcBill(); 
+        } 
+    }
 
     function updateImeiBadge(tr) { const btn = tr.querySelector('.row-imei-btn'); if(btn && !btn.dataset.untracked) { btn.innerText = `Manage IMEI (${tr._imeis.length})`; if(tr._imeis.length === Number(tr.querySelector('.b-qty').value)) { btn.classList.remove('bg-blue-50','text-blue-600','border-blue-200'); btn.classList.add('bg-emerald-500','text-white','border-emerald-600'); } else { btn.classList.add('bg-blue-50','text-blue-600','border-blue-200'); btn.classList.remove('bg-emerald-500','text-white','border-emerald-600'); } } }
 
     function openImeiModal(btn) {
         const tr = btn.closest('tr'); const nm = tr.querySelector('.b-name').value.trim(); const qty = Math.max(1, Number(tr.querySelector('.b-qty').value)||1);
         if(!nm) return showToast("Warning","Select product first","warning");
-        imeiRowIndexTracker = Array.from(tr.parentElement.children).indexOf(tr);
+        activeImeiRowId = tr.dataset.rowId;
         document.getElementById('imei-modal-sub').innerText = `${nm} | Required: ${qty}`;
         const c = document.getElementById('imei-modal-inputs'); c.innerHTML = '';
-        for(let i=0; i<qty; i++) { const val = tr._imeis && tr._imeis[i] ? tr._imeis[i] : ""; c.innerHTML += `<div class="relative"><span class="absolute left-3 top-2.5 text-[9px] font-black text-slate-400">#${i+1}</span><input type="text" class="premium-input font-mono font-bold text-xs !pl-8 uppercase imei-modal-val" placeholder="Scan or Type IMEI/Serial" value="${val}" oninput="updateImeiModalCount()"></div>`; }
+        
+        if (tr._imeis.length > qty) tr._imeis.length = qty;
+        for(let i=0; i<qty; i++) { 
+            const val = (tr._imeis && tr._imeis[i]) ? tr._imeis[i] : ""; 
+            const wrap = document.createElement('div'); wrap.className = "relative";
+            wrap.innerHTML = `<span class="absolute left-3 top-2.5 text-[9px] font-black text-slate-400">#${i+1}</span><input type="text" class="premium-input font-mono font-bold text-xs !pl-8 uppercase imei-modal-val" placeholder="Scan or Type IMEI" oninput="updateImeiModalCount()">`;
+            wrap.querySelector('input').value = val; // SAFE
+            c.appendChild(wrap);
+        }
         document.getElementById('imei-modal').classList.remove('hidden'); updateImeiModalCount();
         setTimeout(()=>{ const fi=document.querySelector('.imei-modal-val'); if(fi) fi.focus(); }, 100);
     }
     function updateImeiModalCount() { const inputs = document.querySelectorAll('.imei-modal-val'); let c=0; inputs.forEach(i=>{if(i.value.trim())c++;}); document.getElementById('imei-modal-count').innerText = `${c} / ${inputs.length} Completed`; }
-    function closeImeiModal() { document.getElementById('imei-modal').classList.add('hidden'); imeiRowIndexTracker = -1; }
+    function closeImeiModal() { document.getElementById('imei-modal').classList.add('hidden'); activeImeiRowId = null; }
     
     function applyImeiModal() {
-        if(imeiRowIndexTracker === -1) return; const tr = document.getElementById('bill-items-body').children[imeiRowIndexTracker]; if(!tr) return;
+        if(!activeImeiRowId) return; const tr = document.querySelector(`tr[data-row-id="${activeImeiRowId}"]`); if(!tr) return showToast("Error", "Row sync error. Reopen modal.", "error");
         const inputs = document.querySelectorAll('.imei-modal-val'); let arr = [], err = null, set=new Set();
         inputs.forEach(i=>{ const v=i.value.trim().toUpperCase(); if(v){ if(v.length !== 15 && !isNaN(v)) err=`IMEI ${v} must be 15 digits`; if(set.has(v)) err=`Duplicate entry ${v} in modal`; set.add(v); arr.push(v); } });
         if(err) return showToast("Error", err, "error");
@@ -686,15 +731,13 @@
     }
 
     function calcBill(isTyping=false) {
-        let tax=0, gstAmt=0, grand=0, purCost=0, index=1;
+        let tax=0, gstAmt=0, grand=0, index=1;
         document.querySelectorAll('#bill-items-body tr').forEach(row => {
             const sl = row.querySelector('.row-sl'); if(sl) sl.innerText = index++;
             const nm = row.querySelector('.b-name').value.trim().toUpperCase(), r=Number(row.querySelector('.b-rate').value)||0, q=Number(row.querySelector('.b-qty').value)||0, g=Number(row.querySelector('.b-gst').value)||0;
             let lt = r*q; let lg = lt*(g/100); const rT=lt+lg;
             const amtLbl = row.querySelector('.row-amt'); if(amtLbl) amtLbl.innerText = "₹" + Math.round(rT).toLocaleString('en-IN');
             if(!nm) return; tax+=lt; gstAmt+=lg; grand+=rT;
-            const qtyEl = row.querySelector('.b-qty'), prod = productsDB.find(x=>x.name===nm);
-            if(currentMode.includes("SALE") && prod) { purCost+=(prod.pur*q); if(prod.stock<q && qtyEl) qtyEl.classList.add('bg-rose-100'); else if(qtyEl) qtyEl.classList.remove('bg-rose-100'); }
         });
         const rGrand = Math.round(grand);
         const elTax = document.getElementById('bill-taxable'); if(elTax) elTax.innerText = "₹"+tax.toLocaleString('en-IN',{minimumFractionDigits:2}); 
@@ -719,10 +762,9 @@
             else if(masterPayMode === 'INSTANT') elDue.innerText = "₹"+Math.abs(rGrand-rawP).toLocaleString('en-IN') + (rawP>rGrand?" (Change)":"");
             else elDue.innerText = "₹"+Math.max(0, rGrand-rawP).toLocaleString('en-IN');
         }
-        return { tax, gstAmt, rGrand, rawP, due:Math.max(0, rGrand-rawP), profit: currentMode==="SALE" ? (rGrand - gstAmt - purCost) : 0 };
+        return { tax, gstAmt, rGrand, rawP, due:Math.max(0, rGrand-rawP) };
     }
 
-    // ATOMIC SAVE ENGINE (WITH DOUBLE ENTRY)
     function saveFinalBill() {
         if(isSaving) return;
         const pEl = document.getElementById('bill-party'); if(!pEl) return;
@@ -740,14 +782,15 @@
         
         if (currentMode.includes('RETURN')) { const refInp=document.getElementById('bill-ref-inv'); if(!refInp||!refInp.value) return showToast("Error", "Original Invoice Reference Required for Returns", "error"); }
 
-        let items=[], err=null, setImeis=new Set();
+        let items=[], err=null, setImeis=new Set(); let tCost=0;
         const rows = document.querySelectorAll('#bill-items-body tr');
         for(let row of rows) {
             const bn=row.querySelector('.b-name'); const n = bn ? bn.value.trim().toUpperCase() : ""; if(!n) continue;
             const r=Number(row.querySelector('.b-rate')?.value)||0, q=Number(row.querySelector('.b-qty')?.value)||1, g=Number(row.querySelector('.b-gst')?.value)||0;
             
             let prod = productsDB.find(p=>p.name===n);
-            if(!prod) return showToast("Error", `Item [${n}] not found in database. Add it first.`, "error"); // STRICT INVENTORY CHECK
+            if(!prod) return showToast("Error", `Item [${n}] not found in database. Quick Add it first.`, "error"); // STRICT INVENTORY CHECK
+            tCost += (prod.pur * q);
 
             if(prod.track) {
                 const vImeis = row._imeis || [];
@@ -760,7 +803,7 @@
                     if((currentMode==="PURCHASE" || currentMode==="SALES_RETURN") && globalDup) { err=`IMEI ${i} globally exists`; break; }
                 }
             }
-            if(currentMode==="SALE" && prod && prod.stock<q) { err=`Low stock for ${n}`; break; }
+            if(currentMode==="SALE" && prod.stock<q) { err=`Low stock for ${n}`; break; }
             if(err) break;
             items.push({name:n, rate:r, qty:q, gst:g, imei: (row._imeis||[]).join(', '), amt:Math.round((r*q)+(r*q*(g/100))), prodObj:prod, imArr:row._imeis||[]});
         }
@@ -770,7 +813,6 @@
         isSaving=true; const btn=document.getElementById('btn-save-bill'); if(btn) { btn.disabled=true; btn.innerHTML="⏳ PROCESSING..."; }
         
         try {
-            // ATOMIC STOCK CHANGES
             items.forEach(it => {
                 if(it.prodObj) {
                     if(currentMode==="SALE" || currentMode==="PURCHASE_RETURN") { it.prodObj.stock -= it.qty; if(it.prodObj.track) it.prodObj.imeiList = it.prodObj.imeiList.filter(i=>!it.imArr.includes(i)); }
@@ -790,10 +832,9 @@
             if(currentMode.includes('RETURN')) finalPaymentMode = "REFUND/ADJUSTMENT";
             let actualDue = currentMode.includes('RETURN') ? 0 : t.due; 
 
-            const billRec = { id:'INV-'+Date.now(), invNo:finalInvNo, date:bDate, type:currentMode, party:pName, mobile:pData?pData.mobile:"", items, basic:t.tax, gst:t.gstAmt, total:t.rGrand, paid: currentMode.includes('RETURN')?0:t.rawP, due:actualDue, paymentMode:finalPaymentMode, finance:finData, profit: currentMode.includes('RETURN')?0:t.profit };
+            const billRec = { id:'INV-'+Date.now(), invNo:finalInvNo, date:bDate, type:currentMode, party:pName, mobile:pData?pData.mobile:"", items, basic:t.tax, gst:t.gstAmt, total:t.rGrand, paid: currentMode.includes('RETURN')?0:t.rawP, due:actualDue, paymentMode:finalPaymentMode, finance:finData, profit: currentMode.includes('RETURN')?0:(t.rGrand - t.gstAmt - tCost) };
             billsDB.unshift(billRec); Storage.set('sre_bills', billsDB); Storage.set('sre_products', productsDB);
             
-            // DOUBLE ENTRY JOURNAL POSTING
             if(currentMode === "SALE") {
                 postJournal(bDate, finalInvNo, 'SALE', pName, 'Sales A/C', t.tax, 'Goods Sold');
                 if(t.gstAmt > 0) postJournal(bDate, finalInvNo, 'SALE_GST', pName, 'Output GST A/C', t.gstAmt, 'GST on Sale');
@@ -814,7 +855,7 @@
             if(currentMode==="SALES_RETURN" && pData) { pData.ob -= t.rGrand; Storage.set('sre_parties', partiesDB); } 
             if(currentMode==="PURCHASE_RETURN" && pData) { pData.ob += t.rGrand; Storage.set('sre_parties', partiesDB); } 
 
-            showToast("Success", "Transaction Committed Structurally", "success"); generateInvoiceHTML(billRec); 
+            showToast("Success", "Transaction Committed", "success"); generateInvoiceHTML(billRec); 
         } catch(error) {
             console.error(error); showToast("System Error", "Failed to save bill", "error");
         } finally {
@@ -822,7 +863,7 @@
         }
     }
 
-    // VOUCHERS (Receipt/Payment/Expense)
+    // VOUCHERS
     function startPayment(type) { 
         currentPaymentType=type; const pt=document.getElementById('pay-title'); if(pt) pt.innerText=type==='OUT'?'PAYMENT VOUCHER':(type==='IN'?'RECEIPT VOUCHER':'EXPENSE VOUCHER'); 
         const pl=document.getElementById('pay-party-lbl'); if(pl) pl.innerText=type==='EXPENSE'?'Expense Category *':(type==='OUT'?'Supplier Account *':'Customer Account *'); 
@@ -834,21 +875,18 @@
     function savePaymentTransaction() {
         const pEl = document.getElementById('pay-party'); const p = pEl ? pEl.value.trim() : ""; const a=Number(document.getElementById('pay-amt')?.value)||0, m=document.getElementById('pay-mode')?.value, r=document.getElementById('pay-remarks')?.value;
         if(!p || a<=0) return showToast("Error", "Valid Account & Amount needed", "error");
-        
         let pD=partiesDB.find(x=>x.name.toUpperCase()===p.toUpperCase()); 
         if(!pD && currentPaymentType !== 'EXPENSE') return showToast("Error", "Party not found in directory", "error");
         
         const bDate = getToday(); const invNo = getNextSequence('VOUCHER');
-        
         if (currentPaymentType === 'IN') postJournal(bDate, invNo, 'RECEIPT', 'Cash/Bank A/C', p.toUpperCase(), a, r||'Payment Received');
         else if (currentPaymentType === 'OUT') postJournal(bDate, invNo, 'PAYMENT', p.toUpperCase(), 'Cash/Bank A/C', a, r||'Payment Made');
         else postJournal(bDate, invNo, 'EXPENSE', 'Expense A/C - ' + p, 'Cash/Bank A/C', a, r||'Expense Paid');
 
         const bRec = { id:'INV-'+Date.now(), invNo, date:bDate, type:currentPaymentType==='OUT'?'PAYMENT':(currentPaymentType==='IN'?'RECEIPT':'EXPENSE'), party:p.toUpperCase(), items:[{name:r||"Voucher Entry", rate:a, qty:1, gst:0, amt:a}], basic:a, gst:0, total:a, paid:a, due:0, paymentMode:m };
         billsDB.unshift(bRec); Storage.set('sre_bills', billsDB); 
-        
         if(pD && currentPaymentType !== 'EXPENSE') { pD.ob += (currentPaymentType==="IN"?-a:a); Storage.set('sre_parties', partiesDB); }
-        showPopup("Success", "Voucher Posted to Ledger Successfully"); showView('ledger');
+        showPopup("Success", "Voucher Posted Successfully"); showView('ledger');
     }
 
     // LEDGER & REPORTS (P&L / Trial Balance)
@@ -865,18 +903,17 @@
             let ob=0, bl=0, pd=0; 
             partiesDB.filter(p=>p.type===(isC?'CUSTOMER':'SUPPLIER') && (p.name.includes(src)||(p.mobile&&p.mobile.includes(src)))).forEach(p=>ob+=Number(p.ob));
             
-            // Build Double Entry View
             let run = ob; 
             let jList = journalDB.filter(j=>(j.drAccount.includes(src)||j.crAccount.includes(src)||j.refNo.includes(src)));
             jList.reverse().forEach(j=>{ 
-                if(isC && j.drAccount===src) { bl+=j.amount; run+=j.amount; j._run=run; j._dr=j.amount; j._cr='-'; }
-                else if(isC && j.crAccount===src) { pd+=j.amount; run-=j.amount; j._run=run; j._cr=j.amount; j._dr='-'; }
-                else if(!isC && j.crAccount===src) { bl+=j.amount; run+=j.amount; j._run=run; j._cr=j.amount; j._dr='-'; }
-                else if(!isC && j.drAccount===src) { pd+=j.amount; run-=j.amount; j._run=run; j._dr=j.amount; j._cr='-'; }
+                if(isC && j.drAccount.includes(src)) { bl+=j.amount; run+=j.amount; j._run=run; j._dr=j.amount; j._cr='-'; }
+                else if(isC && j.crAccount.includes(src)) { pd+=j.amount; run-=j.amount; j._run=run; j._cr=j.amount; j._dr='-'; }
+                else if(!isC && j.crAccount.includes(src)) { bl+=j.amount; run+=j.amount; j._run=run; j._cr=j.amount; j._dr='-'; }
+                else if(!isC && j.drAccount.includes(src)) { pd+=j.amount; run-=j.amount; j._run=run; j._dr=j.amount; j._cr='-'; }
             });
             
             const tb=document.getElementById("ledger-table-body"); if(tb) {
-                tb.innerHTML = jList.length === 0 ? `<tr><td colspan="7" class="text-center p-8 text-slate-400 font-bold text-xs uppercase tracking-widest">No Transactions Found</td></tr>` : 
+                tb.innerHTML = jList.length === 0 ? `<tr><td colspan="7" class="text-center p-8 text-slate-400 font-bold text-xs uppercase tracking-widest">No Journals Found</td></tr>` : 
                 jList.reverse().map(j=>`<tr class="hover:bg-indigo-50/30 transition-colors"><td><span class="font-mono text-[10px] font-bold text-slate-600 bg-slate-50 border border-slate-200 px-1.5 py-0.5 rounded">${j.date}</span></td><td class="font-bold text-[11px] text-slate-800">${j.refNo}</td><td class="text-center"><span class="px-2 py-0.5 rounded-sm text-[8px] font-black uppercase tracking-widest shadow-sm border border-black/5">${j.type}</span></td><td class="font-black text-slate-800 uppercase text-[11px]">${escapeHTML(j.narration)}</td><td class="text-right text-rose-600 font-black text-sm">${j._dr||'-'}</td><td class="text-right text-emerald-600 font-black text-sm">${j._cr||'-'}</td><td class="text-right font-black text-sm text-indigo-700">${j._run?j._run.toLocaleString('en-IN'):'-'} <span class="text-[9px] text-slate-400 font-bold ml-0.5">${isC?'Dr':'Cr'}</span></td></tr>`).join('');
             }
             const eo=document.getElementById("ledger-ob"); if(eo) eo.innerText="₹"+ob.toLocaleString('en-IN'); 
@@ -884,7 +921,7 @@
             const ep=document.getElementById("ledger-paid"); if(ep) ep.innerText="₹"+pd.toLocaleString('en-IN'); 
             const er=document.getElementById("ledger-bal"); if(er) er.innerText="₹"+run.toLocaleString('en-IN');
 
-            // P&L and Trial Balance Auto Calculation
+            // Reports calculations
             let tSale=0, tPur=0, tExp=0;
             let tbDr=0, tbCr=0; let tbAccounts = {};
             journalDB.forEach(j=>{ 
@@ -904,11 +941,90 @@
                 document.getElementById('tb-status').innerText = tbDr === tbCr ? "MATCHED ✅" : "MISMATCH ❌";
                 document.getElementById('tb-status').className = tbDr === tbCr ? "px-3 py-1 rounded text-xs font-black bg-emerald-100 text-emerald-700" : "px-3 py-1 rounded text-xs font-black bg-rose-100 text-rose-700";
             }
-
         } catch(e) { console.error("Ledger Render Error", e); }
     }
 
-    // INVOICE & PDF
+    // PRODUCT/PARTY RENDERERS
+    function renderProducts() {
+        const sEl = document.getElementById('prod-search'), cEl = document.getElementById('filter-category');
+        const s = sEl ? sEl.value.toUpperCase() : '', c = cEl ? cEl.value : 'ALL';
+        const f = productsDB.filter(p => (p.name.includes(s) || p.sku.includes(s) || (p.imeiList && p.imeiList.join(' ').includes(s))) && (c === "ALL" || !c || p.category === c));
+        const tb = document.getElementById('product-table-body'); if(!tb) return;
+        tb.innerHTML = f.length === 0 ? `<tr><td colspan="6" class="text-center p-8 text-slate-400 font-bold text-xs uppercase tracking-widest">No Products Found</td></tr>` : 
+        f.map(p => {
+            let img = p.image ? `<img src="${p.image}" class="w-10 h-10 rounded-md object-cover">` : `<div class="w-10 h-10 bg-slate-100 rounded-md flex items-center justify-center text-lg">📦</div>`;
+            return `<tr class="hover:bg-blue-50/30 transition-colors"><td class="text-center">${img}</td><td><p class="font-black text-xs text-blue-800 uppercase">${escapeHTML(p.name)}</p><p class="text-[9px] text-slate-500 font-bold uppercase mt-1"><span class="bg-slate-100 px-1 rounded mr-1">${escapeHTML(p.brand||'-')}</span> ${escapeHTML(p.category)}</p></td><td><p class="font-mono font-bold text-[10px] text-slate-700">${escapeHTML(p.sku)}</p></td><td class="text-right"><p class="font-black text-[10px] text-slate-500">P: ₹${p.pur}</p><p class="font-black text-sm text-blue-600 mt-0.5">S: ₹${p.sale}</p></td><td class="text-center"><p class="font-black text-base ${p.stock<=0?'text-rose-600':'text-emerald-600'}">${p.stock}</p></td><td class="text-center"><button onclick="editProduct('${p.id}')" class="btn-ghost px-3 py-1.5 text-[9px]">EDIT</button></td></tr>`;
+        }).join('');
+        const dl = document.getElementById('item-list'); if(dl) dl.innerHTML = productsDB.map(p => `<option value="${p.name}">`).join('');
+    }
+
+    function renderParties() {
+        const sEl = document.getElementById('party-search'); const s = sEl ? sEl.value.toUpperCase() : '';
+        const f = partiesDB.filter(p => p.name.includes(s) || (p.mobile && p.mobile.includes(s)) || (p.gstin && p.gstin.includes(s)));
+        const tb = document.getElementById('party-table-body'); if(!tb) return;
+        tb.innerHTML = f.length === 0 ? `<tr><td colspan="4" class="text-center p-8 text-slate-400 font-bold text-xs uppercase tracking-widest">No Accounts Found</td></tr>` : 
+        f.map(p => `<tr class="hover:bg-purple-50/30 transition-colors"><td><div class="flex items-center gap-3"><div class="w-8 h-8 rounded bg-slate-100 flex items-center justify-center font-black text-slate-400">${p.name.charAt(0)}</div><div><p class="font-black text-xs text-slate-800 uppercase">${escapeHTML(p.name)}</p><span class="${p.type==='CUSTOMER'?'text-blue-500':'text-purple-500'} text-[8px] font-black uppercase tracking-widest mt-0.5 block">${p.type}</span></div></div></td><td><span class="font-mono text-slate-600 font-bold bg-slate-50 border border-slate-200 px-2 py-1 rounded inline-block text-[10px]">${p.mobile||'-'}</span></td><td><p class="text-[9px] font-bold text-slate-500 uppercase">${escapeHTML(p.address||'-')}</p><p class="text-[8px] font-mono text-slate-400 mt-1">GST: ${p.gstin||'-'}</p></td><td class="text-right font-black text-sm ${p.ob>0?'text-rose-600':'text-emerald-600'}">₹${(p.ob||0).toLocaleString('en-IN')}</td><td class="text-center"><button onclick="editParty('${p.id}')" class="bg-slate-100 text-slate-600 px-3 py-1.5 rounded-md text-[10px] font-black shadow-sm hover:bg-slate-800 hover:text-white transition-colors">EDIT</button></td></tr>`).join('');
+        const dl = document.getElementById('party-list'); if(dl) dl.innerHTML = partiesDB.map(p => `<option value="${p.name}">Ph: ${p.mobile||'-'}</option>`).join('');
+    }
+
+    // DASHBOARD & EXPORTS
+    function loadDashboard(timeRange = 'TODAY') {
+        document.querySelectorAll('.dash-filter').forEach(b => b.classList.remove('active')); 
+        const fBtn = document.getElementById('flt-' + timeRange); if(fBtn) fBtn.classList.add('active');
+        const now = new Date(); const todayStr = getToday(); let startDate = new Date();
+        if(timeRange === 'TODAY') startDate = new Date(todayStr); if(timeRange === '7D') startDate.setDate(now.getDate() - 7); if(timeRange === '30D') startDate.setDate(now.getDate() - 30); if(timeRange === 'MONTH') startDate = new Date(now.getFullYear(), now.getMonth(), 1); if(timeRange === 'YEAR') startDate = new Date(now.getFullYear(), 0, 1);
+        const startStr = startDate.toISOString().split('T')[0];
+        
+        const dBills = billsDB.filter(b => b.date >= startStr && b.date <= todayStr);
+        let saleAmt=0, purAmt=0, grossProf=0; 
+        dBills.forEach(b => { if(b.type === "SALE") { saleAmt += b.total; grossProf += (Number(b.profit)||0); } if(b.type === "PURCHASE") purAmt += b.total; });
+        let outAmt = partiesDB.filter(p=>p.type==='CUSTOMER').reduce((sum, p) => sum + (Number(p.ob)||0), 0);
+        
+        const dKpis = document.getElementById('dashboard-kpis'); let html = '';
+        if(appFeatures.SALES) html += `<div class="glass-panel p-5 border-t-4 border-t-blue-500 hover:shadow-md"><p class="text-[10px] text-slate-500 font-black uppercase tracking-widest"><span id="lbl-sale">${timeRange==='TODAY'?"Today's Sales":"Sales"}</span></p><h3 class="text-2xl font-black text-slate-800 mt-1" id="dash-sale">₹${saleAmt.toLocaleString('en-IN')}</h3></div>`;
+        if(appFeatures.PURCHASE) html += `<div class="glass-panel p-5 border-t-4 border-t-purple-500 hover:shadow-md"><p class="text-[10px] text-slate-500 font-black uppercase tracking-widest"><span id="lbl-pur">${timeRange==='TODAY'?"Today's Purchase":"Purchase"}</span></p><h3 class="text-2xl font-black text-slate-800 mt-1" id="dash-pur">₹${purAmt.toLocaleString('en-IN')}</h3></div>`;
+        html += `<div class="glass-panel p-5 border-t-4 border-t-emerald-500 hover:shadow-md bg-emerald-50/20"><p class="text-[10px] text-emerald-600 font-black uppercase tracking-widest">Gross Profit</p><h3 class="text-2xl font-black text-emerald-700 mt-1" id="dash-profit">₹${grossProf.toLocaleString('en-IN')}</h3></div>`;
+        html += `<div class="glass-panel p-5 border-t-4 border-t-rose-500 hover:shadow-md"><p class="text-[10px] text-slate-500 font-black uppercase tracking-widest">Market Receivables</p><h3 class="text-2xl font-black text-rose-600 mt-1" id="dash-out">₹${outAmt.toLocaleString('en-IN')}</h3></div>`;
+        if(dKpis) dKpis.innerHTML = html;
+
+        let catSales = {}, payModes = {};
+        dBills.forEach(b => { if(b.type === "SALE") { if(b.paymentMode) payModes[b.paymentMode] = (payModes[b.paymentMode] || 0) + b.total; b.items.forEach(it => { let cat = it.prodObj ? it.prodObj.category : "Others"; catSales[cat] = (catSales[cat] || 0) + it.amt; }); } });
+        
+        const tc = document.getElementById('trendChart'); if(tc) { if(myTrendChart) myTrendChart.destroy(); myTrendChart = new Chart(tc, { type: 'line', data: { labels: Object.keys(payModes).length > 0 ? Object.keys(payModes) : ['No Data'], datasets: [ { label: 'Sales', data: Object.keys(payModes).length > 0 ? Object.values(payModes) : [0], borderColor: '#2563eb', backgroundColor: 'rgba(37, 99, 235, 0.1)', borderWidth: 3, tension: 0.4, fill: true } ] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels:{font:{family:'Plus Jakarta Sans', weight:'bold'}} } }, scales: { x: { display:false }, y:{ border:{display:false}, grid:{color:'#f1f5f9'} } } } }); }
+        const cc = document.getElementById('categoryChart'); if(cc) { if(myCatChart) myCatChart.destroy(); const catKeys = Object.keys(catSales); myCatChart = new Chart(cc, { type: 'doughnut', data: { labels: catKeys.length > 0 ? catKeys : ['No Data'], datasets: [{ data: catKeys.length > 0 ? Object.values(catSales) : [1], backgroundColor: ['#3b82f6', '#8b5cf6', '#10b981', '#f59e0b', '#f43f5e', '#64748b'], borderWidth: 0, hoverOffset: 4 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { position: 'right', labels:{boxWidth:10, font:{family:'Plus Jakarta Sans', size:9, weight:'bold'}} } } } }); }
+        const pc = document.getElementById('paymentChart'); if(pc) { if(myPaymentChart) myPaymentChart.destroy(); const payKeys = Object.keys(payModes); myPaymentChart = new Chart(pc, { type: 'doughnut', data: { labels: payKeys.length > 0 ? payKeys : ['No Data'], datasets: [{ data: payKeys.length > 0 ? Object.values(payModes) : [1], backgroundColor: ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b', '#64748b'], borderWidth: 0, hoverOffset: 4 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { position: 'right', labels:{boxWidth:10, font:{family:'Plus Jakarta Sans', size:9, weight:'bold'}} } } } }); }
+        
+        let lowStockCount=0, custDues=0, supDues=0, imeiIssues=0; let htmlAlerts = '';
+        productsDB.forEach(p => { if(p.stock <= (p.lowStock || 5)) lowStockCount++; if(p.track && p.imeiList && p.imeiList.length !== p.stock) imeiIssues++; });
+        partiesDB.forEach(p => { if(p.ob > 0) { if(p.type==='CUSTOMER') custDues++; else supDues++; } });
+        if(lowStockCount > 0) { htmlAlerts += `<div class="bg-rose-50 p-2.5 rounded mb-2 flex items-center justify-between cursor-pointer hover:bg-rose-100" onclick="showView('product')"><div class="flex items-center gap-2"><span class="text-rose-500 text-lg">📦</span> <span class="text-[10px] font-black uppercase text-rose-700">Low Stock</span></div><span class="bg-rose-200 text-rose-800 text-[10px] px-2.5 py-0.5 rounded font-black">${lowStockCount}</span></div>`; }
+        if(custDues > 0) { htmlAlerts += `<div class="bg-amber-50 p-2.5 rounded mb-2 flex items-center justify-between cursor-pointer hover:bg-amber-100" onclick="showView('ledger')"><div class="flex items-center gap-2"><span class="text-amber-500 text-lg">👥</span> <span class="text-[10px] font-black uppercase text-amber-700">Customer Dues</span></div><span class="bg-amber-200 text-amber-800 text-[10px] px-2.5 py-0.5 rounded font-black">${custDues}</span></div>`; }
+        if(supDues > 0) { htmlAlerts += `<div class="bg-purple-50 p-2.5 rounded mb-2 flex items-center justify-between cursor-pointer hover:bg-purple-100" onclick="showView('ledger')"><div class="flex items-center gap-2"><span class="text-purple-500 text-lg">🏭</span> <span class="text-[10px] font-black uppercase text-purple-700">Supplier Payables</span></div><span class="bg-purple-200 text-purple-800 text-[10px] px-2.5 py-0.5 rounded font-black">${supDues}</span></div>`; }
+        if(imeiIssues > 0) { htmlAlerts += `<div class="bg-blue-50 border border-blue-100 p-2.5 rounded mb-2 flex items-center justify-between cursor-pointer hover:bg-blue-100" onclick="showView('product')"><div class="flex items-center gap-2"><span class="text-blue-500 text-lg">⚡</span> <span class="text-[10px] font-black uppercase text-blue-700">IMEI Mismatch</span></div><span class="bg-blue-200 text-blue-800 text-[10px] px-2.5 py-0.5 rounded font-black">${imeiIssues}</span></div>`; }
+        if(htmlAlerts === '') htmlAlerts = `<div class="p-8 flex flex-col items-center opacity-50"><span class="text-4xl mb-2">🛡️</span><p class="text-[10px] font-bold text-slate-500 uppercase">System Stable.</p></div>`;
+        const aC = document.getElementById('alerts-container'); if(aC) aC.innerHTML = htmlAlerts; 
+    }
+
+    function exportReport(type) {
+        let csv = ""; let fn = "";
+        if(type === 'SALE' || type === 'PURCHASE') {
+            csv = "Date,InvNo,Party,Total,Paid,Due,PaymentMode\n";
+            billsDB.filter(b=>b.type===type).forEach(b => csv+=`${b.date},${b.invNo},"${escapeHTML(b.party)}",${b.total},${b.paid},${b.due},${b.paymentMode}\n`);
+            fn = `SRE_${type}_Report_${getToday()}.csv`;
+        } else if(type === 'VOUCHER') {
+            csv = "Date,VoucherNo,Type,Party,Amount,Mode\n";
+            billsDB.filter(b=>b.type==='PAYMENT'||b.type==='RECEIPT'||b.type==='EXPENSE').forEach(b => csv+=`${b.date},${b.invNo},${b.type},"${escapeHTML(b.party)}",${b.total},${b.paymentMode}\n`);
+            fn = `SRE_Voucher_Report_${getToday()}.csv`;
+        } else if(type === 'JOURNAL') {
+            csv = "Date,Ref,Type,Dr_Account,Cr_Account,Amount,Narration\n";
+            journalDB.forEach(j => csv+=`${j.date},${j.refNo},${j.type},"${j.drAccount}","${j.crAccount}",${j.amount},"${escapeHTML(j.narration)}"\n`);
+            fn = `SRE_Journals_${getToday()}.csv`;
+        }
+        if(!csv) return showToast("Info", "No data to export", "success");
+        const blob = new Blob([csv], { type: 'text/csv' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = fn; a.click(); URL.revokeObjectURL(url); showToast("Export", `${type} Report Downloaded`, "success");
+    }
+
+    // PRINT & INVOICE
     function printFormat(type) { const c = document.getElementById('invoice-capture'); if(!c)return; if (type === 'THERMAL') c.classList.add('thermal-mode'); else c.classList.remove('thermal-mode'); window.print(); setTimeout(() => c.classList.remove('thermal-mode'), 1000); }
     function shareViaWhatsApp() { const p = document.getElementById('inv-party').innerText, i = document.getElementById('inv-no').innerText, t = document.getElementById('inv-total-print').innerText; let m = document.getElementById('inv-phone').innerText; if(!m||m==='-') m=prompt("WhatsApp No:"); if(m) window.open(`https://wa.me/91${m.replace(/[^0-9]/g,'')}?text=${encodeURIComponent(`*${sysSettings.company.toUpperCase()}*\n------------------------\nHello *${p}*,\nYour invoice *${i}* for *${t}* is successfully generated.\n\nThank you for doing business with us!`)}`, '_blank'); }
     function generateInvoiceHTML(bill) {
@@ -930,20 +1046,38 @@
         } catch(e) { showToast("Error", "PDF Export Failed", "error"); console.error(e); }
     }
 
+    function downloadLocalBackup() {
+        try {
+            const data = { schemaVersion: "6.0.0", timestamp: new Date().toISOString(), products: productsDB, parties: partiesDB, bills: billsDB, categories: categoriesDB, finance: financeDB, journals: journalDB, settings: sysSettings, features: appFeatures };
+            const blob = new Blob([JSON.stringify(data)], { type: 'application/json' }); const url = URL.createObjectURL(blob);
+            const a = document.createElement('a'); a.href = url; a.download = `SRE_BACKUP_${getToday()}_${Date.now()}.json`; a.click(); URL.revokeObjectURL(url);
+            showToast("Backup", "JSON Exported Successfully", "success");
+        } catch(e) { showToast("Error", "Failed to export data", "error"); }
+    }
+    function processRestore(e) {
+        const file = e.target.files[0]; if(!file) return; const reader = new FileReader();
+        reader.onload = function(event) {
+            try {
+                const data = JSON.parse(event.target.result);
+                if(data.products) Storage.set('sre_products', data.products); if(data.parties) Storage.set('sre_parties', data.parties);
+                if(data.bills) Storage.set('sre_bills', data.bills); if(data.journals) Storage.set('sre_journals', data.journals);
+                if(data.finance) Storage.set('sre_finance', data.finance); if(data.settings) Storage.set('sre_settings', data.settings);
+                if(data.features) Storage.set('sre_features', data.features);
+                showPopup("Restore Complete", "Data imported successfully. Reloading..."); setTimeout(() => location.reload(), 1500);
+            } catch(err) { showToast("Error", "Invalid JSON Format", "error"); }
+        }; reader.readAsText(file); e.target.value = '';
+    }
     function dangerClearAll() {
         const code = prompt("DANGER: Type 'DELETE ALL' to wipe database:");
-        if(code === "DELETE ALL") { 
-            ['sre_products','sre_parties','sre_bills','sre_journals','sre_finance','sre_features','sre_sequences'].forEach(k=>localStorage.removeItem(k)); 
-            location.reload(); 
-        } else { showToast("Cancelled", "Data wipe aborted", "success"); }
+        if(code === "DELETE ALL") { localStorage.removeItem('sre_products'); localStorage.removeItem('sre_parties'); localStorage.removeItem('sre_bills'); localStorage.removeItem('sre_journals'); localStorage.removeItem('sre_finance'); localStorage.removeItem('sre_features'); localStorage.removeItem('sre_sequences'); location.reload(); }
+        else { showToast("Cancelled", "Data wipe aborted", "success"); }
     }
-    
     function backupData() {
         if(!sysSettings.gas) return showToast("Warning", "Cloud Sync URL not configured. Go to Settings.", "warning");
         showToast("Syncing", "Connecting to cloud server...", "success");
         fetch(sysSettings.gas, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ action: 'backup', timestamp: Date.now() }) })
         .then(() => showToast("Success", "Cloud Sync Complete", "success"))
-        .catch(err => showToast("Cloud Error", "Sync Unverified. Local Data Safe.", "error")); // No fake success
+        .catch(err => showToast("Cloud Error", "Sync Unverified. Local Data Safe.", "error")); // Safe Failure
     }
   </script>
 </body>
