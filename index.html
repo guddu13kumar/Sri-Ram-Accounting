@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-    <title id="app-window-title">Sri Ram Enterprises - ERP Master</title>
+    <title id="app-window-title">Sri Ram Enterprises - Accounting Plus</title>
     <meta name="theme-color" content="#0f172a" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -32,7 +32,7 @@
         .btn-ghost { background: transparent; border: 1px solid #cbd5e1; color: #475569; transition: all 0.2s; border-radius: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; }
         .btn-ghost:hover { border-color: #3b82f6; color: #2563eb; background: #eff6ff; }
         
-        /* Unified Payment Buttons */
+        /* Unified Payment Buttons (FROZEN - DO NOT TOUCH) */
         .pay-master-btn { flex: 1; padding: 8px; font-size: 10px; font-weight: 800; color: #64748b; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
         .pay-master-btn.active { background: #eff6ff; border-color: #2563eb; color: #1d4ed8; box-shadow: inset 0 0 0 1px #2563eb; }
         .pay-combo-btn { padding: 6px 8px; font-size: 9px; font-weight: 800; color: #475569; background: white; border: 1px solid #cbd5e1; border-radius: 6px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; text-align: center; }
@@ -42,7 +42,6 @@
         .sidebar-btn { width: 100%; display: flex; align-items: center; gap: 12px; padding: 10px 16px; color: #94a3b8; font-weight: 600; font-size: 13px; transition: all 0.2s; border-left: 3px solid transparent; background: transparent; text-align: left; cursor: pointer; }
         .sidebar-btn:hover { background-color: rgba(255, 255, 255, 0.05); color: #ffffff; }
         .sidebar-btn.active { background: linear-gradient(90deg, rgba(37,99,235,0.15) 0%, transparent 100%); color: #60a5fa; border-left-color: #3b82f6; }
-        
         .submenu-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: rgba(0,0,0,0.2); }
         .has-submenu.open .submenu-content { max-height: 300px; }
         .submenu-item { display: block; width: 100%; text-align: left; padding: 8px 16px 8px 42px; font-size: 12px; color: #94a3b8; font-weight: 500; transition: all 0.2s; cursor: pointer; }
@@ -54,7 +53,7 @@
         th.standard-th { text-transform: uppercase; font-size: 10px; color: #475569; font-weight: 800; padding: 12px 10px; background-color: #f8fafc; border-bottom: 1px solid #e2e8f0; text-align: left;}
         td.standard-td { padding: 10px; font-size: 12px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; font-weight: 600; color: #1e293b; }
 
-        /* Login Screen Override */
+        /* Login Screen */
         #login-screen { position: fixed; inset: 0; background: #0f172a; z-index: 9999; display: flex; align-items: center; justify-content: center; }
         #login-screen.hidden { display: none !important; }
 
@@ -73,7 +72,7 @@
       <div class="glass-panel p-8 w-full max-w-sm bg-white text-center modal-animate">
           <div class="w-16 h-16 bg-blue-600 rounded-2xl mx-auto flex items-center justify-center text-white font-black text-2xl shadow-lg mb-4" id="login-logo-box">SRE</div>
           <h2 class="text-xl font-black text-slate-800 uppercase tracking-widest mb-1" id="login-company-name">Sri Ram Enterprises</h2>
-          <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-6">Enterprise Accounting Login</p>
+          <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-6">Accounting Plus Login</p>
           <div class="space-y-4 text-left">
               <div><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Username</label><input type="text" id="login-user" class="premium-input" value="admin"></div>
               <div><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Password</label><input type="password" id="login-pass" class="premium-input" value="admin" onkeydown="if(event.key==='Enter') executeLogin()"></div>
@@ -104,7 +103,7 @@
     </div>
   </div>
 
-  <!-- IMEI MANAGER MODAL (RE-ARCHITECTED) -->
+  <!-- IMEI MANAGER MODAL (STABLE ROW ID BASED) -->
   <div id="imei-modal" class="fixed inset-0 bg-slate-900/60 z-[160] hidden flex items-center justify-center backdrop-blur-sm px-4">
     <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg modal-animate flex flex-col max-h-[85vh]">
         <div class="p-4 border-b flex justify-between items-center bg-slate-50 rounded-t-xl">
@@ -124,7 +123,7 @@
     </div>
   </div>
 
-  <!-- QUICK MODALS (Product, Party, Finance) -->
+  <!-- QUICK MODALS -->
   <div id="product-popup" class="fixed inset-0 bg-slate-900/60 z-[160] hidden flex items-center justify-center backdrop-blur-sm px-4">
     <div class="glass-panel p-6 w-full max-w-lg modal-animate border-t-4 border-t-amber-500 bg-white">
         <h3 class="text-sm font-black text-slate-800 uppercase tracking-widest mb-4">Quick Add Product</h3>
@@ -135,7 +134,7 @@
                 <div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Sale Rate (₹) *</label><input type="number" id="qm-item-sale" class="premium-input text-blue-700 font-black"></div>
                 <div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Purchase Rate (₹)</label><input type="number" id="qm-item-pur" class="premium-input text-rose-700"></div>
                 <div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">GST %</label><select id="qm-item-gst" class="premium-input"><option value="0">0%</option><option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option></select></div>
-                <div class="col-span-2 flex items-center mt-2"><label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="qm-item-track" class="w-4 h-4 text-blue-600"><span class="text-[10px] font-bold text-slate-700 uppercase">Track IMEI/Serial</span></label></div>
+                <div class="col-span-2 flex items-center mt-2"><label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="qm-item-track" checked class="w-4 h-4 text-blue-600"><span class="text-[10px] font-bold text-slate-700 uppercase">Track IMEI/Serial</span></label></div>
             </div>
         </div>
         <div class="flex gap-3 mt-6"><button onclick="closeProductModal()" class="btn-ghost flex-1 py-2.5 text-[10px] uppercase">Cancel</button><button onclick="saveQuickProduct()" class="btn-primary flex-1 py-2.5 text-[10px]">Save & Select</button></div>
@@ -166,7 +165,7 @@
     <div class="hidden lg:flex items-center gap-3"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]" id="network-indicator"></span><div class="flex flex-col"><span class="text-[10px] text-slate-300 font-bold uppercase tracking-widest leading-none">System Status</span><span class="text-[9px] text-emerald-400 font-black uppercase mt-0.5" id="network-text">ONLINE</span></div></div>
     <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 items-center px-4 py-1.5 bg-white/5 border border-white/10 rounded-full"><span id="header-module-title" class="text-[11px] font-black tracking-widest uppercase text-white">DASHBOARD</span></div>
     <div class="flex items-center space-x-4 z-20 ml-auto">
-       <button onclick="backupData()" class="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-md transition-colors active:scale-95"><span class="text-xs">🔄</span> <span class="text-[9px] font-black uppercase">Sync</span></button>
+       <button onclick="backupData()" class="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-md transition-colors active:scale-95" title="Cloud Sync"><span class="text-xs">🔄</span> <span class="text-[9px] font-black uppercase">Sync</span></button>
        <div class="w-px h-5 bg-slate-700 hidden sm:block"></div>
        <div class="flex items-center gap-2 cursor-pointer border-l border-slate-700 pl-4 ml-2" onclick="executeLogout()" title="Logout"><div class="w-8 h-8 bg-slate-700 border border-slate-500 rounded-full flex items-center justify-center font-black text-xs text-white" id="user-avatar">A</div><div class="hidden lg:block"><p class="text-[10px] font-black text-slate-200 uppercase leading-none" id="user-role-text">Admin</p><p class="text-[7px] text-rose-400 font-bold uppercase mt-1">Logout</p></div></div>
     </div>
@@ -200,7 +199,7 @@
                         <div><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Mobile / Phone</label><input type="text" id="set-phone" class="premium-input font-mono"></div>
                         <div><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">GSTIN</label><input type="text" id="set-gstin" class="premium-input uppercase font-mono"></div>
                         <div class="sm:col-span-2"><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Full Address</label><input type="text" id="set-address" class="premium-input uppercase"></div>
-                        <div><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Invoice Prefix</label><input type="text" id="set-prefix" class="premium-input uppercase font-mono"></div>
+                        <div><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Invoice Seq Prefix</label><input type="text" id="set-prefix" class="premium-input uppercase font-mono"></div>
                         <div><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Sidebar Theme Color</label><input type="color" id="set-theme" class="h-10 w-full rounded cursor-pointer border border-slate-200"></div>
                     </div>
                     <button onclick="saveAdminSettings()" class="btn-primary w-full py-2.5 text-xs">Save Branding</button>
@@ -267,7 +266,7 @@
                 <div class="flex items-center gap-3"><h2 id="bill-title" class="text-xs sm:text-sm font-black text-slate-800 uppercase tracking-widest ml-2">SALE ENTRY</h2><span id="form-entry-type" class="text-[9px] font-black px-2.5 py-1 rounded bg-blue-100 text-blue-700 uppercase tracking-widest shrink-0 border border-blue-200/50">SALE</span></div>
                 <div class="flex items-center gap-4">
                     <div id="bill-ref-container" class="hidden items-center gap-2 border-r border-slate-200 pr-4 mr-2"><label class="text-[9px] font-bold text-rose-500 uppercase tracking-widest">Original Inv Ref:</label><input type="text" id="bill-ref-inv" class="bg-rose-50 border border-rose-200 outline-none text-[11px] font-mono font-bold text-rose-700 w-24 rounded px-1.5 py-0.5"></div>
-                    <div class="flex items-center gap-2"><label class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Date:</label><input type="date" id="bill-date" class="bg-transparent border-none outline-none text-[11px] font-mono font-bold text-slate-800 w-[105px] cursor-pointer hover:text-blue-600"></div><div class="flex items-center gap-2"><label class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Ref No:</label><input type="text" id="bill-inv" class="bg-transparent border-none outline-none text-[11px] font-mono font-bold text-blue-600 uppercase w-20" placeholder="AUTO"></div>
+                    <div class="flex items-center gap-2"><label class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Date:</label><input type="date" id="bill-date" class="bg-transparent border-none outline-none text-[11px] font-mono font-bold text-slate-800 w-[105px] cursor-pointer hover:text-blue-600"></div><div class="flex items-center gap-2"><label class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Ref No:</label><input type="text" id="bill-inv" class="bg-transparent border-none outline-none text-[11px] font-mono font-bold text-blue-600 uppercase w-20" placeholder="AUTO" readonly></div>
                 </div>
             </div>
             
@@ -281,6 +280,7 @@
                     <table class="bill-table w-full">
                         <thead>
                             <tr>
+                                <th class="w-8 text-center bg-slate-50 py-3 border-r border-slate-100">#</th>
                                 <th class="w-[30%] bg-slate-50 py-3 pl-3">Product Details</th>
                                 <th class="w-[8%] text-center bg-slate-50 py-3">Qty</th>
                                 <th class="w-[15%] text-center bg-slate-50 py-3">IMEI / Serial Tracker</th>
@@ -292,9 +292,6 @@
                         </thead>
                         <tbody id="bill-items-body" class="divide-y divide-slate-100"></tbody>
                     </table>
-                </div>
-                <div class="p-2 border-t border-slate-100 bg-slate-50 flex justify-center shrink-0">
-                    <button onclick="addBillRow()" class="h-7 px-6 text-blue-600 font-bold uppercase text-[9px] tracking-widest rounded border border-dashed border-blue-300 bg-white hover:bg-blue-50 active:scale-95 transition-all shadow-sm">➕ Add Blank Row</button>
                 </div>
             </div>
 
@@ -319,7 +316,7 @@
                     <div class="p-2 bg-slate-50 rounded border border-slate-100">
                         <div class="grid grid-cols-4 sm:grid-cols-7 gap-1.5 w-full">
                             <button class="pay-combo-btn active" id="combo-CASH" onclick="setCombo('CASH')">CASH</button>
-                            <button class="pay-combo-btn" id="combo-QR" onclick="setCombo('QR')">QR/UPI</button>
+                            <button class="pay-combo-btn" id="combo-QR" onclick="setCombo('QR')">QR</button>
                             <button class="pay-combo-btn" id="combo-CARD" onclick="setCombo('CARD')">CARD</button>
                             <button class="pay-combo-btn" id="combo-CASH-QR" onclick="setCombo('CASH-QR')">CASH+QR</button>
                             <button class="pay-combo-btn" id="combo-CASH-CARD" onclick="setCombo('CASH-CARD')">CASH+CARD</button>
@@ -359,6 +356,8 @@
                 
                 <div id="print-container" class="w-full flex justify-center pb-10">
                     <div id="invoice-capture" class="bg-white p-10 sm:p-14 shadow-xl border border-slate-200 text-slate-900 w-full max-w-[800px] relative">
+                        <div class="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none select-none overflow-hidden"><span class="text-[120px] font-black transform -rotate-45" id="watermark-type">SALE</span></div>
+                        
                         <div class="text-center border-b-2 border-slate-800 pb-4 mb-5 relative z-10">
                             <h1 class="text-3xl font-black uppercase tracking-widest text-slate-900" id="print-co-name">Sri Ram Enterprises</h1>
                             <p class="text-[11px] font-bold text-slate-600 mt-1 uppercase tracking-widest">Wholesale & Retail Mobile Phones & Accessories</p>
@@ -367,18 +366,41 @@
                         </div>
                         
                         <div class="flex justify-between items-end mb-5 text-xs relative z-10">
-                            <div><p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Billed To:</p><p id="inv-party" class="text-lg font-black uppercase text-slate-900 leading-none"></p><p id="inv-phone" class="font-mono text-[11px] text-slate-700 mt-1"></p></div>
-                            <div class="text-right"><h2 id="inv-type-title" class="text-sm font-black text-slate-900 uppercase tracking-widest border-2 border-slate-900 px-3 py-1 rounded mb-2 inline-block">TAX INVOICE</h2><p class="text-[10px] mb-0.5"><span class="text-slate-500 uppercase tracking-widest font-bold">Inv No:</span> <span id="inv-no" class="font-black font-mono"></span></p><p class="text-[10px]"><span class="text-slate-500 uppercase tracking-widest font-bold">Date:</span> <span id="inv-date" class="font-black font-mono"></span></p></div>
+                            <div>
+                                <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Billed To:</p>
+                                <p id="inv-party" class="text-lg font-black uppercase text-slate-900 leading-none"></p>
+                                <p id="inv-phone" class="font-mono text-[11px] text-slate-700 mt-1"></p>
+                            </div>
+                            <div class="text-right">
+                                <h2 id="inv-type-title" class="text-sm font-black text-slate-900 uppercase tracking-widest border-2 border-slate-900 px-3 py-1 rounded mb-2 inline-block">TAX INVOICE</h2>
+                                <p class="text-[10px] mb-0.5"><span class="text-slate-500 uppercase tracking-widest font-bold">Inv No:</span> <span id="inv-no" class="font-black font-mono"></span></p>
+                                <p class="text-[10px]"><span class="text-slate-500 uppercase tracking-widest font-bold">Date:</span> <span id="inv-date" class="font-black font-mono"></span></p>
+                            </div>
                         </div>
 
                         <table class="w-full text-left text-[11px] mb-4 border-collapse relative z-10">
-                            <thead><tr class="bg-slate-900 text-white uppercase text-[9px] tracking-widest"><th class="p-2 border border-slate-900">Description</th><th class="p-2 border border-slate-900 w-40">IMEI/Serial</th><th class="p-2 border border-slate-900 text-center w-10">Qty</th><th class="p-2 border border-slate-900 text-right w-16">Rate</th><th class="p-2 border border-slate-900 text-right w-24">Amount</th></tr></thead>
+                            <thead>
+                                <tr class="bg-slate-900 text-white uppercase text-[9px] tracking-widest">
+                                    <th class="p-2 border border-slate-900 text-center w-10">#</th>
+                                    <th class="p-2 border border-slate-900">Description</th>
+                                    <th class="p-2 border border-slate-900 w-40">IMEI/Serial</th>
+                                    <th class="p-2 border border-slate-900 text-center w-10">Qty</th>
+                                    <th class="p-2 border border-slate-900 text-right w-16">Rate</th>
+                                    <th class="p-2 border border-slate-900 text-right w-24">Amount</th>
+                                </tr>
+                            </thead>
                             <tbody id="inv-items" class="font-bold border-b-2 border-slate-900"></tbody>
                         </table>
 
                         <div class="flex justify-between items-start pt-2 text-xs relative z-10">
                             <div class="space-y-3 w-[55%]">
-                                <div class="flex items-center gap-3 p-2 border border-slate-300 rounded-lg inline-flex bg-slate-50"><div id="inv-qr" class="bg-white p-1 rounded border border-slate-200"></div><div class="text-[9px] text-slate-600 font-bold uppercase leading-relaxed"><span class="text-slate-900 font-black block text-[11px] mb-0.5">Scan to Pay</span><span id="print-co-upi">sriram.enterprise@upi</span></div></div>
+                                <div class="flex items-center gap-3 p-2 border border-slate-300 rounded-lg inline-flex bg-slate-50">
+                                    <div id="inv-qr" class="bg-white p-1 rounded border border-slate-200"></div>
+                                    <div class="text-[9px] text-slate-600 font-bold uppercase leading-relaxed">
+                                        <span class="text-slate-900 font-black block text-[11px] mb-0.5">Scan to Pay</span>
+                                        <span id="print-co-upi">sriram.enterprise@upi</span>
+                                    </div>
+                                </div>
                                 <p class="text-[8px] font-bold text-slate-400 uppercase tracking-wide leading-snug">* Subject to Bokaro Jurisdiction. Warranty by authorized service centers only.</p>
                             </div>
                             
@@ -402,12 +424,21 @@
       </main>
   </div>
 
+  <!-- MOBILE BOTTOM NAV -->
+  <nav id="bottom-nav" class="lg:hidden fixed bottom-0 w-full bg-white shadow-[0_-10px_30px_rgba(0,0,0,0.1)] flex justify-between z-[100] border-t border-slate-200 pb-safe pt-2 px-1 pb-2">
+     <button onclick="startBill('SALE')" class="flex-1 py-1 text-center text-blue-600 flex flex-col items-center active:scale-95"><span class="text-[20px] mb-0.5">🛒</span><span class="text-[8px] font-black tracking-widest">SALE</span></button>
+     <button onclick="startBill('PURCHASE')" class="flex-1 py-1 text-center text-emerald-600 flex flex-col items-center active:scale-95"><span class="text-[20px] mb-0.5">📦</span><span class="text-[8px] font-black tracking-widest">PURCH</span></button>
+     <button onclick="showView('product')" class="flex-1 py-1 text-center text-amber-600 flex flex-col items-center active:scale-95"><span class="text-[20px] mb-0.5">🏷️</span><span class="text-[8px] font-black tracking-widest">ITEMS</span></button>
+     <button onclick="showView('ledger')" class="flex-1 py-1 text-center text-indigo-600 flex flex-col items-center active:scale-95"><span class="text-[20px] mb-0.5">📒</span><span class="text-[8px] font-black tracking-widest">LEDGER</span></button>
+  </nav>
+
   <script>
     /* ========================================================
-       SRI ACCOUNTING MASTER - OMEGA PRODUCTION BUILD V-7.0
-       Double Entry Journals | Persistent Sequences | XSS Safe
+       SRI ACCOUNTING MASTER - THE BEASTMODE BUILD (V-FINAL)
+       Double Entry Journals | Admin Toggle | Atomic Saves
     ======================================================== */
 
+    // 1. SECURE STORAGE & UTILS
     const Storage = { 
         get: (key) => { try { return JSON.parse(localStorage.getItem(key)) || []; } catch(e) { return []; } }, 
         set: (key, data) => { try { localStorage.setItem(key, JSON.stringify(data)); } catch(e) { console.error("Storage Full"); showToast("Warning", "Storage Full", "error"); } } 
@@ -417,8 +448,10 @@
     function getToday() { const d=new Date(); return new Date(d.getTime() - (d.getTimezoneOffset()*60000)).toISOString().split('T')[0]; }
     function debounce(func, wait) { let timeout; return function(...args) { clearTimeout(timeout); timeout = setTimeout(() => func.apply(this, args), wait); }; }
 
+    // DATABASES
     let productsDB = Storage.get('sre_products'), partiesDB = Storage.get('sre_parties'), billsDB = Storage.get('sre_bills'), categoriesDB = Storage.get('sre_categories'), financeDB = Storage.get('sre_finance'), journalDB = Storage.get('sre_journals');
     
+    // CONFIGS & SETTINGS
     let sysSettings = { company:"Sri Ram Enterprises", phone:"9334765000", address:"GB-15, City Centre, Sector-4, Bokaro Steel City", gstin:"20APOPK6864K1ZH", prefix:"SRE-26-", theme:"#0f172a", gas:"" };
     try { const lsSet = JSON.parse(localStorage.getItem('sre_settings')); if(lsSet) sysSettings = {...sysSettings, ...lsSet}; } catch(e){}
     sysSettings.sequence = Storage.get('sre_sequences'); if(!sysSettings.sequence || Array.isArray(sysSettings.sequence)) sysSettings.sequence = {SALE:0, PURCHASE:0, SALES_RETURN:0, PURCHASE_RETURN:0, VOUCHER:0};
@@ -435,6 +468,7 @@
     let debouncedRenderProducts, debouncedRenderParties, debouncedRenderLedger;
     let activeImeiRowId = null;
 
+    // 2. BOOTSTRAP & AUTHENTICATION
     let isLogged = sessionStorage.getItem('sre_session_v7') === 'active';
     function executeLogin() {
         const u=document.getElementById('login-user').value, p=document.getElementById('login-pass').value;
@@ -459,6 +493,7 @@
         } catch(e) { console.error("Startup Error:", e); showToast("System Error", "Startup failed. Check console.", "error"); }
     }
 
+    // 3. TOAST, NETWORK & HOTKEYS
     window.addEventListener('online', () => { const n = document.getElementById('network-indicator'); if(n) { n.className = "w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]"; document.getElementById('network-text').innerText="ONLINE"; document.getElementById('network-text').className="text-[9px] text-emerald-400 font-black uppercase mt-0.5"; }});
     window.addEventListener('offline', () => { const n = document.getElementById('network-indicator'); if(n) { n.className = "w-2.5 h-2.5 rounded-full bg-rose-500 shadow-[0_0_8px_#f43f5e]"; document.getElementById('network-text').innerText="OFFLINE"; document.getElementById('network-text').className="text-[9px] text-rose-400 font-black uppercase mt-0.5"; showToast("Network", "System is Offline.", "error"); }});
     function showToast(title, msg, type = 'success') { const container = document.getElementById('toast-container'); const t = document.createElement('div'); t.className = `glass-panel p-3 flex items-center space-x-3 border-l-4 ${type==='error'?'border-rose-500':'border-emerald-500'} toast-enter bg-white`; t.innerHTML = `<div class="text-xl drop-shadow-sm">${type==='error'?'❌':'✅'}</div><div><h4 class="font-black text-[10px] uppercase tracking-widest text-slate-800">${escapeHTML(title)}</h4><p class="text-[10px] font-bold text-slate-500 mt-0.5">${escapeHTML(msg)}</p></div>`; container.appendChild(t); setTimeout(() => { t.style.opacity = '0'; setTimeout(()=>t.remove(),300); }, 3000); }
@@ -472,6 +507,7 @@
     });
     function handleShortcut(e, type) { if(e.altKey && (e.key === 'c' || e.key === 'C')) { e.preventDefault(); if(type === 'CUSTOMER' || type === 'SUPPLIER') openPartyModal(type, e.target); else if(type === 'PRODUCT') openItemModal(e.target); } }
 
+    // 4. ADMIN CONTROL PANEL
     function buildDynamicSidebar() {
         const c = document.getElementById('sidebar-menu-container'); if(!c) return;
         let html = `<p class="sidebar-category">MAIN</p><button onclick="showView('dashboard')" class="sidebar-btn active" id="nav-dashboard"><span class="text-lg">📊</span> Dashboard</button><p class="sidebar-category">TRANSACTIONS</p>`;
@@ -524,6 +560,7 @@
         Storage.set('sre_settings', sysSettings); applySettingsToUI(); showToast("Settings", "Branding Updated", "success");
     }
 
+    // 5. VIEW ROUTER
     function showView(viewName) {
         document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
         const v = document.getElementById('view-' + viewName); if(v) v.classList.remove('hidden');
@@ -543,6 +580,7 @@
         if(viewName === 'dashboard') loadDashboard('TODAY'); if(viewName === 'ledger' || viewName === 'reports') updateLedgerView();
     }
 
+    // 6. SEQUENCING & DOUBLE ENTRY ACCOUNTING ENGINE
     function getNextSequence(type) {
         if(!sysSettings.sequence[type]) sysSettings.sequence[type] = 0;
         sysSettings.sequence[type]++; Storage.set('sre_sequences', sysSettings.sequence);
@@ -557,6 +595,7 @@
         Storage.set('sre_journals', journalDB);
     }
 
+    // 7. QUICK MODALS
     function renderCategories() { const opts = categoriesDB.map(c => `<option value="${c}">${c}</option>`).join('') + `<option value="ADD_NEW">➕ Create Category</option>`; document.querySelectorAll('.cat-select').forEach(sel => sel.innerHTML = opts); }
     function handleCategoryChange(sel) { if(sel.value === "ADD_NEW") { const nc = prompt("New Category:"); if(nc && nc.trim()!=="") { const c=escapeHTML(nc.trim()); if(!categoriesDB.includes(c)){categoriesDB.push(c); Storage.set('sre_categories',categoriesDB);} renderCategories(); sel.value=c; } else sel.value=categoriesDB[0]; } }
     function renderFinanceSelects() { const opts = `<option value="">-Select Company-</option>` + financeDB.filter(f=>f.status==='ACTIVE').map(f => `<option value="${f.name}">${f.name}</option>`).join(''); const fl=document.getElementById('fin-company-list'); if(fl) fl.innerHTML = opts; }
@@ -584,18 +623,22 @@
         closeProductModal();
     }
 
-    // ATOMIC BILLING ENGINE
+    // 8. BILLING ENGINE (ATOMIC & UNIFIED)
     function startBill(type) {
         currentMode = type;
         const bTitle = document.getElementById('bill-title'); if(bTitle) bTitle.innerText = type.replace('_',' ') + " ENTRY";
+        const stp = document.getElementById('bill-color-strip'); if(stp) stp.className = type.includes("SALE")?"absolute left-0 top-0 w-1.5 h-full bg-blue-600":"absolute left-0 top-0 w-1.5 h-full bg-emerald-500";
         const fType = document.getElementById('form-entry-type'); if(fType) { fType.innerText = type.replace('_',' '); fType.className = type.includes("SALE") ? "text-[9px] font-black px-2.5 py-1 rounded bg-blue-100 text-blue-700 uppercase tracking-widest shrink-0 border border-blue-200/50" : "text-[9px] font-black px-2.5 py-1 rounded bg-emerald-100 text-emerald-700 uppercase tracking-widest shrink-0 border border-emerald-200/50"; }
         const lParty = document.getElementById('lbl-party-type'); if(lParty) lParty.innerText = type.includes("SALE") ? "CUSTOMER" : "SUPPLIER";
         
         ['bill-party','master-item-scan','bill-ref-inv'].forEach(id=>{const el=document.getElementById(id); if(el) el.value='';});
         const dEl=document.getElementById('bill-date'); if(dEl) dEl.value = getToday(); 
+        
         const iEl=document.getElementById('bill-inv'); if(iEl) iEl.value = "AUTO"; 
+        
         const tb=document.getElementById('bill-items-body'); if(tb) tb.innerHTML=''; 
         
+        // Show/Hide Returns Reference & Payment Strip
         const pStrip = document.getElementById('payment-engine-strip');
         const rRef = document.getElementById('bill-ref-container');
         if(type.includes('RETURN')) { if(pStrip) pStrip.classList.add('hidden'); if(rRef) rRef.classList.remove('hidden'); }
@@ -623,7 +666,7 @@
                 calcBill(); showToast("Added", `${prod.name} added`, "success");
             } else {
                 if(currentMode==="PURCHASE") { openItemModal(e.target); setTimeout(()=> { const qn=document.getElementById('qm-item-name'); if(qn) qn.value=val; }, 200); }
-                else showToast("Not Found", "Item not in database. Add it first.", "error");
+                else showToast("Not Found", "Item not in database.", "error");
             }
             e.target.value = '';
         }
@@ -638,7 +681,7 @@
         tr._imeis = []; if(prod && prod.track && scanVal && prod.imeiList && prod.imeiList.includes(scanVal)) tr._imeis.push(scanVal);
         const trackerHtml = (prod && prod.track) ? `<button onclick="openImeiModal(this)" class="bg-blue-50 text-blue-600 px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest shadow-sm border border-blue-200 hover:bg-blue-600 hover:text-white transition-colors row-imei-btn">Manage IMEI (${tr._imeis.length})</button>` : `<span class="text-[9px] text-slate-400 font-bold uppercase row-imei-btn" data-untracked="true">No Tracking</span>`;
 
-        tr.innerHTML = `<td class="p-1.5 text-center"><span class="text-[10px] font-black text-slate-400 row-sl"></span></td><td class="p-1.5"><input type="text" list="item-list" onchange="autoFillRate(this)" class="premium-input uppercase text-[11px] font-black b-name !px-2 !h-[34px]" placeholder="Item Name" value="${pName}"></td><td class="p-1.5"><input type="number" min="1" value="1" oninput="window.handleGridQtyChange(this)" class="premium-input text-center font-black text-blue-700 b-qty !px-1 !h-[34px]"></td><td class="p-1.5 text-center">${trackerHtml}</td><td class="p-1.5"><input type="number" oninput="calcBill()" class="premium-input text-[12px] text-right b-rate !px-2 !h-[34px] font-bold" value="${pRate}"></td><td class="p-1.5"><select onchange="calcBill()" class="premium-input text-center text-[11px] font-bold b-gst !px-1 !h-[34px]"><option value="0" ${pGst==0?'selected':''}>0</option><option value="5" ${pGst==5?'selected':''}>5</option><option value="12" ${pGst==12?'selected':''}>12</option><option value="18" ${pGst==18?'selected':''}>18</option><option value="28" ${pGst==28?'selected':''}>28</option></select></td><td class="p-1.5 text-right"><span class="font-black text-[12px] text-slate-800 row-amt">₹0</span></td><td class="p-1.5 text-center">${!isFirst ? `<button onclick="this.closest('tr').remove(); calcBill();" class="text-rose-400 font-black">✕</button>` : ''}</td>`;
+        tr.innerHTML = `<td class="p-1.5 text-center"><span class="text-[10px] font-black text-slate-400 row-sl"></span></td><td class="p-1.5"><input type="text" list="item-list" onchange="autoFillRate(this)" class="premium-input uppercase text-[11px] font-black b-name !px-2 !h-[34px]" placeholder="Item Name" value="${pName}"></td><td class="p-1.5"><input type="number" min="1" value="1" oninput="window.handleGridQtyChange(this)" onkeyup="window.handleGridQtyChange(this)" class="premium-input text-center font-black text-blue-700 b-qty !px-1 !h-[34px]"></td><td class="p-1.5 text-center">${trackerHtml}</td><td class="p-1.5"><input type="number" oninput="calcBill()" class="premium-input text-[12px] text-right b-rate !px-2 !h-[34px] font-bold" value="${pRate}"></td><td class="p-1.5"><select onchange="calcBill()" class="premium-input text-center text-[11px] font-bold b-gst !px-1 !h-[34px]"><option value="0" ${pGst==0?'selected':''}>0</option><option value="5" ${pGst==5?'selected':''}>5</option><option value="12" ${pGst==12?'selected':''}>12</option><option value="18" ${pGst==18?'selected':''}>18</option><option value="28" ${pGst==28?'selected':''}>28</option></select></td><td class="p-1.5 text-right"><span class="font-black text-[12px] text-slate-800 row-amt">₹0</span></td><td class="p-1.5 text-center">${!isFirst ? `<button onclick="this.closest('tr').remove(); calcBill();" class="text-rose-400 font-black">✕</button>` : ''}</td>`;
         tbody.appendChild(tr); calcBill();
     }
 
@@ -731,13 +774,15 @@
     }
 
     function calcBill(isTyping=false) {
-        let tax=0, gstAmt=0, grand=0, index=1;
+        let tax=0, gstAmt=0, grand=0, purCost=0, index=1;
         document.querySelectorAll('#bill-items-body tr').forEach(row => {
             const sl = row.querySelector('.row-sl'); if(sl) sl.innerText = index++;
             const nm = row.querySelector('.b-name').value.trim().toUpperCase(), r=Number(row.querySelector('.b-rate').value)||0, q=Number(row.querySelector('.b-qty').value)||0, g=Number(row.querySelector('.b-gst').value)||0;
             let lt = r*q; let lg = lt*(g/100); const rT=lt+lg;
             const amtLbl = row.querySelector('.row-amt'); if(amtLbl) amtLbl.innerText = "₹" + Math.round(rT).toLocaleString('en-IN');
             if(!nm) return; tax+=lt; gstAmt+=lg; grand+=rT;
+            const qtyEl = row.querySelector('.b-qty'), prod = productsDB.find(x=>x.name===nm);
+            if(currentMode.includes("SALE") && prod) { purCost+=(prod.pur*q); if(prod.stock<q && qtyEl) qtyEl.classList.add('bg-rose-100'); else if(qtyEl) qtyEl.classList.remove('bg-rose-100'); }
         });
         const rGrand = Math.round(grand);
         const elTax = document.getElementById('bill-taxable'); if(elTax) elTax.innerText = "₹"+tax.toLocaleString('en-IN',{minimumFractionDigits:2}); 
@@ -762,9 +807,10 @@
             else if(masterPayMode === 'INSTANT') elDue.innerText = "₹"+Math.abs(rGrand-rawP).toLocaleString('en-IN') + (rawP>rGrand?" (Change)":"");
             else elDue.innerText = "₹"+Math.max(0, rGrand-rawP).toLocaleString('en-IN');
         }
-        return { tax, gstAmt, rGrand, rawP, due:Math.max(0, rGrand-rawP) };
+        return { tax, gstAmt, rGrand, rawP, due:Math.max(0, rGrand-rawP), profit: currentMode==="SALE" ? (rGrand - gstAmt - purCost) : 0 };
     }
 
+    // ATOMIC SAVE ENGINE (WITH DOUBLE ENTRY)
     function saveFinalBill() {
         if(isSaving) return;
         const pEl = document.getElementById('bill-party'); if(!pEl) return;
@@ -789,7 +835,7 @@
             const r=Number(row.querySelector('.b-rate')?.value)||0, q=Number(row.querySelector('.b-qty')?.value)||1, g=Number(row.querySelector('.b-gst')?.value)||0;
             
             let prod = productsDB.find(p=>p.name===n);
-            if(!prod) return showToast("Error", `Item [${n}] not found in database. Quick Add it first.`, "error"); // STRICT INVENTORY CHECK
+            if(!prod) return showToast("Error", `Item [${n}] not found in database. Add it first.`, "error"); // STRICT INVENTORY CHECK
             tCost += (prod.pur * q);
 
             if(prod.track) {
@@ -803,7 +849,7 @@
                     if((currentMode==="PURCHASE" || currentMode==="SALES_RETURN") && globalDup) { err=`IMEI ${i} globally exists`; break; }
                 }
             }
-            if(currentMode==="SALE" && prod.stock<q) { err=`Low stock for ${n}`; break; }
+            if(currentMode==="SALE" && prod && prod.stock<q) { err=`Low stock for ${n}`; break; }
             if(err) break;
             items.push({name:n, rate:r, qty:q, gst:g, imei: (row._imeis||[]).join(', '), amt:Math.round((r*q)+(r*q*(g/100))), prodObj:prod, imArr:row._imeis||[]});
         }
@@ -813,6 +859,7 @@
         isSaving=true; const btn=document.getElementById('btn-save-bill'); if(btn) { btn.disabled=true; btn.innerHTML="⏳ PROCESSING..."; }
         
         try {
+            // ATOMIC COMMIT
             items.forEach(it => {
                 if(it.prodObj) {
                     if(currentMode==="SALE" || currentMode==="PURCHASE_RETURN") { it.prodObj.stock -= it.qty; if(it.prodObj.track) it.prodObj.imeiList = it.prodObj.imeiList.filter(i=>!it.imArr.includes(i)); }
@@ -835,6 +882,7 @@
             const billRec = { id:'INV-'+Date.now(), invNo:finalInvNo, date:bDate, type:currentMode, party:pName, mobile:pData?pData.mobile:"", items, basic:t.tax, gst:t.gstAmt, total:t.rGrand, paid: currentMode.includes('RETURN')?0:t.rawP, due:actualDue, paymentMode:finalPaymentMode, finance:finData, profit: currentMode.includes('RETURN')?0:(t.rGrand - t.gstAmt - tCost) };
             billsDB.unshift(billRec); Storage.set('sre_bills', billsDB); Storage.set('sre_products', productsDB);
             
+            // DOUBLE ENTRY JOURNAL POSTING
             if(currentMode === "SALE") {
                 postJournal(bDate, finalInvNo, 'SALE', pName, 'Sales A/C', t.tax, 'Goods Sold');
                 if(t.gstAmt > 0) postJournal(bDate, finalInvNo, 'SALE_GST', pName, 'Output GST A/C', t.gstAmt, 'GST on Sale');
@@ -855,7 +903,7 @@
             if(currentMode==="SALES_RETURN" && pData) { pData.ob -= t.rGrand; Storage.set('sre_parties', partiesDB); } 
             if(currentMode==="PURCHASE_RETURN" && pData) { pData.ob += t.rGrand; Storage.set('sre_parties', partiesDB); } 
 
-            showToast("Success", "Transaction Committed", "success"); generateInvoiceHTML(billRec); 
+            showToast("Success", "Transaction Committed Structurally", "success"); generateInvoiceHTML(billRec); 
         } catch(error) {
             console.error(error); showToast("System Error", "Failed to save bill", "error");
         } finally {
@@ -863,7 +911,7 @@
         }
     }
 
-    // VOUCHERS
+    // VOUCHERS (Receipt/Payment/Expense)
     function startPayment(type) { 
         currentPaymentType=type; const pt=document.getElementById('pay-title'); if(pt) pt.innerText=type==='OUT'?'PAYMENT VOUCHER':(type==='IN'?'RECEIPT VOUCHER':'EXPENSE VOUCHER'); 
         const pl=document.getElementById('pay-party-lbl'); if(pl) pl.innerText=type==='EXPENSE'?'Expense Category *':(type==='OUT'?'Supplier Account *':'Customer Account *'); 
@@ -913,7 +961,7 @@
             });
             
             const tb=document.getElementById("ledger-table-body"); if(tb) {
-                tb.innerHTML = jList.length === 0 ? `<tr><td colspan="7" class="text-center p-8 text-slate-400 font-bold text-xs uppercase tracking-widest">No Journals Found</td></tr>` : 
+                tb.innerHTML = jList.length === 0 ? `<tr><td colspan="7" class="text-center p-8 text-slate-400 font-bold text-xs uppercase tracking-widest">No Transactions Found</td></tr>` : 
                 jList.reverse().map(j=>`<tr class="hover:bg-indigo-50/30 transition-colors"><td><span class="font-mono text-[10px] font-bold text-slate-600 bg-slate-50 border border-slate-200 px-1.5 py-0.5 rounded">${j.date}</span></td><td class="font-bold text-[11px] text-slate-800">${j.refNo}</td><td class="text-center"><span class="px-2 py-0.5 rounded-sm text-[8px] font-black uppercase tracking-widest shadow-sm border border-black/5">${j.type}</span></td><td class="font-black text-slate-800 uppercase text-[11px]">${escapeHTML(j.narration)}</td><td class="text-right text-rose-600 font-black text-sm">${j._dr||'-'}</td><td class="text-right text-emerald-600 font-black text-sm">${j._cr||'-'}</td><td class="text-right font-black text-sm text-indigo-700">${j._run?j._run.toLocaleString('en-IN'):'-'} <span class="text-[9px] text-slate-400 font-bold ml-0.5">${isC?'Dr':'Cr'}</span></td></tr>`).join('');
             }
             const eo=document.getElementById("ledger-ob"); if(eo) eo.innerText="₹"+ob.toLocaleString('en-IN'); 
@@ -944,7 +992,6 @@
         } catch(e) { console.error("Ledger Render Error", e); }
     }
 
-    // PRODUCT/PARTY RENDERERS
     function renderProducts() {
         const sEl = document.getElementById('prod-search'), cEl = document.getElementById('filter-category');
         const s = sEl ? sEl.value.toUpperCase() : '', c = cEl ? cEl.value : 'ALL';
@@ -963,11 +1010,46 @@
         const f = partiesDB.filter(p => p.name.includes(s) || (p.mobile && p.mobile.includes(s)) || (p.gstin && p.gstin.includes(s)));
         const tb = document.getElementById('party-table-body'); if(!tb) return;
         tb.innerHTML = f.length === 0 ? `<tr><td colspan="4" class="text-center p-8 text-slate-400 font-bold text-xs uppercase tracking-widest">No Accounts Found</td></tr>` : 
-        f.map(p => `<tr class="hover:bg-purple-50/30 transition-colors"><td><div class="flex items-center gap-3"><div class="w-8 h-8 rounded bg-slate-100 flex items-center justify-center font-black text-slate-400">${p.name.charAt(0)}</div><div><p class="font-black text-xs text-slate-800 uppercase">${escapeHTML(p.name)}</p><span class="${p.type==='CUSTOMER'?'text-blue-500':'text-purple-500'} text-[8px] font-black uppercase tracking-widest mt-0.5 block">${p.type}</span></div></div></td><td><span class="font-mono text-slate-600 font-bold bg-slate-50 border border-slate-200 px-2 py-1 rounded inline-block text-[10px]">${p.mobile||'-'}</span></td><td><p class="text-[9px] font-bold text-slate-500 uppercase">${escapeHTML(p.address||'-')}</p><p class="text-[8px] font-mono text-slate-400 mt-1">GST: ${p.gstin||'-'}</p></td><td class="text-right font-black text-sm ${p.ob>0?'text-rose-600':'text-emerald-600'}">₹${(p.ob||0).toLocaleString('en-IN')}</td><td class="text-center"><button onclick="editParty('${p.id}')" class="bg-slate-100 text-slate-600 px-3 py-1.5 rounded-md text-[10px] font-black shadow-sm hover:bg-slate-800 hover:text-white transition-colors">EDIT</button></td></tr>`).join('');
+        f.map(p => `<tr class="hover:bg-purple-50/30 transition-colors"><td><div class="flex items-center gap-3"><div class="w-8 h-8 rounded bg-slate-100 flex items-center justify-center font-black text-slate-400">${p.name.charAt(0)}</div><div><p class="font-black text-xs text-slate-800 uppercase">${escapeHTML(p.name)}</p><span class="${p.type==='CUSTOMER'?'text-blue-500':'text-purple-500'} text-[8px] font-black uppercase tracking-widest mt-0.5 block">${p.type}</span></div></div></td><td><span class="font-mono text-slate-600 font-bold bg-slate-50 border border-slate-200 px-2 py-1 rounded inline-block text-[10px]">${p.mobile||'-'}</span></td><td><p class="text-[9px] font-bold text-slate-500 uppercase">${escapeHTML(p.address||'-')}</p><p class="text-[8px] font-mono text-slate-400 mt-1">GST: ${p.gstin||'-'}</p></td><td class="text-center"><button onclick="editParty('${p.id}')" class="bg-slate-100 text-slate-600 px-3 py-1.5 rounded-md text-[10px] font-black shadow-sm hover:bg-slate-800 hover:text-white transition-colors">EDIT</button></td></tr>`).join('');
         const dl = document.getElementById('party-list'); if(dl) dl.innerHTML = partiesDB.map(p => `<option value="${p.name}">Ph: ${p.mobile||'-'}</option>`).join('');
     }
 
-    // DASHBOARD & EXPORTS
+    function renderOutstanding() {
+        try {
+            const rcL = document.getElementById('out-rec-list'), pyL = document.getElementById('out-pay-list');
+            let tR=0, tP=0; let hR='', hP='';
+            partiesDB.forEach(p => {
+                if(p.ob > 0) {
+                    if(p.type === 'CUSTOMER') { tR+=p.ob; hR+=`<div class="bg-white p-3 border border-emerald-100 rounded-lg mb-2 shadow-sm flex justify-between items-center"><div class="flex flex-col"><span class="font-black text-xs text-slate-800 uppercase">${escapeHTML(p.name)}</span><span class="font-mono text-[9px] text-slate-500">${p.mobile||'-'}</span></div><div class="flex items-center gap-3"><span class="font-black text-emerald-600 text-sm">₹${p.ob.toLocaleString('en-IN')}</span><button onclick="startPayment('IN'); setTimeout(()=>document.getElementById('pay-party').value='${p.name}',100);" class="bg-emerald-50 text-emerald-600 px-2 py-1 rounded text-[8px] font-black hover:bg-emerald-500 hover:text-white transition-colors">RECEIVE</button></div></div>`; }
+                    else { tP+=p.ob; hP+=`<div class="bg-white p-3 border border-rose-100 rounded-lg mb-2 shadow-sm flex justify-between items-center"><div class="flex flex-col"><span class="font-black text-xs text-slate-800 uppercase">${escapeHTML(p.name)}</span><span class="font-mono text-[9px] text-slate-500">${p.mobile||'-'}</span></div><div class="flex items-center gap-3"><span class="font-black text-rose-600 text-sm">₹${p.ob.toLocaleString('en-IN')}</span><button onclick="startPayment('OUT'); setTimeout(()=>document.getElementById('pay-party').value='${p.name}',100);" class="bg-rose-50 text-rose-600 px-2 py-1 rounded text-[8px] font-black hover:bg-rose-500 hover:text-white transition-colors">PAY</button></div></div>`; }
+                }
+            });
+            if(rcL) rcL.innerHTML = hR || `<p class="text-center text-[10px] font-bold text-slate-400 mt-4 uppercase">No Receivables</p>`;
+            if(pyL) pyL.innerHTML = hP || `<p class="text-center text-[10px] font-bold text-slate-400 mt-4 uppercase">No Payables</p>`;
+            const er=document.getElementById('out-rec-total'); if(er) er.innerText = "₹"+tR.toLocaleString('en-IN');
+            const ep=document.getElementById('out-pay-total'); if(ep) ep.innerText = "₹"+tP.toLocaleString('en-IN');
+        } catch(e) { console.error("Outstanding Error", e); }
+    }
+
+    function exportReport(type) {
+        let csv = ""; let fn = "";
+        if(type === 'SALE' || type === 'PURCHASE') {
+            csv = "Date,InvNo,Party,Total,Paid,Due,PaymentMode\n";
+            billsDB.filter(b=>b.type===type).forEach(b => csv+=`${b.date},${b.invNo},"${escapeHTML(b.party)}",${b.total},${b.paid},${b.due},${b.paymentMode}\n`);
+            fn = `SRE_${type}_Report_${getToday()}.csv`;
+        } else if(type === 'VOUCHER') {
+            csv = "Date,VoucherNo,Type,Party,Amount,Mode\n";
+            billsDB.filter(b=>b.type==='PAYMENT'||b.type==='RECEIPT'||b.type==='EXPENSE').forEach(b => csv+=`${b.date},${b.invNo},${b.type},"${escapeHTML(b.party)}",${b.total},${b.paymentMode}\n`);
+            fn = `SRE_Voucher_Report_${getToday()}.csv`;
+        } else if(type === 'JOURNAL') {
+            csv = "Date,Ref,Type,Dr_Account,Cr_Account,Amount,Narration\n";
+            journalDB.forEach(j => csv+=`${j.date},${j.refNo},${j.type},"${j.drAccount}","${j.crAccount}",${j.amount},"${escapeHTML(j.narration)}"\n`);
+            fn = `SRE_Journals_${getToday()}.csv`;
+        }
+        if(!csv) return showToast("Info", "No data to export", "success");
+        const blob = new Blob([csv], { type: 'text/csv' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = fn; a.click(); URL.revokeObjectURL(url); showToast("Export", `${type} Report Downloaded`, "success");
+    }
+
     function loadDashboard(timeRange = 'TODAY') {
         document.querySelectorAll('.dash-filter').forEach(b => b.classList.remove('active')); 
         const fBtn = document.getElementById('flt-' + timeRange); if(fBtn) fBtn.classList.add('active');
@@ -1005,26 +1087,7 @@
         const aC = document.getElementById('alerts-container'); if(aC) aC.innerHTML = htmlAlerts; 
     }
 
-    function exportReport(type) {
-        let csv = ""; let fn = "";
-        if(type === 'SALE' || type === 'PURCHASE') {
-            csv = "Date,InvNo,Party,Total,Paid,Due,PaymentMode\n";
-            billsDB.filter(b=>b.type===type).forEach(b => csv+=`${b.date},${b.invNo},"${escapeHTML(b.party)}",${b.total},${b.paid},${b.due},${b.paymentMode}\n`);
-            fn = `SRE_${type}_Report_${getToday()}.csv`;
-        } else if(type === 'VOUCHER') {
-            csv = "Date,VoucherNo,Type,Party,Amount,Mode\n";
-            billsDB.filter(b=>b.type==='PAYMENT'||b.type==='RECEIPT'||b.type==='EXPENSE').forEach(b => csv+=`${b.date},${b.invNo},${b.type},"${escapeHTML(b.party)}",${b.total},${b.paymentMode}\n`);
-            fn = `SRE_Voucher_Report_${getToday()}.csv`;
-        } else if(type === 'JOURNAL') {
-            csv = "Date,Ref,Type,Dr_Account,Cr_Account,Amount,Narration\n";
-            journalDB.forEach(j => csv+=`${j.date},${j.refNo},${j.type},"${j.drAccount}","${j.crAccount}",${j.amount},"${escapeHTML(j.narration)}"\n`);
-            fn = `SRE_Journals_${getToday()}.csv`;
-        }
-        if(!csv) return showToast("Info", "No data to export", "success");
-        const blob = new Blob([csv], { type: 'text/csv' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = fn; a.click(); URL.revokeObjectURL(url); showToast("Export", `${type} Report Downloaded`, "success");
-    }
-
-    // PRINT & INVOICE
+    // INVOICE & PRINT
     function printFormat(type) { const c = document.getElementById('invoice-capture'); if(!c)return; if (type === 'THERMAL') c.classList.add('thermal-mode'); else c.classList.remove('thermal-mode'); window.print(); setTimeout(() => c.classList.remove('thermal-mode'), 1000); }
     function shareViaWhatsApp() { const p = document.getElementById('inv-party').innerText, i = document.getElementById('inv-no').innerText, t = document.getElementById('inv-total-print').innerText; let m = document.getElementById('inv-phone').innerText; if(!m||m==='-') m=prompt("WhatsApp No:"); if(m) window.open(`https://wa.me/91${m.replace(/[^0-9]/g,'')}?text=${encodeURIComponent(`*${sysSettings.company.toUpperCase()}*\n------------------------\nHello *${p}*,\nYour invoice *${i}* for *${t}* is successfully generated.\n\nThank you for doing business with us!`)}`, '_blank'); }
     function generateInvoiceHTML(bill) {
@@ -1046,9 +1109,10 @@
         } catch(e) { showToast("Error", "PDF Export Failed", "error"); console.error(e); }
     }
 
+    // BACKUP & RESTORE
     function downloadLocalBackup() {
         try {
-            const data = { schemaVersion: "6.0.0", timestamp: new Date().toISOString(), products: productsDB, parties: partiesDB, bills: billsDB, categories: categoriesDB, finance: financeDB, journals: journalDB, settings: sysSettings, features: appFeatures };
+            const data = { schemaVersion: "7.0.0", timestamp: new Date().toISOString(), products: productsDB, parties: partiesDB, bills: billsDB, categories: categoriesDB, finance: financeDB, journals: journalDB, settings: sysSettings, features: appFeatures };
             const blob = new Blob([JSON.stringify(data)], { type: 'application/json' }); const url = URL.createObjectURL(blob);
             const a = document.createElement('a'); a.href = url; a.download = `SRE_BACKUP_${getToday()}_${Date.now()}.json`; a.click(); URL.revokeObjectURL(url);
             showToast("Backup", "JSON Exported Successfully", "success");
@@ -1062,7 +1126,7 @@
                 if(data.products) Storage.set('sre_products', data.products); if(data.parties) Storage.set('sre_parties', data.parties);
                 if(data.bills) Storage.set('sre_bills', data.bills); if(data.journals) Storage.set('sre_journals', data.journals);
                 if(data.finance) Storage.set('sre_finance', data.finance); if(data.settings) Storage.set('sre_settings', data.settings);
-                if(data.features) Storage.set('sre_features', data.features);
+                if(data.features) Storage.set('sre_features', data.features); if(data.settings?.sequence) Storage.set('sre_sequences', data.settings.sequence);
                 showPopup("Restore Complete", "Data imported successfully. Reloading..."); setTimeout(() => location.reload(), 1500);
             } catch(err) { showToast("Error", "Invalid JSON Format", "error"); }
         }; reader.readAsText(file); e.target.value = '';
@@ -1076,8 +1140,7 @@
         if(!sysSettings.gas) return showToast("Warning", "Cloud Sync URL not configured. Go to Settings.", "warning");
         showToast("Syncing", "Connecting to cloud server...", "success");
         fetch(sysSettings.gas, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ action: 'backup', timestamp: Date.now() }) })
-        .then(() => showToast("Success", "Cloud Sync Complete", "success"))
-        .catch(err => showToast("Cloud Error", "Sync Unverified. Local Data Safe.", "error")); // Safe Failure
+        .then(() => showToast("Success", "Cloud Sync Unverified", "success")).catch(err => showToast("Cloud Error", "Sync Unverified. Local Data Safe.", "warning")); // NO FAKE SUCCESS
     }
   </script>
 </body>
