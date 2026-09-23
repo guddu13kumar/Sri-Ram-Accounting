@@ -676,18 +676,42 @@
         }
     }
 
-    function addBillRow(prod=null, scanVal=null, isFirst=false) {
-        const tbody = document.getElementById('bill-items-body'); if(!tbody) return;
-        const tr = document.createElement('tr'); tr.className = "item-row-wrapper group transition-colors";
-        tr.dataset.rowId = 'ROW-' + Date.now() + '-' + Math.floor(Math.random()*10000);
-        let pName = prod ? prod.name : "", pRate = prod ? (currentMode.includes("SALE") ? prod.sale : prod.pur) : "", pGst = prod ? prod.gst : 18;
-        tr._productName = pName;
-        tr._imeis = []; if(prod && prod.track && scanVal && prod.imeiList && prod.imeiList.includes(scanVal)) tr._imeis.push(scanVal);
-        const trackerHtml = (prod && prod.track) ? `<button onclick="openImeiModal(this)" class="bg-blue-50 text-blue-600 px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest shadow-sm border border-blue-200 hover:bg-blue-600 hover:text-white transition-colors row-imei-btn">Manage IMEI (${tr._imeis.length})</button>` : `<span class="text-[9px] text-slate-400 font-bold uppercase row-imei-btn" data-untracked="true">No Tracking</span>`;
+   function backupData() {
+    if(!sysSettings.gas) return showToast("Warning", "Cloud Sync URL not configured. Go to Admin Settings.", "warning");
+    
+    showToast("Syncing", "Pushing database to Cloud Sheet...", "success");
+    const btn = document.querySelector('button[onclick="backupData()"]');
+    if(btn) { btn.disabled = true; btn.innerHTML = "⏳ SYNCING..."; }
 
-        tr.innerHTML = `<td class="p-1.5 text-center"><span class="text-[10px] font-black text-slate-400 row-sl"></span></td><td class="p-1.5"><input type="text" list="item-list" onchange="autoFillRate(this)" class="premium-input uppercase text-[11px] font-black b-name !px-2 !h-[34px]" placeholder="Item Name" value="${pName}"></td><td class="p-1.5"><input type="number" min="1" value="1" oninput="window.handleGridQtyChange(this)" onkeyup="window.handleGridQtyChange(this)" class="premium-input text-center font-black text-blue-700 b-qty !px-1 !h-[34px]"></td><td class="p-1.5 text-center">${trackerHtml}</td><td class="p-1.5"><input type="number" oninput="calcBill()" class="premium-input text-[12px] text-right b-rate !px-2 !h-[34px] font-bold" value="${pRate}"></td><td class="p-1.5"><select onchange="calcBill()" class="premium-input text-center text-[11px] font-bold b-gst !px-1 !h-[34px]"><option value="0" ${pGst==0?'selected':''}>0</option><option value="5" ${pGst==5?'selected':''}>5</option><option value="12" ${pGst==12?'selected':''}>12</option><option value="18" ${pGst==18?'selected':''}>18</option><option value="28" ${pGst==28?'selected':''}>28</option></select></td><td class="p-1.5 text-right"><span class="font-black text-[12px] text-slate-800 row-amt">₹0</span></td><td class="p-1.5 text-center">${!isFirst ? `<button onclick="this.closest('tr').remove(); calcBill();" class="text-rose-400 font-black">✕</button>` : ''}</td>`;
-        tbody.appendChild(tr); calcBill();
-    }
+    // Pack ALL Local Databases to send to Google Sheet
+    const payload = {
+        action: 'backup',
+        timestamp: Date.now(),
+        products: productsDB,
+        parties: partiesDB,
+        bills: billsDB,
+        journals: journalDB
+    };
+
+    fetch(sysSettings.gas, { 
+        method: 'POST', 
+        mode: 'no-cors', // Avoids cross-origin blocking in browser
+        headers: {
+            'Content-Type': 'text/plain;charset=utf-8',
+        },
+        body: JSON.stringify(payload) 
+    })
+    .then(() => {
+        showToast("Success", "Cloud Sync Complete ✅", "success");
+    })
+    .catch(err => {
+        console.error(err);
+        showToast("Cloud Error", "Sync Failed. Local Data Safe.", "error");
+    })
+    .finally(() => {
+        if(btn) { btn.disabled = false; btn.innerHTML = `<span class="text-xs">🔄</span> <span class="text-[9px] font-black uppercase">Sync</span>`; }
+    });
+}
 
     window.handleGridQtyChange = function(input) { calcBill(); const tr = input.closest('tr'); if(tr) updateImeiBadge(tr); };
 
