@@ -320,7 +320,7 @@
                     <div class="p-2 bg-slate-50 rounded border border-slate-100">
                         <div class="grid grid-cols-4 sm:grid-cols-7 gap-1.5 w-full">
                             <button class="pay-combo-btn active" id="combo-CASH" onclick="setCombo('CASH')">CASH</button>
-                            <button class="pay-combo-btn" id="combo-QR" onclick="setCombo('QR')">QR</button>
+                            <button class="pay-combo-btn" id="combo-QR" onclick="setCombo('QR')">QR/UPI</button>
                             <button class="pay-combo-btn" id="combo-CARD" onclick="setCombo('CARD')">CARD</button>
                             <button class="pay-combo-btn" id="combo-CASH-QR" onclick="setCombo('CASH-QR')">CASH+QR</button>
                             <button class="pay-combo-btn" id="combo-CASH-CARD" onclick="setCombo('CASH-CARD')">CASH+CARD</button>
@@ -438,7 +438,7 @@
 
   <script>
     /* ========================================================
-       SRI ACCOUNTING MASTER - OMEGA PRODUCTION BUILD V-7.0
+       SRI ACCOUNTING MASTER - OMEGA PRODUCTION BUILD V-8.0
        Double Entry Journals | Persistent Sequences | XSS Safe
     ======================================================== */
 
@@ -473,15 +473,15 @@
     let activeImeiRowId = null;
 
     // 2. BOOTSTRAP & AUTHENTICATION
-    let isLogged = sessionStorage.getItem('sre_session_v7') === 'active';
+    let isLogged = sessionStorage.getItem('sre_session_v8') === 'active';
     function executeLogin() {
         const u=document.getElementById('login-user').value, p=document.getElementById('login-pass').value;
         if(u==='admin' && p==='admin') { 
-            sessionStorage.setItem('sre_session_v7', 'active'); document.getElementById('login-screen').classList.add('hidden'); 
+            sessionStorage.setItem('sre_session_v8', 'active'); document.getElementById('login-screen').classList.add('hidden'); 
             showToast("Welcome", "Admin Session Started"); bootstrapApplication();
         } else { showToast("Error", "Invalid Credentials", "error"); }
     }
-    function executeLogout() { sessionStorage.removeItem('sre_session_v7'); location.reload(); }
+    function executeLogout() { sessionStorage.removeItem('sre_session_v8'); location.reload(); }
 
     window.onload = () => { 
         if(!isLogged) { document.getElementById('login-company-name').innerText = sysSettings.company; document.getElementById('login-logo-box').innerText = sysSettings.company.charAt(0); } 
@@ -676,42 +676,18 @@
         }
     }
 
-   function backupData() {
-    if(!sysSettings.gas) return showToast("Warning", "Cloud Sync URL not configured. Go to Admin Settings.", "warning");
-    
-    showToast("Syncing", "Pushing database to Cloud Sheet...", "success");
-    const btn = document.querySelector('button[onclick="backupData()"]');
-    if(btn) { btn.disabled = true; btn.innerHTML = "⏳ SYNCING..."; }
+    function addBillRow(prod=null, scanVal=null, isFirst=false) {
+        const tbody = document.getElementById('bill-items-body'); if(!tbody) return;
+        const tr = document.createElement('tr'); tr.className = "item-row-wrapper group transition-colors";
+        tr.dataset.rowId = 'ROW-' + Date.now() + '-' + Math.floor(Math.random()*10000);
+        let pName = prod ? prod.name : "", pRate = prod ? (currentMode.includes("SALE") ? prod.sale : prod.pur) : "", pGst = prod ? prod.gst : 18;
+        tr._productName = pName;
+        tr._imeis = []; if(prod && prod.track && scanVal && prod.imeiList && prod.imeiList.includes(scanVal)) tr._imeis.push(scanVal);
+        const trackerHtml = (prod && prod.track) ? `<button onclick="openImeiModal(this)" class="bg-blue-50 text-blue-600 px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest shadow-sm border border-blue-200 hover:bg-blue-600 hover:text-white transition-colors row-imei-btn">Manage IMEI (${tr._imeis.length})</button>` : `<span class="text-[9px] text-slate-400 font-bold uppercase row-imei-btn" data-untracked="true">No Tracking</span>`;
 
-    // Pack ALL Local Databases to send to Google Sheet
-    const payload = {
-        action: 'backup',
-        timestamp: Date.now(),
-        products: productsDB,
-        parties: partiesDB,
-        bills: billsDB,
-        journals: journalDB
-    };
-
-    fetch(sysSettings.gas, { 
-        method: 'POST', 
-        mode: 'no-cors', // Avoids cross-origin blocking in browser
-        headers: {
-            'Content-Type': 'text/plain;charset=utf-8',
-        },
-        body: JSON.stringify(payload) 
-    })
-    .then(() => {
-        showToast("Success", "Cloud Sync Complete ✅", "success");
-    })
-    .catch(err => {
-        console.error(err);
-        showToast("Cloud Error", "Sync Failed. Local Data Safe.", "error");
-    })
-    .finally(() => {
-        if(btn) { btn.disabled = false; btn.innerHTML = `<span class="text-xs">🔄</span> <span class="text-[9px] font-black uppercase">Sync</span>`; }
-    });
-}
+        tr.innerHTML = `<td class="p-1.5 text-center"><span class="text-[10px] font-black text-slate-400 row-sl"></span></td><td class="p-1.5"><input type="text" list="item-list" onchange="autoFillRate(this)" class="premium-input uppercase text-[11px] font-black b-name !px-2 !h-[34px]" placeholder="Item Name" value="${pName}"></td><td class="p-1.5"><input type="number" min="1" value="1" oninput="window.handleGridQtyChange(this)" onkeyup="window.handleGridQtyChange(this)" class="premium-input text-center font-black text-blue-700 b-qty !px-1 !h-[34px]"></td><td class="p-1.5 text-center">${trackerHtml}</td><td class="p-1.5"><input type="number" oninput="calcBill()" class="premium-input text-[12px] text-right b-rate !px-2 !h-[34px] font-bold" value="${pRate}"></td><td class="p-1.5"><select onchange="calcBill()" class="premium-input text-center text-[11px] font-bold b-gst !px-1 !h-[34px]"><option value="0" ${pGst==0?'selected':''}>0</option><option value="5" ${pGst==5?'selected':''}>5</option><option value="12" ${pGst==12?'selected':''}>12</option><option value="18" ${pGst==18?'selected':''}>18</option><option value="28" ${pGst==28?'selected':''}>28</option></select></td><td class="p-1.5 text-right"><span class="font-black text-[12px] text-slate-800 row-amt">₹0</span></td><td class="p-1.5 text-center">${!isFirst ? `<button onclick="this.closest('tr').remove(); calcBill();" class="text-rose-400 font-black">✕</button>` : ''}</td>`;
+        tbody.appendChild(tr); calcBill();
+    }
 
     window.handleGridQtyChange = function(input) { calcBill(); const tr = input.closest('tr'); if(tr) updateImeiBadge(tr); };
 
@@ -1139,10 +1115,10 @@
         } catch(e) { showToast("Error", "PDF Export Failed", "error"); console.error(e); }
     }
 
-    // BACKUP & SYNC
+    // BACKUP & RESTORE
     function downloadLocalBackup() {
         try {
-            const data = { schemaVersion: "7.0.0", timestamp: new Date().toISOString(), products: productsDB, parties: partiesDB, bills: billsDB, categories: categoriesDB, finance: financeDB, journals: journalDB, settings: sysSettings, features: appFeatures };
+            const data = { schemaVersion: "8.0.0", timestamp: new Date().toISOString(), products: productsDB, parties: partiesDB, bills: billsDB, categories: categoriesDB, finance: financeDB, journals: journalDB, settings: sysSettings, features: appFeatures };
             const blob = new Blob([JSON.stringify(data)], { type: 'application/json' }); const url = URL.createObjectURL(blob);
             const a = document.createElement('a'); a.href = url; a.download = `SRE_BACKUP_${getToday()}_${Date.now()}.json`; a.click(); URL.revokeObjectURL(url);
             showToast("Backup", "JSON Exported Successfully", "success");
@@ -1167,14 +1143,19 @@
         else { showToast("Cancelled", "Data wipe aborted", "success"); }
     }
     function backupData() {
-        if(!sysSettings.gas) return showToast("Warning", "Cloud Sync URL not configured. Go to Settings.", "warning");
-        showToast("Syncing", "Connecting to cloud server...", "success");
-        fetch(sysSettings.gas, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ action: 'backup', timestamp: Date.now() }) })
-        .then(response => {
-            if(!response.ok && response.type !== 'opaque') throw new Error("Network response was not ok");
-            showToast("Success", "Cloud Sync Completed", "success");
-        })
-        .catch(err => showToast("Cloud Error", "Sync Unverified. Local Data Safe.", "warning"));
+        if(!sysSettings.gas) return showToast("Warning", "Cloud Sync URL not configured. Go to Admin Settings.", "warning");
+        
+        showToast("Syncing", "Packing databases & Connecting to Cloud...", "success");
+        const btn = document.querySelector('button[onclick="backupData()"]');
+        if(btn) { btn.disabled = true; btn.innerHTML = "⏳ SYNCING..."; }
+
+        const payload = { action: 'backup', timestamp: Date.now(), products: productsDB, parties: partiesDB, bills: billsDB, journals: journalDB, settings: sysSettings, features: appFeatures };
+
+        fetch(sysSettings.gas, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) })
+        .then(response => response.json()) 
+        .then(data => { if(data.status === 'success') showToast("Success", "Cloud Sync Verified & Completed ✅", "success"); else throw new Error(data.message); })
+        .catch(err => { console.error(err); showToast("Cloud Error", "Sync Unverified. Local Data is Safe.", "error"); })
+        .finally(() => { if(btn) { btn.disabled = false; btn.innerHTML = `<span class="text-xs">🔄</span> <span class="text-[9px] font-black uppercase">Sync</span>`; } });
     }
   </script>
 </body>
