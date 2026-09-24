@@ -65,10 +65,8 @@
         #login-screen { position: fixed; inset: 0; background: #0f172a; z-index: 9999; display: flex; align-items: center; justify-content: center; }
         #login-screen.hidden { display: none !important; }
         
-        /* BOOT SCREEN CSS */
         #boot-screen { position: fixed; inset: 0; background: #0f172a; z-index: 10000; display: flex; flex-direction:column; align-items: center; justify-content: center; color:white; }
         
-        /* 🔥 RBAC Access Control Class */
         .admin-only { display: block; }
         body.role-CASHIER .admin-only { display: none !important; }
 
@@ -79,16 +77,28 @@
         input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         @media print { @page { size: auto; margin: 0mm; } body * { visibility: hidden; } #print-container, #print-container * { visibility: visible; } #print-container { position: absolute; left: 0; top: 0; width: 100% !important; margin: 0 !important; background: white; display:flex; justify-content:center; } .no-print { display: none !important; } .thermal-mode { width: 80mm !important; padding: 10px !important; box-shadow: none !important; border: none !important; border-radius: 0 !important; } .thermal-mode th, .thermal-mode td { font-size: 9px !important; padding: 4px !important; } .thermal-mode h1 { font-size: 18px !important; } }
     </style>
+
+    <!-- 🔥 GLOBAL ERROR CATCHER -->
+    <script>
+        window.onerror = function(msg, url, lineNo, columnNo, error) {
+            const bootStatus = document.getElementById('boot-status');
+            const btnEmergency = document.getElementById('btn-emergency');
+            if(bootStatus) {
+                bootStatus.innerText = "CRITICAL JS ERROR: " + msg + " (Line: " + lineNo + ")";
+                bootStatus.className = "text-[10px] font-bold text-rose-500 uppercase mt-4 text-center px-4";
+            }
+            if(btnEmergency) btnEmergency.classList.remove('hidden');
+            return false;
+        };
+    </script>
 </head>
 <body>
 
-  <!-- 0. BOOT SCREEN (WITH EMERGENCY FAILSAFE) -->
+  <!-- 0. BOOT SCREEN -->
   <div id="boot-screen">
       <div class="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center text-white font-black text-2xl shadow-lg mb-4 animate-pulse">SRE</div>
       <h2 class="text-xl font-black uppercase tracking-widest mb-1">V-9.0 ENTERPRISE</h2>
       <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center px-4" id="boot-status">Initializing Database Engine...</p>
-      
-      <!-- Hidden Emergency Button (Appears if stuck) -->
       <button id="btn-emergency" onclick="emergencyWipe()" class="hidden mt-8 bg-rose-600 hover:bg-rose-700 text-white px-5 py-2.5 rounded-lg text-[10px] font-black tracking-widest uppercase shadow-lg border border-rose-400">⚠️ Force Fix / Reset System</button>
   </div>
 
@@ -114,7 +124,7 @@
   <!-- HIDDEN DATALISTS & ASSETS -->
   <datalist id="item-list"></datalist>
   <datalist id="party-list"></datalist>
-  <datalist id="expense-list"><option value="Rent"><option value="Electricity"><option value="Salary"><option value="Transport"><option value="Repair"><option value="Marketing"><option value="Other"></datalist>
+  <datalist id="expense-list"><option value="Rent"></option><option value="Electricity"></option><option value="Salary"></option><option value="Transport"></option><option value="Repair"></option><option value="Marketing"></option><option value="Other"></option></datalist>
   <canvas id="img-canvas" class="hidden"></canvas>
   <input type="file" id="csv-upload" accept=".csv" class="hidden" onchange="importProductsCSV(event)" />
   <input type="file" id="p-image-upload" accept="image/jpeg, image/png, image/webp" class="hidden" onchange="handleProductImage(event)" />
@@ -516,12 +526,8 @@
 
     async function initializeSystem() {
         try {
-            // Check if Dexie loaded properly (Internet requirement for first load)
             if (typeof Dexie === 'undefined') {
-                document.getElementById('boot-status').innerText = "ERROR: INTERNET REQUIRED FOR FIRST LOAD (Database Engine missing)";
-                document.getElementById('boot-status').className = "text-[10px] font-bold text-rose-500 uppercase tracking-widest mt-2 text-center px-4";
-                document.getElementById('btn-emergency').classList.remove('hidden');
-                return;
+                throw new Error("INTERNET REQUIRED FOR FIRST LOAD (Dexie.js Engine missing)");
             }
 
             db = new Dexie("SRE_ERP_Enterprise_V9");
@@ -535,14 +541,12 @@
                 configs: 'key' 
             });
 
-            // Step A: Auto-Migrate from LocalStorage if IndexedDB is Empty
             const prodCount = await db.products.count();
             if (prodCount === 0 && localStorage.getItem('sre_products')) {
                 document.getElementById('boot-status').innerText = "Upgrading Legacy Data to Enterprise Engine...";
                 await migrateFromV8();
             }
 
-            // Step B: Seed Master Data if empty
             const userCount = await db.users.count();
             if (userCount === 0) {
                 await db.users.bulkPut([
@@ -556,7 +560,6 @@
                 await db.configs.put({ key: 'categories', value: ["Mobile Phone", "Accessories", "Electronics", "Spare Parts"] });
             }
 
-            // Step C: Load Database into Fast Cache
             productsDB = await db.products.toArray();
             partiesDB = await db.parties.toArray();
             billsDB = await db.bills.toArray();
@@ -570,7 +573,6 @@
 
             document.getElementById('boot-screen').classList.add('hidden');
 
-            // Step D: Session Verification
             let sessionUserId = sessionStorage.getItem('sre_session_v9');
             if (sessionUserId) {
                 currentUser = await db.users.get(sessionUserId);
@@ -876,7 +878,6 @@
             const g=tr.querySelector('.b-gst'); if(g) g.value=prod.gst; 
             const iCell = tr.querySelectorAll('td')[3]; 
             
-            // Only reset IMEI if product actually changed
             if(tr._productName !== prod.name) {
                 tr._productName = prod.name;
                 tr._imeis=[]; 
@@ -901,7 +902,7 @@
             const val = (tr._imeis && tr._imeis[i]) ? tr._imeis[i] : ""; 
             const wrap = document.createElement('div'); wrap.className = "relative";
             wrap.innerHTML = `<span class="absolute left-3 top-2.5 text-[9px] font-black text-slate-400">#${i+1}</span><input type="text" class="premium-input font-mono font-bold text-xs !pl-8 uppercase imei-modal-val" placeholder="Scan or Type IMEI/Serial" oninput="updateImeiModalCount()">`;
-            wrap.querySelector('input').value = val; // SAFE
+            wrap.querySelector('input').value = val;
             c.appendChild(wrap);
         }
         document.getElementById('imei-modal').classList.remove('hidden'); updateImeiModalCount();
@@ -1193,7 +1194,6 @@
             const ep=document.getElementById("ledger-paid"); if(ep) ep.innerText="₹"+pd.toLocaleString('en-IN'); 
             const er=document.getElementById("ledger-bal"); if(er) er.innerText="₹"+run.toLocaleString('en-IN');
 
-            // Reports calculations
             let tSale=0, tPur=0, tExp=0;
             let tbDr=0, tbCr=0; let tbAccounts = {};
             journalDB.forEach(j=>{ 
