@@ -10,7 +10,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#0f172a" />
 
-    <script src="https://cdn.tailwindcss.com"></script>
+   <script src="https://cdn.tailwindcss.com"></script>
     <!-- 'defer' लगाने से पेज ब्लॉक नहीं होगा -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
@@ -554,14 +554,21 @@
         }
     }, 4000);
 
-    window.onload = async () => { await initializeSystem(); };
+    // FIXED LOADING MECHANISM: Wait for Dexie safely without blocking UI
+    document.addEventListener("DOMContentLoaded", () => {
+        let checkDexie = setInterval(async () => {
+            if (typeof Dexie !== 'undefined') {
+                clearInterval(checkDexie);
+                await initializeSystem();
+            } else {
+                const statusEl = document.getElementById('boot-status');
+                if(statusEl) statusEl.innerText = "Waiting for Database Library to load...";
+            }
+        }, 500);
+    });
 
     async function initializeSystem() {
         try {
-            if (typeof Dexie === 'undefined') {
-                throw new Error("Dexie library CDN unreachable. Check internet connection.");
-            }
-
             db = new Dexie("SRE_ERP_Enterprise_V9");
             db.version(1).stores({
                 users: 'id, user, role',
@@ -572,9 +579,6 @@
                 finance: 'id, name',
                 configs: 'key' 
             });
-
-            // Version migration placeholder for future proofing
-            db.version(2).stores({}).upgrade(async tx => { /* Add logic when schema changes */ });
 
             const prodCount = await db.products.count();
             if (prodCount === 0 && localStorage.getItem('sre_products')) {
