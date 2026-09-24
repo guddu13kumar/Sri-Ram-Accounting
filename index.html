@@ -7,15 +7,15 @@
     
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="bla		ck-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#0f172a" />
 
-   <script src="https://cdn.tailwindcss.com"></script>
-    <!-- 'defer' लगाने से पेज ब्लॉक नहीं होगा -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
-    <script src="https://unpkg.com/dexie@3.2.4/dist/dexie.js" defer></script>
+    <!-- FIX: Changed from slow unpkg to fast cdnjs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dexie/3.2.4/dexie.min.js" defer></script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
@@ -508,9 +508,17 @@
 
     // --- SECURITY & AUTH ---
     async function hashString(str) {
-        const buffer = new TextEncoder().encode(str + "SRE_SALT_V9");
-        const hash = await crypto.subtle.digest("SHA-256", buffer);
-        return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+        try {
+            // FIX: File fallback if running directly via file:// (non-https context where window.crypto is blocked)
+            if (!window.crypto || !window.crypto.subtle) {
+                return btoa(str + "SRE_SALT_V9").split('').reverse().join('');
+            }
+            const buffer = new TextEncoder().encode(str + "SRE_SALT_V9");
+            const hash = await crypto.subtle.digest("SHA-256", buffer);
+            return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+        } catch(e) {
+            return btoa(str + "SRE_SALT_V9");
+        }
     }
 
     function showLogin() {
@@ -531,7 +539,6 @@
         const hash = await hashString(p);
         
         if (userRec.pass === hash || userRec.pass === p) {
-            // Auto upgrade plaintext password on first login
             if (userRec.pass === p) {
                 userRec.pass = hash;
                 await db.users.put(userRec);
@@ -557,112 +564,121 @@
     }
 
     // --- DATABASE & BOOTSTRAP ---
-    setTimeout(() => {
-        const btn = document.getElementById('btn-emergency');
-        if(btn && !document.getElementById('boot-screen').classList.contains('hidden')) {
-            btn.classList.remove('hidden');
-            document.getElementById('boot-status').innerText = "Database took too long to load. Click below to recover.";
-            document.getElementById('boot-status').className = "text-[10px] font-bold text-amber-500 uppercase tracking-widest mt-2 px-4 text-center";
-        }
-    }, 4000);
-
-    // FIXED LOADING MECHANISM: Wait for Dexie safely without blocking UI
+    
+    // SAFE STARTUP HANDLER: Solves the infinite 'Initializing' block
     document.addEventListener("DOMContentLoaded", () => {
+        const bootStatus = document.getElementById('boot-status');
+        
+        // Wait maximum 10 seconds for Dexie to load
         let attempts = 0;
-        const maxAttempts = 30;
         const checkDexie = setInterval(async () => {
             attempts++;
             if (typeof Dexie !== 'undefined') {
                 clearInterval(checkDexie);
-                await initializeSystem();
-            } else if (attempts >= maxAttempts) {
-                clearInterval(checkDexie);
-                const statusEl = document.getElementById('boot-status');
-                const btn = document.getElementById('btn-emergency');
-                if (statusEl) {
-                    statusEl.innerText = "Database library could not be loaded. Check internet/CDN access or install local dependencies.";
-                    statusEl.className = "text-[10px] font-bold text-rose-500 uppercase tracking-widest mt-2 px-4 text-center";
+                try {
+                    await initializeSystem();
+                } catch (e) {
+                    console.error("Boot failure:", e);
+                    if (bootStatus) {
+                        bootStatus.innerText = "STARTUP ERROR: " + e.message;
+                        bootStatus.className = "text-[10px] font-bold text-rose-500 uppercase mt-4 text-center px-4";
+                    }
+                    const btn = document.getElementById('btn-emergency');
+                    if (btn) btn.classList.remove('hidden');
                 }
+            } else if (attempts >= 40) { // 10 seconds timeout
+                clearInterval(checkDexie);
+                if (bootStatus) {
+                    bootStatus.innerText = "Network Error: Core library failed to load. Check internet or adblocker.";
+                    bootStatus.className = "text-[10px] font-bold text-rose-500 uppercase mt-4 text-center px-4";
+                }
+                const btn = document.getElementById('btn-emergency');
                 if (btn) btn.classList.remove('hidden');
-            } else {
-                const statusEl = document.getElementById('boot-status');
-                if(statusEl) statusEl.innerText = `Loading database engine... ${attempts}/${maxAttempts}`;
             }
         }, 250);
     });
 
     async function initializeSystem() {
-        try {
-            db = new Dexie("SRE_ERP_Enterprise_V9");
-            db.version(1).stores({
-                users: 'id, user, role',
-                products: 'id, name, sku, category',
-                parties: 'id, name, mobile, type',
-                bills: 'id, invNo, date, type, party',
-                journals: 'id, date, refNo, type',
-                finance: 'id, name',
-                configs: 'key'
-            });
-            // V2 keeps all existing stores and adds indexes for faster lookups.
-            db.version(2).stores({
-                users: 'id, &user, role',
-                products: 'id, name, &sku, category',
-                parties: 'id, name, &mobile, type',
-                bills: 'id, &invNo, date, type, party',
-                journals: 'id, date, refNo, type',
-                finance: 'id, &name',
-                configs: 'key'
-            });
-
-            const prodCount = await db.products.count();
-            if (prodCount === 0 && localStorage.getItem('sre_products')) {
-                document.getElementById('boot-status').innerText = "Upgrading Legacy Data to Enterprise Engine...";
-                await migrateFromV8();
-            }
-
-            const userCount = await db.users.count();
-            if (userCount === 0) {
-                const adminHash = await hashString('admin');
-                const cashierHash = await hashString('1234');
-                await db.users.bulkPut([
-                    { id: 'U1', user: 'admin', pass: adminHash, role: 'ADMIN' },
-                    { id: 'U2', user: 'cashier', pass: cashierHash, role: 'CASHIER' }
-                ]);
-                await db.finance.bulkPut([{id:'FIN1', name:'Bajaj Finance', status:'ACTIVE'}, {id:'FIN2', name:'HDB Financial', status:'ACTIVE'}]);
-                await db.configs.put({ key: 'sysSettings', value: sysSettings });
-                await db.configs.put({ key: 'appFeatures', value: appFeatures });
-                await db.configs.put({ key: 'sysSequences', value: sysSequences });
-                await db.configs.put({ key: 'categories', value: ["Mobile Phone", "Accessories", "Electronics", "Spare Parts"] });
-            }
-
-            productsDB = await db.products.toArray();
-            partiesDB = await db.parties.toArray();
-            billsDB = await db.bills.toArray();
-            journalDB = await db.journals.toArray();
-            financeDB = await db.finance.toArray();
-            
-            let cSet = await db.configs.get('sysSettings'); if(cSet) sysSettings = cSet.value;
-            let cFeat = await db.configs.get('appFeatures'); if(cFeat) appFeatures = cFeat.value;
-            let cSeq = await db.configs.get('sysSequences'); if(cSeq) sysSequences = cSeq.value;
-            let cCat = await db.configs.get('categories'); categoriesDB = cCat ? cCat.value : ["Mobile Phone", "Accessories"];
-
-            document.getElementById('boot-screen').classList.add('hidden');
-
-            let sessionUserId = sessionStorage.getItem('sre_session_v9');
-            if (sessionUserId) {
-                currentUser = await db.users.get(sessionUserId);
-                if (currentUser) {
-                    applyRoleRestrictions(currentUser.role);
-                    bootstrapApplication();
-                } else { showLogin(); }
-            } else {
-                showLogin();
-            }
-        } catch (e) {
-            console.error("FATAL BOOT ERROR:", e);
-            document.getElementById('boot-status').innerText = "DATABASE ERROR: " + e.message;
-            document.getElementById('boot-status').className = "text-[10px] font-bold text-rose-500 uppercase tracking-widest mt-2 text-center px-4";
+        db = new Dexie("SRE_ERP_Enterprise_V9");
+        
+        // FIX: Handles the database version lock infinite freeze
+        db.on("blocked", () => {
+            console.error("Database blocked by another tab");
+            document.getElementById('boot-status').innerText = "⚠️ DATABASE LOCKED: Please close all other tabs of this software and refresh!";
+            document.getElementById('boot-status').className = "text-[10px] font-black text-rose-600 bg-rose-100 p-2 rounded uppercase mt-4 text-center px-4";
             document.getElementById('btn-emergency').classList.remove('hidden');
+        });
+
+        db.version(1).stores({
+            users: 'id, user, role',
+            products: 'id, name, sku, category',
+            parties: 'id, name, mobile, type',
+            bills: 'id, invNo, date, type, party',
+            journals: 'id, date, refNo, type',
+            finance: 'id, name',
+            configs: 'key' 
+        });
+
+        // Version 2 exact schema match to prevent IndexedDB breaking on duplicate unique constraints
+        db.version(2).stores({
+            users: 'id, user, role',
+            products: 'id, name, sku, category',
+            parties: 'id, name, mobile, type',
+            bills: 'id, invNo, date, type, party',
+            journals: 'id, date, refNo, type',
+            finance: 'id, name',
+            configs: 'key'
+        });
+
+        // Force open with safety timeout to prevent permanent hang
+        await Promise.race([
+            db.open(),
+            new Promise((_, reject) => setTimeout(() => reject(new Error("Database connection timed out. Close other tabs.")), 8000))
+        ]);
+
+        const prodCount = await db.products.count();
+        if (prodCount === 0 && localStorage.getItem('sre_products')) {
+            document.getElementById('boot-status').innerText = "Upgrading Legacy Data to Enterprise Engine...";
+            await migrateFromV8();
+        }
+
+        const userCount = await db.users.count();
+        if (userCount === 0) {
+            const adminHash = await hashString('admin');
+            const cashierHash = await hashString('1234');
+            await db.users.bulkPut([
+                { id: 'U1', user: 'admin', pass: adminHash, role: 'ADMIN' },
+                { id: 'U2', user: 'cashier', pass: cashierHash, role: 'CASHIER' }
+            ]);
+            await db.finance.bulkPut([{id:'FIN1', name:'Bajaj Finance', status:'ACTIVE'}, {id:'FIN2', name:'HDB Financial', status:'ACTIVE'}]);
+            await db.configs.put({ key: 'sysSettings', value: sysSettings });
+            await db.configs.put({ key: 'appFeatures', value: appFeatures });
+            await db.configs.put({ key: 'sysSequences', value: sysSequences });
+            await db.configs.put({ key: 'categories', value: ["Mobile Phone", "Accessories", "Electronics", "Spare Parts"] });
+        }
+
+        productsDB = await db.products.toArray();
+        partiesDB = await db.parties.toArray();
+        billsDB = await db.bills.toArray();
+        journalDB = await db.journals.toArray();
+        financeDB = await db.finance.toArray();
+        
+        let cSet = await db.configs.get('sysSettings'); if(cSet) sysSettings = cSet.value;
+        let cFeat = await db.configs.get('appFeatures'); if(cFeat) appFeatures = cFeat.value;
+        let cSeq = await db.configs.get('sysSequences'); if(cSeq) sysSequences = cSeq.value;
+        let cCat = await db.configs.get('categories'); categoriesDB = cCat ? cCat.value : ["Mobile Phone", "Accessories"];
+
+        document.getElementById('boot-screen').classList.add('hidden');
+
+        let sessionUserId = sessionStorage.getItem('sre_session_v9');
+        if (sessionUserId) {
+            currentUser = await db.users.get(sessionUserId);
+            if (currentUser) {
+                applyRoleRestrictions(currentUser.role);
+                bootstrapApplication();
+            } else { showLogin(); }
+        } else {
+            showLogin();
         }
     }
 
