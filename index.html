@@ -3,12 +3,21 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-    <title id="app-window-title">Sri Ram Enterprises - Accounting Plus v9</title>
+    <title id="app-window-title">Sri Ram Enterprises - Enterprise V9</title>
+    
+    <!-- 🔥 PWA TAGS (APP INSTALLATION) 🔥 -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#0f172a" />
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- 🔥 V-9.0 ENTERPRISE DATABASE ENGINE (DEXIE.JS) -->
+    <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f1f5f9; color: #0f172a; overflow: hidden; height: 100vh; width: 100vw; margin: 0; display: flex; flex-direction: column; }
@@ -54,9 +63,13 @@
         th.standard-th { text-transform: uppercase; font-size: 10px; color: #475569; font-weight: 800; padding: 12px 10px; background-color: #f8fafc; border-bottom: 1px solid #e2e8f0; text-align: left;}
         td.standard-td { padding: 10px; font-size: 12px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; font-weight: 600; color: #1e293b; }
 
-        /* Login Screen Override */
         #login-screen { position: fixed; inset: 0; background: #0f172a; z-index: 9999; display: flex; align-items: center; justify-content: center; }
         #login-screen.hidden { display: none !important; }
+        #boot-screen { position: fixed; inset: 0; background: #0f172a; z-index: 10000; display: flex; flex-direction:column; align-items: center; justify-content: center; color:white; }
+        
+        /* 🔥 RBAC Access Control Class */
+        .admin-only { display: block; }
+        body.role-CASHIER .admin-only { display: none !important; }
 
         .view-section { animation: slideUpFade 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .modal-animate { animation: popIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
@@ -64,46 +77,32 @@
         @keyframes popIn { 0% { transform: scale(0.95); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
         input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         @media print { @page { size: auto; margin: 0mm; } body * { visibility: hidden; } #print-container, #print-container * { visibility: visible; } #print-container { position: absolute; left: 0; top: 0; width: 100% !important; margin: 0 !important; background: white; display:flex; justify-content:center; } .no-print { display: none !important; } .thermal-mode { width: 80mm !important; padding: 10px !important; box-shadow: none !important; border: none !important; border-radius: 0 !important; } .thermal-mode th, .thermal-mode td { font-size: 9px !important; padding: 4px !important; } .thermal-mode h1 { font-size: 18px !important; } }
-    
-/* ===== SRE PREMIUM UI UPGRADE v9 ===== */
-body.sre-dark{background:#0b1220;color:#e5e7eb} body.sre-dark .glass-panel{background:rgba(15,23,42,.92);border-color:rgba(148,163,184,.15);color:#e5e7eb} body.sre-dark .premium-input{background:#0f172a!important;color:#e5e7eb!important;border-color:#334155!important} body.sre-dark .standard-th{background:#111827!important;color:#94a3b8!important} body.sre-dark .standard-td{color:#e5e7eb!important;border-color:#1e293b!important} body.sre-dark h1,body.sre-dark h2,body.sre-dark h3,body.sre-dark p{color:inherit}
-:root{--sre-accent:#2563eb;--sre-bg:#f5f7fb;--sre-card:rgba(255,255,255,.92);--sre-border:rgba(148,163,184,.20);--sre-shadow:0 12px 35px rgba(15,23,42,.07)}
-body{background:radial-gradient(circle at 10% 0%,rgba(37,99,235,.07),transparent 32%),radial-gradient(circle at 100% 100%,rgba(99,102,241,.05),transparent 28%),var(--sre-bg);letter-spacing:.005em}
-.glass-panel{background:var(--sre-card);border:1px solid var(--sre-border);box-shadow:var(--sre-shadow);border-radius:16px;backdrop-filter:blur(10px)}
-.glass-panel:hover{box-shadow:0 16px 42px rgba(15,23,42,.09)}
-.glass-nav{background:linear-gradient(135deg,#0b1220,#111827 55%,#172554);box-shadow:0 8px 28px rgba(15,23,42,.20)}
-.premium-input{height:40px!important;border-radius:10px!important;border-color:#dbe3ef!important;background:#f8fafc!important;box-shadow:inset 0 1px 2px rgba(15,23,42,.025);transition:.18s ease}
-.premium-input:hover{border-color:#b9c7da!important;background:#fff!important}.premium-input:focus{border-color:var(--sre-accent)!important;box-shadow:0 0 0 4px rgba(37,99,235,.10)!important;background:#fff!important}
-.btn-primary,.btn-ghost,.pay-master-btn,.pay-combo-btn{transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease,background .16s ease}
-.btn-primary:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 10px 24px rgba(37,99,235,.22)}
-.btn-ghost:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(15,23,42,.07)}
-#app-sidebar{background:linear-gradient(180deg,#08111f,#0f172a 55%,#111827);box-shadow:8px 0 30px rgba(15,23,42,.08)}
-#app-sidebar button{transition:.16s ease} #app-sidebar button:hover{transform:translateX(2px)}
-.standard-th{background:#f8fafc!important;color:#64748b!important;font-size:9px!important;letter-spacing:.08em!important}
-.standard-td{font-size:11px!important}
-.view-section{animation:slideUpFade .24s ease-out}.modal-animate{animation:popIn .18s ease-out}
-.sre-kpi{position:relative;overflow:hidden}.sre-kpi:after{content:"";position:absolute;right:-28px;top:-28px;width:90px;height:90px;border-radius:50%;background:rgba(37,99,235,.06)}
-.sre-status{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:5px 9px;font-size:9px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
-.sre-status.online{background:#ecfdf5;color:#047857}.sre-status.pending{background:#fff7ed;color:#c2410c}.sre-status.offline{background:#fef2f2;color:#b91c1c}
-#sre-command-palette{backdrop-filter:blur(10px)}
-#sre-command-palette .palette-card{box-shadow:0 30px 80px rgba(15,23,42,.28);border:1px solid rgba(148,163,184,.22)}
-@media(max-width:768px){.glass-panel{border-radius:13px}.view-section{padding-left:10px!important;padding-right:10px!important}.sre-desktop-only{display:none!important}}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
-
     </style>
 </head>
 <body>
 
+  <!-- 0. BOOT SCREEN -->
+  <div id="boot-screen">
+      <div class="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center text-white font-black text-2xl shadow-lg mb-4 animate-pulse">SRE</div>
+      <h2 class="text-xl font-black uppercase tracking-widest mb-1">V-9.0 ENTERPRISE</h2>
+      <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest" id="boot-status">Initializing Database Engine...</p>
+  </div>
+
   <!-- 1. LOGIN SCREEN -->
-  <div id="login-screen">
-      <div class="glass-panel p-8 w-full max-w-sm bg-white text-center modal-animate">
+  <div id="login-screen" class="hidden">
+      <div class="glass-panel p-8 w-full max-w-sm bg-white text-center modal-animate relative overflow-hidden">
+          <div class="absolute top-0 right-0 bg-blue-600 text-white text-[8px] font-black px-2 py-1 rounded-bl-lg uppercase tracking-widest">Enterprise Edition</div>
           <div class="w-16 h-16 bg-blue-600 rounded-2xl mx-auto flex items-center justify-center text-white font-black text-2xl shadow-lg mb-4" id="login-logo-box">SRE</div>
           <h2 class="text-xl font-black text-slate-800 uppercase tracking-widest mb-1" id="login-company-name">Sri Ram Enterprises</h2>
-          <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-6">Enterprise Accounting Login</p>
+          <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-6">Secure System Login</p>
           <div class="space-y-4 text-left">
-              <div><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Username</label><input type="text" id="login-user" class="premium-input" value="admin"></div>
-              <div><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Password</label><input type="password" id="login-pass" class="premium-input" value="admin" onkeydown="if(event.key==='Enter') executeLogin()"></div>
-              <button onclick="executeLogin()" class="btn-primary w-full py-3 mt-2 text-sm">Secure Login</button>
+              <div><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Username</label><input type="text" id="login-user" class="premium-input" placeholder="admin / cashier"></div>
+              <div><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Password</label><input type="password" id="login-pass" class="premium-input" placeholder="••••••••" onkeydown="if(event.key==='Enter') executeLogin()"></div>
+              <button onclick="executeLogin()" class="btn-primary w-full py-3 mt-2 text-sm" id="btn-login">Verify Identity</button>
+          </div>
+          <div class="mt-6 text-[8px] font-bold text-slate-400 uppercase text-left bg-slate-50 p-2 rounded">
+              <p class="text-rose-500 border-b border-slate-200 pb-1 mb-1">Admin: admin / admin (Full Access)</p>
+              <p class="text-blue-500">Cashier: cashier / 1234 (Billing Only)</p>
           </div>
       </div>
   </div>
@@ -116,15 +115,6 @@ body{background:radial-gradient(circle at 10% 0%,rgba(37,99,235,.07),transparent
   <input type="file" id="csv-upload" accept=".csv" class="hidden" onchange="importProductsCSV(event)" />
   <input type="file" id="p-image-upload" accept="image/jpeg, image/png, image/webp" class="hidden" onchange="handleProductImage(event)" />
   <input type="file" id="restore-upload" accept=".json" class="hidden" onchange="processRestore(event)" />
-
-  <!-- SRE PREMIUM COMMAND PALETTE -->
-  <div id="sre-command-palette" class="fixed inset-0 z-[500] hidden bg-slate-950/55 flex items-start justify-center pt-[10vh] px-4" onclick="if(event.target===this) closeCommandPalette()">
-    <div class="palette-card w-full max-w-2xl rounded-2xl bg-white overflow-hidden">
-      <div class="p-4 border-b flex items-center gap-3"><span class="text-lg">⌘</span><input id="sre-command-input" class="premium-input flex-1" placeholder="Search module, action or shortcut..." autocomplete="off"></div>
-      <div id="sre-command-results" class="max-h-[55vh] overflow-y-auto p-2"></div>
-      <div class="px-4 py-3 border-t bg-slate-50 text-[9px] font-black text-slate-500 uppercase tracking-widest">ESC Close · ↑↓ Navigate · Enter Open</div>
-    </div>
-  </div>
 
   <!-- TOAST -->
   <div id="toast-container" class="fixed top-5 right-5 z-[200] flex flex-col gap-2 pointer-events-none"></div>
@@ -168,7 +158,7 @@ body{background:radial-gradient(circle at 10% 0%,rgba(37,99,235,.07),transparent
                 <div class="col-span-2"><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Item Name *</label><input type="text" id="qm-item-name" class="premium-input uppercase text-blue-800"></div>
                 <div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Category *</label><select id="qm-item-cat" class="cat-select premium-input" onchange="handleCategoryChange(this)"></select></div>
                 <div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Sale Rate (₹) *</label><input type="number" id="qm-item-sale" class="premium-input text-blue-700 font-black"></div>
-                <div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Purchase Rate (₹)</label><input type="number" id="qm-item-pur" class="premium-input text-rose-700"></div>
+                <div class="admin-only"><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Purchase Rate (₹)</label><input type="number" id="qm-item-pur" class="premium-input text-rose-700"></div>
                 <div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">GST %</label><select id="qm-item-gst" class="premium-input"><option value="0">0%</option><option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option></select></div>
                 <div class="col-span-2 flex items-center mt-2"><label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="qm-item-track" checked class="w-4 h-4 text-blue-600"><span class="text-[10px] font-bold text-slate-700 uppercase">Track IMEI/Serial</span></label></div>
             </div>
@@ -200,11 +190,9 @@ body{background:radial-gradient(circle at 10% 0%,rgba(37,99,235,.07),transparent
     </div>
     <div class="hidden lg:flex items-center gap-3"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]" id="network-indicator"></span><div class="flex flex-col"><span class="text-[10px] text-slate-300 font-bold uppercase tracking-widest leading-none">System Status</span><span class="text-[9px] text-emerald-400 font-black uppercase mt-0.5" id="network-text">ONLINE</span></div></div>
     <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 items-center px-4 py-1.5 bg-white/5 border border-white/10 rounded-full"><span id="header-module-title" class="text-[11px] font-black tracking-widest uppercase text-white">DASHBOARD</span></div>
-    <div class="flex items-center gap-2 z-20 ml-auto">
-       <button onclick="openCommandPalette()" class="hidden md:flex items-center gap-2 px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-md transition-colors" title="Command Palette"><span>⌘</span><span class="text-[9px] font-black uppercase">Search</span></button>
-       <button onclick="toggleSRETheme()" class="flex items-center justify-center w-8 h-8 bg-white/10 hover:bg-white/20 rounded-md" title="Toggle Theme" id="sre-theme-btn">☾</button>
-       <button onclick="backupData()" class="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-md transition-colors active:scale-95"><span class="text-xs">🔄</span> <span class="text-[9px] font-black uppercase">Sync</span></button>
-       <div class="w-px h-5 bg-slate-700 hidden sm:block"></div>
+    <div class="flex items-center space-x-4 z-20 ml-auto">
+       <button onclick="backupData()" class="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-md transition-colors active:scale-95 admin-only" title="Cloud Sync"><span class="text-xs">🔄</span> <span class="text-[9px] font-black uppercase">Sync</span></button>
+       <div class="w-px h-5 bg-slate-700 hidden sm:block admin-only"></div>
        <div class="flex items-center gap-2 cursor-pointer border-l border-slate-700 pl-4 ml-2" onclick="executeLogout()" title="Logout"><div class="w-8 h-8 bg-slate-700 border border-slate-500 rounded-full flex items-center justify-center font-black text-xs text-white" id="user-avatar">A</div><div class="hidden lg:block"><p class="text-[10px] font-black text-slate-200 uppercase leading-none" id="user-role-text">Admin</p><p class="text-[7px] text-rose-400 font-bold uppercase mt-1">Logout</p></div></div>
     </div>
   </header>
@@ -227,7 +215,7 @@ body{background:radial-gradient(circle at 10% 0%,rgba(37,99,235,.07),transparent
         </div>
 
         <!-- 2. ADMIN CONTROL CENTER -->
-        <div id="view-admin" class="view-section hidden space-y-4 max-w-5xl mx-auto p-4 sm:p-6 overflow-y-auto w-full">
+        <div id="view-admin" class="view-section hidden space-y-4 max-w-5xl mx-auto p-4 sm:p-6 overflow-y-auto w-full admin-only">
             <h2 class="text-2xl font-black text-slate-800 tracking-widest uppercase mb-4 flex items-center gap-3"><span class="w-1.5 h-8 bg-rose-600 rounded-full"></span> Admin Control Center</h2>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div class="glass-panel p-6 border-t-4 border-t-blue-500">
@@ -250,24 +238,22 @@ body{background:radial-gradient(circle at 10% 0%,rgba(37,99,235,.07),transparent
                 <div class="glass-panel p-6 border-t-4 border-t-emerald-500 sm:col-span-2">
                     <h3 class="font-black text-sm uppercase border-b pb-2 text-emerald-600 mb-4">Database & Recovery Operations</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4"><button onclick="downloadLocalBackup()" class="btn-primary !bg-emerald-600 w-full py-3 text-xs flex items-center justify-center gap-2">💾 Download JSON Backup</button><button onclick="document.getElementById('restore-upload').click()" class="btn-ghost w-full py-3 text-xs border-emerald-300 text-emerald-700 flex items-center justify-center gap-2">📥 Restore from JSON</button><button onclick="dangerClearAll()" class="btn-primary !bg-rose-600 w-full py-3 text-xs flex items-center justify-center gap-2">⚠️ Factory Reset Data</button></div>
-                    <div class="pt-4 border-t"><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Cloud Sync Config (Google AppScript URL)</label><div class="flex gap-2"><input type="text" id="set-gas" class="premium-input text-blue-700 font-mono text-xs" placeholder="https://script.google.com/macros/s/..."><button onclick="saveAdminSettings()" class="btn-primary px-4 text-xs shrink-0 bg-slate-800">SAVE</button><button onclick="retryQueuedSync()" class="btn-ghost px-4 text-xs shrink-0">RETRY</button></div><p class="text-[9px] text-slate-400 font-bold mt-2">Sync flow: Local Database → Queue → Google Apps Script → Google Sheets. Failed syncs remain queued.</p></div></div>
+                    <div class="pt-4 border-t"><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Cloud Sync Config (Google AppScript URL)</label><div class="flex gap-2"><input type="text" id="set-gas" class="premium-input text-blue-700 font-mono text-xs" placeholder="https://script.google.com/macros/s/..."><button onclick="saveAdminSettings()" class="btn-primary px-4 text-xs shrink-0 bg-slate-800">SAVE</button></div></div>
                 </div>
             </div>
         </div>
 
         <!-- 3. PRODUCT MASTER -->
         <div id="view-product" class="view-section hidden flex-col h-full w-full p-4 overflow-y-auto">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-4 shrink-0"><h2 class="text-2xl font-black text-slate-800 uppercase tracking-widest flex items-center gap-3"><span class="w-1.5 h-8 bg-amber-500 rounded-full"></span> Inventory Master</h2><div class="flex flex-wrap gap-2 w-full sm:w-auto"><button onclick="document.getElementById('csv-upload').click()" class="btn-ghost px-4 h-9 text-[10px]">Import CSV</button><button onclick="exportProductsCSV()" class="btn-ghost px-4 h-9 text-[10px]">Export CSV</button><button onclick="openProductForm()" class="btn-primary px-5 h-9 text-[11px] ml-1">➕ New Product</button></div></div>
-            <div class="glass-panel flex flex-col shadow-sm mb-4 shrink-0 overflow-hidden"><div class="p-3 border-b border-slate-100 bg-white flex flex-col sm:flex-row gap-3 items-center"><div class="relative w-full flex-1"><span class="absolute left-3 top-2.5 text-slate-400">🔍</span><input type="text" id="prod-search" oninput="debouncedRenderProducts()" placeholder="Search Item, Brand, Category, SKU or IMEI..." class="premium-input !pl-9 text-xs w-full bg-slate-50" /></div><select id="filter-category" onchange="renderProducts()" class="cat-select premium-input w-full sm:w-40 bg-slate-50"></select></div><div class="overflow-x-auto max-h-[50vh]"><table class="w-full text-left min-w-[1000px]"><thead class="bg-slate-50 sticky top-0 z-10 shadow-sm"><tr><th class="standard-th w-14 text-center">Img</th><th class="standard-th">Product Profile</th><th class="standard-th">SKU/Barcode</th><th class="standard-th text-right">Pricing</th><th class="standard-th text-center">Stock</th><th class="standard-th text-center">Actions</th></tr></thead><tbody id="product-table-body" class="divide-y divide-slate-100 bg-white"></tbody></table></div></div>
-            
-            <div id="add-product-form" class="glass-panel p-5 shrink-0 hidden relative border-t-4 border-t-amber-500 bg-white"><div class="flex justify-between items-center mb-4"><h3 id="prod-form-title" class="font-black text-sm text-slate-800 uppercase tracking-widest">✏️ Product Setup</h3><button onclick="document.getElementById('add-product-form').classList.add('hidden')" class="text-rose-500 font-black hover:scale-110">✕</button></div><input type="hidden" id="p-id" value=""><div class="flex flex-col lg:flex-row gap-6"><div class="w-full lg:w-1/4 flex flex-col items-center"><div class="w-full aspect-square max-h-[180px] bg-slate-50 border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center relative cursor-pointer overflow-hidden hover:border-blue-400 transition-colors" onclick="document.getElementById('p-image-upload').click()"><div id="p-img-placeholder" class="flex flex-col items-center"><span class="text-4xl mb-2">📸</span><span class="text-[9px] font-black text-blue-600 bg-blue-50 px-3 py-1 rounded-lg uppercase">Upload Photo</span></div><img id="p-img-preview" class="hidden absolute inset-0 w-full h-full object-cover" /></div><button type="button" onclick="clearProductImage()" class="mt-2 text-[9px] font-black text-rose-500 uppercase px-3 py-1 rounded hover:bg-rose-50">Remove</button></div><div class="w-full lg:w-3/4 space-y-4"><div class="grid grid-cols-1 sm:grid-cols-3 gap-3"><div class="col-span-2"><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Item Name *</label><input type="text" id="p-name" class="premium-input uppercase text-blue-800"></div><div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Brand</label><input type="text" id="p-brand" class="premium-input uppercase" list="brand-list"></div></div><div class="grid grid-cols-2 sm:grid-cols-4 gap-3"><div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Category</label><select id="p-category" onchange="handleCategoryChange(this)" class="cat-select premium-input"></select></div><div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">SKU / Barcode</label><input type="text" id="p-sku" class="premium-input uppercase font-mono text-slate-500" placeholder="Auto"></div><div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">HSN Code</label><input type="text" id="p-hsn" class="premium-input uppercase font-mono"></div><div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Min Alert Stock</label><input type="number" id="p-low" value="5" class="premium-input"></div></div><div class="grid grid-cols-2 sm:grid-cols-5 gap-3 p-3 bg-slate-50 border border-slate-200 rounded-lg"><div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Pur Price</label><input type="number" id="p-pur" class="premium-input bg-white text-rose-600" oninput="calcMargin()"></div><div><label class="text-[9px] font-bold text-blue-600 uppercase block mb-1">Sale Price *</label><input type="number" id="p-sale" class="premium-input border-blue-300 text-blue-700 shadow-sm" oninput="calcMargin()"></div><div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">GST %</label><select id="p-gst" class="premium-input bg-white"><option value="0">0</option><option value="5">5</option><option value="12">12</option><option value="18" selected>18</option><option value="28">28</option></select></div><div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Margin %</label><input type="text" id="p-margin" class="premium-input bg-emerald-50 text-emerald-700 font-black" readonly placeholder="0%"></div><div class="flex items-center mt-4 pl-2"><label class="flex items-center gap-2 cursor-pointer hover:bg-slate-100 p-1 rounded"><input type="checkbox" id="p-track" class="w-4 h-4 text-blue-600 rounded"><span class="text-[9px] font-black text-slate-700 uppercase mt-0.5">Track IMEI</span></label></div></div></div></div><div class="flex justify-end gap-3 mt-5 pt-4 border-t border-slate-100"><button onclick="document.getElementById('add-product-form').classList.add('hidden')" class="btn-ghost px-6 py-2 text-xs">Cancel</button><button onclick="saveProduct()" class="btn-primary px-8 py-2 text-xs">💾 Save Inventory</button></div></div>
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-4 shrink-0"><h2 class="text-2xl font-black text-slate-800 uppercase tracking-widest flex items-center gap-3"><span class="w-1.5 h-8 bg-amber-500 rounded-full"></span> Inventory Master</h2><div class="flex flex-wrap gap-2 w-full sm:w-auto admin-only"><button onclick="document.getElementById('csv-upload').click()" class="btn-ghost px-4 h-9 text-[10px]">Import CSV</button><button onclick="exportProductsCSV()" class="btn-ghost px-4 h-9 text-[10px]">Export CSV</button><button onclick="openProductForm()" class="btn-primary px-5 h-9 text-[11px] ml-1">➕ New Product</button></div></div>
+            <div class="glass-panel flex flex-col shadow-sm mb-4 shrink-0 overflow-hidden"><div class="p-3 border-b border-slate-100 bg-white flex flex-col sm:flex-row gap-3 items-center"><div class="relative w-full flex-1"><span class="absolute left-3 top-2.5 text-slate-400">🔍</span><input type="text" id="prod-search" oninput="debouncedRenderProducts()" placeholder="Search Item, Brand, Category, SKU or IMEI..." class="premium-input !pl-9 text-xs w-full bg-slate-50" /></div><select id="filter-category" onchange="renderProducts()" class="cat-select premium-input w-full sm:w-40 bg-slate-50"></select></div><div class="overflow-x-auto max-h-[50vh]"><table class="w-full text-left min-w-[1000px]"><thead class="bg-slate-50 sticky top-0 z-10 shadow-sm"><tr><th class="standard-th w-14 text-center">Img</th><th class="standard-th">Product Profile</th><th class="standard-th">SKU/Barcode</th><th class="standard-th text-right">Pricing</th><th class="standard-th text-center">Stock</th><th class="standard-th text-center admin-only">Actions</th></tr></thead><tbody id="product-table-body" class="divide-y divide-slate-100 bg-white"></tbody></table></div></div>
         </div>
 
         <!-- 4. PARTY MASTER -->
         <div id="view-party" class="view-section hidden flex-col h-full w-full p-4 overflow-y-auto">
             <h2 class="text-2xl font-black text-slate-800 uppercase tracking-widest pb-4 shrink-0 flex items-center gap-3"><span class="w-1.5 h-8 bg-purple-600 rounded-full"></span> Party Directory</h2>
-            <div id="add-party-form" class="glass-panel p-5 shrink-0 mb-4 border-t-4 border-t-purple-500 bg-white"><div class="flex justify-between items-center mb-3"><h3 class="font-black text-xs uppercase text-slate-800 tracking-widest">Add / Edit Account</h3><button onclick="clearPartyForm()" class="text-xs font-bold text-slate-400 hover:text-slate-600">Clear Form</button></div><input type="hidden" id="pt-id" value=""><div class="grid grid-cols-1 sm:grid-cols-4 gap-3"><div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Account Type</label><select id="pt-type" class="premium-input"><option value="CUSTOMER">Customer</option><option value="SUPPLIER">Supplier</option></select></div><div class="sm:col-span-2"><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Party Name *</label><input type="text" id="pt-name" class="premium-input uppercase text-blue-800"></div><div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Mobile No</label><input type="tel" id="pt-mobile" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'')" class="premium-input font-mono"></div></div><div class="grid grid-cols-1 sm:grid-cols-4 gap-3 mt-3"><div class="sm:col-span-2"><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Billing Address</label><input type="text" id="pt-address" class="premium-input uppercase"></div><div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">GSTIN Number</label><input type="text" id="pt-gstin" class="premium-input uppercase font-mono"></div></div><div class="mt-4 flex justify-end"><button onclick="saveParty()" class="btn-primary px-8 py-2.5 text-xs shadow-purple-500/30">Save Account</button></div></div>
-            <div class="glass-panel flex flex-col flex-1 overflow-hidden shadow-sm"><div class="p-3 border-b border-slate-100 bg-white flex items-center gap-3"><div class="relative w-full max-w-md"><span class="absolute left-3 top-2.5 text-slate-400">🔍</span><input type="text" id="party-search" oninput="debouncedRenderParties()" placeholder="Search by Name, Mobile or GSTIN..." class="premium-input !pl-9 text-xs bg-slate-50" /></div></div><div class="overflow-y-auto w-full flex-1"><table class="w-full text-left min-w-[800px]"><thead class="bg-slate-50 sticky top-0 z-10 shadow-sm"><tr><th class="standard-th">Profile</th><th class="standard-th">Contact Info</th><th class="standard-th">Address / GST</th><th class="standard-th text-center">Actions</th></tr></thead><tbody id="party-table-body" class="divide-y divide-slate-100 bg-white"></tbody></table></div></div>
+            <div id="add-party-form" class="glass-panel p-5 shrink-0 mb-4 border-t-4 border-t-purple-500 bg-white admin-only"><div class="flex justify-between items-center mb-3"><h3 class="font-black text-xs uppercase text-slate-800 tracking-widest">Add / Edit Account</h3><button onclick="clearPartyForm()" class="text-xs font-bold text-slate-400 hover:text-slate-600">Clear Form</button></div><input type="hidden" id="pt-id" value=""><div class="grid grid-cols-1 sm:grid-cols-4 gap-3"><div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Account Type</label><select id="pt-type" class="premium-input"><option value="CUSTOMER">Customer</option><option value="SUPPLIER">Supplier</option></select></div><div class="sm:col-span-2"><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Party Name *</label><input type="text" id="pt-name" class="premium-input uppercase text-blue-800"></div><div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Mobile No</label><input type="tel" id="pt-mobile" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'')" class="premium-input font-mono"></div></div><div class="grid grid-cols-1 sm:grid-cols-4 gap-3 mt-3"><div class="sm:col-span-2"><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Billing Address</label><input type="text" id="pt-address" class="premium-input uppercase"></div><div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">GSTIN Number</label><input type="text" id="pt-gstin" class="premium-input uppercase font-mono"></div></div><div class="mt-4 flex justify-end"><button onclick="saveParty()" class="btn-primary px-8 py-2.5 text-xs shadow-purple-500/30">Save Account</button></div></div>
+            <div class="glass-panel flex flex-col flex-1 overflow-hidden shadow-sm"><div class="p-3 border-b border-slate-100 bg-white flex items-center gap-3"><div class="relative w-full max-w-md"><span class="absolute left-3 top-2.5 text-slate-400">🔍</span><input type="text" id="party-search" oninput="debouncedRenderParties()" placeholder="Search by Name, Mobile or GSTIN..." class="premium-input !pl-9 text-xs bg-slate-50" /></div></div><div class="overflow-y-auto w-full flex-1"><table class="w-full text-left min-w-[800px]"><thead class="bg-slate-50 sticky top-0 z-10 shadow-sm"><tr><th class="standard-th">Profile</th><th class="standard-th">Contact Info</th><th class="standard-th">Address / GST</th><th class="standard-th text-right">Balance</th><th class="standard-th text-center admin-only">Actions</th></tr></thead><tbody id="party-table-body" class="divide-y divide-slate-100 bg-white"></tbody></table></div></div>
         </div>
 
         <!-- 5. VOUCHERS -->
@@ -289,7 +275,7 @@ body{background:radial-gradient(circle at 10% 0%,rgba(37,99,235,.07),transparent
         </div>
 
         <!-- 7. MASTER REPORTS (P&L / Trial Balance) -->
-        <div id="view-reports" class="view-section hidden flex-col h-full w-full p-4 overflow-y-auto">
+        <div id="view-reports" class="view-section hidden flex-col h-full w-full p-4 overflow-y-auto admin-only">
             <h2 class="text-2xl font-black text-slate-800 uppercase tracking-widest pb-4 shrink-0 flex items-center gap-3"><span class="w-1.5 h-8 bg-cyan-500 rounded-full"></span> Master Reports & Accounting</h2>
             <div class="glass-panel p-6 shadow-sm mb-4 border-t-4 border-t-emerald-500 bg-white"><p class="text-xs font-bold text-slate-500 mb-4 uppercase tracking-widest">Double-Entry P&L (Calculated from Journals)</p><div class="grid grid-cols-2 sm:grid-cols-4 gap-4"><div class="bg-blue-50 p-4 rounded-lg border border-blue-100"><p class="text-[10px] font-bold text-blue-600 uppercase tracking-widest">Total Sales Rev (Cr)</p><h3 class="text-xl font-black text-blue-700 mt-1" id="rep-sale">₹0</h3></div><div class="bg-rose-50 p-4 rounded-lg border border-rose-100"><p class="text-[10px] font-bold text-rose-600 uppercase tracking-widest">Total Purchase (Dr)</p><h3 class="text-xl font-black text-rose-700 mt-1" id="rep-pur">₹0</h3></div><div class="bg-orange-50 p-4 rounded-lg border border-orange-100"><p class="text-[10px] font-bold text-orange-600 uppercase tracking-widest">Total Expenses (Dr)</p><h3 class="text-xl font-black text-orange-700 mt-1" id="rep-exp">₹0</h3></div><div class="bg-emerald-50 p-4 rounded-lg border border-emerald-100"><p class="text-[10px] font-bold text-emerald-700 uppercase tracking-widest">Net Profit (Trading)</p><h3 class="text-xl font-black text-emerald-700 mt-1" id="rep-prof">₹0</h3></div></div></div>
             <div class="glass-panel flex flex-col flex-1 overflow-hidden shadow-sm mb-4"><div class="p-4 bg-slate-50 border-b flex justify-between items-center"><h3 class="font-black text-sm text-slate-800 uppercase tracking-widest">Trial Balance Status</h3><span id="tb-status" class="px-3 py-1 rounded text-xs font-black"></span></div><div class="overflow-y-auto w-full flex-1 max-h-[300px]"><table class="w-full text-left min-w-[600px]"><thead class="bg-white sticky top-0 shadow-sm z-10"><tr><th class="standard-th">Ledger Account</th><th class="standard-th text-right">Debit (Dr)</th><th class="standard-th text-right">Credit (Cr)</th></tr></thead><tbody id="tb-body" class="divide-y divide-slate-100 bg-white"></tbody><tfoot class="bg-slate-50 font-black" id="tb-foot"></tfoot></table></div></div>
@@ -468,83 +454,175 @@ body{background:radial-gradient(circle at 10% 0%,rgba(37,99,235,.07),transparent
   <!-- MOBILE BOTTOM NAV -->
   <nav id="bottom-nav" class="lg:hidden fixed bottom-0 w-full bg-white shadow-[0_-10px_30px_rgba(0,0,0,0.1)] flex justify-between z-[100] border-t border-slate-200 pb-safe pt-2 px-1 pb-2">
      <button onclick="startBill('SALE')" class="flex-1 py-1 text-center text-blue-600 flex flex-col items-center active:scale-95"><span class="text-[20px] mb-0.5">🛒</span><span class="text-[8px] font-black tracking-widest">SALE</span></button>
-     <button onclick="startBill('PURCHASE')" class="flex-1 py-1 text-center text-emerald-600 flex flex-col items-center active:scale-95"><span class="text-[20px] mb-0.5">📦</span><span class="text-[8px] font-black tracking-widest">PURCH</span></button>
+     <button onclick="startBill('PURCHASE')" class="flex-1 py-1 text-center text-emerald-600 flex flex-col items-center active:scale-95 admin-only"><span class="text-[20px] mb-0.5">📦</span><span class="text-[8px] font-black tracking-widest">PURCH</span></button>
      <button onclick="showView('product')" class="flex-1 py-1 text-center text-amber-600 flex flex-col items-center active:scale-95"><span class="text-[20px] mb-0.5">🏷️</span><span class="text-[8px] font-black tracking-widest">ITEMS</span></button>
      <button onclick="showView('ledger')" class="flex-1 py-1 text-center text-indigo-600 flex flex-col items-center active:scale-95"><span class="text-[20px] mb-0.5">📒</span><span class="text-[8px] font-black tracking-widest">LEDGER</span></button>
   </nav>
 
   <script>
     /* ========================================================
-       SRI ACCOUNTING MASTER - OMEGA PRODUCTION BUILD V-8.0
-       Double Entry Journals | Persistent Sequences | XSS Safe
+       SRI ACCOUNTING MASTER - OMEGA PRODUCTION BUILD V-9.0
+       Dexie.js (IndexedDB) | RBAC | Auto-Migration Engine
     ======================================================== */
-
-    // 1. SECURE STORAGE & UTILS
-    const Storage = { 
-        get: (key) => { try { return JSON.parse(localStorage.getItem(key)) || []; } catch(e) { return []; } }, 
-        set: (key, data) => { try { localStorage.setItem(key, JSON.stringify(data)); } catch(e) { console.error("Storage Full"); showToast("Warning", "Storage Full", "error"); } } 
-    };
 
     function escapeHTML(str) { return str ? str.toString().replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)) : ""; }
     function getToday() { const d=new Date(); return new Date(d.getTime() - (d.getTimezoneOffset()*60000)).toISOString().split('T')[0]; }
     function debounce(func, wait) { let timeout; return function(...args) { clearTimeout(timeout); timeout = setTimeout(() => func.apply(this, args), wait); }; }
+    function showToast(title, msg, type = 'success') { const container = document.getElementById('toast-container'); const t = document.createElement('div'); t.className = `glass-panel p-3 flex items-center space-x-3 border-l-4 ${type==='error'?'border-rose-500':'border-emerald-500'} toast-enter bg-white`; t.innerHTML = `<div class="text-xl drop-shadow-sm">${type==='error'?'❌':'✅'}</div><div><h4 class="font-black text-[10px] uppercase tracking-widest text-slate-800">${escapeHTML(title)}</h4><p class="text-[10px] font-bold text-slate-500 mt-0.5">${escapeHTML(msg)}</p></div>`; container.appendChild(t); setTimeout(() => { t.style.opacity = '0'; setTimeout(()=>t.remove(),300); }, 3000); }
+    function closePopup() { document.getElementById('center-popup')?.classList.add('hidden'); }
 
-    // DATABASES
-    let productsDB = Storage.get('sre_products'), partiesDB = Storage.get('sre_parties'), billsDB = Storage.get('sre_bills'), categoriesDB = Storage.get('sre_categories'), financeDB = Storage.get('sre_finance'), journalDB = Storage.get('sre_journals');
-    
-    // CONFIGS & SETTINGS
+    // ---------------------------------------------------------
+    // 1. INITIALIZE DEXIE.JS DATABASE (UNLIMITED STORAGE)
+    // ---------------------------------------------------------
+    const db = new Dexie("SRE_ERP_Enterprise_V9");
+    db.version(1).stores({
+        users: 'id, user, role',
+        products: 'id, name, sku, category',
+        parties: 'id, name, mobile, type',
+        bills: 'id, invNo, date, type, party',
+        journals: 'id, date, refNo, type',
+        finance: 'id, name',
+        configs: 'key' 
+    });
+
+    // CACHED MEMORY FOR FAST UI RENDERING (Sync with Dexie)
+    let productsDB=[], partiesDB=[], billsDB=[], journalDB=[], financeDB=[], categoriesDB=[];
     let sysSettings = { company:"Sri Ram Enterprises", phone:"9334765000", address:"GB-15, City Centre, Sector-4, Bokaro Steel City", gstin:"20APOPK6864K1ZH", prefix:"SRE-26-", theme:"#0f172a", gas:"" };
-    try { const lsSet = JSON.parse(localStorage.getItem('sre_settings')); if(lsSet) sysSettings = {...sysSettings, ...lsSet}; } catch(e){}
-    sysSettings.sequence = Storage.get('sre_sequences'); if(!sysSettings.sequence || Array.isArray(sysSettings.sequence)) sysSettings.sequence = {SALE:0, PURCHASE:0, SALES_RETURN:0, PURCHASE_RETURN:0, VOUCHER:0};
-    
     let appFeatures = { SALES:true, PURCHASE:true, SALES_RETURN:true, PURCHASE_RETURN:true, INVENTORY:true, IMEI:true, GST:true, FINANCE:true, EXPENSE:true, REPORTS:true };
-    try { const fSet = JSON.parse(localStorage.getItem('sre_features')); if(fSet) appFeatures = {...appFeatures, ...fSet}; } catch(e){}
+    let sysSequences = { SALE:0, PURCHASE:0, SALES_RETURN:0, PURCHASE_RETURN:0, VOUCHER:0 };
+    let currentUser = null;
 
-    if(categoriesDB.length === 0) categoriesDB = ["Mobile Phone", "Accessories", "Electronics", "Spare Parts"];
-    if(financeDB.length === 0) financeDB = [{id:'FIN1', name:'Bajaj Finance', status:'ACTIVE'}, {id:'FIN2', name:'HDB Financial', status:'ACTIVE'}];
-    
+    // UI Variables
     let currentMode = "SALE", currentPaymentType = "OUT", activeShortcutInput = null, isSaving = false;
     let masterPayMode = "INSTANT", comboPayMode = "CASH";     
     let myTrendChart=null, myCatChart=null, myPaymentChart=null; 
     let debouncedRenderProducts, debouncedRenderParties, debouncedRenderLedger;
     let activeImeiRowId = null;
 
-    // 2. BOOTSTRAP & AUTHENTICATION
-    let isLogged = sessionStorage.getItem('sre_session_v8') === 'active';
-    function executeLogin() {
-        const u=document.getElementById('login-user').value, p=document.getElementById('login-pass').value;
-        if(u==='admin' && p==='admin') { 
-            sessionStorage.setItem('sre_session_v8', 'active'); document.getElementById('login-screen').classList.add('hidden'); 
-            showToast("Welcome", "Admin Session Started"); bootstrapApplication();
-        } else { showToast("Error", "Invalid Credentials", "error"); }
-    }
-    function executeLogout() { sessionStorage.removeItem('sre_session_v8'); location.reload(); }
-
-    window.addEventListener('keydown',e=>{if(e.key==='F2'){e.preventDefault();showView('new-bill')} if(e.key==='F4'){e.preventDefault();showView('product')} if(e.key==='F8'){e.preventDefault();showView('ledger')} if(e.key==='F9'){e.preventDefault();showView('reports')}});
-
-    window.onload = () => { 
-        if(!isLogged) { document.getElementById('login-company-name').innerText = sysSettings.company; document.getElementById('login-logo-box').innerText = sysSettings.company.charAt(0); } 
-        else { document.getElementById('login-screen').classList.add('hidden'); bootstrapApplication(); }
+    // ---------------------------------------------------------
+    // 2. BOOTSTRAP, AUTHENTICATION & AUTO-MIGRATION
+    // ---------------------------------------------------------
+    window.onload = async () => { 
+        try {
+            await initializeSystem();
+        } catch(e) {
+            console.error(e);
+            document.getElementById('boot-status').innerText = "Database Error! Check Console.";
+            document.getElementById('boot-status').className = "text-[10px] font-bold text-rose-500 uppercase tracking-widest";
+        }
     };
 
+    async function initializeSystem() {
+        // Step A: Auto-Migrate from LocalStorage if IndexedDB is Empty
+        const prodCount = await db.products.count();
+        if (prodCount === 0 && localStorage.getItem('sre_products')) {
+            document.getElementById('boot-status').innerText = "Upgrading Legacy Data to Enterprise Engine...";
+            await migrateFromV8();
+        }
+
+        // Step B: Seed Master Data if empty
+        const userCount = await db.users.count();
+        if (userCount === 0) {
+            await db.users.bulkAdd([
+                { id: 'U1', user: 'admin', pass: 'admin', role: 'ADMIN' },
+                { id: 'U2', user: 'cashier', pass: '1234', role: 'CASHIER' }
+            ]);
+            await db.finance.bulkAdd([{id:'FIN1', name:'Bajaj Finance', status:'ACTIVE'}, {id:'FIN2', name:'HDB Financial', status:'ACTIVE'}]);
+            await db.configs.put({ key: 'sysSettings', value: sysSettings });
+            await db.configs.put({ key: 'appFeatures', value: appFeatures });
+            await db.configs.put({ key: 'sysSequences', value: sysSequences });
+            await db.configs.put({ key: 'categories', value: ["Mobile Phone", "Accessories", "Electronics", "Spare Parts"] });
+        }
+
+        // Step C: Load Database into Fast Cache
+        productsDB = await db.products.toArray();
+        partiesDB = await db.parties.toArray();
+        billsDB = await db.bills.toArray();
+        journalDB = await db.journals.toArray();
+        financeDB = await db.finance.toArray();
+        
+        let cSet = await db.configs.get('sysSettings'); if(cSet) sysSettings = cSet.value;
+        let cFeat = await db.configs.get('appFeatures'); if(cFeat) appFeatures = cFeat.value;
+        let cSeq = await db.configs.get('sysSequences'); if(cSeq) sysSequences = cSeq.value;
+        let cCat = await db.configs.get('categories'); categoriesDB = cCat ? cCat.value : ["Mobile Phone", "Accessories"];
+
+        document.getElementById('boot-screen').classList.add('hidden');
+
+        // Step D: Session Verification
+        let sessionUserId = sessionStorage.getItem('sre_session_v9');
+        if (sessionUserId) {
+            currentUser = await db.users.get(sessionUserId);
+            if (currentUser) {
+                applyRoleRestrictions(currentUser.role);
+                bootstrapApplication();
+            } else { showLogin(); }
+        } else {
+            showLogin();
+        }
+    }
+
+    async function migrateFromV8() {
+        try {
+            let p = JSON.parse(localStorage.getItem('sre_products')||'[]'); if(p.length) await db.products.bulkAdd(p);
+            let pt = JSON.parse(localStorage.getItem('sre_parties')||'[]'); if(pt.length) await db.parties.bulkAdd(pt);
+            let b = JSON.parse(localStorage.getItem('sre_bills')||'[]'); if(b.length) await db.bills.bulkAdd(b);
+            let j = JSON.parse(localStorage.getItem('sre_journals')||'[]'); if(j.length) await db.journals.bulkAdd(j);
+            let f = JSON.parse(localStorage.getItem('sre_finance')||'[]'); if(f.length) await db.finance.bulkAdd(f);
+            
+            let s = JSON.parse(localStorage.getItem('sre_settings')); if(s) await db.configs.put({key:'sysSettings', value:s});
+            let ft = JSON.parse(localStorage.getItem('sre_features')); if(ft) await db.configs.put({key:'appFeatures', value:ft});
+            let sq = JSON.parse(localStorage.getItem('sre_sequences')); if(sq) await db.configs.put({key:'sysSequences', value:sq});
+            let ct = JSON.parse(localStorage.getItem('sre_categories')); if(ct) await db.configs.put({key:'categories', value:ct});
+            console.log("Migration Complete!");
+        } catch(e) { console.error("Migration Failed", e); }
+    }
+
+    function showLogin() {
+        document.getElementById('login-company-name').innerText = sysSettings.company;
+        document.getElementById('login-logo-box').innerText = sysSettings.company.charAt(0);
+        document.getElementById('login-screen').classList.remove('hidden');
+    }
+
+    async function executeLogin() {
+        const u = document.getElementById('login-user').value.trim();
+        const p = document.getElementById('login-pass').value.trim();
+        const userRec = await db.users.where('user').equals(u).first();
+
+        if (userRec && userRec.pass === p) {
+            sessionStorage.setItem('sre_session_v9', userRec.id);
+            currentUser = userRec;
+            document.getElementById('login-screen').classList.add('hidden');
+            applyRoleRestrictions(currentUser.role);
+            showToast("Welcome", `Logged in as ${currentUser.role}`);
+            bootstrapApplication();
+        } else {
+            showToast("Error", "Invalid Credentials", "error");
+        }
+    }
+
+    function executeLogout() { sessionStorage.removeItem('sre_session_v9'); location.reload(); }
+
+    function applyRoleRestrictions(role) {
+        document.body.classList.remove('role-ADMIN', 'role-CASHIER');
+        document.body.classList.add('role-' + role);
+        document.getElementById('user-role-text').innerText = role;
+        document.getElementById('user-avatar').innerText = currentUser.user.charAt(0).toUpperCase();
+    }
+
     function bootstrapApplication() {
-        try { initPremiumUI();
-            applySettingsToUI(); buildDynamicSidebar(); buildFeatureToggles();
-            debouncedRenderProducts = debounce(renderProducts, 300); debouncedRenderParties = debounce(renderParties, 300); debouncedRenderLedger = debounce(updateLedgerView, 300);
-            renderCategories(); renderFinanceSelects(); renderProducts(); renderParties(); 
-            showView('dashboard'); 
-        } catch(e) { console.error("Startup Error:", e); showToast("System Error", "Startup failed. Check console.", "error"); }
+        applySettingsToUI(); buildDynamicSidebar(); buildFeatureToggles();
+        debouncedRenderProducts = debounce(renderProducts, 300); debouncedRenderParties = debounce(renderParties, 300); debouncedRenderLedger = debounce(updateLedgerView, 300);
+        renderCategories(); renderFinanceSelects(); renderProducts(); renderParties(); 
+        showView('dashboard'); 
     }
 
     // 3. TOAST, NETWORK & HOTKEYS
     window.addEventListener('online', () => { const n = document.getElementById('network-indicator'); if(n) { n.className = "w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]"; document.getElementById('network-text').innerText="ONLINE"; document.getElementById('network-text').className="text-[9px] text-emerald-400 font-black uppercase mt-0.5"; }});
     window.addEventListener('offline', () => { const n = document.getElementById('network-indicator'); if(n) { n.className = "w-2.5 h-2.5 rounded-full bg-rose-500 shadow-[0_0_8px_#f43f5e]"; document.getElementById('network-text').innerText="OFFLINE"; document.getElementById('network-text').className="text-[9px] text-rose-400 font-black uppercase mt-0.5"; showToast("Network", "System is Offline.", "error"); }});
-    function showToast(title, msg, type = 'success') { const container = document.getElementById('toast-container'); const t = document.createElement('div'); t.className = `glass-panel p-3 flex items-center space-x-3 border-l-4 ${type==='error'?'border-rose-500':'border-emerald-500'} toast-enter bg-white`; t.innerHTML = `<div class="text-xl drop-shadow-sm">${type==='error'?'❌':'✅'}</div><div><h4 class="font-black text-[10px] uppercase tracking-widest text-slate-800">${escapeHTML(title)}</h4><p class="text-[10px] font-bold text-slate-500 mt-0.5">${escapeHTML(msg)}</p></div>`; container.appendChild(t); setTimeout(() => { t.style.opacity = '0'; setTimeout(()=>t.remove(),300); }, 3000); }
-    function closePopup() { document.getElementById('center-popup')?.classList.add('hidden'); }
     
     document.addEventListener('focusin', e => { if(e.target.tagName === 'INPUT' && (e.target.type === 'number' || e.target.type === 'text')) e.target.select(); });
     window.addEventListener('keydown', e => {
-        if(e.key === 'F2' && appFeatures.SALES) { e.preventDefault(); startBill('SALE'); } if(e.key === 'F3' && appFeatures.PURCHASE) { e.preventDefault(); startBill('PURCHASE'); } if(e.key === 'F4') { e.preventDefault(); startPayment('IN'); }
+        if(e.key === 'F2' && appFeatures.SALES) { e.preventDefault(); startBill('SALE'); } if(e.key === 'F3' && appFeatures.PURCHASE && currentUser.role==='ADMIN') { e.preventDefault(); startBill('PURCHASE'); } if(e.key === 'F4') { e.preventDefault(); startPayment('IN'); }
         if(e.key === 'F9' || ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S'))) { e.preventDefault(); if(!document.getElementById('view-new-bill').classList.contains('hidden')) saveFinalBill(); else if(!document.getElementById('add-product-form').classList.contains('hidden')) saveProduct(); else if(document.getElementById('pt-name') && document.getElementById('pt-name').value && !document.getElementById('view-party').classList.contains('hidden')) saveParty(); }
         if(e.key === 'Escape') { closePopup(); closeImeiModal(); closeProductModal(); document.getElementById('party-popup')?.classList.add('hidden'); document.getElementById('finance-modal')?.classList.add('hidden'); }
     });
@@ -555,17 +633,17 @@ body{background:radial-gradient(circle at 10% 0%,rgba(37,99,235,.07),transparent
         const c = document.getElementById('sidebar-menu-container'); if(!c) return;
         let html = `<p class="sidebar-category">MAIN</p><button onclick="showView('dashboard')" class="sidebar-btn active" id="nav-dashboard"><span class="text-lg">📊</span> Dashboard</button><p class="sidebar-category">TRANSACTIONS</p>`;
         if(appFeatures.SALES) html += `<button onclick="startBill('SALE')" class="sidebar-btn" id="nav-sale"><span class="text-lg text-blue-400">🛒</span> Sales Bill</button>`;
-        if(appFeatures.PURCHASE) html += `<button onclick="startBill('PURCHASE')" class="sidebar-btn" id="nav-purchase"><span class="text-lg text-emerald-400">📦</span> Purchase</button>`;
+        if(appFeatures.PURCHASE) html += `<button onclick="startBill('PURCHASE')" class="sidebar-btn admin-only" id="nav-purchase"><span class="text-lg text-emerald-400">📦</span> Purchase</button>`;
         if(appFeatures.SALES_RETURN) html += `<button onclick="startBill('SALES_RETURN')" class="sidebar-btn" id="nav-sreturn"><span class="text-lg text-rose-400">↩️</span> Sales Return</button>`;
-        if(appFeatures.PURCHASE_RETURN) html += `<button onclick="startBill('PURCHASE_RETURN')" class="sidebar-btn" id="nav-preturn"><span class="text-lg text-teal-400">↪️</span> Purch Return</button>`;
+        if(appFeatures.PURCHASE_RETURN) html += `<button onclick="startBill('PURCHASE_RETURN')" class="sidebar-btn admin-only" id="nav-preturn"><span class="text-lg text-teal-400">↪️</span> Purch Return</button>`;
         html += `<button onclick="startPayment('IN')" class="sidebar-btn" id="nav-receipt"><span class="text-lg text-teal-400">📥</span> Receipt</button><button onclick="startPayment('OUT')" class="sidebar-btn" id="nav-payment-out"><span class="text-lg text-rose-400">📤</span> Payment</button>`;
-        if(appFeatures.EXPENSE) html += `<button onclick="startPayment('EXPENSE')" class="sidebar-btn" id="nav-expense"><span class="text-lg text-orange-400">💸</span> Expense</button>`;
+        if(appFeatures.EXPENSE) html += `<button onclick="startPayment('EXPENSE')" class="sidebar-btn admin-only" id="nav-expense"><span class="text-lg text-orange-400">💸</span> Expense</button>`;
         html += `<p class="sidebar-category">MASTER</p>`;
         if(appFeatures.INVENTORY) html += `<button onclick="showView('product')" class="sidebar-btn" id="nav-product"><span class="text-lg text-amber-400">🏷️</span> Inventory</button>`;
-        html += `<div class="has-submenu" id="nav-party-group"><button onclick="this.parentElement.classList.toggle('open')" class="sidebar-btn justify-between"><div class="flex items-center gap-3"><span class="text-lg text-purple-400">👥</span> Directory</div><span class="chevron text-[10px]">▼</span></button><div class="submenu-content"><button onclick="showView('party'); setTimeout(()=>document.getElementById('pt-type').value='CUSTOMER',50);" class="submenu-item">Customers</button><button onclick="showView('party'); setTimeout(()=>document.getElementById('pt-type').value='SUPPLIER',50);" class="submenu-item">Suppliers</button></div></div>`;
+        html += `<div class="has-submenu" id="nav-party-group"><button onclick="this.parentElement.classList.toggle('open')" class="sidebar-btn justify-between"><div class="flex items-center gap-3"><span class="text-lg text-purple-400">👥</span> Directory</div><span class="chevron text-[10px]">▼</span></button><div class="submenu-content"><button onclick="showView('party'); setTimeout(()=>document.getElementById('pt-type').value='CUSTOMER',50);" class="submenu-item">Customers</button><button onclick="showView('party'); setTimeout(()=>document.getElementById('pt-type').value='SUPPLIER',50);" class="submenu-item admin-only">Suppliers</button></div></div>`;
         html += `<p class="sidebar-category">ACCOUNTS & REPORTS</p><button onclick="showView('ledger')" class="sidebar-btn" id="nav-ledger"><span class="text-lg text-indigo-400">📒</span> Ledger Book</button>`;
-        if(appFeatures.REPORTS) html += `<button onclick="showView('reports')" class="sidebar-btn" id="nav-reports"><span class="text-lg text-cyan-400">📈</span> Master Reports</button>`;
-        html += `<p class="sidebar-category">SYSTEM</p><button onclick="showView('admin')" class="sidebar-btn" id="nav-admin"><span class="text-lg text-rose-500">👑</span> Admin Control</button>`;
+        if(appFeatures.REPORTS) html += `<button onclick="showView('reports')" class="sidebar-btn admin-only" id="nav-reports"><span class="text-lg text-cyan-400">📈</span> Master Reports</button>`;
+        html += `<p class="sidebar-category admin-only">SYSTEM</p><button onclick="showView('admin')" class="sidebar-btn admin-only" id="nav-admin"><span class="text-lg text-rose-500">👑</span> Admin Control</button>`;
         c.innerHTML = html;
     }
 
@@ -574,7 +652,11 @@ body{background:radial-gradient(circle at 10% 0%,rgba(37,99,235,.07),transparent
         Object.keys(appFeatures).forEach(k => { html += `<div class="flex justify-between items-center p-3 bg-slate-50 border border-slate-200 rounded-lg"><span class="text-[10px] font-black text-slate-600 uppercase tracking-widest">${k.replace('_',' ')}</span><label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" class="sr-only peer" ${appFeatures[k]?'checked':''} onchange="toggleFeature('${k}', this.checked)"><div class="w-9 h-5 bg-slate-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></div></label></div>`; });
         tc.innerHTML = html;
     }
-    function toggleFeature(key, val) { appFeatures[key] = val; Storage.set('sre_features', appFeatures); showToast("Feature Updated", "Reloading..."); setTimeout(()=>location.reload(), 1000); }
+    async function toggleFeature(key, val) { 
+        appFeatures[key] = val; 
+        await db.configs.put({key:'appFeatures', value:appFeatures}); 
+        showToast("Feature Updated", "Reloading..."); setTimeout(()=>location.reload(), 1000); 
+    }
 
     function applySettingsToUI() {
         document.getElementById('header-company-name').innerText = sysSettings.company;
@@ -592,7 +674,7 @@ body{background:radial-gradient(circle at 10% 0%,rgba(37,99,235,.07),transparent
         const spr=document.getElementById('set-prefix'); if(spr) spr.value = sysSettings.prefix;
         const sth=document.getElementById('set-theme'); if(sth) sth.value = sysSettings.theme || '#0f172a';
     }
-    function saveAdminSettings() {
+    async function saveAdminSettings() {
         sysSettings.company = document.getElementById('set-company').value.trim();
         sysSettings.phone = document.getElementById('set-phone').value.trim();
         sysSettings.address = document.getElementById('set-address').value.trim();
@@ -600,11 +682,18 @@ body{background:radial-gradient(circle at 10% 0%,rgba(37,99,235,.07),transparent
         sysSettings.prefix = document.getElementById('set-prefix').value.trim();
         sysSettings.theme = document.getElementById('set-theme').value;
         const gas=document.getElementById('set-gas'); if(gas) sysSettings.gas=gas.value.trim();
-        Storage.set('sre_settings', sysSettings); applySettingsToUI(); showToast("Settings", "Branding Updated", "success");
+        
+        await db.configs.put({key:'sysSettings', value:sysSettings});
+        applySettingsToUI(); showToast("Settings", "Branding Updated", "success");
     }
 
     // 5. VIEW ROUTER
     function showView(viewName) {
+        // Enforce RBAC
+        if(currentUser.role === 'CASHIER' && (viewName === 'reports' || viewName === 'admin')) {
+            return showToast("Access Denied", "You don't have permission.", "error");
+        }
+
         document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
         const v = document.getElementById('view-' + viewName); if(v) v.classList.remove('hidden');
         if(viewName==='new-bill' && v) v.classList.add('flex');
@@ -623,50 +712,53 @@ body{background:radial-gradient(circle at 10% 0%,rgba(37,99,235,.07),transparent
         if(viewName === 'dashboard') loadDashboard('TODAY'); if(viewName === 'ledger' || viewName === 'reports') updateLedgerView();
     }
 
-    // 6. SEQUENCING & DOUBLE ENTRY ACCOUNTING ENGINE
-    function getNextSequence(type) {
-        if(!sysSettings.sequence[type]) sysSettings.sequence[type] = 0;
-        sysSettings.sequence[type]++; Storage.set('sre_sequences', sysSettings.sequence);
+    // 6. SEQUENCING
+    async function getNextSequence(type) {
+        if(!sysSequences[type]) sysSequences[type] = 0;
+        sysSequences[type]++; 
+        await db.configs.put({key:'sysSequences', value:sysSequences});
+        
         let tCode = type.includes('SALE') ? 'S' : (type.includes('PUR') ? 'P' : 'V');
         if(type.includes('RETURN')) tCode += 'R';
         let dStr = getToday().replace(/-/g, '').slice(2);
-        return `${sysSettings.prefix}${tCode}${dStr}-${sysSettings.sequence[type].toString().padStart(4,'0')}`;
+        return `${sysSettings.prefix}${tCode}${dStr}-${sysSequences[type].toString().padStart(4,'0')}`;
     }
 
-    function postJournal(date, refNo, type, drAccount, crAccount, amount, narration) {
-        journalDB.push({ id: 'JRN-'+Date.now()+Math.floor(Math.random()*1000), date, refNo, type, drAccount, crAccount, amount, narration });
-        Storage.set('sre_journals', journalDB);
-    }
-
-    // 7. QUICK MODALS
+    // 7. QUICK MODALS & MASTERS (ASYNC DB)
     function renderCategories() { const opts = categoriesDB.map(c => `<option value="${c}">${c}</option>`).join('') + `<option value="ADD_NEW">➕ Create Category</option>`; document.querySelectorAll('.cat-select').forEach(sel => sel.innerHTML = opts); }
-    function handleCategoryChange(sel) { if(sel.value === "ADD_NEW") { const nc = prompt("New Category:"); if(nc && nc.trim()!=="") { const c=escapeHTML(nc.trim()); if(!categoriesDB.includes(c)){categoriesDB.push(c); Storage.set('sre_categories',categoriesDB);} renderCategories(); sel.value=c; } else sel.value=categoriesDB[0]; } }
+    async function handleCategoryChange(sel) { if(sel.value === "ADD_NEW") { const nc = prompt("New Category:"); if(nc && nc.trim()!=="") { const c=escapeHTML(nc.trim()); if(!categoriesDB.includes(c)){ categoriesDB.push(c); await db.configs.put({key:'categories', value:categoriesDB}); } renderCategories(); sel.value=c; } else sel.value=categoriesDB[0]; } }
     function renderFinanceSelects() { const opts = `<option value="">-Select Company-</option>` + financeDB.filter(f=>f.status==='ACTIVE').map(f => `<option value="${f.name}">${f.name}</option>`).join(''); const fl=document.getElementById('fin-company-list'); if(fl) fl.innerHTML = opts; }
-    function saveFinanceCompany() { const nm = document.getElementById('q-fin-name').value.trim().toUpperCase(); if(!nm) return; if(!financeDB.find(f=>f.name===nm)) { financeDB.push({id:'FIN-'+Date.now(), name:nm, status:'ACTIVE'}); Storage.set('sre_finance', financeDB); renderFinanceSelects(); showToast("Success", "Finance Company Added", "success"); } document.getElementById('finance-modal').classList.add('hidden'); document.getElementById('q-fin-name').value=''; }
+    async function saveFinanceCompany() { const nm = document.getElementById('q-fin-name').value.trim().toUpperCase(); if(!nm) return; if(!financeDB.find(f=>f.name===nm)) { const nF = {id:'FIN-'+Date.now(), name:nm, status:'ACTIVE'}; await db.finance.add(nF); financeDB.push(nF); renderFinanceSelects(); showToast("Success", "Finance Company Added", "success"); } document.getElementById('finance-modal').classList.add('hidden'); document.getElementById('q-fin-name').value=''; }
 
     function openPartyModal(type, target=null) { activeShortcutInput = target || document.getElementById('bill-party'); const qp = document.getElementById('q-party-type'); if(qp) qp.value=type; const pop = document.getElementById('party-popup'); if(pop) pop.classList.remove('hidden'); const qn = document.getElementById('q-party-name'); if(qn) qn.focus(); }
     function closePartyModal() { document.getElementById('party-popup')?.classList.add('hidden'); }
-    function saveQuickParty() {
+    async function saveQuickParty() {
         const type = document.getElementById('q-party-type').value, name = escapeHTML(document.getElementById('q-party-name').value.trim().toUpperCase()), mobile = document.getElementById('q-party-phone').value.trim();
         if(!name) return showToast("Validation", "Name required", "error");
         if(mobile && mobile.length !== 10) return showToast("Validation", "Mobile must be 10 digits", "error");
         if(mobile && partiesDB.some(p => p.mobile === mobile)) return showToast("Duplicate", "Mobile registered", "error");
-        if(!partiesDB.find(p=>p.name===name)) { partiesDB.push({ id:'PTY-'+Date.now(), type, name, mobile, gstin:"", address:"", ob:0 }); Storage.set('sre_parties', partiesDB); renderParties(); }
+        if(!partiesDB.find(p=>p.name===name)) { 
+            const nP = { id:'PTY-'+Date.now(), type, name, mobile, gstin:"", address:"", ob:0 };
+            await db.parties.add(nP); partiesDB.push(nP); renderParties(); 
+        }
         if(activeShortcutInput) { activeShortcutInput.value = name; if(activeShortcutInput.id==='bill-party') onPartySelect(name); activeShortcutInput.focus(); }
         closePartyModal();
     }
 
     function openItemModal(target=null) { activeShortcutInput = target || document.getElementById('master-item-scan'); document.getElementById('product-popup').classList.remove('hidden'); document.getElementById('qm-item-name').focus(); }
     function closeProductModal() { document.getElementById('product-popup')?.classList.add('hidden'); ['qm-item-name','qm-item-pur','qm-item-sale'].forEach(id=>document.getElementById(id).value=''); document.getElementById('qm-item-track').checked=false; }
-    function saveQuickProduct() {
+    async function saveQuickProduct() {
         const name = escapeHTML(document.getElementById('qm-item-name').value.trim().toUpperCase()), sale = Number(document.getElementById('qm-item-sale').value)||0, pur = Number(document.getElementById('qm-item-pur').value)||0, gst = Number(document.getElementById('qm-item-gst').value)||0, cat = document.getElementById('qm-item-cat').value, track = document.getElementById('qm-item-track').checked;
         if(!name || sale<=0) return showToast("Validation", "Name & Sale Rate required", "error");
-        if(!productsDB.find(p=>p.name===name)) { productsDB.push({ id:'PRD-'+Date.now(), name, brand:"-", category:cat, sku:"SKU-"+Date.now(), hsn:"-", mrp:sale, pur:pur, sale:sale, gst:gst, stock:0, lowStock:5, track:track, imeiList:[], image:"" }); Storage.set('sre_products', productsDB); renderProducts(); }
+        if(!productsDB.find(p=>p.name===name)) { 
+            const nPr = { id:'PRD-'+Date.now(), name, brand:"-", category:cat, sku:"SKU-"+Date.now(), hsn:"-", mrp:sale, pur:pur, sale:sale, gst:gst, stock:0, lowStock:5, track:track, imeiList:[], image:"" };
+            await db.products.add(nPr); productsDB.push(nPr); renderProducts(); 
+        }
         if(activeShortcutInput) { activeShortcutInput.value = name; if(activeShortcutInput.id === 'master-item-scan') handleMasterScan({key:'Enter', preventDefault:()=>{}, target: activeShortcutInput}); else { autoFillRate(activeShortcutInput); activeShortcutInput.focus(); } }
         closeProductModal();
     }
 
-    // 8. BILLING ENGINE (ATOMIC & UNIFIED)
+    // 8. BILLING ENGINE (UNIFIED)
     function startBill(type) {
         currentMode = type;
         const bTitle = document.getElementById('bill-title'); if(bTitle) bTitle.innerText = type.replace('_',' ') + " ENTRY";
@@ -681,7 +773,6 @@ body{background:radial-gradient(circle at 10% 0%,rgba(37,99,235,.07),transparent
         
         const tb=document.getElementById('bill-items-body'); if(tb) tb.innerHTML=''; 
         
-        // Show/Hide Returns Reference & Payment Strip
         const pStrip = document.getElementById('payment-engine-strip');
         const rRef = document.getElementById('bill-ref-container');
         if(type.includes('RETURN')) { if(pStrip) pStrip.classList.add('hidden'); if(rRef) rRef.classList.remove('hidden'); }
@@ -724,7 +815,7 @@ body{background:radial-gradient(circle at 10% 0%,rgba(37,99,235,.07),transparent
         tr._imeis = []; if(prod && prod.track && scanVal && prod.imeiList && prod.imeiList.includes(scanVal)) tr._imeis.push(scanVal);
         const trackerHtml = (prod && prod.track) ? `<button onclick="openImeiModal(this)" class="bg-blue-50 text-blue-600 px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest shadow-sm border border-blue-200 hover:bg-blue-600 hover:text-white transition-colors row-imei-btn">Manage IMEI (${tr._imeis.length})</button>` : `<span class="text-[9px] text-slate-400 font-bold uppercase row-imei-btn" data-untracked="true">No Tracking</span>`;
 
-        tr.innerHTML = `<td class="p-1.5 text-center"><span class="text-[10px] font-black text-slate-400 row-sl"></span></td><td class="p-1.5"><input type="text" list="item-list" onchange="autoFillRate(this)" class="premium-input uppercase text-[11px] font-black b-name !px-2 !h-[34px]" placeholder="Item Name" value="${pName}"></td><td class="p-1.5"><input type="number" min="1" value="1" oninput="window.handleGridQtyChange(this)" onkeyup="window.handleGridQtyChange(this)" class="premium-input text-center font-black text-blue-700 b-qty !px-1 !h-[34px]"></td><td class="p-1.5 text-center">${trackerHtml}</td><td class="p-1.5"><input type="number" oninput="calcBill()" class="premium-input text-[12px] text-right b-rate !px-2 !h-[34px] font-bold" value="${pRate}"></td><td class="p-1.5"><select onchange="calcBill()" class="premium-input text-center text-[11px] font-bold b-gst !px-1 !h-[34px]"><option value="0" ${pGst==0?'selected':''}>0</option><option value="5" ${pGst==5?'selected':''}>5</option><option value="12" ${pGst==12?'selected':''}>12</option><option value="18" ${pGst==18?'selected':''}>18</option><option value="28" ${pGst==28?'selected':''}>28</option></select></td><td class="p-1.5 text-right"><span class="font-black text-[12px] text-slate-800 row-amt">₹0</span></td><td class="p-1.5 text-center">${!isFirst ? `<button onclick="this.closest('tr').remove(); calcBill();" class="text-rose-400 font-black">✕</button>` : ''}</td>`;
+        tr.innerHTML = `<td class="p-1.5 text-center"><span class="text-[10px] font-black text-slate-400 row-sl"></span></td><td class="p-1.5"><input type="text" list="item-list" onchange="autoFillRate(this)" class="premium-input uppercase text-[11px] font-black b-name !px-2 !h-[34px]" placeholder="Item Name" value="${pName}"></td><td class="p-1.5"><input type="number" min="1" value="1" oninput="window.handleGridQtyChange(this)" onkeyup="window.handleGridQtyChange(this)" class="premium-input text-center font-black text-blue-700 b-qty !px-1 !h-[34px]"></td><td class="p-1.5 text-center">${trackerHtml}</td><td class="p-1.5"><input type="number" oninput="calcBill()" class="premium-input text-[12px] text-right b-rate !px-2 !h-[34px] font-bold" value="${pRate}" ${currentUser.role==='CASHIER' && !currentMode.includes('SALE') ? 'disabled' : ''}></td><td class="p-1.5"><select onchange="calcBill()" class="premium-input text-center text-[11px] font-bold b-gst !px-1 !h-[34px]"><option value="0" ${pGst==0?'selected':''}>0</option><option value="5" ${pGst==5?'selected':''}>5</option><option value="12" ${pGst==12?'selected':''}>12</option><option value="18" ${pGst==18?'selected':''}>18</option><option value="28" ${pGst==28?'selected':''}>28</option></select></td><td class="p-1.5 text-right"><span class="font-black text-[12px] text-slate-800 row-amt">₹0</span></td><td class="p-1.5 text-center">${!isFirst ? `<button onclick="this.closest('tr').remove(); calcBill();" class="text-rose-400 font-black">✕</button>` : ''}</td>`;
         tbody.appendChild(tr); calcBill();
     }
 
@@ -737,7 +828,6 @@ body{background:radial-gradient(circle at 10% 0%,rgba(37,99,235,.07),transparent
             const g=tr.querySelector('.b-gst'); if(g) g.value=prod.gst; 
             const iCell = tr.querySelectorAll('td')[3]; 
             
-            // Only reset IMEI if product actually changed
             if(tr._productName !== prod.name) {
                 tr._productName = prod.name;
                 tr._imeis=[]; 
@@ -762,7 +852,7 @@ body{background:radial-gradient(circle at 10% 0%,rgba(37,99,235,.07),transparent
             const val = (tr._imeis && tr._imeis[i]) ? tr._imeis[i] : ""; 
             const wrap = document.createElement('div'); wrap.className = "relative";
             wrap.innerHTML = `<span class="absolute left-3 top-2.5 text-[9px] font-black text-slate-400">#${i+1}</span><input type="text" class="premium-input font-mono font-bold text-xs !pl-8 uppercase imei-modal-val" placeholder="Scan or Type IMEI/Serial" oninput="updateImeiModalCount()">`;
-            wrap.querySelector('input').value = val; // SAFE
+            wrap.querySelector('input').value = val;
             c.appendChild(wrap);
         }
         document.getElementById('imei-modal').classList.remove('hidden'); updateImeiModalCount();
@@ -853,8 +943,8 @@ body{background:radial-gradient(circle at 10% 0%,rgba(37,99,235,.07),transparent
         return { tax, gstAmt, rGrand, rawP, due:Math.max(0, rGrand-rawP), profit: currentMode==="SALE" ? (rGrand - gstAmt - purCost) : 0 };
     }
 
-    // ATOMIC SAVE ENGINE (WITH DOUBLE ENTRY)
-    function saveFinalBill() {
+    // 🔥 V-9.0 ENTERPRISE: ATOMIC TRANSACTION WITH DEXIE.JS
+    async function saveFinalBill() {
         if(isSaving) return;
         const pEl = document.getElementById('bill-party'); if(!pEl) return;
         const pName = pEl.value.trim().toUpperCase(); if(!pName) return showToast("Required", "Party Name needed", "error");
@@ -878,7 +968,7 @@ body{background:radial-gradient(circle at 10% 0%,rgba(37,99,235,.07),transparent
             const r=Number(row.querySelector('.b-rate')?.value)||0, q=Number(row.querySelector('.b-qty')?.value)||1, g=Number(row.querySelector('.b-gst')?.value)||0;
             
             let prod = productsDB.find(p=>p.name===n);
-            if(!prod) return showToast("Error", `Item [${n}] not found in database. Add it first.`, "error"); // STRICT INVENTORY CHECK
+            if(!prod) return showToast("Error", `Item [${n}] not found in database. Add it first.`, "error");
             tCost += (prod.pur * q);
 
             if(prod.track) {
@@ -888,8 +978,6 @@ body{background:radial-gradient(circle at 10% 0%,rgba(37,99,235,.07),transparent
                     if(setImeis.has(i)) { err=`Duplicate IMEI ${i} in bill`; break; } setImeis.add(i);
                     if(currentMode==="SALE" && (!prod.imeiList || !prod.imeiList.includes(i))) { err=`IMEI ${i} not in stock`; break; }
                     if((currentMode==="PURCHASE" || currentMode==="SALES_RETURN") && prod.imeiList && prod.imeiList.includes(i)) { err=`IMEI ${i} already in stock`; break; }
-                    const globalDup = productsDB.some(p => p.imeiList && p.imeiList.includes(i));
-                    if((currentMode==="PURCHASE" || currentMode==="SALES_RETURN") && globalDup) { err=`IMEI ${i} globally exists`; break; }
                 }
             }
             if(currentMode==="SALE" && prod && prod.stock<q) { err=`Low stock for ${n}`; break; }
@@ -899,56 +987,84 @@ body{background:radial-gradient(circle at 10% 0%,rgba(37,99,235,.07),transparent
         if(err) return showToast("Error", err, "error");
         if(items.length===0) return showToast("Error", "No valid items", "error");
 
-        isSaving=true; const btn=document.getElementById('btn-save-bill'); if(btn) { btn.disabled=true; btn.innerHTML="⏳ PROCESSING..."; }
+        isSaving=true; const btn=document.getElementById('btn-save-bill'); if(btn) { btn.disabled=true; btn.innerHTML="⏳ POSTING TO ENGINE..."; }
         
         try {
-            // APPLY STOCK CHANGES ATOMICALLY
-            items.forEach(it => {
-                if(it.prodObj) {
-                    if(currentMode==="SALE" || currentMode==="PURCHASE_RETURN") { it.prodObj.stock -= it.qty; if(it.prodObj.track) it.prodObj.imeiList = it.prodObj.imeiList.filter(i=>!it.imArr.includes(i)); }
-                    else if(currentMode==="PURCHASE" || currentMode==="SALES_RETURN") { it.prodObj.stock += it.qty; if(it.prodObj.track) { if(!it.prodObj.imeiList) it.prodObj.imeiList=[]; it.prodObj.imeiList.push(...it.imArr); } }
-                }
-            });
-
-            let pData = partiesDB.find(p=>p.name===pName);
-            if((currentMode==="SALE"||currentMode==="SALES_RETURN") && !pData) { pData = { id:'PTY-'+Date.now(), type:'CUSTOMER', name:pName, mobile:"", gstin:"", address:"", ob:0 }; partiesDB.push(pData); }
-            else if((currentMode==="PURCHASE"||currentMode==="PURCHASE_RETURN") && !pData) { pData = { id:'PTY-'+Date.now(), type:'SUPPLIER', name:pName, mobile:"", gstin:"", address:"", ob:0 }; partiesDB.push(pData); }
-
             const invInput = document.getElementById('bill-inv');
-            const finalInvNo = invInput && invInput.value !== 'AUTO' ? invInput.value : getNextSequence(currentMode);
+            const finalInvNo = invInput && invInput.value !== 'AUTO' ? invInput.value : await getNextSequence(currentMode);
             const bDate = document.getElementById('bill-date') ? document.getElementById('bill-date').value : getToday();
 
             let finalPaymentMode = masterPayMode === 'INSTANT' ? comboPayMode : masterPayMode + ' (' + comboPayMode + ')';
             if(currentMode.includes('RETURN')) finalPaymentMode = "REFUND/ADJUSTMENT";
             let actualDue = currentMode.includes('RETURN') ? 0 : t.due; 
 
-            const billRec = { id:'INV-'+Date.now(), invNo:finalInvNo, date:bDate, type:currentMode, party:pName, mobile:pData?pData.mobile:"", items, basic:t.tax, gst:t.gstAmt, total:t.rGrand, paid: currentMode.includes('RETURN')?0:t.rawP, due:actualDue, paymentMode:finalPaymentMode, finance:finData, profit: currentMode.includes('RETURN')?0:(t.rGrand - t.gstAmt - tCost) };
-            billsDB.unshift(billRec); Storage.set('sre_bills', billsDB); Storage.set('sre_products', productsDB);
+            // Clean prodObj to prevent deep nesting circular issues in Dexie
+            let cleanItems = items.map(it => ({ name:it.name, rate:it.rate, qty:it.qty, gst:it.gst, imei:it.imei, amt:it.amt }));
+            let pData = partiesDB.find(p=>p.name===pName);
+
+            const billRec = { id:'INV-'+Date.now(), invNo:finalInvNo, date:bDate, type:currentMode, party:pName, mobile:pData?pData.mobile:"", items:cleanItems, basic:t.tax, gst:t.gstAmt, total:t.rGrand, paid: currentMode.includes('RETURN')?0:t.rawP, due:actualDue, paymentMode:finalPaymentMode, finance:finData, profit: currentMode.includes('RETURN')?0:(t.rGrand - t.gstAmt - tCost) };
             
-            // DOUBLE ENTRY JOURNAL POSTING
-            if(currentMode === "SALE") {
-                postJournal(bDate, finalInvNo, 'SALE', pName, 'Sales A/C', t.tax, 'Goods Sold');
-                if(t.gstAmt > 0) postJournal(bDate, finalInvNo, 'SALE_GST', pName, 'Output GST A/C', t.gstAmt, 'GST on Sale');
-                if(t.rawP > 0) postJournal(bDate, finalInvNo, 'RECEIPT', 'Cash/Bank A/C', pName, t.rawP, 'Payment Received against Sale');
-            } else if (currentMode === "PURCHASE") {
-                postJournal(bDate, finalInvNo, 'PURCHASE', 'Purchase A/C', pName, t.tax, 'Goods Purchased');
-                if(t.gstAmt > 0) postJournal(bDate, finalInvNo, 'PURCHASE_GST', 'Input GST A/C', pName, t.gstAmt, 'GST on Purchase');
-                if(t.rawP > 0) postJournal(bDate, finalInvNo, 'PAYMENT', pName, 'Cash/Bank A/C', t.rawP, 'Payment Made against Purchase');
-            } else if (currentMode === "SALES_RETURN") {
-                const origRef = document.getElementById('bill-ref-inv')?.value || "-";
-                postJournal(bDate, finalInvNo, 'SALES_RETURN', 'Sales Return A/C', pName, t.rGrand, `Goods Returned (Ref: ${origRef})`);
-            } else if (currentMode === "PURCHASE_RETURN") {
-                const origRef = document.getElementById('bill-ref-inv')?.value || "-";
-                postJournal(bDate, finalInvNo, 'PURCHASE_RETURN', pName, 'Purchase Return A/C', t.rGrand, `Goods Returned to Supplier (Ref: ${origRef})`);
-            }
+            // 🛑 DEXIE.JS ATOMIC TRANSACTION (ALL OR NOTHING)
+            await db.transaction('rw', db.bills, db.products, db.parties, db.journals, async () => {
+                // 1. Add Bill
+                await db.bills.add(billRec);
 
-            if(actualDue>0 || currentMode==="PURCHASE") { if(pData) { pData.ob += (currentMode==="SALE" ? actualDue : -actualDue); Storage.set('sre_parties', partiesDB); } }
-            if(currentMode==="SALES_RETURN" && pData) { pData.ob -= t.rGrand; Storage.set('sre_parties', partiesDB); } 
-            if(currentMode==="PURCHASE_RETURN" && pData) { pData.ob += t.rGrand; Storage.set('sre_parties', partiesDB); } 
+                // 2. Adjust Stock
+                for(let it of items) {
+                    let dbProd = await db.products.get(it.prodObj.id);
+                    if(currentMode==="SALE" || currentMode==="PURCHASE_RETURN") { 
+                        dbProd.stock -= it.qty; 
+                        if(dbProd.track) dbProd.imeiList = dbProd.imeiList.filter(i=>!it.imArr.includes(i)); 
+                    }
+                    else if(currentMode==="PURCHASE" || currentMode==="SALES_RETURN") { 
+                        dbProd.stock += it.qty; 
+                        if(dbProd.track) { if(!dbProd.imeiList) dbProd.imeiList=[]; dbProd.imeiList.push(...it.imArr); } 
+                    }
+                    await db.products.put(dbProd);
+                }
 
-            showToast("Success", "Transaction Committed Structurally", "success"); generateInvoiceHTML(billRec); 
+                // 3. Adjust Party Balance
+                let dbParty = await db.parties.where('name').equals(pName).first();
+                if(!dbParty) {
+                    dbParty = { id:'PTY-'+Date.now(), type:currentMode.includes("SALE")?'CUSTOMER':'SUPPLIER', name:pName, mobile:"", gstin:"", address:"", ob:0 };
+                    await db.parties.add(dbParty);
+                }
+                if(actualDue>0 || currentMode==="PURCHASE") { dbParty.ob += (currentMode==="SALE" ? actualDue : -actualDue); }
+                if(currentMode==="SALES_RETURN") { dbParty.ob -= t.rGrand; } 
+                if(currentMode==="PURCHASE_RETURN") { dbParty.ob += t.rGrand; } 
+                await db.parties.put(dbParty);
+
+                // 4. Double Entry Journals
+                let jEntries = [];
+                let genJId = () => 'JRN-'+Date.now()+Math.floor(Math.random()*1000);
+                if(currentMode === "SALE") {
+                    jEntries.push({ id:genJId(), date:bDate, refNo:finalInvNo, type:'SALE', drAccount:pName, crAccount:'Sales A/C', amount:t.tax, narration:'Goods Sold' });
+                    if(t.gstAmt > 0) jEntries.push({ id:genJId(), date:bDate, refNo:finalInvNo, type:'SALE_GST', drAccount:pName, crAccount:'Output GST A/C', amount:t.gstAmt, narration:'GST on Sale' });
+                    if(t.rawP > 0) jEntries.push({ id:genJId(), date:bDate, refNo:finalInvNo, type:'RECEIPT', drAccount:'Cash/Bank A/C', crAccount:pName, amount:t.rawP, narration:'Payment Received' });
+                } else if (currentMode === "PURCHASE") {
+                    jEntries.push({ id:genJId(), date:bDate, refNo:finalInvNo, type:'PURCHASE', drAccount:'Purchase A/C', crAccount:pName, amount:t.tax, narration:'Goods Purchased' });
+                    if(t.gstAmt > 0) jEntries.push({ id:genJId(), date:bDate, refNo:finalInvNo, type:'PURCHASE_GST', drAccount:'Input GST A/C', crAccount:pName, amount:t.gstAmt, narration:'GST on Purchase' });
+                    if(t.rawP > 0) jEntries.push({ id:genJId(), date:bDate, refNo:finalInvNo, type:'PAYMENT', drAccount:pName, crAccount:'Cash/Bank A/C', amount:t.rawP, narration:'Payment Made' });
+                } else if (currentMode === "SALES_RETURN") {
+                    jEntries.push({ id:genJId(), date:bDate, refNo:finalInvNo, type:'SALES_RETURN', drAccount:'Sales Return A/C', crAccount:pName, amount:t.rGrand, narration:'Goods Returned' });
+                } else if (currentMode === "PURCHASE_RETURN") {
+                    jEntries.push({ id:genJId(), date:bDate, refNo:finalInvNo, type:'PURCHASE_RETURN', drAccount:pName, crAccount:'Purchase Return A/C', amount:t.rGrand, narration:'Goods Returned to Supplier' });
+                }
+                await db.journals.bulkAdd(jEntries);
+            });
+
+            // Re-sync local arrays from Dexie
+            productsDB = await db.products.toArray();
+            partiesDB = await db.parties.toArray();
+            billsDB = await db.bills.toArray();
+            journalDB = await db.journals.toArray();
+
+            showToast("Success", "Enterprise Atomic Save Complete", "success"); 
+            generateInvoiceHTML(billRec); 
+
         } catch(error) {
-            console.error(error); showToast("System Error", "Failed to save transaction", "error");
+            console.error("Dexie Transaction Failed:", error); 
+            showToast("System Error", "Transaction Rolled Back to protect data.", "error");
         } finally {
             setTimeout(()=>{ isSaving=false; if(btn) { btn.disabled=false; btn.innerHTML=`💾 POST TRANSACTION <span class="text-[9px] font-normal bg-blue-800/50 px-1.5 py-0.5 rounded ml-1 hidden sm:inline">F9</span>`; } }, 1000);
         }
@@ -963,24 +1079,40 @@ body{background:radial-gradient(circle at 10% 0%,rgba(37,99,235,.07),transparent
         if(type==='EXPENSE') { pp.setAttribute('list', 'expense-list'); btnAdd.classList.add('hidden'); } else { pp.setAttribute('list', 'party-list'); btnAdd.classList.remove('hidden'); }
         showView('payment'); 
     }
-    function savePaymentTransaction() {
+    async function savePaymentTransaction() {
         const pEl = document.getElementById('pay-party'); const p = pEl ? pEl.value.trim() : ""; const a=Number(document.getElementById('pay-amt')?.value)||0, m=document.getElementById('pay-mode')?.value, r=document.getElementById('pay-remarks')?.value;
         if(!p || a<=0) return showToast("Error", "Valid Account & Amount needed", "error");
         let pD=partiesDB.find(x=>x.name.toUpperCase()===p.toUpperCase()); 
         if(!pD && currentPaymentType !== 'EXPENSE') return showToast("Error", "Party not found in directory", "error");
         
-        const bDate = getToday(); const invNo = getNextSequence('VOUCHER');
-        if (currentPaymentType === 'IN') postJournal(bDate, invNo, 'RECEIPT', 'Cash/Bank A/C', p.toUpperCase(), a, r||'Payment Received');
-        else if (currentPaymentType === 'OUT') postJournal(bDate, invNo, 'PAYMENT', p.toUpperCase(), 'Cash/Bank A/C', a, r||'Payment Made');
-        else postJournal(bDate, invNo, 'EXPENSE', 'Expense A/C - ' + p, 'Cash/Bank A/C', a, r||'Expense Paid');
+        const bDate = getToday(); const invNo = await getNextSequence('VOUCHER');
+        
+        try {
+            await db.transaction('rw', db.bills, db.parties, db.journals, async () => {
+                let jEntry = { id:'JRN-'+Date.now(), date:bDate, refNo:invNo, amount:a, narration:r||(currentPaymentType==='IN'?'Payment Received':'Payment Made') };
+                if (currentPaymentType === 'IN') { jEntry.type='RECEIPT'; jEntry.drAccount='Cash/Bank A/C'; jEntry.crAccount=p.toUpperCase(); }
+                else if (currentPaymentType === 'OUT') { jEntry.type='PAYMENT'; jEntry.drAccount=p.toUpperCase(); jEntry.crAccount='Cash/Bank A/C'; }
+                else { jEntry.type='EXPENSE'; jEntry.drAccount='Expense A/C - ' + p; jEntry.crAccount='Cash/Bank A/C'; jEntry.narration=r||'Expense Paid'; }
+                await db.journals.add(jEntry);
 
-        const bRec = { id:'INV-'+Date.now(), invNo, date:bDate, type:currentPaymentType==='OUT'?'PAYMENT':(currentPaymentType==='IN'?'RECEIPT':'EXPENSE'), party:p.toUpperCase(), items:[{name:r||"Voucher Entry", rate:a, qty:1, gst:0, amt:a}], basic:a, gst:0, total:a, paid:a, due:0, paymentMode:m };
-        billsDB.unshift(bRec); Storage.set('sre_bills', billsDB); 
-        if(pD && currentPaymentType !== 'EXPENSE') { pD.ob += (currentPaymentType==="IN"?-a:a); Storage.set('sre_parties', partiesDB); }
-        showPopup("Success", "Voucher Posted Successfully"); showView('ledger');
+                const bRec = { id:'INV-'+Date.now(), invNo, date:bDate, type:currentPaymentType==='OUT'?'PAYMENT':(currentPaymentType==='IN'?'RECEIPT':'EXPENSE'), party:p.toUpperCase(), items:[{name:r||"Voucher Entry", rate:a, qty:1, gst:0, amt:a}], basic:a, gst:0, total:a, paid:a, due:0, paymentMode:m };
+                await db.bills.add(bRec);
+                
+                if(pD && currentPaymentType !== 'EXPENSE') { 
+                    let dbParty = await db.parties.where('name').equals(pD.name).first();
+                    dbParty.ob += (currentPaymentType==="IN"?-a:a); 
+                    await db.parties.put(dbParty);
+                }
+            });
+
+            billsDB = await db.bills.toArray();
+            partiesDB = await db.parties.toArray();
+            journalDB = await db.journals.toArray();
+            showPopup("Success", "Voucher Posted Successfully"); showView('ledger');
+        } catch(e) { console.error(e); showToast("Error", "Voucher Save Failed", "error"); }
     }
 
-    // LEDGER & REPORTS (P&L / Trial Balance)
+    // LEDGER & REPORTS
     function switchLedgerTab(t) { 
         const c=document.getElementById('tab-CUSTOMER'), s=document.getElementById('tab-SUPPLIER');
         if(c && s) { c.className=t==='CUSTOMER'?"flex-1 py-2 rounded-md text-[10px] font-black bg-white text-blue-700 shadow-sm uppercase tracking-widest transition-all":"flex-1 py-2 rounded-md text-[10px] font-black text-slate-500 hover:text-slate-800 uppercase tracking-widest transition-all"; s.className=t==='SUPPLIER'?"flex-1 py-2 rounded-md text-[10px] font-black bg-white text-blue-700 shadow-sm uppercase tracking-widest transition-all":"flex-1 py-2 rounded-md text-[10px] font-black text-slate-500 hover:text-slate-800 uppercase tracking-widest transition-all"; }
@@ -1004,7 +1136,7 @@ body{background:radial-gradient(circle at 10% 0%,rgba(37,99,235,.07),transparent
             });
             
             const tb=document.getElementById("ledger-table-body"); if(tb) {
-                tb.innerHTML = jList.length === 0 ? `<tr><td colspan="7" class="text-center p-8 text-slate-400 font-bold text-xs uppercase tracking-widest">No Transactions Found</td></tr>` : 
+                tb.innerHTML = jList.length === 0 ? `<tr><td colspan="7" class="text-center p-8 text-slate-400 font-bold text-xs uppercase tracking-widest">No Journals Found</td></tr>` : 
                 jList.reverse().map(j=>`<tr class="hover:bg-indigo-50/30 transition-colors"><td><span class="font-mono text-[10px] font-bold text-slate-600 bg-slate-50 border border-slate-200 px-1.5 py-0.5 rounded">${j.date}</span></td><td class="font-bold text-[11px] text-slate-800">${j.refNo}</td><td class="text-center"><span class="px-2 py-0.5 rounded-sm text-[8px] font-black uppercase tracking-widest shadow-sm border border-black/5">${j.type}</span></td><td class="font-black text-slate-800 uppercase text-[11px]">${escapeHTML(j.narration)}</td><td class="text-right text-rose-600 font-black text-sm">${j._dr||'-'}</td><td class="text-right text-emerald-600 font-black text-sm">${j._cr||'-'}</td><td class="text-right font-black text-sm text-indigo-700">${j._run?j._run.toLocaleString('en-IN'):'-'} <span class="text-[9px] text-slate-400 font-bold ml-0.5">${isC?'Dr':'Cr'}</span></td></tr>`).join('');
             }
             const eo=document.getElementById("ledger-ob"); if(eo) eo.innerText="₹"+ob.toLocaleString('en-IN'); 
@@ -1012,7 +1144,6 @@ body{background:radial-gradient(circle at 10% 0%,rgba(37,99,235,.07),transparent
             const ep=document.getElementById("ledger-paid"); if(ep) ep.innerText="₹"+pd.toLocaleString('en-IN'); 
             const er=document.getElementById("ledger-bal"); if(er) er.innerText="₹"+run.toLocaleString('en-IN');
 
-            // Reports calculations
             let tSale=0, tPur=0, tExp=0;
             let tbDr=0, tbCr=0; let tbAccounts = {};
             journalDB.forEach(j=>{ 
@@ -1043,7 +1174,7 @@ body{background:radial-gradient(circle at 10% 0%,rgba(37,99,235,.07),transparent
         tb.innerHTML = f.length === 0 ? `<tr><td colspan="6" class="text-center p-8 text-slate-400 font-bold text-xs uppercase tracking-widest">No Products Found</td></tr>` : 
         f.map(p => {
             let img = p.image ? `<img src="${p.image}" class="w-10 h-10 rounded-md object-cover">` : `<div class="w-10 h-10 bg-slate-100 rounded-md flex items-center justify-center text-lg">📦</div>`;
-            return `<tr class="hover:bg-blue-50/30 transition-colors"><td class="text-center">${img}</td><td><p class="font-black text-xs text-blue-800 uppercase">${escapeHTML(p.name)}</p><p class="text-[9px] text-slate-500 font-bold uppercase mt-1"><span class="bg-slate-100 px-1 rounded mr-1">${escapeHTML(p.brand||'-')}</span> ${escapeHTML(p.category)}</p></td><td><p class="font-mono font-bold text-[10px] text-slate-700">${escapeHTML(p.sku)}</p></td><td class="text-right"><p class="font-black text-[10px] text-slate-500">P: ₹${p.pur}</p><p class="font-black text-sm text-blue-600 mt-0.5">S: ₹${p.sale}</p></td><td class="text-center"><p class="font-black text-base ${p.stock<=0?'text-rose-600':'text-emerald-600'}">${p.stock}</p></td><td class="text-center"><button onclick="editProduct('${p.id}')" class="btn-ghost px-3 py-1.5 text-[9px]">EDIT</button></td></tr>`;
+            return `<tr class="hover:bg-blue-50/30 transition-colors"><td class="text-center">${img}</td><td><p class="font-black text-xs text-blue-800 uppercase">${escapeHTML(p.name)}</p><p class="text-[9px] text-slate-500 font-bold uppercase mt-1"><span class="bg-slate-100 px-1 rounded mr-1">${escapeHTML(p.brand||'-')}</span> ${escapeHTML(p.category)}</p></td><td><p class="font-mono font-bold text-[10px] text-slate-700">${escapeHTML(p.sku)}</p></td><td class="text-right"><p class="font-black text-[10px] text-slate-500 admin-only">P: ₹${p.pur}</p><p class="font-black text-sm text-blue-600 mt-0.5">S: ₹${p.sale}</p></td><td class="text-center"><p class="font-black text-base ${p.stock<=0?'text-rose-600':'text-emerald-600'}">${p.stock}</p></td><td class="text-center admin-only"><button onclick="editProduct('${p.id}')" class="btn-ghost px-3 py-1.5 text-[9px]">EDIT</button></td></tr>`;
         }).join('');
         const dl = document.getElementById('item-list'); if(dl) dl.innerHTML = productsDB.map(p => `<option value="${p.name}">`).join('');
     }
@@ -1053,25 +1184,8 @@ body{background:radial-gradient(circle at 10% 0%,rgba(37,99,235,.07),transparent
         const f = partiesDB.filter(p => p.name.includes(s) || (p.mobile && p.mobile.includes(s)) || (p.gstin && p.gstin.includes(s)));
         const tb = document.getElementById('party-table-body'); if(!tb) return;
         tb.innerHTML = f.length === 0 ? `<tr><td colspan="4" class="text-center p-8 text-slate-400 font-bold text-xs uppercase tracking-widest">No Accounts Found</td></tr>` : 
-        f.map(p => `<tr class="hover:bg-purple-50/30 transition-colors"><td><div class="flex items-center gap-3"><div class="w-8 h-8 rounded bg-slate-100 flex items-center justify-center font-black text-slate-400">${p.name.charAt(0)}</div><div><p class="font-black text-xs text-slate-800 uppercase">${escapeHTML(p.name)}</p><span class="${p.type==='CUSTOMER'?'text-blue-500':'text-purple-500'} text-[8px] font-black uppercase tracking-widest mt-0.5 block">${p.type}</span></div></div></td><td><span class="font-mono text-slate-600 font-bold bg-slate-50 border border-slate-200 px-2 py-1 rounded inline-block text-[10px]">${p.mobile||'-'}</span></td><td><p class="text-[9px] font-bold text-slate-500 uppercase">${escapeHTML(p.address||'-')}</p><p class="text-[8px] font-mono text-slate-400 mt-1">GST: ${p.gstin||'-'}</p></td><td class="text-right font-black text-sm ${p.ob>0?'text-rose-600':'text-emerald-600'}">₹${(p.ob||0).toLocaleString('en-IN')}</td><td class="text-center"><button onclick="editParty('${p.id}')" class="bg-slate-100 text-slate-600 px-3 py-1.5 rounded-md text-[10px] font-black shadow-sm hover:bg-slate-800 hover:text-white transition-colors">EDIT</button></td></tr>`).join('');
+        f.map(p => `<tr class="hover:bg-purple-50/30 transition-colors"><td><div class="flex items-center gap-3"><div class="w-8 h-8 rounded bg-slate-100 flex items-center justify-center font-black text-slate-400">${p.name.charAt(0)}</div><div><p class="font-black text-xs text-slate-800 uppercase">${escapeHTML(p.name)}</p><span class="${p.type==='CUSTOMER'?'text-blue-500':'text-purple-500'} text-[8px] font-black uppercase tracking-widest mt-0.5 block">${p.type}</span></div></div></td><td><span class="font-mono text-slate-600 font-bold bg-slate-50 border border-slate-200 px-2 py-1 rounded inline-block text-[10px]">${p.mobile||'-'}</span></td><td><p class="text-[9px] font-bold text-slate-500 uppercase">${escapeHTML(p.address||'-')}</p><p class="text-[8px] font-mono text-slate-400 mt-1">GST: ${p.gstin||'-'}</p></td><td class="text-right font-black text-sm ${p.ob>0?'text-rose-600':'text-emerald-600'}">₹${(p.ob||0).toLocaleString('en-IN')}</td><td class="text-center admin-only"><button onclick="editParty('${p.id}')" class="bg-slate-100 text-slate-600 px-3 py-1.5 rounded-md text-[10px] font-black shadow-sm hover:bg-slate-800 hover:text-white transition-colors">EDIT</button></td></tr>`).join('');
         const dl = document.getElementById('party-list'); if(dl) dl.innerHTML = partiesDB.map(p => `<option value="${p.name}">Ph: ${p.mobile||'-'}</option>`).join('');
-    }
-
-    function renderOutstanding() {
-        try {
-            const rcL = document.getElementById('out-rec-list'), pyL = document.getElementById('out-pay-list');
-            let tR=0, tP=0; let hR='', hP='';
-            partiesDB.forEach(p => {
-                if(p.ob > 0) {
-                    if(p.type === 'CUSTOMER') { tR+=p.ob; hR+=`<div class="bg-white p-3 border border-emerald-100 rounded-lg mb-2 shadow-sm flex justify-between items-center"><div class="flex flex-col"><span class="font-black text-xs text-slate-800 uppercase">${escapeHTML(p.name)}</span><span class="font-mono text-[9px] text-slate-500">${p.mobile||'-'}</span></div><div class="flex items-center gap-3"><span class="font-black text-emerald-600 text-sm">₹${p.ob.toLocaleString('en-IN')}</span><button onclick="startPayment('IN'); setTimeout(()=>document.getElementById('pay-party').value='${p.name}',100);" class="bg-emerald-50 text-emerald-600 px-2 py-1 rounded text-[8px] font-black hover:bg-emerald-500 hover:text-white transition-colors">RECEIVE</button></div></div>`; }
-                    else { tP+=p.ob; hP+=`<div class="bg-white p-3 border border-rose-100 rounded-lg mb-2 shadow-sm flex justify-between items-center"><div class="flex flex-col"><span class="font-black text-xs text-slate-800 uppercase">${escapeHTML(p.name)}</span><span class="font-mono text-[9px] text-slate-500">${p.mobile||'-'}</span></div><div class="flex items-center gap-3"><span class="font-black text-rose-600 text-sm">₹${p.ob.toLocaleString('en-IN')}</span><button onclick="startPayment('OUT'); setTimeout(()=>document.getElementById('pay-party').value='${p.name}',100);" class="bg-rose-50 text-rose-600 px-2 py-1 rounded text-[8px] font-black hover:bg-rose-500 hover:text-white transition-colors">PAY</button></div></div>`; }
-                }
-            });
-            if(rcL) rcL.innerHTML = hR || `<p class="text-center text-[10px] font-bold text-slate-400 mt-4 uppercase">No Receivables</p>`;
-            if(pyL) pyL.innerHTML = hP || `<p class="text-center text-[10px] font-bold text-slate-400 mt-4 uppercase">No Payables</p>`;
-            const er=document.getElementById('out-rec-total'); if(er) er.innerText = "₹"+tR.toLocaleString('en-IN');
-            const ep=document.getElementById('out-pay-total'); if(ep) ep.innerText = "₹"+tP.toLocaleString('en-IN');
-        } catch(e) { console.error("Outstanding Error", e); }
     }
 
     function exportReport(type) {
@@ -1107,16 +1221,16 @@ body{background:radial-gradient(circle at 10% 0%,rgba(37,99,235,.07),transparent
             let outAmt = partiesDB.filter(p=>p.type==='CUSTOMER').reduce((sum, p) => sum + (Number(p.ob)||0), 0);
             
             const dKpis = document.getElementById('dashboard-kpis'); let html = '';
-            if(appFeatures.SALES) html += `<div class="glass-panel p-5 border-t-4 border-t-blue-500 hover:shadow-md"><p class="text-[10px] text-slate-500 font-black uppercase tracking-widest"><span id="lbl-sale">${timeRange==='TODAY'?"Today's Sales":"Sales"}</span></p><h3 class="text-2xl font-black text-slate-800 mt-1" id="dash-sale">₹${saleAmt.toLocaleString('en-IN')}</h3></div>`;
-            if(appFeatures.PURCHASE) html += `<div class="glass-panel p-5 border-t-4 border-t-purple-500 hover:shadow-md"><p class="text-[10px] text-slate-500 font-black uppercase tracking-widest"><span id="lbl-pur">${timeRange==='TODAY'?"Today's Purchase":"Purchase"}</span></p><h3 class="text-2xl font-black text-slate-800 mt-1" id="dash-pur">₹${purAmt.toLocaleString('en-IN')}</h3></div>`;
-            html += `<div class="glass-panel p-5 border-t-4 border-t-emerald-500 hover:shadow-md bg-emerald-50/20"><p class="text-[10px] text-emerald-600 font-black uppercase tracking-widest">Gross Profit</p><h3 class="text-2xl font-black text-emerald-700 mt-1" id="dash-profit">₹${grossProf.toLocaleString('en-IN')}</h3></div>`;
+            html += `<div class="glass-panel p-5 border-t-4 border-t-blue-500 hover:shadow-md"><p class="text-[10px] text-slate-500 font-black uppercase tracking-widest"><span id="lbl-sale">${timeRange==='TODAY'?"Today's Sales":"Sales"}</span></p><h3 class="text-2xl font-black text-slate-800 mt-1" id="dash-sale">₹${saleAmt.toLocaleString('en-IN')}</h3></div>`;
+            html += `<div class="glass-panel p-5 border-t-4 border-t-purple-500 hover:shadow-md admin-only"><p class="text-[10px] text-slate-500 font-black uppercase tracking-widest"><span id="lbl-pur">${timeRange==='TODAY'?"Today's Purchase":"Purchase"}</span></p><h3 class="text-2xl font-black text-slate-800 mt-1" id="dash-pur">₹${purAmt.toLocaleString('en-IN')}</h3></div>`;
+            html += `<div class="glass-panel p-5 border-t-4 border-t-emerald-500 hover:shadow-md bg-emerald-50/20 admin-only"><p class="text-[10px] text-emerald-600 font-black uppercase tracking-widest">Gross Profit</p><h3 class="text-2xl font-black text-emerald-700 mt-1" id="dash-profit">₹${grossProf.toLocaleString('en-IN')}</h3></div>`;
             html += `<div class="glass-panel p-5 border-t-4 border-t-rose-500 hover:shadow-md"><p class="text-[10px] text-slate-500 font-black uppercase tracking-widest">Market Receivables</p><h3 class="text-2xl font-black text-rose-600 mt-1" id="dash-out">₹${outAmt.toLocaleString('en-IN')}</h3></div>`;
             if(dKpis) dKpis.innerHTML = html;
 
             let catSales = {}, payModes = {};
             dBills.forEach(b => { if(b.type === "SALE") { if(b.paymentMode) payModes[b.paymentMode] = (payModes[b.paymentMode] || 0) + b.total; b.items.forEach(it => { let cat = it.prodObj ? it.prodObj.category : "Others"; catSales[cat] = (catSales[cat] || 0) + it.amt; }); } });
             
-            const trendMap={}; dBills.filter(b=>b.type==='SALE').forEach(b=>{trendMap[b.date]=(trendMap[b.date]||0)+Number(b.total||0)}); const trendKeys=Object.keys(trendMap).sort(); const tc = document.getElementById('trendChart'); if(tc) { if(myTrendChart) myTrendChart.destroy(); myTrendChart = new Chart(tc, { type: 'line', data: { labels: trendKeys.length ? trendKeys : ['No Data'], datasets: [ { label: 'Sales', data: trendKeys.length ? trendKeys.map(k=>trendMap[k]) : [0], borderColor: '#2563eb', backgroundColor: 'rgba(37, 99, 235, 0.1)', borderWidth: 3, tension: 0.4, fill: true } ] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels:{font:{family:'Plus Jakarta Sans', weight:'bold'}} } }, scales: { x: { display:false }, y:{ border:{display:false}, grid:{color:'#f1f5f9'} } } } }); }
+            const tc = document.getElementById('trendChart'); if(tc) { if(myTrendChart) myTrendChart.destroy(); myTrendChart = new Chart(tc, { type: 'line', data: { labels: Object.keys(payModes).length > 0 ? Object.keys(payModes) : ['No Data'], datasets: [ { label: 'Sales', data: Object.keys(payModes).length > 0 ? Object.values(payModes) : [0], borderColor: '#2563eb', backgroundColor: 'rgba(37, 99, 235, 0.1)', borderWidth: 3, tension: 0.4, fill: true } ] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels:{font:{family:'Plus Jakarta Sans', weight:'bold'}} } }, scales: { x: { display:false }, y:{ border:{display:false}, grid:{color:'#f1f5f9'} } } } }); }
             const cc = document.getElementById('categoryChart'); if(cc) { if(myCatChart) myCatChart.destroy(); const catKeys = Object.keys(catSales); myCatChart = new Chart(cc, { type: 'doughnut', data: { labels: catKeys.length > 0 ? catKeys : ['No Data'], datasets: [{ data: catKeys.length > 0 ? Object.values(catSales) : [1], backgroundColor: ['#3b82f6', '#8b5cf6', '#10b981', '#f59e0b', '#f43f5e', '#64748b'], borderWidth: 0, hoverOffset: 4 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { position: 'right', labels:{boxWidth:10, font:{family:'Plus Jakarta Sans', size:9, weight:'bold'}} } } } }); }
             const pc = document.getElementById('paymentChart'); if(pc) { if(myPaymentChart) myPaymentChart.destroy(); const payKeys = Object.keys(payModes); myPaymentChart = new Chart(pc, { type: 'doughnut', data: { labels: payKeys.length > 0 ? payKeys : ['No Data'], datasets: [{ data: payKeys.length > 0 ? Object.values(payModes) : [1], backgroundColor: ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b', '#64748b'], borderWidth: 0, hoverOffset: 4 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { position: 'right', labels:{boxWidth:10, font:{family:'Plus Jakarta Sans', size:9, weight:'bold'}} } } } }); }
             
@@ -1125,7 +1239,7 @@ body{background:radial-gradient(circle at 10% 0%,rgba(37,99,235,.07),transparent
             partiesDB.forEach(p => { if(p.ob > 0) { if(p.type==='CUSTOMER') custDues++; else supDues++; } });
             if(lowStockCount > 0) { htmlAlerts += `<div class="bg-rose-50 p-2.5 rounded mb-2 flex items-center justify-between cursor-pointer hover:bg-rose-100" onclick="showView('product')"><div class="flex items-center gap-2"><span class="text-rose-500 text-lg">📦</span> <span class="text-[10px] font-black uppercase text-rose-700">Low Stock</span></div><span class="bg-rose-200 text-rose-800 text-[10px] px-2.5 py-0.5 rounded font-black">${lowStockCount}</span></div>`; }
             if(custDues > 0) { htmlAlerts += `<div class="bg-amber-50 p-2.5 rounded mb-2 flex items-center justify-between cursor-pointer hover:bg-amber-100" onclick="showView('ledger')"><div class="flex items-center gap-2"><span class="text-amber-500 text-lg">👥</span> <span class="text-[10px] font-black uppercase text-amber-700">Customer Dues</span></div><span class="bg-amber-200 text-amber-800 text-[10px] px-2.5 py-0.5 rounded font-black">${custDues}</span></div>`; }
-            if(supDues > 0) { htmlAlerts += `<div class="bg-purple-50 p-2.5 rounded mb-2 flex items-center justify-between cursor-pointer hover:bg-purple-100" onclick="showView('ledger')"><div class="flex items-center gap-2"><span class="text-purple-500 text-lg">🏭</span> <span class="text-[10px] font-black uppercase text-purple-700">Supplier Payables</span></div><span class="bg-purple-200 text-purple-800 text-[10px] px-2.5 py-0.5 rounded font-black">${supDues}</span></div>`; }
+            if(supDues > 0) { htmlAlerts += `<div class="bg-purple-50 p-2.5 rounded mb-2 flex items-center justify-between cursor-pointer hover:bg-purple-100 admin-only" onclick="showView('ledger')"><div class="flex items-center gap-2"><span class="text-purple-500 text-lg">🏭</span> <span class="text-[10px] font-black uppercase text-purple-700">Supplier Payables</span></div><span class="bg-purple-200 text-purple-800 text-[10px] px-2.5 py-0.5 rounded font-black">${supDues}</span></div>`; }
             if(imeiIssues > 0) { htmlAlerts += `<div class="bg-blue-50 border border-blue-100 p-2.5 rounded mb-2 flex items-center justify-between cursor-pointer hover:bg-blue-100" onclick="showView('product')"><div class="flex items-center gap-2"><span class="text-blue-500 text-lg">⚡</span> <span class="text-[10px] font-black uppercase text-blue-700">IMEI Mismatch</span></div><span class="bg-blue-200 text-blue-800 text-[10px] px-2.5 py-0.5 rounded font-black">${imeiIssues}</span></div>`; }
             if(htmlAlerts === '') htmlAlerts = `<div class="p-8 flex flex-col items-center opacity-50"><span class="text-4xl mb-2">🛡️</span><p class="text-[10px] font-bold text-slate-500 uppercase">System Stable.</p></div>`;
             const aC = document.getElementById('alerts-container'); if(aC) aC.innerHTML = htmlAlerts; 
@@ -1154,58 +1268,71 @@ body{background:radial-gradient(circle at 10% 0%,rgba(37,99,235,.07),transparent
         } catch(e) { showToast("Error", "PDF Export Failed", "error"); console.error(e); }
     }
 
-    // BACKUP & RESTORE
+    // BACKUP & SYNC
     function downloadLocalBackup() {
         try {
-            const data = { schemaVersion: "8.0.0", timestamp: new Date().toISOString(), products: productsDB, parties: partiesDB, bills: billsDB, categories: categoriesDB, finance: financeDB, journals: journalDB, settings: sysSettings, features: appFeatures };
+            const data = { schemaVersion: "9.0.0", timestamp: new Date().toISOString(), products: productsDB, parties: partiesDB, bills: billsDB, categories: categoriesDB, finance: financeDB, journals: journalDB, settings: sysSettings, features: appFeatures };
             const blob = new Blob([JSON.stringify(data)], { type: 'application/json' }); const url = URL.createObjectURL(blob);
             const a = document.createElement('a'); a.href = url; a.download = `SRE_BACKUP_${getToday()}_${Date.now()}.json`; a.click(); URL.revokeObjectURL(url);
             showToast("Backup", "JSON Exported Successfully", "success");
         } catch(e) { showToast("Error", "Failed to export data", "error"); }
     }
-    function processRestore(e) {
+    async function processRestore(e) {
         const file = e.target.files[0]; if(!file) return; const reader = new FileReader();
-        reader.onload = function(event) {
+        reader.onload = async function(event) {
             try {
                 const data = JSON.parse(event.target.result);
-                if(data.products) Storage.set('sre_products', data.products); if(data.parties) Storage.set('sre_parties', data.parties);
-                if(data.bills) Storage.set('sre_bills', data.bills); if(data.journals) Storage.set('sre_journals', data.journals);
-                if(data.finance) Storage.set('sre_finance', data.finance); if(data.categories) Storage.set('sre_categories', data.categories); if(data.settings) Storage.set('sre_settings', data.settings);
-                if(data.features) Storage.set('sre_features', data.features); if(data.settings?.sequence) Storage.set('sre_sequences', data.settings.sequence);
+                if(data.products) await db.products.bulkPut(data.products); 
+                if(data.parties) await db.parties.bulkPut(data.parties);
+                if(data.bills) await db.bills.bulkPut(data.bills); 
+                if(data.journals) await db.journals.bulkPut(data.journals);
+                if(data.finance) await db.finance.bulkPut(data.finance); 
+                if(data.settings) await db.configs.put({key:'sysSettings', value:data.settings});
+                if(data.features) await db.configs.put({key:'appFeatures', value:data.features}); 
+                if(data.settings?.sequence) await db.configs.put({key:'sysSequences', value:data.settings.sequence});
                 showPopup("Restore Complete", "Data imported successfully. Reloading..."); setTimeout(() => location.reload(), 1500);
             } catch(err) { showToast("Error", "Invalid JSON Format", "error"); }
         }; reader.readAsText(file); e.target.value = '';
     }
     function dangerClearAll() {
         const code = prompt("DANGER: Type 'DELETE ALL' to wipe database:");
-        if(code === "DELETE ALL") { localStorage.removeItem('sre_products'); localStorage.removeItem('sre_parties'); localStorage.removeItem('sre_bills'); localStorage.removeItem('sre_journals'); localStorage.removeItem('sre_finance'); localStorage.removeItem('sre_features'); localStorage.removeItem('sre_sequences'); location.reload(); }
+        if(code === "DELETE ALL") { 
+            db.delete().then(() => {
+                localStorage.clear(); sessionStorage.clear();
+                showToast("Cleared", "Database Wiped", "success");
+                setTimeout(()=>location.reload(), 1000);
+            });
+        }
         else { showToast("Cancelled", "Data wipe aborted", "success"); }
     }
-    function getCloudPayload(action='SAVE_ALL') {
-        return { schemaVersion:'9.0.0', action, timestamp:new Date().toISOString(), clientId:localStorage.getItem('sre_client_id')||(function(){const x=crypto.randomUUID();localStorage.setItem('sre_client_id',x);return x;})(), datasets:{products:productsDB,parties:partiesDB,bills:billsDB,categories:categoriesDB,finance:financeDB,journals:journalDB,settings:sysSettings,features:appFeatures}, products:productsDB, parties:partiesDB, bills:billsDB, categories:categoriesDB, finance:financeDB, journals:journalDB, settings:sysSettings, features:appFeatures };
-    }
-    function setSyncStatus(state,text){const n=document.getElementById('network-text');const i=document.getElementById('network-indicator');if(n)n.innerText=text||state.toUpperCase();if(i){i.className='w-2.5 h-2.5 rounded-full '+(state==='online'?'bg-emerald-500':state==='pending'?'bg-amber-400':'bg-rose-500');}}
-    function queueCloudSync(reason='manual'){const q=JSON.parse(localStorage.getItem('sre_sync_queue')||'[]');q.push({id:crypto.randomUUID(),reason,createdAt:new Date().toISOString(),payload:getCloudPayload('SAVE_ALL')});localStorage.setItem('sre_sync_queue',JSON.stringify(q.slice(-50)));setSyncStatus('pending','PENDING');}
-    async function backupData(){
-      if(!sysSettings.gas)return showToast('Warning','Cloud Sync URL not configured. Go to Admin Settings.','warning');
-      const btn=document.querySelector('button[onclick="backupData()"]'); if(btn){btn.disabled=true;btn.innerHTML='⏳ SYNCING...';}
-      setSyncStatus('pending','SYNCING'); showToast('Syncing','Sending complete database to Google Sheets...','success');
-      try{
-        const payload=getCloudPayload('SAVE_ALL');
-        const response=await fetch(sysSettings.gas,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});
-        const data=await response.json();
-        if(!response.ok||data.status!=='success')throw new Error(data.message||'Cloud rejected request');
-        localStorage.setItem('sre_last_sync',new Date().toISOString());localStorage.setItem('sre_sync_failed','0');setSyncStatus('online','SYNCED');showToast('Success','Google Sheets sync verified and completed ✅','success');
-      }catch(err){console.error('SRE Cloud Sync',err);queueCloudSync('failed_sync');setSyncStatus('offline','FAILED');showToast('Cloud Error','Sync failed. Data remains safely stored locally and queued for retry.','error');}
-      finally{if(btn){btn.disabled=false;btn.innerHTML='<span class="text-xs">🔄</span> <span class="text-[9px] font-black uppercase">Sync</span>';}}
-    }
-    async function retryQueuedSync(){const q=JSON.parse(localStorage.getItem('sre_sync_queue')||'[]');if(!q.length)return showToast('Sync Queue','No pending records.','success');if(!sysSettings.gas)return showToast('Warning','Configure Google Apps Script URL first.','warning');try{const r=await fetch(sysSettings.gas,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({...q[q.length-1].payload,action:'SAVE_ALL'})});const d=await r.json();if(d.status!=='success')throw new Error(d.message||'Retry failed');localStorage.removeItem('sre_sync_queue');setSyncStatus('online','SYNCED');showToast('Retry Complete','Pending cloud sync queue cleared.','success')}catch(e){setSyncStatus('offline','FAILED');showToast('Retry Failed',e.message,'error')}}
-    function openCommandPalette(){const p=document.getElementById('sre-command-palette');if(!p)return;p.classList.remove('hidden');const i=document.getElementById('sre-command-input');i.value='';renderCommandResults('');setTimeout(()=>i.focus(),20)}
-    function closeCommandPalette(){const p=document.getElementById('sre-command-palette');if(p)p.classList.add('hidden')}
-    function renderCommandResults(q){const all=[['Dashboard','dashboard','Open executive dashboard'],['Inventory','product','Open product/inventory master'],['Party Directory','party','Open customers and suppliers'],['New Sale','new-bill','Open sales billing'],['Purchase','new-bill','Open purchase entry'],['Sales Return','new-bill','Open sales return'],['Purchase Return','new-bill','Open purchase return'],['Payments','payment','Open payment/receipt'],['Ledger','ledger','Open financial ledger'],['Reports','reports','Open reports'],['Admin Control','admin','Open settings and backup']];const f=all.filter(x=>(x[0]+' '+x[2]).toLowerCase().includes((q||'').toLowerCase()));const el=document.getElementById('sre-command-results');el.innerHTML=f.map((x,i)=>`<button class="w-full text-left p-3 rounded-xl hover:bg-blue-50 flex justify-between items-center" onclick="closeCommandPalette();showView('${x[1]}')"><span><b class="text-xs text-slate-800">${x[0]}</b><small class="block text-[9px] text-slate-400 font-bold">${x[2]}</small></span><span class="text-[9px] text-slate-400">↵</span></button>`).join('')||'<div class="p-6 text-center text-xs font-bold text-slate-400">No command found</div>'}
-    function toggleSRETheme(){document.body.classList.toggle('sre-dark');const dark=document.body.classList.contains('sre-dark');localStorage.setItem('sre_theme',dark?'dark':'light');document.getElementById('sre-theme-btn').innerText=dark?'☀':'☾'}
-    function initPremiumUI(){const dark=localStorage.getItem('sre_theme')==='dark';if(dark)document.body.classList.add('sre-dark');const b=document.getElementById('sre-theme-btn');if(b)b.innerText=dark?'☀':'☾';const i=document.getElementById('sre-command-input');if(i)i.addEventListener('input',e=>renderCommandResults(e.target.value));window.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openCommandPalette()}if(e.key==='Escape'){closeCommandPalette()}})}
+    
+    function backupData() {
+        if(!sysSettings.gas) return showToast("Warning", "Cloud Sync URL not configured. Go to Admin Settings.", "warning");
+        
+        showToast("Syncing", "Packing databases & Connecting to Cloud...", "success");
+        const btn = document.querySelector('button[onclick="backupData()"]');
+        if(btn) { btn.disabled = true; btn.innerHTML = "⏳ SYNCING..."; }
 
+        const payload = { action: 'backup', timestamp: Date.now(), products: productsDB, parties: partiesDB, bills: billsDB, journals: journalDB, settings: sysSettings, features: appFeatures };
+
+        fetch(sysSettings.gas, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) })
+        .then(response => response.json()) 
+        .then(data => { if(data.status === 'success') showToast("Success", "Cloud Sync Verified & Completed ✅", "success"); else throw new Error(data.message); })
+        .catch(err => { console.error(err); showToast("Cloud Error", "Sync Unverified. Local Data is Safe.", "error"); })
+        .finally(() => { if(btn) { btn.disabled = false; btn.innerHTML = `<span class="text-xs">🔄</span> <span class="text-[9px] font-black uppercase">Sync</span>`; } });
+    }
   </script>
+
+  <!-- 🔥 SERVICE WORKER REGISTRATION (PWA APP INSTALLATION) -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+          .then(reg => console.log('BEASTMODE: Service Worker Registered!', reg.scope))
+          .catch(err => console.error('Service Worker Failed!', err));
+      });
+    }
+  </script>
+
 </body>
 </html>
