@@ -16,7 +16,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <!-- 🔥 V-9.0 ENTERPRISE DATABASE ENGINE (DEXIE.JS) -->
-    <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
+    <script src="https://unpkg.com/dexie@3.2.4/dist/dexie.js"></script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
@@ -41,7 +41,6 @@
         .btn-ghost { background: transparent; border: 1px solid #cbd5e1; color: #475569; transition: all 0.2s; border-radius: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; }
         .btn-ghost:hover { border-color: #3b82f6; color: #2563eb; background: #eff6ff; }
         
-        /* Unified Payment Buttons */
         .pay-master-btn { flex: 1; padding: 8px; font-size: 10px; font-weight: 800; color: #64748b; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
         .pay-master-btn.active { background: #eff6ff; border-color: #2563eb; color: #1d4ed8; box-shadow: inset 0 0 0 1px #2563eb; }
         .pay-combo-btn { padding: 6px 8px; font-size: 9px; font-weight: 800; color: #475569; background: white; border: 1px solid #cbd5e1; border-radius: 6px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; text-align: center; }
@@ -65,6 +64,8 @@
 
         #login-screen { position: fixed; inset: 0; background: #0f172a; z-index: 9999; display: flex; align-items: center; justify-content: center; }
         #login-screen.hidden { display: none !important; }
+        
+        /* BOOT SCREEN CSS */
         #boot-screen { position: fixed; inset: 0; background: #0f172a; z-index: 10000; display: flex; flex-direction:column; align-items: center; justify-content: center; color:white; }
         
         /* 🔥 RBAC Access Control Class */
@@ -81,11 +82,14 @@
 </head>
 <body>
 
-  <!-- 0. BOOT SCREEN -->
+  <!-- 0. BOOT SCREEN (WITH EMERGENCY FAILSAFE) -->
   <div id="boot-screen">
       <div class="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center text-white font-black text-2xl shadow-lg mb-4 animate-pulse">SRE</div>
       <h2 class="text-xl font-black uppercase tracking-widest mb-1">V-9.0 ENTERPRISE</h2>
-      <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest" id="boot-status">Initializing Database Engine...</p>
+      <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center px-4" id="boot-status">Initializing Database Engine...</p>
+      
+      <!-- Hidden Emergency Button (Appears if stuck) -->
+      <button id="btn-emergency" onclick="emergencyWipe()" class="hidden mt-8 bg-rose-600 hover:bg-rose-700 text-white px-5 py-2.5 rounded-lg text-[10px] font-black tracking-widest uppercase shadow-lg border border-rose-400">⚠️ Force Fix / Reset System</button>
   </div>
 
   <!-- 1. LOGIN SCREEN -->
@@ -247,6 +251,8 @@
         <div id="view-product" class="view-section hidden flex-col h-full w-full p-4 overflow-y-auto">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-4 shrink-0"><h2 class="text-2xl font-black text-slate-800 uppercase tracking-widest flex items-center gap-3"><span class="w-1.5 h-8 bg-amber-500 rounded-full"></span> Inventory Master</h2><div class="flex flex-wrap gap-2 w-full sm:w-auto admin-only"><button onclick="document.getElementById('csv-upload').click()" class="btn-ghost px-4 h-9 text-[10px]">Import CSV</button><button onclick="exportProductsCSV()" class="btn-ghost px-4 h-9 text-[10px]">Export CSV</button><button onclick="openProductForm()" class="btn-primary px-5 h-9 text-[11px] ml-1">➕ New Product</button></div></div>
             <div class="glass-panel flex flex-col shadow-sm mb-4 shrink-0 overflow-hidden"><div class="p-3 border-b border-slate-100 bg-white flex flex-col sm:flex-row gap-3 items-center"><div class="relative w-full flex-1"><span class="absolute left-3 top-2.5 text-slate-400">🔍</span><input type="text" id="prod-search" oninput="debouncedRenderProducts()" placeholder="Search Item, Brand, Category, SKU or IMEI..." class="premium-input !pl-9 text-xs w-full bg-slate-50" /></div><select id="filter-category" onchange="renderProducts()" class="cat-select premium-input w-full sm:w-40 bg-slate-50"></select></div><div class="overflow-x-auto max-h-[50vh]"><table class="w-full text-left min-w-[1000px]"><thead class="bg-slate-50 sticky top-0 z-10 shadow-sm"><tr><th class="standard-th w-14 text-center">Img</th><th class="standard-th">Product Profile</th><th class="standard-th">SKU/Barcode</th><th class="standard-th text-right">Pricing</th><th class="standard-th text-center">Stock</th><th class="standard-th text-center admin-only">Actions</th></tr></thead><tbody id="product-table-body" class="divide-y divide-slate-100 bg-white"></tbody></table></div></div>
+            
+            <div id="add-product-form" class="glass-panel p-5 shrink-0 hidden relative border-t-4 border-t-amber-500 bg-white"><div class="flex justify-between items-center mb-4"><h3 id="prod-form-title" class="font-black text-sm text-slate-800 uppercase tracking-widest">✏️ Product Setup</h3><button onclick="document.getElementById('add-product-form').classList.add('hidden')" class="text-rose-500 font-black hover:scale-110">✕</button></div><input type="hidden" id="p-id" value=""><div class="flex flex-col lg:flex-row gap-6"><div class="w-full lg:w-1/4 flex flex-col items-center"><div class="w-full aspect-square max-h-[180px] bg-slate-50 border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center relative cursor-pointer overflow-hidden hover:border-blue-400 transition-colors" onclick="document.getElementById('p-image-upload').click()"><div id="p-img-placeholder" class="flex flex-col items-center"><span class="text-4xl mb-2">📸</span><span class="text-[9px] font-black text-blue-600 bg-blue-50 px-3 py-1 rounded-lg uppercase">Upload Photo</span></div><img id="p-img-preview" class="hidden absolute inset-0 w-full h-full object-cover" /></div><button type="button" onclick="clearProductImage()" class="mt-2 text-[9px] font-black text-rose-500 uppercase px-3 py-1 rounded hover:bg-rose-50">Remove</button></div><div class="w-full lg:w-3/4 space-y-4"><div class="grid grid-cols-1 sm:grid-cols-3 gap-3"><div class="col-span-2"><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Item Name *</label><input type="text" id="p-name" class="premium-input uppercase text-blue-800"></div><div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Brand</label><input type="text" id="p-brand" class="premium-input uppercase" list="brand-list"></div></div><div class="grid grid-cols-2 sm:grid-cols-4 gap-3"><div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Category</label><select id="p-category" onchange="handleCategoryChange(this)" class="cat-select premium-input"></select></div><div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">SKU / Barcode</label><input type="text" id="p-sku" class="premium-input uppercase font-mono text-slate-500" placeholder="Auto"></div><div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">HSN Code</label><input type="text" id="p-hsn" class="premium-input uppercase font-mono"></div><div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Min Alert Stock</label><input type="number" id="p-low" value="5" class="premium-input"></div></div><div class="grid grid-cols-2 sm:grid-cols-5 gap-3 p-3 bg-slate-50 border border-slate-200 rounded-lg"><div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Pur Price</label><input type="number" id="p-pur" class="premium-input bg-white text-rose-600" oninput="calcMargin()"></div><div><label class="text-[9px] font-bold text-blue-600 uppercase block mb-1">Sale Price *</label><input type="number" id="p-sale" class="premium-input border-blue-300 text-blue-700 shadow-sm" oninput="calcMargin()"></div><div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">GST %</label><select id="p-gst" class="premium-input bg-white"><option value="0">0</option><option value="5">5</option><option value="12">12</option><option value="18" selected>18</option><option value="28">28</option></select></div><div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Margin %</label><input type="text" id="p-margin" class="premium-input bg-emerald-50 text-emerald-700 font-black" readonly placeholder="0%"></div><div class="flex items-center mt-4 pl-2"><label class="flex items-center gap-2 cursor-pointer hover:bg-slate-100 p-1 rounded"><input type="checkbox" id="p-track" class="w-4 h-4 text-blue-600 rounded"><span class="text-[9px] font-black text-slate-700 uppercase mt-0.5">Track IMEI</span></label></div></div></div></div><div class="flex justify-end gap-3 mt-5 pt-4 border-t border-slate-100"><button onclick="document.getElementById('add-product-form').classList.add('hidden')" class="btn-ghost px-6 py-2 text-xs">Cancel</button><button onclick="saveProduct()" class="btn-primary px-8 py-2 text-xs">💾 Save Inventory</button></div></div>
         </div>
 
         <!-- 4. PARTY MASTER -->
@@ -474,16 +480,7 @@
     // ---------------------------------------------------------
     // 1. INITIALIZE DEXIE.JS DATABASE (UNLIMITED STORAGE)
     // ---------------------------------------------------------
-    const db = new Dexie("SRE_ERP_Enterprise_V9");
-    db.version(1).stores({
-        users: 'id, user, role',
-        products: 'id, name, sku, category',
-        parties: 'id, name, mobile, type',
-        bills: 'id, invNo, date, type, party',
-        journals: 'id, date, refNo, type',
-        finance: 'id, name',
-        configs: 'key' 
-    });
+    let db;
 
     // CACHED MEMORY FOR FAST UI RENDERING (Sync with Dexie)
     let productsDB=[], partiesDB=[], billsDB=[], journalDB=[], financeDB=[], categoriesDB=[];
@@ -503,71 +500,112 @@
     // 2. BOOTSTRAP, AUTHENTICATION & AUTO-MIGRATION
     // ---------------------------------------------------------
     window.onload = async () => { 
-        try {
-            await initializeSystem();
-        } catch(e) {
-            console.error(e);
-            document.getElementById('boot-status').innerText = "Database Error! Check Console.";
-            document.getElementById('boot-status').className = "text-[10px] font-bold text-rose-500 uppercase tracking-widest";
-        }
+        // FAILSAFE TIMER (If stuck for 5 seconds, show emergency button)
+        setTimeout(() => {
+            const btn = document.getElementById('btn-emergency');
+            if(btn && !document.getElementById('boot-screen').classList.contains('hidden')) {
+                btn.classList.remove('hidden');
+            }
+        }, 5000);
+        
+        await initializeSystem();
     };
 
     async function initializeSystem() {
-        // Step A: Auto-Migrate from LocalStorage if IndexedDB is Empty
-        const prodCount = await db.products.count();
-        if (prodCount === 0 && localStorage.getItem('sre_products')) {
-            document.getElementById('boot-status').innerText = "Upgrading Legacy Data to Enterprise Engine...";
-            await migrateFromV8();
-        }
+        try {
+            // Check if Dexie loaded properly (Internet requirement for first load)
+            if (typeof Dexie === 'undefined') {
+                document.getElementById('boot-status').innerText = "ERROR: INTERNET REQUIRED FOR FIRST LOAD (Database Engine missing)";
+                document.getElementById('boot-status').className = "text-[10px] font-bold text-rose-500 uppercase tracking-widest mt-2";
+                document.getElementById('btn-emergency').classList.remove('hidden');
+                return;
+            }
 
-        // Step B: Seed Master Data if empty
-        const userCount = await db.users.count();
-        if (userCount === 0) {
-            await db.users.bulkAdd([
-                { id: 'U1', user: 'admin', pass: 'admin', role: 'ADMIN' },
-                { id: 'U2', user: 'cashier', pass: '1234', role: 'CASHIER' }
-            ]);
-            await db.finance.bulkAdd([{id:'FIN1', name:'Bajaj Finance', status:'ACTIVE'}, {id:'FIN2', name:'HDB Financial', status:'ACTIVE'}]);
-            await db.configs.put({ key: 'sysSettings', value: sysSettings });
-            await db.configs.put({ key: 'appFeatures', value: appFeatures });
-            await db.configs.put({ key: 'sysSequences', value: sysSequences });
-            await db.configs.put({ key: 'categories', value: ["Mobile Phone", "Accessories", "Electronics", "Spare Parts"] });
-        }
+            db = new Dexie("SRE_ERP_Enterprise_V9");
+            db.version(1).stores({
+                users: 'id, user, role',
+                products: 'id, name, sku, category',
+                parties: 'id, name, mobile, type',
+                bills: 'id, invNo, date, type, party',
+                journals: 'id, date, refNo, type',
+                finance: 'id, name',
+                configs: 'key' 
+            });
 
-        // Step C: Load Database into Fast Cache
-        productsDB = await db.products.toArray();
-        partiesDB = await db.parties.toArray();
-        billsDB = await db.bills.toArray();
-        journalDB = await db.journals.toArray();
-        financeDB = await db.finance.toArray();
-        
-        let cSet = await db.configs.get('sysSettings'); if(cSet) sysSettings = cSet.value;
-        let cFeat = await db.configs.get('appFeatures'); if(cFeat) appFeatures = cFeat.value;
-        let cSeq = await db.configs.get('sysSequences'); if(cSeq) sysSequences = cSeq.value;
-        let cCat = await db.configs.get('categories'); categoriesDB = cCat ? cCat.value : ["Mobile Phone", "Accessories"];
+            // Step A: Auto-Migrate from LocalStorage if IndexedDB is Empty
+            const prodCount = await db.products.count();
+            if (prodCount === 0 && localStorage.getItem('sre_products')) {
+                document.getElementById('boot-status').innerText = "Upgrading Legacy Data to Enterprise Engine...";
+                await migrateFromV8();
+            }
 
-        document.getElementById('boot-screen').classList.add('hidden');
+            // Step B: Seed Master Data if empty
+            const userCount = await db.users.count();
+            if (userCount === 0) {
+                await db.users.bulkPut([
+                    { id: 'U1', user: 'admin', pass: 'admin', role: 'ADMIN' },
+                    { id: 'U2', user: 'cashier', pass: '1234', role: 'CASHIER' }
+                ]);
+                await db.finance.bulkPut([{id:'FIN1', name:'Bajaj Finance', status:'ACTIVE'}, {id:'FIN2', name:'HDB Financial', status:'ACTIVE'}]);
+                await db.configs.put({ key: 'sysSettings', value: sysSettings });
+                await db.configs.put({ key: 'appFeatures', value: appFeatures });
+                await db.configs.put({ key: 'sysSequences', value: sysSequences });
+                await db.configs.put({ key: 'categories', value: ["Mobile Phone", "Accessories", "Electronics", "Spare Parts"] });
+            }
 
-        // Step D: Session Verification
-        let sessionUserId = sessionStorage.getItem('sre_session_v9');
-        if (sessionUserId) {
-            currentUser = await db.users.get(sessionUserId);
-            if (currentUser) {
-                applyRoleRestrictions(currentUser.role);
-                bootstrapApplication();
-            } else { showLogin(); }
-        } else {
-            showLogin();
+            // Step C: Load Database into Fast Cache
+            productsDB = await db.products.toArray();
+            partiesDB = await db.parties.toArray();
+            billsDB = await db.bills.toArray();
+            journalDB = await db.journals.toArray();
+            financeDB = await db.finance.toArray();
+            
+            let cSet = await db.configs.get('sysSettings'); if(cSet) sysSettings = cSet.value;
+            let cFeat = await db.configs.get('appFeatures'); if(cFeat) appFeatures = cFeat.value;
+            let cSeq = await db.configs.get('sysSequences'); if(cSeq) sysSequences = cSeq.value;
+            let cCat = await db.configs.get('categories'); categoriesDB = cCat ? cCat.value : ["Mobile Phone", "Accessories"];
+
+            document.getElementById('boot-screen').classList.add('hidden');
+
+            // Step D: Session Verification
+            let sessionUserId = sessionStorage.getItem('sre_session_v9');
+            if (sessionUserId) {
+                currentUser = await db.users.get(sessionUserId);
+                if (currentUser) {
+                    applyRoleRestrictions(currentUser.role);
+                    bootstrapApplication();
+                } else { showLogin(); }
+            } else {
+                showLogin();
+            }
+        } catch (e) {
+            console.error("FATAL BOOT ERROR:", e);
+            document.getElementById('boot-status').innerText = "DATABASE ERROR: " + e.message;
+            document.getElementById('boot-status').className = "text-[10px] font-bold text-rose-500 uppercase tracking-widest mt-2";
+            document.getElementById('btn-emergency').classList.remove('hidden');
         }
     }
 
     async function migrateFromV8() {
         try {
-            let p = JSON.parse(localStorage.getItem('sre_products')||'[]'); if(p.length) await db.products.bulkAdd(p);
-            let pt = JSON.parse(localStorage.getItem('sre_parties')||'[]'); if(pt.length) await db.parties.bulkAdd(pt);
-            let b = JSON.parse(localStorage.getItem('sre_bills')||'[]'); if(b.length) await db.bills.bulkAdd(b);
-            let j = JSON.parse(localStorage.getItem('sre_journals')||'[]'); if(j.length) await db.journals.bulkAdd(j);
-            let f = JSON.parse(localStorage.getItem('sre_finance')||'[]'); if(f.length) await db.finance.bulkAdd(f);
+            let p = JSON.parse(localStorage.getItem('sre_products')||'[]'); 
+            p = p.map((x,i) => { if(!x.id) x.id='PRD-MIG-'+i; return x; });
+            if(p.length) await db.products.bulkPut(p);
+            
+            let pt = JSON.parse(localStorage.getItem('sre_parties')||'[]'); 
+            pt = pt.map((x,i) => { if(!x.id) x.id='PTY-MIG-'+i; return x; });
+            if(pt.length) await db.parties.bulkPut(pt);
+            
+            let b = JSON.parse(localStorage.getItem('sre_bills')||'[]'); 
+            b = b.map((x,i) => { if(!x.id) x.id='INV-MIG-'+i; return x; });
+            if(b.length) await db.bills.bulkPut(b);
+            
+            let j = JSON.parse(localStorage.getItem('sre_journals')||'[]'); 
+            j = j.map((x,i) => { if(!x.id) x.id='JRN-MIG-'+i; return x; });
+            if(j.length) await db.journals.bulkPut(j);
+            
+            let f = JSON.parse(localStorage.getItem('sre_finance')||'[]'); 
+            if(f.length) await db.finance.bulkPut(f);
             
             let s = JSON.parse(localStorage.getItem('sre_settings')); if(s) await db.configs.put({key:'sysSettings', value:s});
             let ft = JSON.parse(localStorage.getItem('sre_features')); if(ft) await db.configs.put({key:'appFeatures', value:ft});
@@ -575,6 +613,18 @@
             let ct = JSON.parse(localStorage.getItem('sre_categories')); if(ct) await db.configs.put({key:'categories', value:ct});
             console.log("Migration Complete!");
         } catch(e) { console.error("Migration Failed", e); }
+    }
+
+    function emergencyWipe() {
+        if(confirm("DANGER: Wiping all database! Are you sure?")) {
+            localStorage.clear();
+            sessionStorage.clear();
+            if (typeof Dexie !== 'undefined') {
+                Dexie.delete("SRE_ERP_Enterprise_V9").then(() => location.reload());
+            } else {
+                location.reload();
+            }
+        }
     }
 
     function showLogin() {
@@ -615,18 +665,6 @@
         renderCategories(); renderFinanceSelects(); renderProducts(); renderParties(); 
         showView('dashboard'); 
     }
-
-    // 3. TOAST, NETWORK & HOTKEYS
-    window.addEventListener('online', () => { const n = document.getElementById('network-indicator'); if(n) { n.className = "w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]"; document.getElementById('network-text').innerText="ONLINE"; document.getElementById('network-text').className="text-[9px] text-emerald-400 font-black uppercase mt-0.5"; }});
-    window.addEventListener('offline', () => { const n = document.getElementById('network-indicator'); if(n) { n.className = "w-2.5 h-2.5 rounded-full bg-rose-500 shadow-[0_0_8px_#f43f5e]"; document.getElementById('network-text').innerText="OFFLINE"; document.getElementById('network-text').className="text-[9px] text-rose-400 font-black uppercase mt-0.5"; showToast("Network", "System is Offline.", "error"); }});
-    
-    document.addEventListener('focusin', e => { if(e.target.tagName === 'INPUT' && (e.target.type === 'number' || e.target.type === 'text')) e.target.select(); });
-    window.addEventListener('keydown', e => {
-        if(e.key === 'F2' && appFeatures.SALES) { e.preventDefault(); startBill('SALE'); } if(e.key === 'F3' && appFeatures.PURCHASE && currentUser.role==='ADMIN') { e.preventDefault(); startBill('PURCHASE'); } if(e.key === 'F4') { e.preventDefault(); startPayment('IN'); }
-        if(e.key === 'F9' || ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S'))) { e.preventDefault(); if(!document.getElementById('view-new-bill').classList.contains('hidden')) saveFinalBill(); else if(!document.getElementById('add-product-form').classList.contains('hidden')) saveProduct(); else if(document.getElementById('pt-name') && document.getElementById('pt-name').value && !document.getElementById('view-party').classList.contains('hidden')) saveParty(); }
-        if(e.key === 'Escape') { closePopup(); closeImeiModal(); closeProductModal(); document.getElementById('party-popup')?.classList.add('hidden'); document.getElementById('finance-modal')?.classList.add('hidden'); }
-    });
-    function handleShortcut(e, type) { if(e.altKey && (e.key === 'c' || e.key === 'C')) { e.preventDefault(); if(type === 'CUSTOMER' || type === 'SUPPLIER') openPartyModal(type, e.target); else if(type === 'PRODUCT') openItemModal(e.target); } }
 
     // 4. ADMIN CONTROL PANEL
     function buildDynamicSidebar() {
@@ -689,7 +727,6 @@
 
     // 5. VIEW ROUTER
     function showView(viewName) {
-        // Enforce RBAC
         if(currentUser.role === 'CASHIER' && (viewName === 'reports' || viewName === 'admin')) {
             return showToast("Access Denied", "You don't have permission.", "error");
         }
@@ -828,6 +865,7 @@
             const g=tr.querySelector('.b-gst'); if(g) g.value=prod.gst; 
             const iCell = tr.querySelectorAll('td')[3]; 
             
+            // Only reset IMEI if product actually changed
             if(tr._productName !== prod.name) {
                 tr._productName = prod.name;
                 tr._imeis=[]; 
@@ -851,8 +889,8 @@
         for(let i=0; i<qty; i++) { 
             const val = (tr._imeis && tr._imeis[i]) ? tr._imeis[i] : ""; 
             const wrap = document.createElement('div'); wrap.className = "relative";
-            wrap.innerHTML = `<span class="absolute left-3 top-2.5 text-[9px] font-black text-slate-400">#${i+1}</span><input type="text" class="premium-input font-mono font-bold text-xs !pl-8 uppercase imei-modal-val" placeholder="Scan or Type IMEI/Serial" oninput="updateImeiModalCount()">`;
-            wrap.querySelector('input').value = val;
+            wrap.innerHTML = `<span class="absolute left-3 top-2.5 text-[9px] font-black text-slate-400">#${i+1}</span><input type="text" class="premium-input font-mono font-bold text-xs !pl-8 uppercase imei-modal-val" placeholder="Scan or Type IMEI" oninput="updateImeiModalCount()">`;
+            wrap.querySelector('input').value = val; // SAFE
             c.appendChild(wrap);
         }
         document.getElementById('imei-modal').classList.remove('hidden'); updateImeiModalCount();
@@ -1136,7 +1174,7 @@
             });
             
             const tb=document.getElementById("ledger-table-body"); if(tb) {
-                tb.innerHTML = jList.length === 0 ? `<tr><td colspan="7" class="text-center p-8 text-slate-400 font-bold text-xs uppercase tracking-widest">No Journals Found</td></tr>` : 
+                tb.innerHTML = jList.length === 0 ? `<tr><td colspan="7" class="text-center p-8 text-slate-400 font-bold text-xs uppercase tracking-widest">No Transactions Found</td></tr>` : 
                 jList.reverse().map(j=>`<tr class="hover:bg-indigo-50/30 transition-colors"><td><span class="font-mono text-[10px] font-bold text-slate-600 bg-slate-50 border border-slate-200 px-1.5 py-0.5 rounded">${j.date}</span></td><td class="font-bold text-[11px] text-slate-800">${j.refNo}</td><td class="text-center"><span class="px-2 py-0.5 rounded-sm text-[8px] font-black uppercase tracking-widest shadow-sm border border-black/5">${j.type}</span></td><td class="font-black text-slate-800 uppercase text-[11px]">${escapeHTML(j.narration)}</td><td class="text-right text-rose-600 font-black text-sm">${j._dr||'-'}</td><td class="text-right text-emerald-600 font-black text-sm">${j._cr||'-'}</td><td class="text-right font-black text-sm text-indigo-700">${j._run?j._run.toLocaleString('en-IN'):'-'} <span class="text-[9px] text-slate-400 font-bold ml-0.5">${isC?'Dr':'Cr'}</span></td></tr>`).join('');
             }
             const eo=document.getElementById("ledger-ob"); if(eo) eo.innerText="₹"+ob.toLocaleString('en-IN'); 
