@@ -499,15 +499,18 @@
     // ---------------------------------------------------------
     // 2. BOOTSTRAP, AUTHENTICATION & AUTO-MIGRATION
     // ---------------------------------------------------------
+    
+    // 🚀 FAILSAFE TIMER OUTSIDE ONLOAD (Runs immediately)
+    setTimeout(() => {
+        const btn = document.getElementById('btn-emergency');
+        if(btn && !document.getElementById('boot-screen').classList.contains('hidden')) {
+            btn.classList.remove('hidden');
+            document.getElementById('boot-status').innerText = "Network Blocked / Cache Stuck! Force Reset Required.";
+            document.getElementById('boot-status').className = "text-[10px] font-bold text-rose-500 uppercase tracking-widest mt-2 px-4 text-center";
+        }
+    }, 5000);
+
     window.onload = async () => { 
-        // FAILSAFE TIMER (If stuck for 5 seconds, show emergency button)
-        setTimeout(() => {
-            const btn = document.getElementById('btn-emergency');
-            if(btn && !document.getElementById('boot-screen').classList.contains('hidden')) {
-                btn.classList.remove('hidden');
-            }
-        }, 5000);
-        
         await initializeSystem();
     };
 
@@ -516,7 +519,7 @@
             // Check if Dexie loaded properly (Internet requirement for first load)
             if (typeof Dexie === 'undefined') {
                 document.getElementById('boot-status').innerText = "ERROR: INTERNET REQUIRED FOR FIRST LOAD (Database Engine missing)";
-                document.getElementById('boot-status').className = "text-[10px] font-bold text-rose-500 uppercase tracking-widest mt-2";
+                document.getElementById('boot-status').className = "text-[10px] font-bold text-rose-500 uppercase tracking-widest mt-2 text-center px-4";
                 document.getElementById('btn-emergency').classList.remove('hidden');
                 return;
             }
@@ -581,7 +584,7 @@
         } catch (e) {
             console.error("FATAL BOOT ERROR:", e);
             document.getElementById('boot-status').innerText = "DATABASE ERROR: " + e.message;
-            document.getElementById('boot-status').className = "text-[10px] font-bold text-rose-500 uppercase tracking-widest mt-2";
+            document.getElementById('boot-status').className = "text-[10px] font-bold text-rose-500 uppercase tracking-widest mt-2 text-center px-4";
             document.getElementById('btn-emergency').classList.remove('hidden');
         }
     }
@@ -616,13 +619,21 @@
     }
 
     function emergencyWipe() {
-        if(confirm("DANGER: Wiping all database! Are you sure?")) {
+        if(confirm("DANGER: Wiping all database & Cache! Are you sure?")) {
             localStorage.clear();
             sessionStorage.clear();
+            
+            // 🛑 KILL SERVICE WORKERS CACHE
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                    for(let registration of registrations) { registration.unregister(); }
+                });
+            }
+            
             if (typeof Dexie !== 'undefined') {
-                Dexie.delete("SRE_ERP_Enterprise_V9").then(() => location.reload());
+                Dexie.delete("SRE_ERP_Enterprise_V9").then(() => window.location.reload(true));
             } else {
-                location.reload();
+                window.location.reload(true);
             }
         }
     }
@@ -889,7 +900,7 @@
         for(let i=0; i<qty; i++) { 
             const val = (tr._imeis && tr._imeis[i]) ? tr._imeis[i] : ""; 
             const wrap = document.createElement('div'); wrap.className = "relative";
-            wrap.innerHTML = `<span class="absolute left-3 top-2.5 text-[9px] font-black text-slate-400">#${i+1}</span><input type="text" class="premium-input font-mono font-bold text-xs !pl-8 uppercase imei-modal-val" placeholder="Scan or Type IMEI" oninput="updateImeiModalCount()">`;
+            wrap.innerHTML = `<span class="absolute left-3 top-2.5 text-[9px] font-black text-slate-400">#${i+1}</span><input type="text" class="premium-input font-mono font-bold text-xs !pl-8 uppercase imei-modal-val" placeholder="Scan or Type IMEI/Serial" oninput="updateImeiModalCount()">`;
             wrap.querySelector('input').value = val; // SAFE
             c.appendChild(wrap);
         }
@@ -1182,6 +1193,7 @@
             const ep=document.getElementById("ledger-paid"); if(ep) ep.innerText="₹"+pd.toLocaleString('en-IN'); 
             const er=document.getElementById("ledger-bal"); if(er) er.innerText="₹"+run.toLocaleString('en-IN');
 
+            // Reports calculations
             let tSale=0, tPur=0, tExp=0;
             let tbDr=0, tbCr=0; let tbAccounts = {};
             journalDB.forEach(j=>{ 
