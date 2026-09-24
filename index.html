@@ -10,8 +10,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#0f172a" />
 
-   <script src="https://cdn.tailwindcss.com"></script>
-    <!-- 'defer' लगाने से पेज ब्लॉक नहीं होगा -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
@@ -78,19 +77,31 @@
     </style>
 
     <script>
-        window.onerror = function(msg, url, lineNo) {
-            console.error("Global Error:", msg);
+        window.onerror = function(msg, url, lineNo, colNo, error) {
+            console.error("SRE Global Error:", {msg, url, lineNo, colNo, error});
             const bootStatus = document.getElementById('boot-status');
+            const bootScreen = document.getElementById('boot-screen');
             const btnEmergency = document.getElementById('btn-emergency');
-            if(bootStatus && document.getElementById('boot-screen') && !document.getElementById('boot-screen').classList.contains('hidden')) {
-                bootStatus.innerText = "CRITICAL JS ERROR: " + msg + " (Line: " + lineNo + ")";
+            if (bootStatus && bootScreen && !bootScreen.classList.contains('hidden')) {
+                bootStatus.innerText = "System startup error. Check browser console for technical details.";
                 bootStatus.className = "text-[10px] font-bold text-rose-500 uppercase mt-4 text-center px-4";
+                if (btnEmergency) btnEmergency.classList.remove('hidden');
+            } else if (typeof showToast === 'function') {
+                showToast("System Error", "An unexpected error occurred. Your saved data was not changed.", "error");
             }
-            if(btnEmergency) btnEmergency.classList.remove('hidden');
             return false;
         };
         window.addEventListener('unhandledrejection', function(e) {
-            console.error("Unhandled Promise:", e.reason);
+            console.error("SRE Unhandled Promise Rejection:", e.reason);
+            const bootScreen = document.getElementById('boot-screen');
+            if (bootScreen && !bootScreen.classList.contains('hidden')) {
+                const status = document.getElementById('boot-status');
+                if (status) status.innerText = "Startup operation failed. Recovery is available.";
+                const btn = document.getElementById('btn-emergency');
+                if (btn) btn.classList.remove('hidden');
+            } else if (typeof showToast === 'function') {
+                showToast("Operation Failed", "The operation could not be completed. No partial save was intended.", "error");
+            }
         });
     </script>
 </head>
@@ -115,8 +126,8 @@
               <button onclick="executeLogin()" class="btn-primary w-full py-3 mt-2 text-sm" id="btn-login">Verify Identity</button>
           </div>
           <div class="mt-6 text-[8px] font-bold text-slate-400 uppercase text-left bg-slate-50 p-2 rounded">
-              <p class="text-rose-500 border-b border-slate-200 pb-1 mb-1">Admin: admin / admin (Full Access)</p>
-              <p class="text-blue-500">Cashier: cashier / 1234 (Billing Only)</p>
+              <p class="text-slate-500">Use your configured system account credentials.</p>
+              <p class="text-amber-600 mt-1">For first setup, change the default credentials immediately.</p>
           </div>
       </div>
   </div>
@@ -496,9 +507,17 @@
 
     // --- SECURITY & AUTH ---
     async function hashString(str) {
-        const buffer = new TextEncoder().encode(str + "SRE_SALT_V9");
-        const hash = await crypto.subtle.digest("SHA-256", buffer);
-        return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+        try {
+            // FIX: File fallback if running directly via file:// (non-https context where window.crypto is blocked)
+            if (!window.crypto || !window.crypto.subtle) {
+                return btoa(str + "SRE_SALT_V9").split('').reverse().join('');
+            }
+            const buffer = new TextEncoder().encode(str + "SRE_SALT_V9");
+            const hash = await crypto.subtle.digest("SHA-256", buffer);
+            return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+        } catch(e) {
+            return btoa(str + "SRE_SALT_V9");
+        }
     }
 
     function showLogin() {
@@ -519,7 +538,6 @@
         const hash = await hashString(p);
         
         if (userRec.pass === hash || userRec.pass === p) {
-            // Auto upgrade plaintext password on first login
             if (userRec.pass === p) {
                 userRec.pass = hash;
                 await db.users.put(userRec);
@@ -545,119 +563,163 @@
     }
 
     // --- DATABASE & BOOTSTRAP ---
-    setTimeout(() => {
-        const btn = document.getElementById('btn-emergency');
-        if(btn && !document.getElementById('boot-screen').classList.contains('hidden')) {
-            btn.classList.remove('hidden');
-            document.getElementById('boot-status').innerText = "Database took too long to load. Click below to recover.";
-            document.getElementById('boot-status').className = "text-[10px] font-bold text-amber-500 uppercase tracking-widest mt-2 px-4 text-center";
-        }
-    }, 4000);
-
-    // FIXED LOADING MECHANISM: Wait for Dexie safely without blocking UI
+    
+    // SAFE STARTUP HANDLER: Solves the infinite 'Initializing' block
     document.addEventListener("DOMContentLoaded", () => {
-        let checkDexie = setInterval(async () => {
+        const bootStatus = document.getElementById('boot-status');
+        
+        // Wait maximum 10 seconds for Dexie to load
+        let attempts = 0;
+        const checkDexie = setInterval(async () => {
+            attempts++;
             if (typeof Dexie !== 'undefined') {
                 clearInterval(checkDexie);
-                await initializeSystem();
-            } else {
-                const statusEl = document.getElementById('boot-status');
-                if(statusEl) statusEl.innerText = "Waiting for Database Library to load...";
+                try {
+                    await initializeSystem();
+                } catch (e) {
+                    console.error("Boot failure:", e);
+                    if (bootStatus) {
+                        bootStatus.innerText = "STARTUP ERROR: " + e.message;
+                        bootStatus.className = "text-[10px] font-bold text-rose-500 uppercase mt-4 text-center px-4";
+                    }
+                    const btn = document.getElementById('btn-emergency');
+                    if (btn) btn.classList.remove('hidden');
+                }
+            } else if (attempts >= 40) { // 10 seconds timeout
+                clearInterval(checkDexie);
+                if (bootStatus) {
+                    bootStatus.innerText = "Network Error: Core library failed to load. Check internet or adblocker.";
+                    bootStatus.className = "text-[10px] font-bold text-rose-500 uppercase mt-4 text-center px-4";
+                }
+                const btn = document.getElementById('btn-emergency');
+                if (btn) btn.classList.remove('hidden');
             }
-        }, 500);
+        }, 250);
     });
 
     async function initializeSystem() {
-        try {
-            db = new Dexie("SRE_ERP_Enterprise_V9");
-            db.version(1).stores({
-                users: 'id, user, role',
-                products: 'id, name, sku, category',
-                parties: 'id, name, mobile, type',
-                bills: 'id, invNo, date, type, party',
-                journals: 'id, date, refNo, type',
-                finance: 'id, name',
-                configs: 'key' 
-            });
-
-            const prodCount = await db.products.count();
-            if (prodCount === 0 && localStorage.getItem('sre_products')) {
-                document.getElementById('boot-status').innerText = "Upgrading Legacy Data to Enterprise Engine...";
-                await migrateFromV8();
-            }
-
-            const userCount = await db.users.count();
-            if (userCount === 0) {
-                const adminHash = await hashString('admin');
-                const cashierHash = await hashString('1234');
-                await db.users.bulkPut([
-                    { id: 'U1', user: 'admin', pass: adminHash, role: 'ADMIN' },
-                    { id: 'U2', user: 'cashier', pass: cashierHash, role: 'CASHIER' }
-                ]);
-                await db.finance.bulkPut([{id:'FIN1', name:'Bajaj Finance', status:'ACTIVE'}, {id:'FIN2', name:'HDB Financial', status:'ACTIVE'}]);
-                await db.configs.put({ key: 'sysSettings', value: sysSettings });
-                await db.configs.put({ key: 'appFeatures', value: appFeatures });
-                await db.configs.put({ key: 'sysSequences', value: sysSequences });
-                await db.configs.put({ key: 'categories', value: ["Mobile Phone", "Accessories", "Electronics", "Spare Parts"] });
-            }
-
-            productsDB = await db.products.toArray();
-            partiesDB = await db.parties.toArray();
-            billsDB = await db.bills.toArray();
-            journalDB = await db.journals.toArray();
-            financeDB = await db.finance.toArray();
-            
-            let cSet = await db.configs.get('sysSettings'); if(cSet) sysSettings = cSet.value;
-            let cFeat = await db.configs.get('appFeatures'); if(cFeat) appFeatures = cFeat.value;
-            let cSeq = await db.configs.get('sysSequences'); if(cSeq) sysSequences = cSeq.value;
-            let cCat = await db.configs.get('categories'); categoriesDB = cCat ? cCat.value : ["Mobile Phone", "Accessories"];
-
-            document.getElementById('boot-screen').classList.add('hidden');
-
-            let sessionUserId = sessionStorage.getItem('sre_session_v9');
-            if (sessionUserId) {
-                currentUser = await db.users.get(sessionUserId);
-                if (currentUser) {
-                    applyRoleRestrictions(currentUser.role);
-                    bootstrapApplication();
-                } else { showLogin(); }
-            } else {
-                showLogin();
-            }
-        } catch (e) {
-            console.error("FATAL BOOT ERROR:", e);
-            document.getElementById('boot-status').innerText = "DATABASE ERROR: " + e.message;
-            document.getElementById('boot-status').className = "text-[10px] font-bold text-rose-500 uppercase tracking-widest mt-2 text-center px-4";
+        db = new Dexie("SRE_ERP_Enterprise_V9");
+        
+        // FIX: Handles the database version lock infinite freeze
+        db.on("blocked", () => {
+            console.error("Database blocked by another tab");
+            document.getElementById('boot-status').innerText = "⚠️ DATABASE LOCKED: Please close all other tabs of this software and refresh!";
+            document.getElementById('boot-status').className = "text-[10px] font-black text-rose-600 bg-rose-100 p-2 rounded uppercase mt-4 text-center px-4";
             document.getElementById('btn-emergency').classList.remove('hidden');
+        });
+
+        db.version(1).stores({
+            users: 'id, user, role',
+            products: 'id, name, sku, category',
+            parties: 'id, name, mobile, type',
+            bills: 'id, invNo, date, type, party',
+            journals: 'id, date, refNo, type',
+            finance: 'id, name',
+            configs: 'key' 
+        });
+
+        // Version 2 exact schema match to prevent IndexedDB breaking on duplicate unique constraints
+        db.version(2).stores({
+            users: 'id, user, role',
+            products: 'id, name, sku, category',
+            parties: 'id, name, mobile, type',
+            bills: 'id, invNo, date, type, party',
+            journals: 'id, date, refNo, type',
+            finance: 'id, name',
+            configs: 'key'
+        });
+
+        // Force open with safety timeout to prevent permanent hang
+        await Promise.race([
+            db.open(),
+            new Promise((_, reject) => setTimeout(() => reject(new Error("Database connection timed out. Close other tabs.")), 8000))
+        ]);
+
+        const prodCount = await db.products.count();
+        if (prodCount === 0 && localStorage.getItem('sre_products')) {
+            document.getElementById('boot-status').innerText = "Upgrading Legacy Data to Enterprise Engine...";
+            await migrateFromV8();
+        }
+
+        const userCount = await db.users.count();
+        if (userCount === 0) {
+            const adminHash = await hashString('admin');
+            const cashierHash = await hashString('1234');
+            await db.users.bulkPut([
+                { id: 'U1', user: 'admin', pass: adminHash, role: 'ADMIN' },
+                { id: 'U2', user: 'cashier', pass: cashierHash, role: 'CASHIER' }
+            ]);
+            await db.finance.bulkPut([{id:'FIN1', name:'Bajaj Finance', status:'ACTIVE'}, {id:'FIN2', name:'HDB Financial', status:'ACTIVE'}]);
+            await db.configs.put({ key: 'sysSettings', value: sysSettings });
+            await db.configs.put({ key: 'appFeatures', value: appFeatures });
+            await db.configs.put({ key: 'sysSequences', value: sysSequences });
+            await db.configs.put({ key: 'categories', value: ["Mobile Phone", "Accessories", "Electronics", "Spare Parts"] });
+        }
+
+        productsDB = await db.products.toArray();
+        partiesDB = await db.parties.toArray();
+        billsDB = await db.bills.toArray();
+        journalDB = await db.journals.toArray();
+        financeDB = await db.finance.toArray();
+        
+        let cSet = await db.configs.get('sysSettings'); if(cSet) sysSettings = cSet.value;
+        let cFeat = await db.configs.get('appFeatures'); if(cFeat) appFeatures = cFeat.value;
+        let cSeq = await db.configs.get('sysSequences'); if(cSeq) sysSequences = cSeq.value;
+        let cCat = await db.configs.get('categories'); categoriesDB = cCat ? cCat.value : ["Mobile Phone", "Accessories"];
+
+        document.getElementById('boot-screen').classList.add('hidden');
+
+        let sessionUserId = sessionStorage.getItem('sre_session_v9');
+        if (sessionUserId) {
+            currentUser = await db.users.get(sessionUserId);
+            if (currentUser) {
+                applyRoleRestrictions(currentUser.role);
+                bootstrapApplication();
+            } else { showLogin(); }
+        } else {
+            showLogin();
         }
     }
 
     async function migrateFromV8() {
+        const readJSON = (key, fallback=[]) => {
+            try {
+                const raw = localStorage.getItem(key);
+                if (!raw) return fallback;
+                const parsed = JSON.parse(raw);
+                return parsed ?? fallback;
+            } catch (e) {
+                console.warn("Skipping invalid legacy value:", key, e);
+                return fallback;
+            }
+        };
         try {
-            let p = JSON.parse(localStorage.getItem('sre_products')||'[]'); 
-            p = p.map((x,i) => { if(!x.id) x.id='PRD-MIG-'+i; return x; });
-            if(p.length) await db.products.bulkPut(p);
-            
-            let pt = JSON.parse(localStorage.getItem('sre_parties')||'[]'); 
-            pt = pt.map((x,i) => { if(!x.id) x.id='PTY-MIG-'+i; return x; });
-            if(pt.length) await db.parties.bulkPut(pt);
-            
-            let b = JSON.parse(localStorage.getItem('sre_bills')||'[]'); 
-            b = b.map((x,i) => { if(!x.id) x.id='INV-MIG-'+i; return x; });
-            if(b.length) await db.bills.bulkPut(b);
-            
-            let j = JSON.parse(localStorage.getItem('sre_journals')||'[]'); 
-            j = j.map((x,i) => { if(!x.id) x.id='JRN-MIG-'+i; return x; });
-            if(j.length) await db.journals.bulkPut(j);
-            
-            let f = JSON.parse(localStorage.getItem('sre_finance')||'[]'); 
-            if(f.length) await db.finance.bulkPut(f);
-            
-            let s = JSON.parse(localStorage.getItem('sre_settings')); if(s) await db.configs.put({key:'sysSettings', value:s});
-            let ft = JSON.parse(localStorage.getItem('sre_features')); if(ft) await db.configs.put({key:'appFeatures', value:ft});
-            let sq = JSON.parse(localStorage.getItem('sre_sequences')); if(sq) await db.configs.put({key:'sysSequences', value:sq});
-            let ct = JSON.parse(localStorage.getItem('sre_categories')); if(ct) await db.configs.put({key:'categories', value:ct});
-        } catch(e) { console.error("Migration Failed", e); }
+            const p  = readJSON('sre_products').map((x,i)=>({...x, id:x.id||`PRD-MIG-${i}`}));
+            const pt = readJSON('sre_parties').map((x,i)=>({...x, id:x.id||`PTY-MIG-${i}`}));
+            const b  = readJSON('sre_bills').map((x,i)=>({...x, id:x.id||`INV-MIG-${i}`}));
+            const j  = readJSON('sre_journals').map((x,i)=>({...x, id:x.id||`JRN-MIG-${i}`}));
+            const f  = readJSON('sre_finance');
+            const s  = readJSON('sre_settings', null);
+            const ft = readJSON('sre_features', null);
+            const sq = readJSON('sre_sequences', null);
+            const ct = readJSON('sre_categories', null);
+
+            await db.transaction('rw', db.products, db.parties, db.bills, db.journals, db.finance, db.configs, async () => {
+                if (p.length) await db.products.bulkPut(p);
+                if (pt.length) await db.parties.bulkPut(pt);
+                if (b.length) await db.bills.bulkPut(b);
+                if (j.length) await db.journals.bulkPut(j);
+                if (f.length) await db.finance.bulkPut(f);
+                if (s)  await db.configs.put({key:'sysSettings', value:s});
+                if (ft) await db.configs.put({key:'appFeatures', value:ft});
+                if (sq) await db.configs.put({key:'sysSequences', value:sq});
+                if (ct) await db.configs.put({key:'categories', value:ct});
+            });
+            console.info("Legacy migration completed without deleting source localStorage.");
+        } catch(e) {
+            console.error("Migration Failed:", e);
+            throw new Error("Legacy data migration failed. Existing localStorage data was not deleted.");
+        }
     }
 
     function emergencyWipe() {
@@ -1604,47 +1666,70 @@
         URL.revokeObjectURL(url);
     }
 
+    function parseCSVLine(line) {
+        const out=[]; let cur="", quoted=false;
+        for(let i=0;i<line.length;i++){
+            const ch=line[i];
+            if(ch === '"'){
+                if(quoted && line[i+1] === '"'){ cur+='"'; i++; }
+                else quoted=!quoted;
+            } else if(ch === ',' && !quoted){ out.push(cur); cur=""; }
+            else cur+=ch;
+        }
+        out.push(cur);
+        return out;
+    }
+
     function importProductsCSV(e) {
-        const file = e.target.files[0];
+        const file = e.target.files?.[0];
         if(!file) return;
         const reader = new FileReader();
         reader.onload = async function(event) {
             try {
-                const lines = event.target.result.split('\n');
-                let count = 0;
-                for (let i = 1; i < lines.length; i++) {
-                    const row = lines[i].split(',');
-                    if (row.length >= 8 && row[1]) {
-                        const name = row[1].replace(/"/g, '').trim().toUpperCase();
-                        const pObj = {
-                            id: `PRD-${Date.now()}-${count}`,
-                            name,
-                            brand: row[2] ? row[2].replace(/"/g, '').trim().toUpperCase() : "-",
-                            category: row[3] ? row[3].replace(/"/g, '').trim() : "General",
-                            sku: row[4] ? row[4].replace(/"/g, '').trim() : `SKU-${Date.now()}-${count}`,
-                            hsn: row[5] ? row[5].replace(/"/g, '').trim() : "-",
-                            pur: Number(row[6]) || 0,
-                            sale: Number(row[7]) || 0,
-                            gst: Number(row[8]) || 18,
-                            stock: Number(row[9]) || 0,
-                            lowStock: Number(row[10]) || 5,
-                            track: row[11] ? row[11].trim() === 'true' : false,
-                            imeiList: [],
-                            image: ""
-                        };
-                        await db.products.put(pObj);
-                        count++;
-                    }
+                const raw = String(event.target.result || '').replace(/^\uFEFF/, '');
+                const lines = raw.split(/\r?\n/).filter(x => x.trim() !== '');
+                if(lines.length < 2) throw new Error("CSV contains no product rows.");
+
+                let count=0, skipped=0;
+                const records=[];
+                for(let i=1;i<lines.length;i++){
+                    const row=parseCSVLine(lines[i]);
+                    if(row.length < 8 || !row[1]?.trim()){ skipped++; continue; }
+
+                    const id=(row[0]||'').trim() || `PRD-IMP-${Date.now()}-${i}`;
+                    const pObj={
+                        id,
+                        name:(row[1]||'').trim().toUpperCase(),
+                        brand:(row[2]||'-').trim().toUpperCase(),
+                        category:(row[3]||'General').trim(),
+                        sku:(row[4]||`SKU-${Date.now()}-${i}`).trim(),
+                        hsn:(row[5]||'-').trim(),
+                        pur:Number(row[6])||0,
+                        sale:Number(row[7])||0,
+                        gst:Math.max(0,Number(row[8])||0),
+                        stock:Math.max(0,Number(row[9])||0),
+                        lowStock:Math.max(0,Number(row[10])||5),
+                        track:String(row[11]||'false').trim().toLowerCase()==='true',
+                        imeList:[],
+                        image:""
+                    };
+                    if(!pObj.name || !pObj.sku || pObj.sale < 0){ skipped++; continue; }
+                    records.push(pObj);
                 }
-                productsDB = await db.products.toArray();
+                if(!records.length) throw new Error("No valid product rows found.");
+
+                await db.transaction('rw', db.products, async()=>{ await db.products.bulkPut(records); });
+                productsDB=await db.products.toArray();
                 renderProducts();
-                showToast("Import", `Imported ${count} products successfully.`, "success");
+                showToast("Import Complete", `${records.length} imported, ${skipped} skipped.`, "success");
             } catch(err) {
-                showToast("Error", "Failed to parse CSV file", "error");
+                console.error("CSV import failed:", err);
+                showToast("Import Error", err.message || "Failed to parse CSV file.", "error");
+            } finally {
+                e.target.value='';
             }
         };
         reader.readAsText(file);
-        e.target.value = '';
     }
 
     function downloadLocalBackup() {
@@ -1811,6 +1896,32 @@
             }
         }
     });
+
+    window.runDeepAudit = async function() {
+        const report = { duplicateIds: [], missingHandlers: [], dbOpen:false, tables:[], errors:[] };
+        try {
+            const ids=[...document.querySelectorAll('[id]')].map(x=>x.id).filter(Boolean);
+            report.duplicateIds=[...new Set(ids.filter((id,i)=>ids.indexOf(id)!==i))];
+            report.dbOpen=!!(db && db.isOpen && db.isOpen());
+            report.tables=db ? ['users','products','parties','bills','journals','finance','configs'].filter(k=>!!db[k]) : [];
+            const handlerAttrs=['onclick','onchange','oninput','onkeydown','onkeyup','onsubmit'];
+            const definedNames=new Set(Object.keys(window));
+            document.querySelectorAll(handlerAttrs.map(a=>`[${a}]`).join(',')).forEach(el=>{
+                handlerAttrs.forEach(a=>{
+                    const code=el.getAttribute(a)||'';
+                    const calls=code.match(/\b([A-Za-z_$][\w$]*)\s*\(/g)||[];
+                    calls.forEach(c=>{
+                        const n=c.replace(/\s*\($/,'');
+                        if(!definedNames.has(n) && !['if','setTimeout','setInterval','parseFloat','Number','String','Boolean','Math'].includes(n))
+                            report.missingHandlers.push({attribute:a, function:n, element:el.id||el.tagName});
+                    });
+                });
+            });
+            report.missingHandlers=[...new Map(report.missingHandlers.map(x=>[JSON.stringify(x),x])).values()];
+        } catch(e){ report.errors.push(e.message); }
+        console.table(report);
+        return report;
+    };
 
     window.runSystemAudit = async function() {
         console.log("--- SRE V9 SYSTEM AUDIT ---");
