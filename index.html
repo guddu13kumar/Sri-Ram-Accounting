@@ -64,8 +64,11 @@
     #login-screen { position: fixed; inset: 0; background: #0f172a; z-index: 9999; display: flex; align-items: center; justify-content: center; }
     #login-screen.hidden { display: none !important; }
 
+    #setup-screen { position: fixed; inset: 0; background: #0f172a; z-index: 9999; display: flex; align-items: center; justify-content: center; }
+    #setup-screen.hidden { display: none !important; }
+
     #boot-screen { position: fixed; inset: 0; background: #0f172a; z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; }
-    #boot-screen.hidden { display: none !important; }   /* 🔥 THE FIX — boot screen will now actually hide */
+    #boot-screen.hidden { display: none !important; }
 
     .admin-only { display: block; }
     body.role-CASHIER .admin-only { display: none !important; }
@@ -100,14 +103,32 @@
         <h2 class="text-xl font-black text-slate-800 uppercase tracking-widest mb-1" id="login-company-name">Sri Ram Enterprises</h2>
         <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-6">Secure System Login</p>
         <div class="space-y-4 text-left">
-            <div><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Username</label><input type="text" id="login-user" class="premium-input" placeholder="admin / cashier"></div>
+            <div><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Username</label><input type="text" id="login-user" class="premium-input" placeholder="Enter your username"></div>
             <div><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Password</label><input type="password" id="login-pass" class="premium-input" placeholder="••••••••" onkeydown="if(event.key==='Enter') executeLogin()"></div>
             <button onclick="executeLogin()" class="btn-primary w-full py-3 mt-2 text-sm" id="btn-login">Verify Identity</button>
         </div>
         <div class="mt-6 text-[8px] font-bold text-slate-400 uppercase text-left bg-slate-50 p-2 rounded">
-            <p class="text-slate-500">Use your configured system account credentials.</p>
-            <p class="text-amber-600 mt-1">Default Admin: admin / admin</p>
-            <p class="text-amber-600">Default Cashier: cashier / 1234</p>
+            <p class="text-slate-500">Enter the credentials you created during first-time setup.</p>
+        </div>
+        <button onclick="confirmSystemReset()" class="mt-4 text-[9px] font-black text-rose-400 uppercase tracking-widest hover:text-rose-600 transition-colors">⚠️ Forgot credentials? Reset System</button>
+    </div>
+</div>
+
+<!-- SETUP SCREEN (First-time) -->
+<div id="setup-screen" class="hidden">
+    <div class="glass-panel p-8 w-full max-w-sm bg-white text-center modal-animate relative overflow-hidden">
+        <div class="absolute top-0 right-0 bg-emerald-600 text-white text-[8px] font-black px-2 py-1 rounded-bl-lg uppercase tracking-widest">First-Time Setup</div>
+        <div class="w-16 h-16 bg-emerald-600 rounded-2xl mx-auto flex items-center justify-center text-white font-black text-2xl shadow-lg mb-4" id="setup-logo-box">SRE</div>
+        <h2 class="text-xl font-black text-slate-800 uppercase tracking-widest mb-1" id="setup-company-name">Sri Ram Enterprises</h2>
+        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-6">Create Your Admin Account</p>
+        <div class="space-y-4 text-left">
+            <div><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Choose Username *</label><input type="text" id="setup-user" class="premium-input" placeholder="e.g. admin" autocomplete="off"></div>
+            <div><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Choose Password *</label><input type="password" id="setup-pass" class="premium-input" placeholder="Minimum 4 characters" autocomplete="new-password"></div>
+            <div><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Confirm Password *</label><input type="password" id="setup-pass2" class="premium-input" placeholder="Re-enter password" autocomplete="new-password" onkeydown="if(event.key==='Enter') executeSetup()"></div>
+            <button onclick="executeSetup()" class="btn-primary w-full py-3 mt-2 text-sm" style="background: linear-gradient(to right, #059669, #047857);">🔐 Create Account &amp; Start</button>
+        </div>
+        <div class="mt-6 text-[9px] font-bold text-slate-400 uppercase text-left bg-amber-50 border border-amber-200 p-2 rounded">
+            <p class="text-amber-700">⚠️ Yeh screen sirf ek baar aayegi. Apna username aur password yaad rakho — inhi se aage login karna hoga.</p>
         </div>
     </div>
 </div>
@@ -645,7 +666,7 @@
 
 <script>
 // ==========================================
-// SRE V9 ENTERPRISE — FIXED BOOT LOADER
+// SRE V9 ENTERPRISE — SETUP + LOGIN EDITION
 // ==========================================
 
 let db;
@@ -687,7 +708,59 @@ function showPopup(title, message, type = 'success') {
 }
 function closePopup() { document.getElementById('center-popup')?.classList.add('hidden'); }
 
-// --- SECURITY & AUTH ---
+// --- FIRST-TIME SETUP ---
+function showSetup() {
+    const s = document.getElementById('setup-screen');
+    const l = document.getElementById('login-screen');
+    if (l) l.classList.add('hidden');
+    if (s) {
+        document.getElementById('setup-company-name').innerText = sysSettings.company;
+        document.getElementById('setup-logo-box').innerText = sysSettings.company.charAt(0);
+        s.classList.remove('hidden');
+        setTimeout(() => { const u = document.getElementById('setup-user'); if (u) u.focus(); }, 200);
+    }
+}
+
+async function executeSetup() {
+    try {
+        const u = document.getElementById('setup-user').value.trim();
+        const p = document.getElementById('setup-pass').value;
+        const c = document.getElementById('setup-pass2').value;
+
+        if (!u) return showToast("Validation", "Username is required", "error");
+        if (u.length < 3) return showToast("Validation", "Username must be at least 3 characters", "error");
+        if (!/^[a-zA-Z0-9_.-]+$/.test(u)) return showToast("Validation", "Only letters, numbers, _ . - allowed", "error");
+        if (!p) return showToast("Validation", "Password is required", "error");
+        if (p.length < 4) return showToast("Validation", "Password must be at least 4 characters", "error");
+        if (p !== c) return showToast("Validation", "Passwords do not match", "error");
+
+        const existing = await db.users.count();
+        if (existing > 0) {
+            return showToast("Already Setup", "System already configured. Please login.", "error");
+        }
+
+        const newUser = { id: 'U-' + Date.now(), user: u, pass: p, role: 'ADMIN' };
+        await db.users.add(newUser);
+
+        sessionStorage.setItem('sre_session_v9', newUser.id);
+        currentUser = newUser;
+        document.getElementById('setup-screen').classList.add('hidden');
+        applyRoleRestrictions(currentUser.role);
+        showToast("Success", `Welcome, ${currentUser.user}! Setup complete.`);
+        bootstrapApplication();
+    } catch (e) {
+        console.error("Setup error:", e);
+        showToast("System Error", e.message || "Setup failed. Try again.", "error");
+    }
+}
+
+function confirmSystemReset() {
+    if (!confirm("⚠️ WARNING: This will PERMANENTLY DELETE all users, products, bills, parties, and journals.\n\nYou will need to set up the system again from scratch.\n\nAre you absolutely sure?")) return;
+    if (!confirm("FINAL CONFIRMATION: All data will be erased. Continue?")) return;
+    emergencyWipe();
+}
+
+// --- LOGIN ---
 function showLogin() {
     document.getElementById('login-company-name').innerText = sysSettings.company;
     document.getElementById('login-logo-box').innerText = sysSettings.company.charAt(0);
@@ -729,7 +802,7 @@ function applyRoleRestrictions(role) {
     const av = document.getElementById('user-avatar'); if(av) av.innerText = (currentUser?.user || 'U').charAt(0).toUpperCase();
 }
 
-// ================ BOOT LOADER (FIXED) ================
+// ================ BOOT LOADER ================
 async function bootLoader() {
     const bootStatus = document.getElementById('boot-status');
     const btnEmergency = document.getElementById('btn-emergency');
@@ -745,14 +818,10 @@ async function bootLoader() {
 
     const hideBoot = () => {
         const bs = document.getElementById('boot-screen');
-        if (bs) {
-            bs.classList.add('hidden');       // uses new CSS rule
-            bs.style.display = 'none';        // hard fallback, non-negotiable
-        }
+        if (bs) { bs.classList.add('hidden'); bs.style.display = 'none'; }
     };
 
     try {
-        // 1. Wait for CDN libs
         if (bootStatus) bootStatus.innerText = "Loading Libraries...";
         const t0 = Date.now();
         while (typeof Dexie === 'undefined' || typeof Chart === 'undefined') {
@@ -760,7 +829,6 @@ async function bootLoader() {
             await new Promise(r => setTimeout(r, 100));
         }
 
-        // 2. Open DB (with version-conflict recovery)
         if (bootStatus) bootStatus.innerText = "Opening Local Database...";
         db = new Dexie("SRE_ERP_Enterprise_V9");
         db.version(3).stores({
@@ -773,9 +841,8 @@ async function bootLoader() {
             configs: 'key'
         });
 
-        try {
-            await db.open();
-        } catch (e) {
+        try { await db.open(); }
+        catch (e) {
             if (e.name === 'VersionError' || e.name === 'UpgradeError') {
                 if (confirm("Database schema conflict detected. Reset local data? (Local records only)")) {
                     await Dexie.delete("SRE_ERP_Enterprise_V9");
@@ -786,7 +853,6 @@ async function bootLoader() {
             throw e;
         }
 
-        // 3. First-run seed
         if (bootStatus) bootStatus.innerText = "Checking existing data...";
         const prodCount = await db.products.count();
         if (prodCount === 0 && localStorage.getItem('sre_products')) {
@@ -795,23 +861,26 @@ async function bootLoader() {
         }
 
         if (bootStatus) bootStatus.innerText = "Verifying Accounts...";
-        const userCount = await db.users.count();
-        if (userCount === 0) {
-            await db.users.bulkPut([
-                { id: 'U1', user: 'admin',   pass: 'admin', role: 'ADMIN' },
-                { id: 'U2', user: 'cashier', pass: '1234',  role: 'CASHIER' }
-            ]);
+
+        // Seed finance + configs independently (user accounts NOT seeded)
+        const finCount = await db.finance.count();
+        if (finCount === 0) {
             await db.finance.bulkPut([
                 {id:'FIN1', name:'Bajaj Finance', status:'ACTIVE'},
                 {id:'FIN2', name:'HDB Financial', status:'ACTIVE'}
             ]);
+        }
+        const cfgCount = await db.configs.count();
+        if (cfgCount === 0) {
             await db.configs.put({ key: 'sysSettings',  value: sysSettings });
             await db.configs.put({ key: 'appFeatures',  value: appFeatures });
             await db.configs.put({ key: 'sysSequences', value: sysSequences });
             await db.configs.put({ key: 'categories',   value: ["Mobile Phone", "Accessories", "Electronics", "Spare Parts"] });
         }
 
-        // 4. Hydrate memory
+        // How many users exist? (0 = first-time setup needed)
+        const userCount = await db.users.count();
+
         if (bootStatus) bootStatus.innerText = "Loading Modules...";
         productsDB = await db.products.toArray();
         partiesDB  = await db.parties.toArray();
@@ -824,10 +893,15 @@ async function bootLoader() {
         const cSeq  = await db.configs.get('sysSequences'); if (cSeq)  sysSequences = cSeq.value;
         const cCat  = await db.configs.get('categories');   categoriesDB = cCat ? cCat.value : ["Mobile Phone", "Accessories"];
 
-        // 5. 🔥 HIDE BOOT — FIX APPLIED HERE
         hideBoot();
 
-        // 6. Session check
+        // FIRST-TIME SETUP CHECK
+        if (userCount === 0) {
+            showSetup();
+            return;
+        }
+
+        // Session check (returning user)
         const sid = sessionStorage.getItem('sre_session_v9');
         if (sid) {
             currentUser = await db.users.get(sid);
@@ -851,7 +925,6 @@ async function bootLoader() {
     }
 }
 
-// Kick off when ready
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', bootLoader);
 } else {
@@ -929,14 +1002,12 @@ function showView(viewName) {
     if(currentUser && currentUser.role === 'CASHIER' && (viewName === 'reports' || viewName === 'admin')) {
         return showToast("Access Denied", "You don't have permission.", "error");
     }
-
     if(currentActiveView === 'new-bill' && viewName !== 'new-bill') {
         const rows = document.querySelectorAll('#bill-items-body tr');
         if(rows.length > 0 && !isSaving) {
             if(!confirm("Unsaved changes will be lost. Continue?")) return;
         }
     }
-
     document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
     const v = document.getElementById('view-' + viewName);
     if(v) v.classList.remove('hidden');
