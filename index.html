@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-    <title id="app-window-title">Sri Ram Enterprises - ERP Master</title>
+    <title id="app-window-title">Sri Ram Enterprises - Accounting Plus v9</title>
     <meta name="theme-color" content="#0f172a" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -64,6 +64,32 @@
         @keyframes popIn { 0% { transform: scale(0.95); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
         input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         @media print { @page { size: auto; margin: 0mm; } body * { visibility: hidden; } #print-container, #print-container * { visibility: visible; } #print-container { position: absolute; left: 0; top: 0; width: 100% !important; margin: 0 !important; background: white; display:flex; justify-content:center; } .no-print { display: none !important; } .thermal-mode { width: 80mm !important; padding: 10px !important; box-shadow: none !important; border: none !important; border-radius: 0 !important; } .thermal-mode th, .thermal-mode td { font-size: 9px !important; padding: 4px !important; } .thermal-mode h1 { font-size: 18px !important; } }
+    
+/* ===== SRE PREMIUM UI UPGRADE v9 ===== */
+body.sre-dark{background:#0b1220;color:#e5e7eb} body.sre-dark .glass-panel{background:rgba(15,23,42,.92);border-color:rgba(148,163,184,.15);color:#e5e7eb} body.sre-dark .premium-input{background:#0f172a!important;color:#e5e7eb!important;border-color:#334155!important} body.sre-dark .standard-th{background:#111827!important;color:#94a3b8!important} body.sre-dark .standard-td{color:#e5e7eb!important;border-color:#1e293b!important} body.sre-dark h1,body.sre-dark h2,body.sre-dark h3,body.sre-dark p{color:inherit}
+:root{--sre-accent:#2563eb;--sre-bg:#f5f7fb;--sre-card:rgba(255,255,255,.92);--sre-border:rgba(148,163,184,.20);--sre-shadow:0 12px 35px rgba(15,23,42,.07)}
+body{background:radial-gradient(circle at 10% 0%,rgba(37,99,235,.07),transparent 32%),radial-gradient(circle at 100% 100%,rgba(99,102,241,.05),transparent 28%),var(--sre-bg);letter-spacing:.005em}
+.glass-panel{background:var(--sre-card);border:1px solid var(--sre-border);box-shadow:var(--sre-shadow);border-radius:16px;backdrop-filter:blur(10px)}
+.glass-panel:hover{box-shadow:0 16px 42px rgba(15,23,42,.09)}
+.glass-nav{background:linear-gradient(135deg,#0b1220,#111827 55%,#172554);box-shadow:0 8px 28px rgba(15,23,42,.20)}
+.premium-input{height:40px!important;border-radius:10px!important;border-color:#dbe3ef!important;background:#f8fafc!important;box-shadow:inset 0 1px 2px rgba(15,23,42,.025);transition:.18s ease}
+.premium-input:hover{border-color:#b9c7da!important;background:#fff!important}.premium-input:focus{border-color:var(--sre-accent)!important;box-shadow:0 0 0 4px rgba(37,99,235,.10)!important;background:#fff!important}
+.btn-primary,.btn-ghost,.pay-master-btn,.pay-combo-btn{transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease,background .16s ease}
+.btn-primary:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 10px 24px rgba(37,99,235,.22)}
+.btn-ghost:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(15,23,42,.07)}
+#app-sidebar{background:linear-gradient(180deg,#08111f,#0f172a 55%,#111827);box-shadow:8px 0 30px rgba(15,23,42,.08)}
+#app-sidebar button{transition:.16s ease} #app-sidebar button:hover{transform:translateX(2px)}
+.standard-th{background:#f8fafc!important;color:#64748b!important;font-size:9px!important;letter-spacing:.08em!important}
+.standard-td{font-size:11px!important}
+.view-section{animation:slideUpFade .24s ease-out}.modal-animate{animation:popIn .18s ease-out}
+.sre-kpi{position:relative;overflow:hidden}.sre-kpi:after{content:"";position:absolute;right:-28px;top:-28px;width:90px;height:90px;border-radius:50%;background:rgba(37,99,235,.06)}
+.sre-status{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:5px 9px;font-size:9px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+.sre-status.online{background:#ecfdf5;color:#047857}.sre-status.pending{background:#fff7ed;color:#c2410c}.sre-status.offline{background:#fef2f2;color:#b91c1c}
+#sre-command-palette{backdrop-filter:blur(10px)}
+#sre-command-palette .palette-card{box-shadow:0 30px 80px rgba(15,23,42,.28);border:1px solid rgba(148,163,184,.22)}
+@media(max-width:768px){.glass-panel{border-radius:13px}.view-section{padding-left:10px!important;padding-right:10px!important}.sre-desktop-only{display:none!important}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
     </style>
 </head>
 <body>
@@ -90,6 +116,15 @@
   <input type="file" id="csv-upload" accept=".csv" class="hidden" onchange="importProductsCSV(event)" />
   <input type="file" id="p-image-upload" accept="image/jpeg, image/png, image/webp" class="hidden" onchange="handleProductImage(event)" />
   <input type="file" id="restore-upload" accept=".json" class="hidden" onchange="processRestore(event)" />
+
+  <!-- SRE PREMIUM COMMAND PALETTE -->
+  <div id="sre-command-palette" class="fixed inset-0 z-[500] hidden bg-slate-950/55 flex items-start justify-center pt-[10vh] px-4" onclick="if(event.target===this) closeCommandPalette()">
+    <div class="palette-card w-full max-w-2xl rounded-2xl bg-white overflow-hidden">
+      <div class="p-4 border-b flex items-center gap-3"><span class="text-lg">⌘</span><input id="sre-command-input" class="premium-input flex-1" placeholder="Search module, action or shortcut..." autocomplete="off"></div>
+      <div id="sre-command-results" class="max-h-[55vh] overflow-y-auto p-2"></div>
+      <div class="px-4 py-3 border-t bg-slate-50 text-[9px] font-black text-slate-500 uppercase tracking-widest">ESC Close · ↑↓ Navigate · Enter Open</div>
+    </div>
+  </div>
 
   <!-- TOAST -->
   <div id="toast-container" class="fixed top-5 right-5 z-[200] flex flex-col gap-2 pointer-events-none"></div>
@@ -165,7 +200,9 @@
     </div>
     <div class="hidden lg:flex items-center gap-3"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]" id="network-indicator"></span><div class="flex flex-col"><span class="text-[10px] text-slate-300 font-bold uppercase tracking-widest leading-none">System Status</span><span class="text-[9px] text-emerald-400 font-black uppercase mt-0.5" id="network-text">ONLINE</span></div></div>
     <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 items-center px-4 py-1.5 bg-white/5 border border-white/10 rounded-full"><span id="header-module-title" class="text-[11px] font-black tracking-widest uppercase text-white">DASHBOARD</span></div>
-    <div class="flex items-center space-x-4 z-20 ml-auto">
+    <div class="flex items-center gap-2 z-20 ml-auto">
+       <button onclick="openCommandPalette()" class="hidden md:flex items-center gap-2 px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-md transition-colors" title="Command Palette"><span>⌘</span><span class="text-[9px] font-black uppercase">Search</span></button>
+       <button onclick="toggleSRETheme()" class="flex items-center justify-center w-8 h-8 bg-white/10 hover:bg-white/20 rounded-md" title="Toggle Theme" id="sre-theme-btn">☾</button>
        <button onclick="backupData()" class="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-md transition-colors active:scale-95"><span class="text-xs">🔄</span> <span class="text-[9px] font-black uppercase">Sync</span></button>
        <div class="w-px h-5 bg-slate-700 hidden sm:block"></div>
        <div class="flex items-center gap-2 cursor-pointer border-l border-slate-700 pl-4 ml-2" onclick="executeLogout()" title="Logout"><div class="w-8 h-8 bg-slate-700 border border-slate-500 rounded-full flex items-center justify-center font-black text-xs text-white" id="user-avatar">A</div><div class="hidden lg:block"><p class="text-[10px] font-black text-slate-200 uppercase leading-none" id="user-role-text">Admin</p><p class="text-[7px] text-rose-400 font-bold uppercase mt-1">Logout</p></div></div>
@@ -213,7 +250,7 @@
                 <div class="glass-panel p-6 border-t-4 border-t-emerald-500 sm:col-span-2">
                     <h3 class="font-black text-sm uppercase border-b pb-2 text-emerald-600 mb-4">Database & Recovery Operations</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4"><button onclick="downloadLocalBackup()" class="btn-primary !bg-emerald-600 w-full py-3 text-xs flex items-center justify-center gap-2">💾 Download JSON Backup</button><button onclick="document.getElementById('restore-upload').click()" class="btn-ghost w-full py-3 text-xs border-emerald-300 text-emerald-700 flex items-center justify-center gap-2">📥 Restore from JSON</button><button onclick="dangerClearAll()" class="btn-primary !bg-rose-600 w-full py-3 text-xs flex items-center justify-center gap-2">⚠️ Factory Reset Data</button></div>
-                    <div class="pt-4 border-t"><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Cloud Sync Config (Google AppScript URL)</label><div class="flex gap-2"><input type="text" id="set-gas" class="premium-input text-blue-700 font-mono text-xs" placeholder="https://script.google.com/macros/s/..."><button onclick="saveAdminSettings()" class="btn-primary px-4 text-xs shrink-0 bg-slate-800">SAVE</button></div></div>
+                    <div class="pt-4 border-t"><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Cloud Sync Config (Google AppScript URL)</label><div class="flex gap-2"><input type="text" id="set-gas" class="premium-input text-blue-700 font-mono text-xs" placeholder="https://script.google.com/macros/s/..."><button onclick="saveAdminSettings()" class="btn-primary px-4 text-xs shrink-0 bg-slate-800">SAVE</button><button onclick="retryQueuedSync()" class="btn-ghost px-4 text-xs shrink-0">RETRY</button></div><p class="text-[9px] text-slate-400 font-bold mt-2">Sync flow: Local Database → Queue → Google Apps Script → Google Sheets. Failed syncs remain queued.</p></div></div>
                 </div>
             </div>
         </div>
@@ -483,13 +520,15 @@
     }
     function executeLogout() { sessionStorage.removeItem('sre_session_v8'); location.reload(); }
 
+    window.addEventListener('keydown',e=>{if(e.key==='F2'){e.preventDefault();showView('new-bill')} if(e.key==='F4'){e.preventDefault();showView('product')} if(e.key==='F8'){e.preventDefault();showView('ledger')} if(e.key==='F9'){e.preventDefault();showView('reports')}});
+
     window.onload = () => { 
         if(!isLogged) { document.getElementById('login-company-name').innerText = sysSettings.company; document.getElementById('login-logo-box').innerText = sysSettings.company.charAt(0); } 
         else { document.getElementById('login-screen').classList.add('hidden'); bootstrapApplication(); }
     };
 
     function bootstrapApplication() {
-        try {
+        try { initPremiumUI();
             applySettingsToUI(); buildDynamicSidebar(); buildFeatureToggles();
             debouncedRenderProducts = debounce(renderProducts, 300); debouncedRenderParties = debounce(renderParties, 300); debouncedRenderLedger = debounce(updateLedgerView, 300);
             renderCategories(); renderFinanceSelects(); renderProducts(); renderParties(); 
@@ -1077,7 +1116,7 @@
             let catSales = {}, payModes = {};
             dBills.forEach(b => { if(b.type === "SALE") { if(b.paymentMode) payModes[b.paymentMode] = (payModes[b.paymentMode] || 0) + b.total; b.items.forEach(it => { let cat = it.prodObj ? it.prodObj.category : "Others"; catSales[cat] = (catSales[cat] || 0) + it.amt; }); } });
             
-            const tc = document.getElementById('trendChart'); if(tc) { if(myTrendChart) myTrendChart.destroy(); myTrendChart = new Chart(tc, { type: 'line', data: { labels: Object.keys(payModes).length > 0 ? Object.keys(payModes) : ['No Data'], datasets: [ { label: 'Sales', data: Object.keys(payModes).length > 0 ? Object.values(payModes) : [0], borderColor: '#2563eb', backgroundColor: 'rgba(37, 99, 235, 0.1)', borderWidth: 3, tension: 0.4, fill: true } ] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels:{font:{family:'Plus Jakarta Sans', weight:'bold'}} } }, scales: { x: { display:false }, y:{ border:{display:false}, grid:{color:'#f1f5f9'} } } } }); }
+            const trendMap={}; dBills.filter(b=>b.type==='SALE').forEach(b=>{trendMap[b.date]=(trendMap[b.date]||0)+Number(b.total||0)}); const trendKeys=Object.keys(trendMap).sort(); const tc = document.getElementById('trendChart'); if(tc) { if(myTrendChart) myTrendChart.destroy(); myTrendChart = new Chart(tc, { type: 'line', data: { labels: trendKeys.length ? trendKeys : ['No Data'], datasets: [ { label: 'Sales', data: trendKeys.length ? trendKeys.map(k=>trendMap[k]) : [0], borderColor: '#2563eb', backgroundColor: 'rgba(37, 99, 235, 0.1)', borderWidth: 3, tension: 0.4, fill: true } ] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top', labels:{font:{family:'Plus Jakarta Sans', weight:'bold'}} } }, scales: { x: { display:false }, y:{ border:{display:false}, grid:{color:'#f1f5f9'} } } } }); }
             const cc = document.getElementById('categoryChart'); if(cc) { if(myCatChart) myCatChart.destroy(); const catKeys = Object.keys(catSales); myCatChart = new Chart(cc, { type: 'doughnut', data: { labels: catKeys.length > 0 ? catKeys : ['No Data'], datasets: [{ data: catKeys.length > 0 ? Object.values(catSales) : [1], backgroundColor: ['#3b82f6', '#8b5cf6', '#10b981', '#f59e0b', '#f43f5e', '#64748b'], borderWidth: 0, hoverOffset: 4 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { position: 'right', labels:{boxWidth:10, font:{family:'Plus Jakarta Sans', size:9, weight:'bold'}} } } } }); }
             const pc = document.getElementById('paymentChart'); if(pc) { if(myPaymentChart) myPaymentChart.destroy(); const payKeys = Object.keys(payModes); myPaymentChart = new Chart(pc, { type: 'doughnut', data: { labels: payKeys.length > 0 ? payKeys : ['No Data'], datasets: [{ data: payKeys.length > 0 ? Object.values(payModes) : [1], backgroundColor: ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b', '#64748b'], borderWidth: 0, hoverOffset: 4 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { position: 'right', labels:{boxWidth:10, font:{family:'Plus Jakarta Sans', size:9, weight:'bold'}} } } } }); }
             
@@ -1131,7 +1170,7 @@
                 const data = JSON.parse(event.target.result);
                 if(data.products) Storage.set('sre_products', data.products); if(data.parties) Storage.set('sre_parties', data.parties);
                 if(data.bills) Storage.set('sre_bills', data.bills); if(data.journals) Storage.set('sre_journals', data.journals);
-                if(data.finance) Storage.set('sre_finance', data.finance); if(data.settings) Storage.set('sre_settings', data.settings);
+                if(data.finance) Storage.set('sre_finance', data.finance); if(data.categories) Storage.set('sre_categories', data.categories); if(data.settings) Storage.set('sre_settings', data.settings);
                 if(data.features) Storage.set('sre_features', data.features); if(data.settings?.sequence) Storage.set('sre_sequences', data.settings.sequence);
                 showPopup("Restore Complete", "Data imported successfully. Reloading..."); setTimeout(() => location.reload(), 1500);
             } catch(err) { showToast("Error", "Invalid JSON Format", "error"); }
@@ -1142,21 +1181,31 @@
         if(code === "DELETE ALL") { localStorage.removeItem('sre_products'); localStorage.removeItem('sre_parties'); localStorage.removeItem('sre_bills'); localStorage.removeItem('sre_journals'); localStorage.removeItem('sre_finance'); localStorage.removeItem('sre_features'); localStorage.removeItem('sre_sequences'); location.reload(); }
         else { showToast("Cancelled", "Data wipe aborted", "success"); }
     }
-    function backupData() {
-        if(!sysSettings.gas) return showToast("Warning", "Cloud Sync URL not configured. Go to Admin Settings.", "warning");
-        
-        showToast("Syncing", "Packing databases & Connecting to Cloud...", "success");
-        const btn = document.querySelector('button[onclick="backupData()"]');
-        if(btn) { btn.disabled = true; btn.innerHTML = "⏳ SYNCING..."; }
-
-        const payload = { action: 'backup', timestamp: Date.now(), products: productsDB, parties: partiesDB, bills: billsDB, journals: journalDB, settings: sysSettings, features: appFeatures };
-
-        fetch(sysSettings.gas, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) })
-        .then(response => response.json()) 
-        .then(data => { if(data.status === 'success') showToast("Success", "Cloud Sync Verified & Completed ✅", "success"); else throw new Error(data.message); })
-        .catch(err => { console.error(err); showToast("Cloud Error", "Sync Unverified. Local Data is Safe.", "error"); })
-        .finally(() => { if(btn) { btn.disabled = false; btn.innerHTML = `<span class="text-xs">🔄</span> <span class="text-[9px] font-black uppercase">Sync</span>`; } });
+    function getCloudPayload(action='SAVE_ALL') {
+        return { schemaVersion:'9.0.0', action, timestamp:new Date().toISOString(), clientId:localStorage.getItem('sre_client_id')||(function(){const x=crypto.randomUUID();localStorage.setItem('sre_client_id',x);return x;})(), datasets:{products:productsDB,parties:partiesDB,bills:billsDB,categories:categoriesDB,finance:financeDB,journals:journalDB,settings:sysSettings,features:appFeatures}, products:productsDB, parties:partiesDB, bills:billsDB, categories:categoriesDB, finance:financeDB, journals:journalDB, settings:sysSettings, features:appFeatures };
     }
+    function setSyncStatus(state,text){const n=document.getElementById('network-text');const i=document.getElementById('network-indicator');if(n)n.innerText=text||state.toUpperCase();if(i){i.className='w-2.5 h-2.5 rounded-full '+(state==='online'?'bg-emerald-500':state==='pending'?'bg-amber-400':'bg-rose-500');}}
+    function queueCloudSync(reason='manual'){const q=JSON.parse(localStorage.getItem('sre_sync_queue')||'[]');q.push({id:crypto.randomUUID(),reason,createdAt:new Date().toISOString(),payload:getCloudPayload('SAVE_ALL')});localStorage.setItem('sre_sync_queue',JSON.stringify(q.slice(-50)));setSyncStatus('pending','PENDING');}
+    async function backupData(){
+      if(!sysSettings.gas)return showToast('Warning','Cloud Sync URL not configured. Go to Admin Settings.','warning');
+      const btn=document.querySelector('button[onclick="backupData()"]'); if(btn){btn.disabled=true;btn.innerHTML='⏳ SYNCING...';}
+      setSyncStatus('pending','SYNCING'); showToast('Syncing','Sending complete database to Google Sheets...','success');
+      try{
+        const payload=getCloudPayload('SAVE_ALL');
+        const response=await fetch(sysSettings.gas,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});
+        const data=await response.json();
+        if(!response.ok||data.status!=='success')throw new Error(data.message||'Cloud rejected request');
+        localStorage.setItem('sre_last_sync',new Date().toISOString());localStorage.setItem('sre_sync_failed','0');setSyncStatus('online','SYNCED');showToast('Success','Google Sheets sync verified and completed ✅','success');
+      }catch(err){console.error('SRE Cloud Sync',err);queueCloudSync('failed_sync');setSyncStatus('offline','FAILED');showToast('Cloud Error','Sync failed. Data remains safely stored locally and queued for retry.','error');}
+      finally{if(btn){btn.disabled=false;btn.innerHTML='<span class="text-xs">🔄</span> <span class="text-[9px] font-black uppercase">Sync</span>';}}
+    }
+    async function retryQueuedSync(){const q=JSON.parse(localStorage.getItem('sre_sync_queue')||'[]');if(!q.length)return showToast('Sync Queue','No pending records.','success');if(!sysSettings.gas)return showToast('Warning','Configure Google Apps Script URL first.','warning');try{const r=await fetch(sysSettings.gas,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({...q[q.length-1].payload,action:'SAVE_ALL'})});const d=await r.json();if(d.status!=='success')throw new Error(d.message||'Retry failed');localStorage.removeItem('sre_sync_queue');setSyncStatus('online','SYNCED');showToast('Retry Complete','Pending cloud sync queue cleared.','success')}catch(e){setSyncStatus('offline','FAILED');showToast('Retry Failed',e.message,'error')}}
+    function openCommandPalette(){const p=document.getElementById('sre-command-palette');if(!p)return;p.classList.remove('hidden');const i=document.getElementById('sre-command-input');i.value='';renderCommandResults('');setTimeout(()=>i.focus(),20)}
+    function closeCommandPalette(){const p=document.getElementById('sre-command-palette');if(p)p.classList.add('hidden')}
+    function renderCommandResults(q){const all=[['Dashboard','dashboard','Open executive dashboard'],['Inventory','product','Open product/inventory master'],['Party Directory','party','Open customers and suppliers'],['New Sale','new-bill','Open sales billing'],['Purchase','new-bill','Open purchase entry'],['Sales Return','new-bill','Open sales return'],['Purchase Return','new-bill','Open purchase return'],['Payments','payment','Open payment/receipt'],['Ledger','ledger','Open financial ledger'],['Reports','reports','Open reports'],['Admin Control','admin','Open settings and backup']];const f=all.filter(x=>(x[0]+' '+x[2]).toLowerCase().includes((q||'').toLowerCase()));const el=document.getElementById('sre-command-results');el.innerHTML=f.map((x,i)=>`<button class="w-full text-left p-3 rounded-xl hover:bg-blue-50 flex justify-between items-center" onclick="closeCommandPalette();showView('${x[1]}')"><span><b class="text-xs text-slate-800">${x[0]}</b><small class="block text-[9px] text-slate-400 font-bold">${x[2]}</small></span><span class="text-[9px] text-slate-400">↵</span></button>`).join('')||'<div class="p-6 text-center text-xs font-bold text-slate-400">No command found</div>'}
+    function toggleSRETheme(){document.body.classList.toggle('sre-dark');const dark=document.body.classList.contains('sre-dark');localStorage.setItem('sre_theme',dark?'dark':'light');document.getElementById('sre-theme-btn').innerText=dark?'☀':'☾'}
+    function initPremiumUI(){const dark=localStorage.getItem('sre_theme')==='dark';if(dark)document.body.classList.add('sre-dark');const b=document.getElementById('sre-theme-btn');if(b)b.innerText=dark?'☀':'☾';const i=document.getElementById('sre-command-input');if(i)i.addEventListener('input',e=>renderCommandResults(e.target.value));window.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openCommandPalette()}if(e.key==='Escape'){closeCommandPalette()}})}
+
   </script>
 </body>
 </html>
