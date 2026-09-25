@@ -62,7 +62,6 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
 </head>
 <body>
 
-<!-- BOOT -->
 <div id="boot-screen">
   <div class="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center text-white font-black text-2xl shadow-lg mb-4 animate-pulse">SRE</div>
   <h2 class="text-xl font-black uppercase tracking-widest mb-1">V-9.0 ENTERPRISE</h2>
@@ -70,7 +69,6 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
   <button id="btn-emergency" onclick="emergencyWipe()" class="hidden mt-8 bg-rose-600 text-white px-5 py-2.5 rounded-lg text-[10px] font-black tracking-widest uppercase">⚠️ Force Fix / Reset System</button>
 </div>
 
-<!-- SETUP -->
 <div id="setup-screen" class="hidden">
   <div class="glass-panel p-8 w-full max-w-sm bg-white text-center relative">
     <div class="absolute top-0 right-0 bg-emerald-600 text-white text-[8px] font-black px-2 py-1 rounded-bl-lg uppercase">First-Time Setup</div>
@@ -90,7 +88,6 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
   </div>
 </div>
 
-<!-- LOGIN -->
 <div id="login-screen" class="hidden">
   <div class="glass-panel p-8 w-full max-w-sm bg-white text-center relative">
     <div class="absolute top-0 right-0 bg-blue-600 text-white text-[8px] font-black px-2 py-1 rounded-bl-lg uppercase">Enterprise Edition</div>
@@ -103,9 +100,7 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
       <div id="login-error" class="hidden text-[10px] font-bold text-rose-600 bg-rose-50 border border-rose-200 p-2 rounded"></div>
       <button onclick="executeLogin()" id="btn-login" class="btn-primary w-full py-3 mt-2 text-sm">Verify Identity</button>
     </div>
-    <div class="mt-4 text-[9px] font-bold text-slate-400 uppercase text-left bg-slate-50 p-2 rounded">
-      Account locks for 15 minutes after 5 failed attempts.
-    </div>
+    <div class="mt-4 text-[9px] font-bold text-slate-400 uppercase text-left bg-slate-50 p-2 rounded">Account locks for 15 minutes after 5 failed attempts.</div>
   </div>
 </div>
 
@@ -117,7 +112,6 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
 <div id="toast-container" class="fixed top-5 right-5 z-[200] flex flex-col gap-2 pointer-events-none"></div>
 <div id="session-warning-container"></div>
 
-<!-- CENTER POPUP -->
 <div id="center-popup" class="modal-backdrop hidden">
   <div class="bg-white p-8 rounded-xl shadow-2xl text-center max-w-sm w-full">
     <div id="popup-icon" class="text-5xl mb-4">✅</div>
@@ -127,7 +121,6 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
   </div>
 </div>
 
-<!-- IMEI MODAL -->
 <div id="imei-modal" class="modal-backdrop hidden">
   <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg flex flex-col max-h-[85vh]">
     <div class="p-4 border-b flex justify-between items-center bg-slate-50 rounded-t-xl">
@@ -145,7 +138,6 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
   </div>
 </div>
 
-<!-- QUICK PRODUCT -->
 <div id="product-popup" class="modal-backdrop hidden">
   <div class="glass-panel p-6 w-full max-w-lg bg-white" style="border-top:4px solid #f59e0b">
     <h3 class="text-sm font-black uppercase mb-4">Quick Add Product</h3>
@@ -160,7 +152,6 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
   </div>
 </div>
 
-<!-- QUICK PARTY -->
 <div id="party-popup" class="modal-backdrop hidden">
   <div class="glass-panel p-6 w-full max-w-sm bg-white" style="border-top:4px solid #9333ea">
     <h3 class="text-sm font-black uppercase mb-4">Quick Party</h3>
@@ -173,7 +164,6 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
   </div>
 </div>
 
-<!-- FINANCE -->
 <div id="finance-modal" class="modal-backdrop hidden">
   <div class="glass-panel p-6 w-full max-w-sm bg-white" style="border-top:4px solid #4f46e5">
     <h3 class="text-sm font-black uppercase mb-4">Add Finance Company</h3>
@@ -182,7 +172,6 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
   </div>
 </div>
 
-<!-- CHANGE PASSWORD -->
 <div id="pw-modal" class="modal-backdrop hidden">
   <div class="glass-panel p-6 w-full max-w-sm bg-white">
     <h3 class="text-sm font-black uppercase mb-4">🔐 Change Password</h3>
@@ -199,7 +188,6 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
   </div>
 </div>
 
-<!-- USER MODAL -->
 <div id="user-modal" class="modal-backdrop hidden">
   <div class="glass-panel p-6 w-full max-w-md bg-white max-h-[90vh] overflow-y-auto">
     <h3 id="user-modal-title" class="text-sm font-black uppercase mb-4">👤 User</h3>
@@ -226,7 +214,6 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
   </div>
 </div>
 
-<!-- ELEVATION MODAL -->
 <div id="elevate-modal" class="modal-backdrop hidden">
   <div class="glass-panel p-6 w-full max-w-sm bg-white" style="border-top:4px solid #e11d48">
     <h3 class="text-sm font-black uppercase mb-2 text-rose-600">🔒 Elevated Authorization</h3>
@@ -242,7 +229,6 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
   </div>
 </div>
 
-<!-- HEADER -->
 <header class="glass-nav text-white flex justify-between items-center px-4 sm:px-6 py-2.5 z-30 shrink-0" id="app-header">
   <div class="flex items-center space-x-3 cursor-pointer lg:hidden" onclick="UI.showView('dashboard')">
     <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center font-black italic text-xs" id="header-logo-box">SRE</div>
@@ -282,7 +268,6 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
 
   <main class="flex-1 flex flex-col overflow-hidden w-full relative pb-16 lg:pb-0">
 
-    <!-- DASHBOARD -->
     <div id="view-dashboard" class="view-section hidden flex-col space-y-4 max-w-7xl mx-auto w-full p-4 sm:p-6 overflow-y-auto">
       <div class="flex justify-between items-end mb-2">
         <h2 class="text-2xl font-black uppercase tracking-widest flex items-center gap-3"><span class="w-1.5 h-8 bg-blue-600 rounded-full"></span> Analytics</h2>
@@ -298,7 +283,6 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
       </div>
     </div>
 
-    <!-- SECURITY -->
     <div id="view-security" class="view-section hidden flex-col space-y-4 max-w-6xl mx-auto w-full p-4 sm:p-6 overflow-y-auto">
       <h2 class="text-2xl font-black uppercase tracking-widest flex items-center gap-3"><span class="w-1.5 h-8 bg-rose-600 rounded-full"></span> Security Center</h2>
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-4" id="security-kpis"></div>
@@ -322,7 +306,6 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
       </div>
     </div>
 
-    <!-- ADMIN -->
     <div id="view-admin" class="view-section hidden flex-col space-y-4 max-w-5xl mx-auto p-4 sm:p-6 overflow-y-auto w-full">
       <h2 class="text-2xl font-black uppercase tracking-widest flex items-center gap-3"><span class="w-1.5 h-8 bg-rose-600 rounded-full"></span> System Control</h2>
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -354,7 +337,6 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
       </div>
     </div>
 
-    <!-- PRODUCTS -->
     <div id="view-product" class="view-section hidden flex-col h-full w-full p-4 overflow-y-auto">
       <div class="flex justify-between gap-4 pb-4 shrink-0">
         <h2 class="text-2xl font-black uppercase tracking-widest flex items-center gap-3"><span class="w-1.5 h-8 bg-amber-500 rounded-full"></span> Inventory</h2>
@@ -388,7 +370,6 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
       </div>
     </div>
 
-    <!-- PARTIES -->
     <div id="view-party" class="view-section hidden flex-col h-full w-full p-4 overflow-y-auto">
       <h2 class="text-2xl font-black uppercase tracking-widest pb-4 flex items-center gap-3"><span class="w-1.5 h-8 bg-purple-600 rounded-full"></span> Parties</h2>
       <div class="glass-panel p-5 mb-4 bg-white" style="border-top:4px solid #9333ea">
@@ -411,7 +392,6 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
       </div>
     </div>
 
-    <!-- PAYMENT -->
     <div id="view-payment" class="view-section hidden max-w-lg mx-auto pt-10 w-full h-full px-4">
       <div class="glass-panel p-8 bg-white" style="border-top:4px solid #14b8a6">
         <h2 id="pay-title" class="text-xl font-black uppercase text-center mb-6">VOUCHER</h2>
@@ -427,7 +407,6 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
       </div>
     </div>
 
-    <!-- LEDGER -->
     <div id="view-ledger" class="view-section hidden flex-col h-full w-full p-4 overflow-y-auto">
       <h2 class="text-2xl font-black uppercase tracking-widest pb-3 flex items-center gap-3"><span class="w-1.5 h-8 bg-indigo-500 rounded-full"></span> Ledger</h2>
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
@@ -442,14 +421,13 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
       </div>
     </div>
 
-    <!-- REPORTS -->
     <div id="view-reports" class="view-section hidden flex-col h-full w-full p-4 overflow-y-auto">
       <h2 class="text-2xl font-black uppercase tracking-widest pb-4 flex items-center gap-3"><span class="w-1.5 h-8 bg-cyan-500 rounded-full"></span> Reports</h2>
       <div class="glass-panel p-6 mb-4 bg-white" style="border-top:4px solid #059669">
         <p class="text-xs font-bold text-slate-500 mb-4 uppercase">Double-Entry P&amp;L</p>
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
           <div class="bg-blue-50 p-4 rounded-lg"><p class="text-[10px] font-bold text-blue-600 uppercase">Sales (Cr)</p><h3 class="text-xl font-black text-blue-700 mt-1" id="rep-sale">₹0</h3></div>
-          <div class="bg-rose-50 p-4 rounded-lg"><p class="text-[10px] font-bold text-rose-600 uppercase">Purchase (Dr)</p><h3 class="text-xl font-black text-rose-700 mt-1" id="rep-pur">₹0</h3></div>
+          <div class="bg-rose-50 p-4 rounded-lg"><p class="text-[10px] font-bold text-rose-600 uppercase">COGS (Dr)</p><h3 class="text-xl font-black text-rose-700 mt-1" id="rep-pur">₹0</h3></div>
           <div class="bg-orange-50 p-4 rounded-lg"><p class="text-[10px] font-bold text-orange-600 uppercase">Expense (Dr)</p><h3 class="text-xl font-black text-orange-700 mt-1" id="rep-exp">₹0</h3></div>
           <div class="bg-emerald-50 p-4 rounded-lg"><p class="text-[10px] font-bold text-emerald-700 uppercase">Net Profit</p><h3 class="text-xl font-black text-emerald-700 mt-1" id="rep-prof">₹0</h3></div>
         </div>
@@ -469,7 +447,6 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
       </div>
     </div>
 
-    <!-- NEW BILL -->
     <div id="view-new-bill" class="view-section hidden h-full w-full flex-col p-2 sm:p-3 gap-3">
       <div class="glass-panel px-4 py-2.5 flex flex-wrap items-center justify-between bg-white gap-3">
         <div class="flex items-center gap-3"><h2 id="bill-title" class="text-xs sm:text-sm font-black uppercase">SALE ENTRY</h2><span id="form-entry-type" class="badge badge-blue">SALE</span></div>
@@ -509,7 +486,6 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
       </div>
     </div>
 
-    <!-- INVOICE -->
     <div id="view-invoice" class="view-section hidden flex-col h-full w-full p-4 overflow-y-auto bg-slate-200/80">
       <div class="max-w-4xl mx-auto w-full">
         <div class="glass-panel flex flex-wrap justify-between items-center p-4 mb-4 gap-4 bg-white no-print">
@@ -561,9 +537,10 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
 </nav>
 
 <script>
-// ═══════════════════════════════════════════════════════════════════════════
-// SRE ERP v9.0 — STEP 1 (Architecture) + STEP 2 (Security) Integrated
-// ═══════════════════════════════════════════════════════════════════════════
+/* ==========================================================================
+   SRE ERP v9.0 — FULL ACCOUNTING ENGINE (Step 3 FIXED + GITHUB PAGES READY)
+   Single file. HTML+CSS above. Script below. Keep them together.
+   ========================================================================== */
 
 /* ---------- UTILITIES ---------- */
 const UUID = () => (crypto.randomUUID ? crypto.randomUUID() : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => { const r = Math.random()*16|0, v = c==='x'?r:(r&0x3|0x8); return v.toString(16); }));
@@ -572,37 +549,13 @@ const today = () => { const d = new Date(); return new Date(d.getTime() - d.getT
 const money = n => Math.round((Number(n)||0) * 100) / 100;
 const esc = s => s == null ? '' : String(s).replace(/[&<>'"]/g, t => ({ '&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;' }[t] || t));
 const debounce = (fn, ms) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
+function luhnValid(input) { const s = String(input || '').replace(/\D/g, ''); if (s.length !== 15) return false; let sum = 0, alt = false; for (let i = s.length - 1; i >= 0; i--) { let n = parseInt(s[i], 10); if (alt) { n *= 2; if (n > 9) n -= 9; } sum += n; alt = !alt; } return sum % 10 === 0; }
+function download(text, filename, mime = 'text/csv') { const blob = new Blob([text], { type: mime }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = filename; a.click(); URL.revokeObjectURL(url); }
 
-function luhnValid(input) {
-  const s = String(input || '').replace(/\D/g, '');
-  if (s.length !== 15) return false;
-  let sum = 0, alt = false;
-  for (let i = s.length - 1; i >= 0; i--) { let n = parseInt(s[i], 10); if (alt) { n *= 2; if (n > 9) n -= 9; } sum += n; alt = !alt; }
-  return sum % 10 === 0;
-}
-
-function download(text, filename, mime = 'text/csv') {
-  const blob = new Blob([text], { type: mime });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = filename; a.click();
-  URL.revokeObjectURL(url);
-}
-
-/* ---------- CRYPTO (PBKDF2-SHA256) ---------- */
+/* ---------- CRYPTO ---------- */
 const Crypto = {
-  async hashPassword(password, saltHex = null) {
-    const enc = new TextEncoder();
-    const salt = saltHex ? this.hexToBuf(saltHex) : crypto.getRandomValues(new Uint8Array(16));
-    const km = await crypto.subtle.importKey('raw', enc.encode(password), { name: 'PBKDF2' }, false, ['deriveBits']);
-    const bits = await crypto.subtle.deriveBits({ name: 'PBKDF2', salt, iterations: 100000, hash: 'SHA-256' }, km, 256);
-    return { hash: this.bufToHex(bits), salt: this.bufToHex(salt), iterations: 100000 };
-  },
-  async verifyPassword(password, record) {
-    if (!record || !record.hash || !record.salt) return false;
-    const { hash } = await this.hashPassword(password, record.salt);
-    return timingSafeEqualHex(hash, record.hash);
-  },
+  async hashPassword(password, saltHex = null) { const enc = new TextEncoder(); const salt = saltHex ? this.hexToBuf(saltHex) : crypto.getRandomValues(new Uint8Array(16)); const km = await crypto.subtle.importKey('raw', enc.encode(password), { name: 'PBKDF2' }, false, ['deriveBits']); const bits = await crypto.subtle.deriveBits({ name: 'PBKDF2', salt, iterations: 100000, hash: 'SHA-256' }, km, 256); return { hash: this.bufToHex(bits), salt: this.bufToHex(salt), iterations: 100000 }; },
+  async verifyPassword(password, record) { if (!record || !record.hash || !record.salt) return false; const { hash } = await this.hashPassword(password, record.salt); return timingSafeEqualHex(hash, record.hash); },
   bufToHex(buf) { return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join(''); },
   hexToBuf(hex) { const bytes = new Uint8Array(hex.length / 2); for (let i = 0; i < bytes.length; i++) bytes[i] = parseInt(hex.substr(i * 2, 2), 16); return bytes; },
   async sha256Hex(str) { const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str)); return this.bufToHex(buf); }
@@ -648,18 +601,10 @@ const ErrCode = Object.freeze({
   DUPLICATE_REQUEST:'DUPLICATE_REQUEST', PERMISSION_DENIED:'PERMISSION_DENIED',
   UNAUTHENTICATED:'UNAUTHENTICATED', SESSION_EXPIRED:'SESSION_EXPIRED', ACCOUNT_LOCKED:'ACCOUNT_LOCKED',
   JOURNAL_UNBALANCED:'JOURNAL_UNBALANCED', ELEVATION_REQUIRED:'ELEVATION_REQUIRED',
-  DB_ERROR:'DB_ERROR', INTERNAL:'INTERNAL', CANCELLED:'CANCELLED'
+  PERIOD_LOCKED:'PERIOD_LOCKED', DB_ERROR:'DB_ERROR', INTERNAL:'INTERNAL', CANCELLED:'CANCELLED'
 });
-
 class AppError extends Error {
-  constructor(code, message, opts = {}) {
-    super(message);
-    this.name = 'AppError';
-    this.code = code;
-    this.module = opts.module || '';
-    this.txnId = opts.txnId || '';
-    this.recoverable = opts.recoverable !== false;
-  }
+  constructor(code, message, opts = {}) { super(message); this.name = 'AppError'; this.code = code; this.module = opts.module || ''; this.txnId = opts.txnId || ''; this.recoverable = opts.recoverable !== false; }
 }
 
 /* ---------- STATE ---------- */
@@ -671,12 +616,12 @@ let sessionTimerHandle = null;
 let inactivityHandle = null;
 let activityBound = false;
 let sysSettings = { company:'Sri Ram Enterprises', phone:'9334765000', address:'GB-15, City Centre, Sector-4, Bokaro Steel City', gstin:'20APOPK6864K1ZH', prefix:'SRE-26-', theme:'#0f172a', gas:'', sessionTimeoutMin: 60, idleTimeoutMin: 30, maxFailedLogins: 5, lockMinutes: 15, pwMinLen: 6 };
-let UIState = { currentMode:'SALE', currentPaymentType:'OUT', activeImeiRowId:null, masterPayMode:'INSTANT', comboPayMode:'CASH', currentActiveView:'dashboard', isSaving:false, editingProductId:null, editingPartyId:null };
+let UIState = { currentMode:'SALE', currentPaymentType:'OUT', activeImeiRowId:null, masterPayMode:'INSTANT', comboPayMode:'CASH', currentActiveView:'dashboard', isSaving:false, editingProductId:null, editingPartyId:null, inventoryMethod:'WAVG' };
 let charts = { trend:null };
 const DB_NAME = 'SRE_ERP_Enterprise_V9';
-const DB_VERSION = 5;
+const DB_VERSION = 6;
 
-/* ---------- DATABASE ---------- */
+/* ---------- DATABASE (SCHEMA v6) ---------- */
 function initDb() {
   db = new Dexie(DB_NAME);
   const schema = {
@@ -690,71 +635,49 @@ function initDb() {
     imei:'id, imei1, imei2, serial, productId, status, billId',
     stock:'id, productId, location',
     stock_movements:'id, productId, txnId, txnType, date',
-    bills:'id, invNo, date, type, partyId, party, status, requestId',
+    cost_layers:'id, productId, acquiredAt',
+    bills:'id, invNo, date, type, partyId, party, status, requestId, txnId',
     bill_items:'id, billId, productId, imei',
-    purchases:'id, invNo, date, partyId, status, requestId',
+    purchases:'id, invNo, date, partyId, status, requestId, txnId',
     purchase_items:'id, purchaseId, productId',
     returns:'id, refNo, date, type, partyId, status',
     return_items:'id, returnId, productId',
     payments:'id, date, partyId, type, mode, status',
-    accounts:'id, code, name, type',
-    journals:'id, date, refNo, type, status, txnId',
-    journal_entries:'id, journalId, account',
+    payment_allocations:'id, receiptJournalId, invoiceJournalId',
+    accounts:'id, code, name, group, accountType, parentAccount, status',
+    journals:'id, date, refNo, type, status, txnId, reversalOf, reversedBy',
+    journal_entries:'id, journalId, account, partyId, partyType',
+    periods:'id, year, startDate, endDate, status',
     audit_logs:'id, userId, action, module, txnId, date',
     sync_queue:'id, entity, operation, status',
     request_log:'id, service, date',
     settings:'key', sequences:'key', configs:'key',
     finance:'id, name, status'
   };
-  db.version(5).stores(schema).upgrade(async tx => {
-    const users = await tx.table('users').toArray();
-    for (const u of users) {
-      if (u.failedAttempts === undefined) await tx.table('users').update(u.id, { failedAttempts: 0, status: u.status || 'ACTIVE' });
-    }
+  db.version(6).stores(schema).upgrade(async tx => {
+    const parties = await tx.table('parties').toArray();
+    for (const p of parties) if (p.openingBalance === undefined) await tx.table('parties').update(p.id, { openingBalance: Number(p.ob) || 0, outstanding: Number(p.ob) || 0 });
+    const products = await tx.table('products').toArray();
+    for (const p of products) if (p.avgCost === undefined) await tx.table('products').update(p.id, { avgCost: Number(p.pur) || 0 });
   });
   return db;
 }
 
-/* ---------- AUDIT + SECURITY LOGS ---------- */
+/* ---------- AUDIT + SECURITY ---------- */
 const AuditService = {
   async log(action, module, payload = {}) {
-    await db.audit_logs.add({
-      id: UUID(), action, module,
-      userId: currentUser?.id || null, username: currentUser?.user || 'system',
-      date: nowISO(), txnId: payload.txnId || '', invoiceNo: payload.invoiceNo || '',
-      oldValue: payload.oldValue ? JSON.stringify(payload.oldValue).slice(0, 4000) : null,
-      newValue: payload.newValue ? JSON.stringify(payload.newValue).slice(0, 4000) : null,
-      reason: payload.reason || '',
-      sessionId: currentSession?.id || ''
-    });
+    try { await db.audit_logs.add({ id: UUID(), action, module, userId: currentUser?.id || null, username: currentUser?.user || 'system', date: nowISO(), txnId: payload.txnId || '', invoiceNo: payload.invoiceNo || '', oldValue: payload.oldValue ? JSON.stringify(payload.oldValue).slice(0, 4000) : null, newValue: payload.newValue ? JSON.stringify(payload.newValue).slice(0, 4000) : null, reason: payload.reason || '', sessionId: currentSession?.id || '' }); } catch(e){ console.error('Audit log failed:', e); }
   },
-  async recent(n = 100) {
-    const all = await db.audit_logs.toArray();
-    return all.sort((a, b) => (b.date || '').localeCompare(a.date || '')).slice(0, n);
-  }
+  async recent(n = 100) { const all = await db.audit_logs.toArray(); return all.sort((a, b) => (b.date || '').localeCompare(a.date || '')).slice(0, n); }
 };
-
 const Security = {
   async log(type, payload = {}) {
-    await db.security_events.add({
-      id: UUID(), type,
-      userId: currentUser?.id || null, username: currentUser?.user || 'anonymous',
-      module: payload.module || '', action: payload.action || '', targetId: payload.targetId || '',
-      reason: payload.reason || '', severity: payload.severity || 'INFO',
-      date: nowISO(), sessionId: currentSession?.id || '',
-      details: payload.details ? JSON.stringify(payload.details).slice(0, 2000) : ''
-    });
-    await AuditService.log('SEC_' + type, payload.module || 'SECURITY', { reason: payload.reason, txnId: payload.targetId });
+    try { await db.security_events.add({ id: UUID(), type, userId: currentUser?.id || null, username: currentUser?.user || 'anonymous', module: payload.module || '', action: payload.action || '', targetId: payload.targetId || '', reason: payload.reason || '', severity: payload.severity || 'INFO', date: nowISO(), sessionId: currentSession?.id || '', details: payload.details ? JSON.stringify(payload.details).slice(0, 2000) : '' }); } catch(e){ console.error('Security log failed:', e); }
   },
-  async recent(n = 100, filter = '') {
-    const all = await db.security_events.toArray();
-    let list = all.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
-    if (filter) { const f = filter.toUpperCase(); list = list.filter(e => e.type.includes(f) || (e.username || '').toUpperCase().includes(f) || (e.module || '').toUpperCase().includes(f)); }
-    return list.slice(0, n);
-  }
+  async recent(n = 100, filter = '') { const all = await db.security_events.toArray(); let list = all.sort((a, b) => (b.date || '').localeCompare(a.date || '')); if (filter) { const f = filter.toUpperCase(); list = list.filter(e => (e.type||'').includes(f) || (e.username || '').toUpperCase().includes(f) || (e.module || '').toUpperCase().includes(f)); } return list.slice(0, n); }
 };
 
-/* ---------- PERMISSION GUARD ---------- */
+/* ---------- GUARD ---------- */
 const Guard = {
   _cache: new Map(),
   async getUserPermissions(userId) {
@@ -770,73 +693,25 @@ const Guard = {
     return set;
   },
   invalidate(userId) { if (userId) this._cache.delete(userId); else this._cache.clear(); },
-  async has(perm) {
-    if (!currentUser) return false;
-    return (await this.getUserPermissions(currentUser.id)).has(perm);
-  },
-  async require(perm, opts = {}) {
-    if (!currentUser) { await Security.log('UNAUTHORIZED_ACTION', { module: opts.module || '', action: perm, reason: 'No session', severity: 'WARN' }); throw new AppError(ErrCode.UNAUTHENTICATED, 'Please log in', { module: opts.module }); }
-    if (!(await this.has(perm))) { await Security.log('UNAUTHORIZED_ACTION', { module: opts.module || '', action: perm, reason: opts.reason || `Missing ${perm}`, severity: 'WARN', targetId: opts.targetId || '' }); throw new AppError(ErrCode.PERMISSION_DENIED, `Permission denied: ${perm}`, { module: opts.module }); }
-    return true;
-  },
-  async requireElevated(perm, opts = {}) {
-    await this.require(perm, opts);
-    if (Date.now() > elevatedUntil) throw new AppError(ErrCode.ELEVATION_REQUIRED, 'Password confirmation required', { module: opts.module });
-    return true;
-  }
+  async has(perm) { if (!currentUser) return false; return (await this.getUserPermissions(currentUser.id)).has(perm); },
+  async require(perm, opts = {}) { if (!currentUser) { await Security.log('UNAUTHORIZED_ACTION', { module: opts.module || '', action: perm, reason: 'No session', severity: 'WARN' }); throw new AppError(ErrCode.UNAUTHENTICATED, 'Please log in', { module: opts.module }); } if (!(await this.has(perm))) { await Security.log('UNAUTHORIZED_ACTION', { module: opts.module || '', action: perm, reason: opts.reason || `Missing ${perm}`, severity: 'WARN', targetId: opts.targetId || '' }); throw new AppError(ErrCode.PERMISSION_DENIED, `Permission denied: ${perm}`, { module: opts.module }); } return true; },
+  async requireElevated(perm, opts = {}) { await this.require(perm, opts); if (Date.now() > elevatedUntil) throw new AppError(ErrCode.ELEVATION_REQUIRED, 'Password confirmation required', { module: opts.module }); return true; }
 };
 
 /* ---------- SESSION ---------- */
 const SessionService = {
-  async create(user) {
-    const id = 'SESS-' + UUID();
-    const now = Date.now();
-    const sess = { id, userId: user.id, username: user.user, role: user.role, loginTime: nowISO(), lastActivity: nowISO(), expiryTime: new Date(now + sysSettings.sessionTimeoutMin * 60 * 1000).toISOString(), device: navigator.userAgent.slice(0, 120), status: 'ACTIVE' };
-    await db.sessions.add(sess);
-    return sess;
-  },
-  async touch(sessionId) {
-    const s = await db.sessions.get(sessionId);
-    if (!s || s.status !== 'ACTIVE') return false;
-    await db.sessions.update(sessionId, { lastActivity: nowISO(), expiryTime: new Date(Date.now() + sysSettings.sessionTimeoutMin * 60 * 1000).toISOString() });
-    return true;
-  },
-  async validate(sessionId) {
-    if (!sessionId) return null;
-    const s = await db.sessions.get(sessionId);
-    if (!s || s.status !== 'ACTIVE') return null;
-    if (new Date(s.expiryTime).getTime() < Date.now()) { await db.sessions.update(sessionId, { status: 'EXPIRED' }); return null; }
-    return s;
-  },
+  async create(user) { const id = 'SESS-' + UUID(); const now = Date.now(); const sess = { id, userId: user.id, username: user.user, role: user.role, loginTime: nowISO(), lastActivity: nowISO(), expiryTime: new Date(now + sysSettings.sessionTimeoutMin * 60 * 1000).toISOString(), device: navigator.userAgent.slice(0, 120), status: 'ACTIVE' }; await db.sessions.add(sess); return sess; },
+  async touch(sessionId) { const s = await db.sessions.get(sessionId); if (!s || s.status !== 'ACTIVE') return false; await db.sessions.update(sessionId, { lastActivity: nowISO(), expiryTime: new Date(Date.now() + sysSettings.sessionTimeoutMin * 60 * 1000).toISOString() }); return true; },
+  async validate(sessionId) { if (!sessionId) return null; const s = await db.sessions.get(sessionId); if (!s || s.status !== 'ACTIVE') return null; if (new Date(s.expiryTime).getTime() < Date.now()) { await db.sessions.update(sessionId, { status: 'EXPIRED' }); return null; } return s; },
   async destroy(sessionId, reason = 'LOGOUT') { if (sessionId) await db.sessions.update(sessionId, { status: reason }); },
   async active() { return (await db.sessions.toArray()).filter(s => s.status === 'ACTIVE' && new Date(s.expiryTime).getTime() > Date.now()); },
-  async killOtherSessions(userId, keepId) {
-    const all = await db.sessions.where('userId').equals(userId).toArray();
-    let c = 0;
-    for (const s of all) if (s.id !== keepId && s.status === 'ACTIVE') { await db.sessions.update(s.id, { status: 'KILLED' }); c++; }
-    return c;
-  }
+  async killOtherSessions(userId, keepId) { const all = await db.sessions.where('userId').equals(userId).toArray(); let c = 0; for (const s of all) if (s.id !== keepId && s.status === 'ACTIVE') { await db.sessions.update(s.id, { status: 'KILLED' }); c++; } return c; }
 };
 
 /* ---------- PASSWORD POLICY ---------- */
 const PasswordPolicy = {
-  score(pw) {
-    let s = 0;
-    if (!pw) return 0;
-    if (pw.length >= 6) s++;
-    if (pw.length >= 10) s++;
-    if (/[A-Z]/.test(pw)) s++;
-    if (/[a-z]/.test(pw)) s++;
-    if (/[0-9]/.test(pw)) s++;
-    if (/[^A-Za-z0-9]/.test(pw)) s++;
-    return Math.min(s, 5);
-  },
-  validate(pw) {
-    if (!pw || pw.length < (sysSettings.pwMinLen || 6)) throw new AppError(ErrCode.VALIDATION, `Password must be at least ${sysSettings.pwMinLen || 6} characters`);
-    const weak = ['password','123456','12345678','qwerty','admin','letmein'];
-    if (weak.includes(pw.toLowerCase())) throw new AppError(ErrCode.VALIDATION, 'Password is too common');
-    return true;
-  }
+  score(pw) { let s = 0; if (!pw) return 0; if (pw.length >= 6) s++; if (pw.length >= 10) s++; if (/[A-Z]/.test(pw)) s++; if (/[a-z]/.test(pw)) s++; if (/[0-9]/.test(pw)) s++; if (/[^A-Za-z0-9]/.test(pw)) s++; return Math.min(s, 5); },
+  validate(pw) { if (!pw || pw.length < (sysSettings.pwMinLen || 6)) throw new AppError(ErrCode.VALIDATION, `Password must be at least ${sysSettings.pwMinLen || 6} characters`); const weak = ['password','123456','12345678','qwerty','admin','letmein']; if (weak.includes(pw.toLowerCase())) throw new AppError(ErrCode.VALIDATION, 'Password is too common'); return true; }
 };
 
 /* ---------- SEQUENCES + IDEMPOTENCY ---------- */
@@ -847,66 +722,182 @@ const SequenceService = {
     let val = (rec && rec.value) || 0;
     val++;
     await db.sequences.put({ key, value: val, updatedAt: nowISO() });
-    const tCode = type.includes('SALE') ? 'S' : type.includes('PUR') ? 'P' : type.includes('RET') ? 'R' : 'V';
+    const tCode = type.includes('SALES_RETURN') ? 'SR' : type.includes('PURCHASE_RETURN') ? 'PR' : type.includes('RETURN') ? 'R' : type.includes('SALE') ? 'S' : type.includes('PUR') ? 'P' : 'V';
     const d = today().replace(/-/g, '').slice(2);
     return `${sysSettings.prefix}${tCode}${d}-${String(val).padStart(4, '0')}`;
   }
 };
 const Idempotency = {
-  async checkOrRegister(service, requestId) {
-    if (!requestId) return false;
-    if (await db.request_log.get(requestId)) return true;
-    await db.request_log.add({ id: requestId, service, date: nowISO() });
-    return false;
-  }
+  async checkOrRegisterInTxn(service, requestId) { if (!requestId) return false; const existing = await db.request_log.get(requestId); if (existing) return true; await db.request_log.add({ id: requestId, service, date: nowISO() }); return false; }
 };
 
-/* ---------- ACCOUNTS ---------- */
+/* ═══════════════════════════════════════════════════════════════════════
+   CHART OF ACCOUNTS
+   ═══════════════════════════════════════════════════════════════════════ */
 const DEFAULT_ACCOUNTS = [
-  { code:'1000', name:'Cash A/C', type:'ASSET' },
-  { code:'1010', name:'Bank A/C', type:'ASSET' },
-  { code:'1020', name:'UPI A/C', type:'ASSET' },
-  { code:'1030', name:'Card A/C', type:'ASSET' },
-  { code:'1100', name:'Customer Receivable', type:'ASSET' },
-  { code:'1200', name:'Inventory A/C', type:'ASSET' },
-  { code:'2000', name:'Supplier Payable', type:'LIABILITY' },
-  { code:'2100', name:'GST Output', type:'LIABILITY' },
-  { code:'2110', name:'GST Input', type:'ASSET' },
-  { code:'3000', name:'Sales A/C', type:'INCOME' },
-  { code:'3010', name:'Sales Return A/C', type:'INCOME' },
-  { code:'4000', name:'Purchase A/C', type:'EXPENSE' },
-  { code:'4010', name:'Purchase Return A/C', type:'EXPENSE' },
-  { code:'4020', name:'COGS', type:'EXPENSE' },
-  { code:'9000', name:'General Expense', type:'EXPENSE' }
+  { code:'1000', name:'Cash A/C',              group:'ASSET',     type:'LEAF' },
+  { code:'1010', name:'Bank A/C',              group:'ASSET',     type:'LEAF' },
+  { code:'1020', name:'UPI A/C',               group:'ASSET',     type:'LEAF' },
+  { code:'1030', name:'Card Receivable',       group:'ASSET',     type:'LEAF' },
+  { code:'1100', name:'Customer Receivable',   group:'ASSET',     type:'LEAF' },
+  { code:'1200', name:'Inventory A/C',         group:'ASSET',     type:'LEAF' },
+  { code:'1210', name:'Fixed Assets',          group:'ASSET',     type:'LEAF' },
+  { code:'1220', name:'Other Assets',          group:'ASSET',     type:'LEAF' },
+  { code:'1300', name:'GST Input CGST',        group:'ASSET',     type:'LEAF' },
+  { code:'1310', name:'GST Input SGST',        group:'ASSET',     type:'LEAF' },
+  { code:'1320', name:'GST Input IGST',        group:'ASSET',     type:'LEAF' },
+  { code:'2000', name:'Supplier Payable',      group:'LIABILITY', type:'LEAF' },
+  { code:'2100', name:'GST Output CGST',       group:'LIABILITY', type:'LEAF' },
+  { code:'2110', name:'GST Output SGST',       group:'LIABILITY', type:'LEAF' },
+  { code:'2120', name:'GST Output IGST',       group:'LIABILITY', type:'LEAF' },
+  { code:'2200', name:'Loans',                 group:'LIABILITY', type:'LEAF' },
+  { code:'2300', name:'Other Liabilities',     group:'LIABILITY', type:'LEAF' },
+  { code:'2400', name:'Customer Advance',      group:'LIABILITY', type:'LEAF' },
+  { code:'3000', name:'Owner Capital',         group:'CAPITAL',   type:'LEAF' },
+  { code:'3010', name:'Drawings',              group:'CAPITAL',   type:'LEAF' },
+  { code:'3020', name:'Retained Earnings',     group:'CAPITAL',   type:'LEAF' },
+  { code:'4000', name:'Sales A/C',             group:'INCOME',    type:'LEAF' },
+  { code:'4010', name:'Sales Return A/C',      group:'INCOME',    type:'LEAF' },
+  { code:'4100', name:'Other Income',          group:'INCOME',    type:'LEAF' },
+  { code:'4200', name:'Commission Income',     group:'INCOME',    type:'LEAF' },
+  { code:'4300', name:'Discount Received',     group:'INCOME',    type:'LEAF' },
+  { code:'5000', name:'Purchase A/C',          group:'EXPENSE',   type:'LEAF' },
+  { code:'5010', name:'Purchase Return A/C',   group:'EXPENSE',   type:'LEAF' },
+  { code:'5100', name:'Salary',                group:'EXPENSE',   type:'LEAF' },
+  { code:'5110', name:'Rent',                  group:'EXPENSE',   type:'LEAF' },
+  { code:'5120', name:'Electricity',           group:'EXPENSE',   type:'LEAF' },
+  { code:'5130', name:'Transport',             group:'EXPENSE',   type:'LEAF' },
+  { code:'5140', name:'Repair',                group:'EXPENSE',   type:'LEAF' },
+  { code:'5150', name:'Marketing',             group:'EXPENSE',   type:'LEAF' },
+  { code:'5160', name:'Bank Charges',          group:'EXPENSE',   type:'LEAF' },
+  { code:'5170', name:'Discount Allowed',      group:'EXPENSE',   type:'LEAF' },
+  { code:'5900', name:'General Expense',       group:'EXPENSE',   type:'LEAF' },
+  { code:'5999', name:'Round-Off',             group:'EXPENSE',   type:'LEAF' },
+  { code:'6000', name:'COGS',                  group:'COGS',      type:'LEAF' },
+  { code:'9999', name:'Opening Balance Suspense', group:'CAPITAL', type:'LEAF' }
 ];
+
+/* ---------- ✅ FIXED: ensureSeeded now adds missing accounts even if DB exists ---------- */
 const AccountService = {
   async ensureSeeded() {
-    if (await db.accounts.count() > 0) return;
-    for (const a of DEFAULT_ACCOUNTS) await db.accounts.add({ id:'ACC-' + a.code, ...a, status:'ACTIVE' });
+    const existingCodes = new Set((await db.accounts.toArray()).map(a => a.code));
+    for (const a of DEFAULT_ACCOUNTS) {
+      if (existingCodes.has(a.code)) continue;
+      await db.accounts.add({ id: 'ACC-' + a.code, code: a.code, name: a.name, group: a.group, accountType: a.type, parentAccount: null, openingBalance: 0, openingBalanceType: 'DR', status: 'ACTIVE' });
+    }
+  },
+  async byName(name) { return db.accounts.where('name').equals(name).first(); },
+  async byId(id) { return db.accounts.get(id); },
+  async isValidAccount(name) { const a = await this.byName(name); return !!(a && a.status === 'ACTIVE' && a.accountType === 'LEAF'); }
+};
+
+/* ═══════════════════════════════════════════════════════════════════════
+   INVENTORY VALUATION (FIFO + WAVG)
+   ═══════════════════════════════════════════════════════════════════════ */
+const InventoryValuation = {
+  async getMethod() { const c = await db.configs.get('inventoryMethod'); return (c && c.value) || 'WAVG'; },
+  async setMethod(method) { const posted = await db.stock_movements.count(); if (posted > 0) throw new AppError('VALIDATION', 'Cannot change valuation method after stock movements exist'); await db.configs.put({ key: 'inventoryMethod', value: method }); },
+  async onPurchase(productId, qty, rate, txnId) {
+    const prod = await db.products.get(productId);
+    const oldQty = Number(prod.stock) || 0;
+    const oldCost = Number(prod.avgCost) || Number(prod.pur) || 0;
+    const newQty = oldQty + qty;
+    const newCost = newQty > 0 ? ((oldQty * oldCost) + (qty * rate)) / newQty : rate;
+    await db.products.update(productId, { avgCost: money(newCost), pur: money(newCost) });
+    const method = await this.getMethod();
+    if (method === 'FIFO') await db.cost_layers.add({ id: UUID(), productId, qtyRemaining: qty, unitCost: rate, acquiredAt: nowISO(), txnId: txnId || '' });
+    return newCost;
+  },
+  async consumeForSale(productId, qty) {
+    const method = await this.getMethod();
+    if (method === 'FIFO') {
+      const layers = await db.cost_layers.where('productId').equals(productId).filter(l => l.qtyRemaining > 0).sortBy('acquiredAt');
+      let remaining = qty, totalCost = 0;
+      for (const layer of layers) { if (remaining <= 0) break; const take = Math.min(remaining, layer.qtyRemaining); totalCost += take * layer.unitCost; await db.cost_layers.update(layer.id, { qtyRemaining: layer.qtyRemaining - take }); remaining -= take; }
+      if (remaining > 0) { const prod = await db.products.get(productId); totalCost += remaining * (Number(prod.avgCost) || Number(prod.pur) || 0); }
+      return money(totalCost);
+    }
+    const prod = await db.products.get(productId);
+    const avg = Number(prod.avgCost) || Number(prod.pur) || 0;
+    return money(avg * qty);
+  },
+  async restoreForReturn(productId, qty, originalUnitCost) {
+    const method = await this.getMethod();
+    if (method === 'FIFO') await db.cost_layers.add({ id: UUID(), productId, qtyRemaining: qty, unitCost: originalUnitCost, acquiredAt: nowISO(), txnId: '' });
+    const prod = await db.products.get(productId);
+    const oldQty = Number(prod.stock) || 0;
+    const oldCost = Number(prod.avgCost) || Number(prod.pur) || 0;
+    const newQty = oldQty + qty;
+    const newCost = newQty > 0 ? ((oldQty * oldCost) + (qty * originalUnitCost)) / newQty : originalUnitCost;
+    await db.products.update(productId, { avgCost: money(newCost) });
+    return money(originalUnitCost * qty);
   }
 };
 
-/* ---------- JOURNAL (Dr = Cr enforced) ---------- */
+/* ═══════════════════════════════════════════════════════════════════════
+   PERIOD SERVICE (LOCK / UNLOCK)
+   ═══════════════════════════════════════════════════════════════════════ */
+const PeriodService = {
+  async ensureCurrentYear() { const y = new Date().getFullYear(); const existing = await db.periods.where('year').equals(y).first(); if (existing) return existing; const p = { id: 'PER-' + y, year: y, startDate: `${y}-04-01`, endDate: `${y + 1}-03-31`, status: 'OPEN', createdAt: nowISO() }; await db.periods.add(p); return p; },
+  async findContaining(date) { const all = await db.periods.toArray(); return all.find(p => date >= p.startDate && date <= p.endDate) || null; },
+  async lock(year) { await Guard.requireElevated(PERM.PERMISSION_MANAGE, { module: 'PERIOD' }); const p = await db.periods.where('year').equals(year).first(); if (!p) throw new AppError('NOT_FOUND', 'Period not found'); await db.periods.update(p.id, { status: 'LOCKED', lockedAt: nowISO(), lockedBy: currentUser.id }); await Security.log('PERIOD_LOCKED', { module:'PERIOD', targetId: p.id, severity:'CRITICAL' }); },
+  async unlock(year, reason) { await Guard.requireElevated(PERM.PERMISSION_MANAGE, { module: 'PERIOD' }); const p = await db.periods.where('year').equals(year).first(); if (!p) throw new AppError('NOT_FOUND', 'Period not found'); await db.periods.update(p.id, { status: 'OPEN', unlockedAt: nowISO(), unlockReason: reason }); await Security.log('PERIOD_UNLOCKED', { module:'PERIOD', targetId: p.id, reason, severity:'CRITICAL' }); }
+};
+
+/* ═══════════════════════════════════════════════════════════════════════
+   JOURNAL ENGINE (VALIDATION + ROUND-OFF + REVERSAL)
+   ═══════════════════════════════════════════════════════════════════════ */
 const JournalService = {
-  async postInTxn({ refNo, date, type, narration, txnId, entries }) {
+  async postInTxn({ refNo, date, type, narration, txnId, entries, sourceModule = 'MANUAL', reversalOf = null }) {
+    const period = await PeriodService.findContaining(date);
+    if (period && period.status === 'LOCKED') throw new AppError(ErrCode.PERIOD_LOCKED, `Period ${period.year} is locked. Cannot post.`);
+    if (txnId) { const existing = await db.journals.where('txnId').equals(txnId).first(); if (existing && existing.status === 'POSTED') throw new AppError(ErrCode.DUPLICATE_REQUEST, 'Journal already posted'); }
+    for (const e of entries) {
+      if (!(await AccountService.isValidAccount(e.account))) throw new AppError(ErrCode.VALIDATION, `Invalid account: ${e.account}`);
+      const dr = Number(e.dr) || 0, cr = Number(e.cr) || 0;
+      if (dr < 0 || cr < 0) throw new AppError(ErrCode.VALIDATION, 'Negative amounts not allowed');
+      if (dr > 0 && cr > 0) throw new AppError(ErrCode.VALIDATION, 'Line cannot be both Dr and Cr');
+      if (dr === 0 && cr === 0) throw new AppError(ErrCode.VALIDATION, 'Zero-amount line not allowed');
+    }
     const totalDr = money(entries.reduce((s, e) => s + (Number(e.dr) || 0), 0));
     const totalCr = money(entries.reduce((s, e) => s + (Number(e.cr) || 0), 0));
-    if (Math.abs(totalDr - totalCr) > 0.01) throw new AppError(ErrCode.JOURNAL_UNBALANCED, `Journal unbalanced: Dr ${totalDr} ≠ Cr ${totalCr}`, { module:'JOURNAL', txnId });
+    const residual = money(totalDr - totalCr);
+    let finalEntries = entries.slice();
+    if (Math.abs(residual) > 0.005) {
+      if (residual > 0) finalEntries.push({ account: 'Round-Off', dr: 0, cr: residual });
+      else finalEntries.push({ account: 'Round-Off', dr: -residual, cr: 0 });
+    }
+    const fDr = money(finalEntries.reduce((s, e) => s + (Number(e.dr) || 0), 0));
+    const fCr = money(finalEntries.reduce((s, e) => s + (Number(e.cr) || 0), 0));
+    if (Math.abs(fDr - fCr) > 0.005) throw new AppError(ErrCode.JOURNAL_UNBALANCED, `Journal unbalanced: Dr ${fDr} ≠ Cr ${fCr}`, { module:'JOURNAL', txnId });
     const jid = 'JRN-' + UUID();
-    await db.journals.add({ id:jid, date, refNo, type, narration: narration || type, txnId, status:'POSTED', createdAt: nowISO(), createdBy: currentUser?.id || null });
-    for (const e of entries) await db.journal_entries.add({ id: UUID(), journalId: jid, account: e.account, dr: money(e.dr || 0), cr: money(e.cr || 0), createdAt: nowISO() });
+    await db.journals.add({ id: jid, date, refNo, type, narration: narration || type, txnId, status: 'POSTED', reversalOf, reversedBy: null, sourceModule, userId: currentUser?.id || null, username: currentUser?.user || 'system', createdAt: nowISO() });
+    for (const e of finalEntries) await db.journal_entries.add({ id: UUID(), journalId: jid, account: e.account, dr: money(e.dr || 0), cr: money(e.cr || 0), partyType: e.partyType || null, partyId: e.partyId || null, narration: e.narration || '', createdAt: nowISO() });
     return jid;
+  },
+  async reverseJournal(journalId, reason) {
+    await Guard.require(PERM.JOURNAL_CREATE, { module: 'JOURNAL' });
+    if (!reason) throw new AppError('VALIDATION', 'Reversal reason required');
+    const orig = await db.journals.get(journalId);
+    if (!orig) throw new AppError('NOT_FOUND', 'Journal not found');
+    if (orig.status === 'REVERSED') throw new AppError('VALIDATION', 'Already reversed');
+    const origEntries = await db.journal_entries.where('journalId').equals(journalId).toArray();
+    const mirror = origEntries.map(e => ({ account: e.account, dr: Number(e.cr) || 0, cr: Number(e.dr) || 0, partyType: e.partyType, partyId: e.partyId, narration: 'Reversal: ' + (e.narration || '') }));
+    const revId = await JournalService.postInTxn({ refNo: 'REV-' + orig.refNo, date: today(), type: 'REVERSAL', narration: `Reversal of ${orig.refNo}: ${reason}`, txnId: 'REV-' + UUID(), entries: mirror, sourceModule: 'REVERSAL', reversalOf: journalId });
+    await db.journals.update(journalId, { status: 'REVERSED', reversedBy: revId });
+    await AuditService.log('JOURNAL_REVERSED', 'JOURNAL', { txnId: journalId, reason, newValue: { reversalId: revId } });
+    return revId;
   }
 };
 
-/* ---------- STOCK ---------- */
+/* ---------- STOCK + IMEI ---------- */
 const StockService = {
   async getQty(productId, location='MAIN') { const r = await db.stock.where({ productId, location }).first(); return r ? r.qty : 0; },
   async setQty(productId, newQty, location='MAIN') { const r = await db.stock.where({ productId, location }).first(); if (r) await db.stock.update(r.id, { qty: newQty }); else await db.stock.add({ id: UUID(), productId, location, qty: newQty }); },
   async move({ productId, qty, txnId, txnType, reason='', date }) {
     const prev = await this.getQty(productId);
     const next = prev + qty;
-    if (next < 0) throw new AppError(ErrCode.STOCK_INSUFFICIENT, 'Stock would go negative', { module:'STOCK' });
+    if (next < 0) throw new AppError(ErrCode.STOCK_INSUFFICIENT, 'Stock would go negative');
     await this.setQty(productId, next);
     await db.stock_movements.add({ id:UUID(), productId, qty, previousStock: prev, newStock: next, txnId, txnType, date: date || today(), user: currentUser?.user || 'system', location:'MAIN', reason, status:'POSTED', createdAt: nowISO() });
     const prod = await db.products.get(productId);
@@ -915,13 +906,12 @@ const StockService = {
   }
 };
 
-/* ---------- IMEI ---------- */
 const ImeiService = {
   async availableForSale(imeiStr, productId) {
     const c = String(imeiStr||'').replace(/\s/g,'').toUpperCase();
     const rec = await db.imei.where('imei1').equals(c).first() || await db.imei.where('imei2').equals(c).first() || await db.imei.where('serial').equals(c).first();
     if (!rec) throw new AppError(ErrCode.IMEI_UNAVAILABLE, `IMEI ${c} not found`);
-    if (rec.productId !== productId) throw new AppError(ErrCode.IMEI_UNAVAILABLE, `IMEI ${c} different product`);
+    if (rec.productId !== productId) throw new AppError(ErrCode.IMEI_UNAVAILABLE, `IMEI ${c} is for different product`);
     if (rec.status !== 'IN_STOCK') throw new AppError(ErrCode.IMEI_UNAVAILABLE, `IMEI ${c} is ${rec.status}`);
     return rec;
   },
@@ -941,7 +931,7 @@ const UserService = {
     if (await db.users.count() > 0) throw new AppError(ErrCode.VALIDATION, 'System already configured');
     const u = String(user||'').trim();
     if (u.length < 3) throw new AppError(ErrCode.VALIDATION, 'Username must be ≥ 3 chars');
-    if (!/^[a-zA-Z0-9_.-]+$/.test(u)) throw new AppError(ErrCode.VALIDATION, 'Invalid chars');
+    if (!/^[a-zA-Z0-9_.-]+$/.test(u)) throw new AppError(ErrCode.VALIDATION, 'Invalid characters');
     PasswordPolicy.validate(pass);
     const { hash, salt } = await Crypto.hashPassword(pass);
     const rec = { id: 'U-' + UUID(), user: u, hash, salt, fullName: (fullName || 'Owner').trim(), mobile: mobile || '', email: email || '', role: 'SUPER_ADMIN', status: 'ACTIVE', failedAttempts: 0, lockedUntil: null, lastLogin: null, lastLogout: null, passwordChangedAt: nowISO(), createdAt: nowISO(), createdBy: 'system' };
@@ -972,15 +962,11 @@ const UserService = {
     if (existing.role === 'SUPER_ADMIN' && currentUser.role !== 'SUPER_ADMIN') throw new AppError(ErrCode.PERMISSION_DENIED, 'Cannot edit SUPER_ADMIN');
     const upd = { ...patch };
     if (upd.pass) { PasswordPolicy.validate(upd.pass); const { hash, salt } = await Crypto.hashPassword(upd.pass); upd.hash = hash; upd.salt = salt; upd.passwordChangedAt = nowISO(); delete upd.pass; }
-    delete upd.user;
-    upd.updatedAt = nowISO();
+    delete upd.user; upd.updatedAt = nowISO();
     await db.users.update(id, upd);
-    if (patch.customPerms !== undefined) {
-      await db.permissions.where('userId').equals(id).delete();
-      for (const p of (patch.customPerms || [])) await db.permissions.add({ id: UUID(), userId: id, perm: p, granted: true });
-    }
+    if (patch.customPerms !== undefined) { await db.permissions.where('userId').equals(id).delete(); for (const p of (patch.customPerms || [])) await db.permissions.add({ id: UUID(), userId: id, perm: p, granted: true }); }
     Guard.invalidate(id);
-    await AuditService.log('USER_UPDATED', 'USER', { txnId: id, newValue: { ...upd, hash: undefined, salt: undefined } });
+    await AuditService.log('USER_UPDATED', 'USER', { txnId: id });
     return db.users.get(id);
   },
   async authenticate(username, password) {
@@ -989,14 +975,7 @@ const UserService = {
     if (rec.status === 'INACTIVE') return { ok: false, reason: 'ACCOUNT_DISABLED' };
     if (rec.lockedUntil && new Date(rec.lockedUntil).getTime() > Date.now()) return { ok: false, reason: 'ACCOUNT_LOCKED' };
     const ok = await Crypto.verifyPassword(password, rec);
-    if (!ok) {
-      const attempts = (rec.failedAttempts || 0) + 1;
-      const lock = attempts >= sysSettings.maxFailedLogins;
-      const lockUntil = lock ? new Date(Date.now() + sysSettings.lockMinutes * 60 * 1000).toISOString() : null;
-      await db.users.update(rec.id, { failedAttempts: attempts, lockedUntil: lockUntil, status: lock ? 'LOCKED' : rec.status });
-      await Security.log(lock ? 'ACCOUNT_LOCKED' : 'LOGIN_FAILED', { module: 'AUTH', severity: lock ? 'CRITICAL' : 'WARN', reason: `Attempt ${attempts}` });
-      return { ok: false, reason: lock ? 'ACCOUNT_LOCKED' : 'INVALID_CREDENTIALS', attempts, maxAttempts: sysSettings.maxFailedLogins };
-    }
+    if (!ok) { const attempts = (rec.failedAttempts || 0) + 1; const lock = attempts >= sysSettings.maxFailedLogins; const lockUntil = lock ? new Date(Date.now() + sysSettings.lockMinutes * 60 * 1000).toISOString() : null; await db.users.update(rec.id, { failedAttempts: attempts, lockedUntil: lockUntil, status: lock ? 'LOCKED' : rec.status }); await Security.log(lock ? 'ACCOUNT_LOCKED' : 'LOGIN_FAILED', { module: 'AUTH', severity: lock ? 'CRITICAL' : 'WARN', reason: `Attempt ${attempts}` }); return { ok: false, reason: lock ? 'ACCOUNT_LOCKED' : 'INVALID_CREDENTIALS', attempts, maxAttempts: sysSettings.maxFailedLogins }; }
     await db.users.update(rec.id, { failedAttempts: 0, lockedUntil: null, status: 'ACTIVE', lastLogin: nowISO() });
     return { ok: true, user: await db.users.get(rec.id) };
   },
@@ -1009,11 +988,7 @@ const UserService = {
     await db.users.update(userId, { hash, salt, passwordChangedAt: nowISO() });
     await Security.log('PASSWORD_CHANGED', { module: 'AUTH', targetId: userId });
   },
-  async unlockAccount(userId) {
-    await Guard.require(PERM.USER_EDIT, { module: 'USER' });
-    await db.users.update(userId, { failedAttempts: 0, lockedUntil: null, status: 'ACTIVE' });
-    await Security.log('ACCOUNT_UNLOCKED', { module: 'USER', targetId: userId });
-  },
+  async unlockAccount(userId) { await Guard.require(PERM.USER_EDIT, { module: 'USER' }); await db.users.update(userId, { failedAttempts: 0, lockedUntil: null, status: 'ACTIVE' }); await Security.log('ACCOUNT_UNLOCKED', { module: 'USER', targetId: userId }); },
   async disableUser(userId, reason) {
     await Guard.require(PERM.USER_DISABLE, { module: 'USER' });
     if (userId === currentUser.id) throw new AppError(ErrCode.VALIDATION, 'Cannot disable yourself');
@@ -1026,18 +1001,15 @@ const UserService = {
   }
 };
 
-/* ---------- PRODUCT SERVICE ---------- */
+/* ---------- PRODUCT + PARTY ---------- */
 const ProductService = {
   async create(data) {
     await Guard.require(PERM.PRODUCT_CREATE, { module: 'PRODUCT' });
     if (!data.name || !String(data.name).trim()) throw new AppError(ErrCode.VALIDATION, 'Name required');
     if (!(Number(data.sale) > 0)) throw new AppError(ErrCode.VALIDATION, 'Sale price > 0 required');
     let pur = 0;
-    if (data.pur) {
-      if (!(await Guard.has(PERM.PURCHASE_COST_EDIT) || await Guard.has(PERM.PURCHASE_COST_VIEW))) throw new AppError(ErrCode.PERMISSION_DENIED, 'Cannot set purchase cost');
-      pur = Number(data.pur) || 0;
-    }
-    const rec = { id:'PRD-'+UUID(), name: String(data.name).trim().toUpperCase(), brand:(data.brand||'-').toUpperCase(), category: data.category||'General', sku:(data.sku||('SKU-'+Date.now())).toUpperCase(), hsn:(data.hsn||'-').toUpperCase(), lowStock: Number(data.lowStock)||5, pur, sale: Number(data.sale)||0, gst: Number(data.gst)||0, track: !!data.track, stock:0, imeiList:[], image: data.image || '', status:'ACTIVE', createdAt: nowISO(), updatedAt: nowISO(), createdBy: currentUser.id };
+    if (data.pur) { if (!(await Guard.has(PERM.PURCHASE_COST_EDIT) || await Guard.has(PERM.PURCHASE_COST_VIEW))) throw new AppError(ErrCode.PERMISSION_DENIED, 'Cannot set purchase cost'); pur = Number(data.pur) || 0; }
+    const rec = { id:'PRD-'+UUID(), name: String(data.name).trim().toUpperCase(), brand:(data.brand||'-').toUpperCase(), category: data.category||'General', sku:(data.sku||('SKU-'+Date.now())).toUpperCase(), hsn:(data.hsn||'-').toUpperCase(), lowStock: Number(data.lowStock)||5, pur, avgCost: pur, sale: Number(data.sale)||0, gst: Number(data.gst)||0, track: !!data.track, stock:0, imeiList:[], image: data.image || '', status:'ACTIVE', createdAt: nowISO(), updatedAt: nowISO(), createdBy: currentUser.id };
     await db.products.add(rec);
     await db.stock.add({ id: UUID(), productId: rec.id, location: 'MAIN', qty: 0 });
     await AuditService.log('PRODUCT_CREATED', 'PRODUCT', { txnId: rec.id, newValue: rec });
@@ -1048,25 +1020,20 @@ const ProductService = {
     const old = await db.products.get(id);
     if (!old) throw new AppError(ErrCode.NOT_FOUND, 'Product not found');
     const upd = { ...patch, updatedAt: nowISO(), updatedBy: currentUser.id };
-    if (patch.pur !== undefined && patch.pur !== old.pur) {
-      if (!(await Guard.has(PERM.PURCHASE_COST_EDIT))) throw new AppError(ErrCode.PERMISSION_DENIED, 'Cannot edit purchase cost');
-      await AuditService.log('PURCHASE_COST_CHANGED', 'PRODUCT', { txnId: id, oldValue: { pur: old.pur }, newValue: { pur: patch.pur } });
-    }
-    delete upd._imeiList;
+    if (patch.pur !== undefined && patch.pur !== old.pur) { if (!(await Guard.has(PERM.PURCHASE_COST_EDIT))) throw new AppError(ErrCode.PERMISSION_DENIED, 'Cannot edit purchase cost'); await AuditService.log('PURCHASE_COST_CHANGED', 'PRODUCT', { txnId: id, oldValue: { pur: old.pur }, newValue: { pur: patch.pur } }); }
     await db.products.update(id, upd);
-    await AuditService.log('PRODUCT_UPDATED', 'PRODUCT', { txnId: id, oldValue: old, newValue: upd });
+    await AuditService.log('PRODUCT_UPDATED', 'PRODUCT', { txnId: id });
     return db.products.get(id);
   }
 };
 
-/* ---------- PARTY SERVICE ---------- */
 const PartyService = {
   async create(data) {
     await Guard.require(PERM.PARTY_CREATE, { module: 'PARTY' });
     const name = String(data.name||'').trim().toUpperCase();
     if (!name) throw new AppError(ErrCode.VALIDATION, 'Party name required');
     if (data.mobile && !/^\d{10}$/.test(data.mobile)) throw new AppError(ErrCode.VALIDATION, 'Mobile must be 10 digits');
-    const rec = { id:'PTY-'+UUID(), type: data.type || 'CUSTOMER', name, mobile: data.mobile || '', address:(data.address||'').toUpperCase(), gstin:(data.gstin||'').toUpperCase(), ob:0, status:'ACTIVE', createdAt: nowISO(), updatedAt: nowISO(), createdBy: currentUser.id };
+    const rec = { id:'PTY-'+UUID(), type: data.type || 'CUSTOMER', name, mobile: data.mobile || '', address:(data.address||'').toUpperCase(), gstin:(data.gstin||'').toUpperCase(), openingBalance: 0, outstanding: 0, status:'ACTIVE', createdAt: nowISO(), updatedAt: nowISO(), createdBy: currentUser.id };
     await db.parties.add(rec);
     await AuditService.log('PARTY_CREATED', 'PARTY', { txnId: rec.id, newValue: rec });
     return rec;
@@ -1078,246 +1045,453 @@ const PartyService = {
     const upd = { ...patch, updatedAt: nowISO(), updatedBy: currentUser.id };
     if (upd.name) upd.name = upd.name.toUpperCase();
     await db.parties.update(id, upd);
-    await AuditService.log('PARTY_UPDATED', 'PARTY', { txnId: id, oldValue: old, newValue: upd });
+    await AuditService.log('PARTY_UPDATED', 'PARTY', { txnId: id });
     return db.parties.get(id);
   }
 };
 
-/* ---------- SALE SERVICE ---------- */
+/* ═══════════════════════════════════════════════════════════════════════
+   ✅ SALE SERVICE — FIXED: transaction includes db.accounts, db.configs
+   ═══════════════════════════════════════════════════════════════════════ */
 const SaleService = {
   async post(payload) {
     await Guard.require(PERM.SALE_CREATE, { module: 'SALE' });
-    const requestId = payload.requestId || ('SALE-' + UUID());
-    if (await Idempotency.checkOrRegister('SaleService.post', requestId)) throw new AppError(ErrCode.DUPLICATE_REQUEST, 'Sale already posted');
     if (!payload.party) throw new AppError(ErrCode.VALIDATION, 'Party required');
     if (!payload.items || !payload.items.length) throw new AppError(ErrCode.VALIDATION, 'No items');
 
-    return db.transaction('rw', [db.bills, db.bill_items, db.products, db.stock, db.stock_movements, db.imei, db.parties, db.journals, db.journal_entries, db.audit_logs, db.security_events, db.sync_queue, db.sequences, db.request_log], async () => {
+    return db.transaction('rw', [db.bills, db.bill_items, db.products, db.stock, db.stock_movements, db.cost_layers, db.imei, db.parties, db.journals, db.journal_entries, db.audit_logs, db.sync_queue, db.sequences, db.request_log, db.periods, db.payment_allocations, db.security_events, db.accounts, db.configs], async () => {
+      const requestId = payload.requestId || ('SALE-' + UUID());
+      if (await Idempotency.checkOrRegisterInTxn('SaleService.post', requestId)) throw new AppError(ErrCode.DUPLICATE_REQUEST, 'Sale already posted');
+
       const txnId = 'TXN-SALE-' + UUID();
       const bDate = payload.date || today();
       const invNo = await SequenceService.next('SALE');
-      let party = await db.parties.where('name').equals(payload.party.toUpperCase()).first();
-      if (!party) party = await PartyService.create({ name: payload.party, mobile: payload.mobile || '', type: 'CUSTOMER' });
 
-      let subtotal=0, gstTotal=0, grandTotal=0, cogsTotal=0;
+      let party = await db.parties.where('name').equals(payload.party.toUpperCase()).first();
+      if (!party) { party = { id: 'PTY-' + UUID(), type: 'CUSTOMER', name: payload.party.toUpperCase(), mobile: payload.mobile || '', address: '', gstin: '', openingBalance: 0, outstanding: 0, status: 'ACTIVE', createdAt: nowISO(), createdBy: currentUser.id }; await db.parties.add(party); }
+      if (party.type === 'SUPPLIER') throw new AppError('VALIDATION', 'Party is a supplier, not customer');
+
+      let subtotal = 0, totalDiscount = 0, taxableTotal = 0;
+      let cgstTotal = 0, sgstTotal = 0, igstTotal = 0;
+      let grandTotal = 0, cogsTotal = 0;
       const computed = [];
+
       for (const raw of payload.items) {
         const prod = await db.products.get(raw.productId);
         if (!prod) throw new AppError(ErrCode.NOT_FOUND, `Product not found: ${raw.name}`);
         const qty = Math.max(1, Number(raw.qty) || 1);
         const rate = Number(raw.rate) || prod.sale;
         const gstPct = raw.gst !== undefined ? Number(raw.gst) : prod.gst;
-        const lineSub = money(rate*qty), lineGst = money(lineSub*gstPct/100), lineTotal = money(lineSub + lineGst);
+        const gross = money(rate * qty);
+        let disc = 0;
+        if (raw.discountPct) disc = money(gross * Number(raw.discountPct) / 100);
+        else if (raw.discount) disc = money(Number(raw.discount));
+        disc = Math.min(disc, gross);
+        const taxable = money(gross - disc);
+        const isInterState = raw.igst === true;
+        const cgst = isInterState ? 0 : money(taxable * (gstPct / 2) / 100);
+        const sgst = isInterState ? 0 : money(taxable * (gstPct / 2) / 100);
+        const igst = isInterState ? money(taxable * gstPct / 100) : 0;
+        const lineTotal = money(taxable + cgst + sgst + igst);
+
         const available = await StockService.getQty(prod.id);
         if (available < qty) throw new AppError(ErrCode.STOCK_INSUFFICIENT, `Insufficient stock for ${prod.name}`);
+
         const imeiList = raw.imeiList || [];
         if (prod.track) {
           if (imeiList.length !== qty) throw new AppError(ErrCode.IMEI_INVALID, `${prod.name} requires ${qty} IMEI(s)`);
           const seen = new Set();
-          for (const im of imeiList) {
-            const clean = String(im).trim().toUpperCase();
-            if (seen.has(clean)) throw new AppError(ErrCode.IMEI_DUPLICATE, `Duplicate IMEI: ${clean}`);
-            seen.add(clean);
-            await ImeiService.availableForSale(clean, prod.id);
-          }
+          for (const im of imeiList) { const clean = String(im).trim().toUpperCase(); if (seen.has(clean)) throw new AppError(ErrCode.IMEI_DUPLICATE, `Duplicate IMEI: ${clean}`); seen.add(clean); await ImeiService.availableForSale(clean, prod.id); }
         }
-        subtotal = money(subtotal + lineSub); gstTotal = money(gstTotal + lineGst); grandTotal = money(grandTotal + lineTotal);
-        cogsTotal = money(cogsTotal + (Number(prod.pur) || 0) * qty);
-        computed.push({ prod, qty, rate, gstPct, lineSub, lineGst, lineTotal, imeiList });
+
+        const lineCogs = await InventoryValuation.consumeForSale(prod.id, qty);
+        subtotal = money(subtotal + gross); totalDiscount = money(totalDiscount + disc); taxableTotal = money(taxableTotal + taxable);
+        cgstTotal = money(cgstTotal + cgst); sgstTotal = money(sgstTotal + sgst); igstTotal = money(igstTotal + igst);
+        grandTotal = money(grandTotal + lineTotal); cogsTotal = money(cogsTotal + lineCogs);
+        computed.push({ prod, qty, rate, gstPct, disc, gross, taxable, cgst, sgst, igst, lineTotal, imeiList, lineCogs });
       }
-      const paid = money(Number(payload.paid) || 0);
+
+      const payments = payload.payments || [{ mode: payload.paymentMode || 'CASH', amount: Number(payload.paid) || 0 }];
+      let paid = 0;
+      for (const p of payments) paid = money(paid + (Number(p.amount) || 0));
+      let advanceCreated = 0;
+      if (paid > grandTotal) { if (!payload.allowAdvance) throw new AppError('VALIDATION', 'Paid > Bill. Advance not allowed.'); advanceCreated = money(paid - grandTotal); }
       const due = money(Math.max(0, grandTotal - paid));
+
       const billId = 'BILL-' + UUID();
-      const billRec = { id: billId, invNo, date: bDate, type:'SALE', party: party.name, partyId: party.id, mobile: party.mobile || '', items: computed.map(c => ({ name: c.prod.name, rate: c.rate, qty: c.qty, gst: c.gstPct, imei: c.imeiList.join(', '), amt: c.lineTotal })), basic: subtotal, gst: gstTotal, total: grandTotal, paid, due, paymentMode: payload.paymentMode || 'CASH', profit: money(grandTotal - gstTotal - cogsTotal), status:'POSTED', requestId, txnId, createdAt: nowISO(), createdBy: currentUser.id };
+      const billRec = { id: billId, invNo, date: bDate, type: 'SALE', party: party.name, partyId: party.id, mobile: party.mobile || '', items: computed.map(c => ({ name: c.prod.name, rate: c.rate, qty: c.qty, gst: c.gstPct, discount: c.disc, imei: c.imeiList.join(', '), amt: c.lineTotal })), basic: taxableTotal, gross: subtotal, discount: totalDiscount, cgst: cgstTotal, sgst: sgstTotal, igst: igstTotal, gst: money(cgstTotal + sgstTotal + igstTotal), total: grandTotal, paid, due, advance: advanceCreated, cogs: cogsTotal, profit: money(taxableTotal - cogsTotal), paymentMode: payments.length === 1 ? payments[0].mode : 'MIXED', payments, status: 'POSTED', requestId, txnId, createdAt: nowISO(), createdBy: currentUser.id };
       await db.bills.add(billRec);
+
       for (const c of computed) {
-        for (let i = 0; i < c.qty; i++) await db.bill_items.add({ id: UUID(), billId, productId: c.prod.id, name: c.prod.name, qty: 1, rate: c.rate, gst: c.gstPct, amount: money(c.rate * (1 + c.gstPct/100)), imei: c.imeiList[i] || '', createdAt: nowISO() });
+        for (let i = 0; i < c.qty; i++) await db.bill_items.add({ id: UUID(), billId, productId: c.prod.id, name: c.prod.name, qty: 1, rate: c.rate, gst: c.gstPct, discount: money(c.disc / c.qty), amount: money(c.lineTotal / c.qty), cogs: money(c.lineCogs / c.qty), imei: c.imeiList[i] || '', createdAt: nowISO() });
         await StockService.move({ productId: c.prod.id, qty: -c.qty, txnId, txnType: 'SALE', date: bDate, reason: `Sold on ${invNo}` });
-        if (c.prod.track) {
-          for (const im of c.imeiList) {
-            const r = await db.imei.where('imei1').equals(String(im).trim().toUpperCase()).first() || await db.imei.where('imei2').equals(String(im).trim().toUpperCase()).first() || await db.imei.where('serial').equals(String(im).trim().toUpperCase()).first();
-            if (r) { await ImeiService.markSoldInTxn(r.id, billId, txnId); await Security.log('IMEI_SOLD', { module: 'IMEI', targetId: r.id }); }
-          }
-        }
+        if (c.prod.track) for (const im of c.imeiList) { const r = await db.imei.where('imei1').equals(String(im).trim().toUpperCase()).first() || await db.imei.where('imei2').equals(String(im).trim().toUpperCase()).first() || await db.imei.where('serial').equals(String(im).trim().toUpperCase()).first(); if (r) await ImeiService.markSoldInTxn(r.id, billId, txnId); }
       }
-      if (due > 0) await db.parties.update(party.id, { ob: money((party.ob || 0) + due) });
-      const je = [{ account: 'Customer Receivable', dr: grandTotal, cr: 0 }, { account: 'Sales A/C', dr: 0, cr: subtotal }];
-      if (gstTotal > 0) je.push({ account: 'GST Output', dr: 0, cr: gstTotal });
-      je.push({ account: 'COGS', dr: cogsTotal, cr: 0 }, { account: 'Inventory A/C', dr: 0, cr: cogsTotal });
-      if (paid > 0) {
-        const cashAcc = payload.paymentMode === 'BANK' ? 'Bank A/C' : payload.paymentMode === 'CARD' ? 'Card A/C' : payload.paymentMode === 'QR' ? 'UPI A/C' : 'Cash A/C';
-        je.push({ account: cashAcc, dr: paid, cr: 0 }, { account: 'Customer Receivable', dr: 0, cr: paid });
+
+      const je = [
+        { account: 'Customer Receivable', dr: grandTotal, cr: 0, partyType: 'CUSTOMER', partyId: party.id },
+        { account: 'Sales A/C', dr: 0, cr: taxableTotal }
+      ];
+      if (cgstTotal > 0) je.push({ account: 'GST Output CGST', dr: 0, cr: cgstTotal });
+      if (sgstTotal > 0) je.push({ account: 'GST Output SGST', dr: 0, cr: sgstTotal });
+      if (igstTotal > 0) je.push({ account: 'GST Output IGST', dr: 0, cr: igstTotal });
+      je.push({ account: 'COGS', dr: cogsTotal, cr: 0 });
+      je.push({ account: 'Inventory A/C', dr: 0, cr: cogsTotal });
+
+      for (const p of payments) {
+        const amt = Number(p.amount) || 0;
+        if (amt <= 0) continue;
+        const capped = Math.min(amt, grandTotal);
+        const acc = p.mode === 'BANK' ? 'Bank A/C' : p.mode === 'CARD' ? 'Card Receivable' : p.mode === 'UPI' ? 'UPI A/C' : 'Cash A/C';
+        je.push({ account: acc, dr: capped, cr: 0 });
+        je.push({ account: 'Customer Receivable', dr: 0, cr: capped, partyType: 'CUSTOMER', partyId: party.id });
       }
-      await JournalService.postInTxn({ refNo: invNo, date: bDate, type: 'SALE', txnId, narration: `Sale to ${party.name}`, entries: je });
+      if (advanceCreated > 0) {
+        const lastMode = payments[payments.length - 1].mode;
+        const advAcc = lastMode === 'BANK' ? 'Bank A/C' : lastMode === 'UPI' ? 'UPI A/C' : lastMode === 'CARD' ? 'Card Receivable' : 'Cash A/C';
+        je.push({ account: advAcc, dr: advanceCreated, cr: 0 });
+        je.push({ account: 'Customer Advance', dr: 0, cr: advanceCreated, partyType: 'CUSTOMER', partyId: party.id });
+      }
+
+      const jid = await JournalService.postInTxn({ refNo: invNo, date: bDate, type: 'SALE', txnId, narration: `Sale to ${party.name}`, entries: je, sourceModule: 'SALE' });
+      if (due > 0) await db.parties.update(party.id, { outstanding: money((party.outstanding || 0) + due) });
       await db.sync_queue.add({ id: UUID(), entity: 'bills', operation: 'INSERT', payload: billRec, txnId, createdAt: nowISO(), retryCount: 0, status: 'PENDING', errorMessage: '' });
-      return { bill: billRec, txnId };
+      await AuditService.log('SALE_POSTED', 'SALE', { txnId, invoiceNo: invNo, newValue: billRec });
+      return { bill: billRec, txnId, journalId: jid };
     });
   }
 };
 
-/* ---------- PURCHASE SERVICE ---------- */
+/* ═══════════════════════════════════════════════════════════════════════
+   ✅ PURCHASE SERVICE — FIXED
+   ═══════════════════════════════════════════════════════════════════════ */
 const PurchaseService = {
   async post(payload) {
     await Guard.require(PERM.PURCHASE_CREATE, { module: 'PURCHASE' });
-    const requestId = payload.requestId || ('PUR-' + UUID());
-    if (await Idempotency.checkOrRegister('PurchaseService.post', requestId)) throw new AppError(ErrCode.DUPLICATE_REQUEST, 'Duplicate purchase');
     if (!payload.party) throw new AppError(ErrCode.VALIDATION, 'Supplier required');
     if (!payload.items || !payload.items.length) throw new AppError(ErrCode.VALIDATION, 'No items');
 
-    return db.transaction('rw', [db.purchases, db.purchase_items, db.products, db.stock, db.stock_movements, db.imei, db.parties, db.journals, db.journal_entries, db.audit_logs, db.sync_queue, db.sequences, db.request_log], async () => {
+    return db.transaction('rw', [db.purchases, db.purchase_items, db.products, db.stock, db.stock_movements, db.cost_layers, db.imei, db.parties, db.journals, db.journal_entries, db.audit_logs, db.sync_queue, db.sequences, db.request_log, db.periods, db.accounts, db.configs], async () => {
+      const requestId = payload.requestId || ('PUR-' + UUID());
+      if (await Idempotency.checkOrRegisterInTxn('PurchaseService.post', requestId)) throw new AppError(ErrCode.DUPLICATE_REQUEST, 'Purchase already posted');
+
       const txnId = 'TXN-PUR-' + UUID();
       const bDate = payload.date || today();
       const invNo = await SequenceService.next('PURCHASE');
+
       let party = await db.parties.where('name').equals(payload.party.toUpperCase()).first();
-      if (!party) party = await PartyService.create({ name: payload.party, type: 'SUPPLIER' });
-      let subtotal=0, gstTotal=0, grandTotal=0;
+      if (!party) { party = { id: 'PTY-' + UUID(), type: 'SUPPLIER', name: payload.party.toUpperCase(), mobile: '', address: '', gstin: '', openingBalance: 0, outstanding: 0, status: 'ACTIVE', createdAt: nowISO(), createdBy: currentUser.id }; await db.parties.add(party); }
+
+      let subtotal = 0, totalDiscount = 0, taxableTotal = 0;
+      let cgstTotal = 0, sgstTotal = 0, igstTotal = 0, grandTotal = 0;
       const computed = [];
+
       for (const raw of payload.items) {
         const prod = await db.products.get(raw.productId);
         if (!prod) throw new AppError(ErrCode.NOT_FOUND, `Product not found: ${raw.name}`);
         const qty = Math.max(1, Number(raw.qty) || 1);
         const rate = Number(raw.rate) || prod.pur;
         const gstPct = raw.gst !== undefined ? Number(raw.gst) : prod.gst;
-        const lineSub = money(rate*qty), lineGst = money(lineSub*gstPct/100), lineTotal = money(lineSub + lineGst);
+        const gross = money(rate * qty);
+        let disc = 0;
+        if (raw.discountPct) disc = money(gross * Number(raw.discountPct) / 100);
+        else if (raw.discount) disc = money(Number(raw.discount));
+        disc = Math.min(disc, gross);
+        const taxable = money(gross - disc);
+        const isInterState = raw.igst === true;
+        const cgst = isInterState ? 0 : money(taxable * (gstPct / 2) / 100);
+        const sgst = isInterState ? 0 : money(taxable * (gstPct / 2) / 100);
+        const igst = isInterState ? money(taxable * gstPct / 100) : 0;
+        const lineTotal = money(taxable + cgst + sgst + igst);
+
         const imeiList = raw.imeiList || [];
         if (prod.track) {
           if (imeiList.length !== qty) throw new AppError(ErrCode.IMEI_INVALID, `${prod.name} requires ${qty} IMEI(s)`);
-          for (const im of imeiList) {
-            if (!luhnValid(im)) throw new AppError(ErrCode.IMEI_INVALID, `Invalid IMEI (Luhn): ${im}`);
-            if (await db.imei.where('imei1').equals(String(im).toUpperCase()).first()) throw new AppError(ErrCode.IMEI_DUPLICATE, `IMEI exists: ${im}`);
-          }
+          for (const im of imeiList) { if (!luhnValid(im)) throw new AppError(ErrCode.IMEI_INVALID, `Invalid IMEI (Luhn): ${im}`); if (await db.imei.where('imei1').equals(String(im).toUpperCase()).first()) throw new AppError(ErrCode.IMEI_DUPLICATE, `IMEI exists: ${im}`); }
         }
-        subtotal = money(subtotal + lineSub); gstTotal = money(gstTotal + lineGst); grandTotal = money(grandTotal + lineTotal);
-        computed.push({ prod, qty, rate, gstPct, lineSub, lineGst, lineTotal, imeiList });
+
+        subtotal = money(subtotal + gross); totalDiscount = money(totalDiscount + disc); taxableTotal = money(taxableTotal + taxable);
+        cgstTotal = money(cgstTotal + cgst); sgstTotal = money(sgstTotal + sgst); igstTotal = money(igstTotal + igst);
+        grandTotal = money(grandTotal + lineTotal);
+        computed.push({ prod, qty, rate, gstPct, disc, gross, taxable, cgst, sgst, igst, lineTotal, imeiList });
       }
-      const paid = money(Number(payload.paid) || 0);
+
+      const payments = payload.payments || [{ mode: payload.paymentMode || 'CASH', amount: Number(payload.paid) || 0 }];
+      let paid = 0;
+      for (const p of payments) paid = money(paid + (Number(p.amount) || 0));
       const due = money(Math.max(0, grandTotal - paid));
+
       const purchaseId = 'PUR-' + UUID();
-      const purchaseRec = { id: purchaseId, invNo, date: bDate, type:'PURCHASE', party: party.name, partyId: party.id, mobile: party.mobile || '', items: computed.map(c => ({ name: c.prod.name, rate: c.rate, qty: c.qty, gst: c.gstPct, imei: c.imeiList.join(', '), amt: c.lineTotal })), basic: subtotal, gst: gstTotal, total: grandTotal, paid, due, paymentMode: payload.paymentMode || 'CASH', status:'POSTED', requestId, txnId, createdAt: nowISO(), createdBy: currentUser.id };
+      const purchaseRec = { id: purchaseId, invNo, date: bDate, type: 'PURCHASE', party: party.name, partyId: party.id, mobile: party.mobile || '', items: computed.map(c => ({ name: c.prod.name, rate: c.rate, qty: c.qty, gst: c.gstPct, discount: c.disc, imei: c.imeiList.join(', '), amt: c.lineTotal })), basic: taxableTotal, gross: subtotal, discount: totalDiscount, cgst: cgstTotal, sgst: sgstTotal, igst: igstTotal, gst: money(cgstTotal + sgstTotal + igstTotal), total: grandTotal, paid, due, paymentMode: payments.length === 1 ? payments[0].mode : 'MIXED', payments, status: 'POSTED', requestId, txnId, createdAt: nowISO(), createdBy: currentUser.id };
       await db.purchases.add(purchaseRec);
+
       for (const c of computed) {
-        for (let i = 0; i < c.qty; i++) await db.purchase_items.add({ id: UUID(), purchaseId, productId: c.prod.id, name: c.prod.name, qty: 1, rate: c.rate, gst: c.gstPct, amount: money(c.rate * (1 + c.gstPct/100)), imei: c.imeiList[i] || '' });
+        for (let i = 0; i < c.qty; i++) await db.purchase_items.add({ id: UUID(), purchaseId, productId: c.prod.id, name: c.prod.name, qty: 1, rate: c.rate, gst: c.gstPct, amount: money(c.lineTotal / c.qty), imei: c.imeiList[i] || '' });
         await StockService.move({ productId: c.prod.id, qty: c.qty, txnId, txnType: 'PURCHASE', date: bDate, reason: `Purchased on ${invNo}` });
+        await InventoryValuation.onPurchase(c.prod.id, c.qty, c.rate, txnId);
         if (c.prod.track) for (const im of c.imeiList) await ImeiService.addInTxn({ productId: c.prod.id, imei1: im, purchaseId, txnId });
       }
-      if (due > 0) await db.parties.update(party.id, { ob: money((party.ob || 0) - due) });
-      const je = [{ account: 'Purchase A/C', dr: subtotal, cr: 0 }];
-      if (gstTotal > 0) je.push({ account: 'GST Input', dr: gstTotal, cr: 0 });
-      je.push({ account: 'Supplier Payable', dr: 0, cr: grandTotal });
-      if (paid > 0) {
-        const cashAcc = payload.paymentMode === 'BANK' ? 'Bank A/C' : payload.paymentMode === 'CARD' ? 'Card A/C' : 'Cash A/C';
-        je.push({ account: 'Supplier Payable', dr: paid, cr: 0 }, { account: cashAcc, dr: 0, cr: paid });
+
+      const je = [{ account: 'Inventory A/C', dr: taxableTotal, cr: 0 }];
+      if (cgstTotal > 0) je.push({ account: 'GST Input CGST', dr: cgstTotal, cr: 0 });
+      if (sgstTotal > 0) je.push({ account: 'GST Input SGST', dr: sgstTotal, cr: 0 });
+      if (igstTotal > 0) je.push({ account: 'GST Input IGST', dr: igstTotal, cr: 0 });
+      je.push({ account: 'Supplier Payable', dr: 0, cr: grandTotal, partyType: 'SUPPLIER', partyId: party.id });
+
+      for (const p of payments) {
+        const amt = Number(p.amount) || 0;
+        if (amt <= 0) continue;
+        const capped = Math.min(amt, grandTotal);
+        const acc = p.mode === 'BANK' ? 'Bank A/C' : p.mode === 'CARD' ? 'Card Receivable' : p.mode === 'UPI' ? 'UPI A/C' : 'Cash A/C';
+        je.push({ account: 'Supplier Payable', dr: capped, cr: 0, partyType: 'SUPPLIER', partyId: party.id });
+        je.push({ account: acc, dr: 0, cr: capped });
       }
-      await JournalService.postInTxn({ refNo: invNo, date: bDate, type: 'PURCHASE', txnId, narration: `Purchase from ${party.name}`, entries: je });
+
+      await JournalService.postInTxn({ refNo: invNo, date: bDate, type: 'PURCHASE', txnId, narration: `Purchase from ${party.name}`, entries: je, sourceModule: 'PURCHASE' });
+      if (due > 0) await db.parties.update(party.id, { outstanding: money((party.outstanding || 0) - due) });
       await db.sync_queue.add({ id: UUID(), entity: 'purchases', operation: 'INSERT', payload: purchaseRec, txnId, createdAt: nowISO(), retryCount: 0, status: 'PENDING', errorMessage: '' });
+      await AuditService.log('PURCHASE_POSTED', 'PURCHASE', { txnId, invoiceNo: invNo });
       return { bill: purchaseRec, txnId };
     });
   }
 };
 
-/* ---------- PAYMENT SERVICE ---------- */
+/* ═══════════════════════════════════════════════════════════════════════
+   ✅ PAYMENT SERVICE — FIXED
+   ═══════════════════════════════════════════════════════════════════════ */
 const PaymentService = {
   async post(payload) {
     await Guard.require(PERM.PAYMENT_CREATE, { module: 'PAYMENT' });
     const requestId = payload.requestId || ('PAY-' + UUID());
-    if (await Idempotency.checkOrRegister('PaymentService.post', requestId)) throw new AppError(ErrCode.DUPLICATE_REQUEST, 'Duplicate payment');
     const amount = money(Number(payload.amount));
     if (amount <= 0) throw new AppError(ErrCode.VALIDATION, 'Amount must be positive');
     if (!payload.party) throw new AppError(ErrCode.VALIDATION, 'Party required');
 
-    return db.transaction('rw', [db.payments, db.parties, db.journals, db.journal_entries, db.audit_logs, db.sync_queue, db.sequences, db.request_log], async () => {
+    return db.transaction('rw', [db.payments, db.parties, db.journals, db.journal_entries, db.audit_logs, db.sync_queue, db.sequences, db.request_log, db.periods, db.accounts], async () => {
+      if (await Idempotency.checkOrRegisterInTxn('PaymentService.post', requestId)) throw new AppError(ErrCode.DUPLICATE_REQUEST, 'Duplicate payment');
+
       const txnId = 'TXN-PAY-' + UUID();
       const bDate = payload.date || today();
       const refNo = await SequenceService.next('VOUCHER');
       const type = payload.type;
       const party = type !== 'EXPENSE' ? await db.parties.where('name').equals(payload.party.toUpperCase()).first() : null;
       if (type !== 'EXPENSE' && !party) throw new AppError(ErrCode.NOT_FOUND, 'Party not found');
+
       const payId = 'PAY-' + UUID();
       await db.payments.add({ id: payId, date: bDate, refNo, amount, mode: payload.mode || 'CASH', party: payload.party.toUpperCase(), partyId: party?.id || null, type, narration: payload.narration || '', status:'POSTED', txnId, requestId, createdAt: nowISO() });
-      const cashAcc = payload.mode === 'BANK' ? 'Bank A/C' : payload.mode === 'CARD' ? 'Card A/C' : payload.mode === 'UPI' ? 'UPI A/C' : 'Cash A/C';
+
+      const cashAcc = payload.mode === 'BANK' ? 'Bank A/C' : payload.mode === 'CARD' ? 'Card Receivable' : payload.mode === 'UPI' ? 'UPI A/C' : 'Cash A/C';
       const je = [];
-      if (type === 'RECEIPT') je.push({ account: cashAcc, dr: amount, cr: 0 }, { account: 'Customer Receivable', dr: 0, cr: amount });
-      else if (type === 'PAYMENT') je.push({ account: 'Supplier Payable', dr: amount, cr: 0 }, { account: cashAcc, dr: 0, cr: amount });
-      else je.push({ account: 'General Expense', dr: amount, cr: 0 }, { account: cashAcc, dr: 0, cr: amount });
-      await JournalService.postInTxn({ refNo, date: bDate, type, txnId, narration: payload.narration || type, entries: je });
-      if (party) { const delta = type === 'RECEIPT' ? -amount : amount; await db.parties.update(party.id, { ob: money((party.ob || 0) + delta) }); }
+      if (type === 'RECEIPT') { je.push({ account: cashAcc, dr: amount, cr: 0 }); je.push({ account: 'Customer Receivable', dr: 0, cr: amount, partyType: 'CUSTOMER', partyId: party.id }); }
+      else if (type === 'PAYMENT') { je.push({ account: 'Supplier Payable', dr: amount, cr: 0, partyType: 'SUPPLIER', partyId: party.id }); je.push({ account: cashAcc, dr: 0, cr: amount }); }
+      else { je.push({ account: 'General Expense', dr: amount, cr: 0 }); je.push({ account: cashAcc, dr: 0, cr: amount }); }
+      await JournalService.postInTxn({ refNo, date: bDate, type, txnId, narration: payload.narration || type, entries: je, sourceModule: 'PAYMENT' });
+
+      if (party) { const delta = type === 'RECEIPT' ? -amount : amount; await db.parties.update(party.id, { outstanding: money((party.outstanding || 0) + delta) }); }
       await db.sync_queue.add({ id: UUID(), entity: 'payments', operation: 'INSERT', payload: { id: payId, refNo, amount, party: payload.party, type }, txnId, createdAt: nowISO(), retryCount: 0, status: 'PENDING', errorMessage: '' });
       return { payId, refNo, txnId };
     });
   }
 };
 
-/* ---------- RETURN SERVICE ---------- */
+/* ═══════════════════════════════════════════════════════════════════════
+   ✅ RETURN SERVICE — FIXED (GST + COGS reversal)
+   ═══════════════════════════════════════════════════════════════════════ */
 const ReturnService = {
   async post(payload) {
     const perm = payload.returnType === 'SALES_RETURN' ? PERM.SALE_CREATE : PERM.PURCHASE_CREATE;
     await Guard.require(perm, { module: 'RETURN' });
-    const requestId = payload.requestId || ('RET-' + UUID());
-    if (await Idempotency.checkOrRegister('ReturnService.post', requestId)) throw new AppError(ErrCode.DUPLICATE_REQUEST, 'Duplicate return');
     if (!payload.party) throw new AppError(ErrCode.VALIDATION, 'Party required');
+    if (!payload.originalRef) throw new AppError(ErrCode.VALIDATION, 'Original invoice reference required');
     if (!payload.items || !payload.items.length) throw new AppError(ErrCode.VALIDATION, 'No items');
-    if (!payload.originalRef) throw new AppError(ErrCode.VALIDATION, 'Original ref required');
 
-    return db.transaction('rw', [db.returns, db.return_items, db.products, db.stock, db.stock_movements, db.imei, db.parties, db.journals, db.journal_entries, db.audit_logs, db.sync_queue, db.sequences, db.request_log], async () => {
+    return db.transaction('rw', [db.returns, db.return_items, db.products, db.stock, db.stock_movements, db.cost_layers, db.imei, db.parties, db.journals, db.journal_entries, db.bills, db.bill_items, db.audit_logs, db.sync_queue, db.sequences, db.request_log, db.periods, db.accounts, db.configs], async () => {
+      const requestId = payload.requestId || ('RET-' + UUID());
+      if (await Idempotency.checkOrRegisterInTxn('ReturnService.post', requestId)) throw new AppError(ErrCode.DUPLICATE_REQUEST, 'Return already posted');
+
       const txnId = 'TXN-RET-' + UUID();
       const bDate = payload.date || today();
       const retType = payload.returnType;
       const refNo = await SequenceService.next(retType);
+
       const party = await db.parties.where('name').equals(payload.party.toUpperCase()).first();
       if (!party) throw new AppError(ErrCode.NOT_FOUND, 'Party not found');
-      let subtotal=0, gstTotal=0, grandTotal=0;
+
+      const origBill = await db.bills.where('invNo').equals(payload.originalRef).first();
+      const origItems = origBill ? await db.bill_items.where('billId').equals(origBill.id).toArray() : [];
+
+      let subtotal = 0, taxableTotal = 0, cgstTotal = 0, sgstTotal = 0, igstTotal = 0;
+      let grandTotal = 0, cogsReversal = 0;
       const computed = [];
+
       for (const raw of payload.items) {
         const prod = await db.products.get(raw.productId);
         if (!prod) throw new AppError(ErrCode.NOT_FOUND, `Product not found: ${raw.name}`);
         const qty = Math.max(1, Number(raw.qty) || 1);
         const rate = Number(raw.rate) || (retType === 'SALES_RETURN' ? prod.sale : prod.pur);
         const gstPct = raw.gst !== undefined ? Number(raw.gst) : prod.gst;
-        const lineSub = money(rate*qty), lineGst = money(lineSub*gstPct/100), lineTotal = money(lineSub + lineGst);
-        const imeiList = raw.imeiList || [];
-        if (prod.track && imeiList.length !== qty) throw new AppError(ErrCode.IMEI_INVALID, `${prod.name}: ${qty} IMEI(s) required`);
-        subtotal = money(subtotal + lineSub); gstTotal = money(gstTotal + lineGst); grandTotal = money(grandTotal + lineTotal);
-        computed.push({ prod, qty, rate, gstPct, lineSub, lineGst, lineTotal, imeiList });
+        const origLine = origItems.find(oi => oi.productId === prod.id);
+        const origGst = origLine ? Number(origLine.gst) : gstPct;
+        const isInterState = raw.igst === true;
+
+        const gross = money(rate * qty);
+        let disc = 0;
+        if (raw.discountPct) disc = money(gross * Number(raw.discountPct) / 100);
+        else if (raw.discount) disc = money(Number(raw.discount));
+        const taxable = money(gross - disc);
+        const cgst = isInterState ? 0 : money(taxable * (origGst / 2) / 100);
+        const sgst = isInterState ? 0 : money(taxable * (origGst / 2) / 100);
+        const igst = isInterState ? money(taxable * origGst / 100) : 0;
+        const lineTotal = money(taxable + cgst + sgst + igst);
+
+        const origUnitCost = origLine ? Number(origLine.cogs) : Number(prod.avgCost) || Number(prod.pur) || 0;
+        let lineCogs = 0;
+        if (retType === 'SALES_RETURN') lineCogs = await InventoryValuation.restoreForReturn(prod.id, qty, origUnitCost);
+        else { const avg = Number(prod.avgCost) || Number(prod.pur) || 0; lineCogs = money(avg * qty); }
+
+        subtotal = money(subtotal + gross); taxableTotal = money(taxableTotal + taxable);
+        cgstTotal = money(cgstTotal + cgst); sgstTotal = money(sgstTotal + sgst); igstTotal = money(igstTotal + igst);
+        grandTotal = money(grandTotal + lineTotal); cogsReversal = money(cogsReversal + lineCogs);
+        computed.push({ prod, qty, rate, gstPct: origGst, disc, gross, taxable, cgst, sgst, igst, lineTotal, lineCogs, imeiList: raw.imeiList || [] });
       }
+
       const returnId = 'RET-' + UUID();
-      await db.returns.add({ id: returnId, refNo, date: bDate, type: retType, party: party.name, partyId: party.id, originalBillId: payload.originalBillId || null, originalRef: payload.originalRef, items: computed.map(c => ({ name: c.prod.name, rate: c.rate, qty: c.qty, gst: c.gstPct, imei: c.imeiList.join(', '), amt: c.lineTotal })), basic: subtotal, gst: gstTotal, total: grandTotal, status:'POSTED', requestId, txnId, createdAt: nowISO() });
+      await db.returns.add({ id: returnId, refNo, date: bDate, type: retType, party: party.name, partyId: party.id, originalBillId: origBill?.id || null, originalRef: payload.originalRef, items: computed.map(c => ({ name: c.prod.name, rate: c.rate, qty: c.qty, gst: c.gstPct, discount: c.disc, imei: c.imeiList.join(', '), amt: c.lineTotal })), basic: taxableTotal, gross: subtotal, discount: money(subtotal - taxableTotal), cgst: cgstTotal, sgst: sgstTotal, igst: igstTotal, gst: money(cgstTotal + sgstTotal + igstTotal), total: grandTotal, cogs: cogsReversal, status: 'POSTED', requestId, txnId, createdAt: nowISO(), createdBy: currentUser.id });
+
       for (const c of computed) {
-        for (let i = 0; i < c.qty; i++) await db.return_items.add({ id: UUID(), returnId, productId: c.prod.id, name: c.prod.name, qty: 1, rate: c.rate, gst: c.gstPct, amount: money(c.rate * (1 + c.gstPct/100)), imei: c.imeiList[i] || '' });
+        for (let i = 0; i < c.qty; i++) await db.return_items.add({ id: UUID(), returnId, productId: c.prod.id, name: c.prod.name, qty: 1, rate: c.rate, gst: c.gstPct, amount: money(c.lineTotal / c.qty), cogs: money(c.lineCogs / c.qty), imei: c.imeiList[i] || '' });
         const delta = retType === 'SALES_RETURN' ? +c.qty : -c.qty;
         await StockService.move({ productId: c.prod.id, qty: delta, txnId, txnType: retType, date: bDate, reason: `Return ref ${payload.originalRef}` });
-        for (const im of c.imeiList) {
-          const r = await db.imei.where('imei1').equals(String(im).toUpperCase()).first();
-          if (r) {
-            if (retType === 'SALES_RETURN') await db.imei.update(r.id, { status: 'IN_STOCK', billId: '', returnedAt: nowISO() });
-            else await db.imei.update(r.id, { status: 'RETURNED', returnedAt: nowISO() });
-          }
-        }
+        for (const im of c.imeiList) { const r = await db.imei.where('imei1').equals(String(im).toUpperCase()).first(); if (r) { if (retType === 'SALES_RETURN') await db.imei.update(r.id, { status: 'IN_STOCK', billId: '', returnedAt: nowISO() }); else await db.imei.update(r.id, { status: 'RETURNED', returnedAt: nowISO() }); } }
       }
+
       const partyDelta = retType === 'SALES_RETURN' ? -grandTotal : grandTotal;
-      await db.parties.update(party.id, { ob: money((party.ob || 0) + partyDelta) });
+      await db.parties.update(party.id, { outstanding: money((party.outstanding || 0) + partyDelta) });
+
       const je = [];
-      if (retType === 'SALES_RETURN') je.push({ account: 'Sales Return A/C', dr: grandTotal, cr: 0 }, { account: 'Customer Receivable', dr: 0, cr: grandTotal });
-      else je.push({ account: 'Supplier Payable', dr: grandTotal, cr: 0 }, { account: 'Purchase Return A/C', dr: 0, cr: grandTotal });
-      await JournalService.postInTxn({ refNo, date: bDate, type: retType, txnId, narration: `Return for ${payload.originalRef}`, entries: je });
+      if (retType === 'SALES_RETURN') {
+        je.push({ account: 'Sales Return A/C', dr: taxableTotal, cr: 0, partyType: 'CUSTOMER', partyId: party.id });
+        if (cgstTotal > 0) je.push({ account: 'GST Output CGST', dr: cgstTotal, cr: 0 });
+        if (sgstTotal > 0) je.push({ account: 'GST Output SGST', dr: sgstTotal, cr: 0 });
+        if (igstTotal > 0) je.push({ account: 'GST Output IGST', dr: igstTotal, cr: 0 });
+        je.push({ account: 'Inventory A/C', dr: cogsReversal, cr: 0 });
+        je.push({ account: 'COGS', dr: 0, cr: cogsReversal });
+        je.push({ account: 'Customer Receivable', dr: 0, cr: grandTotal, partyType: 'CUSTOMER', partyId: party.id });
+      } else {
+        je.push({ account: 'Supplier Payable', dr: grandTotal, cr: 0, partyType: 'SUPPLIER', partyId: party.id });
+        je.push({ account: 'Inventory A/C', dr: 0, cr: taxableTotal });
+        if (cgstTotal > 0) je.push({ account: 'GST Input CGST', dr: 0, cr: cgstTotal });
+        if (sgstTotal > 0) je.push({ account: 'GST Input SGST', dr: 0, cr: sgstTotal });
+        if (igstTotal > 0) je.push({ account: 'GST Input IGST', dr: 0, cr: igstTotal });
+        je.push({ account: 'Purchase Return A/C', dr: 0, cr: taxableTotal });
+      }
+
+      await JournalService.postInTxn({ refNo, date: bDate, type: retType, txnId, narration: `Return for ${payload.originalRef}`, entries: je, sourceModule: 'RETURN' });
       await db.sync_queue.add({ id: UUID(), entity: 'returns', operation: 'INSERT', payload: { id: returnId, refNo, total: grandTotal, party: party.name, type: retType }, txnId, createdAt: nowISO(), retryCount: 0, status: 'PENDING', errorMessage: '' });
-      return { bill: { id: returnId, invNo: refNo, refNo, date: bDate, party: party.name, items: computed.map(c => ({ name: c.prod.name, rate: c.rate, qty: c.qty, gst: c.gstPct, imei: c.imeiList.join(', '), amt: c.lineTotal })), basic: subtotal, gst: gstTotal, total: grandTotal, paid: 0, due: 0, type: retType, mobile: party.mobile || '' }, txnId };
+      await AuditService.log('RETURN_POSTED', 'RETURN', { txnId, invoiceNo: refNo });
+
+      return { bill: { id: returnId, invNo: refNo, refNo, date: bDate, party: party.name, items: computed.map(c => ({ name: c.prod.name, rate: c.rate, qty: c.qty, gst: c.gstPct, imei: c.imeiList.join(', '), amt: c.lineTotal })), basic: taxableTotal, gst: money(cgstTotal + sgstTotal + igstTotal), total: grandTotal, paid: 0, due: 0, type: retType, mobile: party.mobile || '' }, txnId };
     });
   }
 };
 
-/* ---------- ELEVATION ---------- */
+/* ---------- PARTY LEDGER + PAYMENT ALLOCATION + REPORTS ---------- */
+const PartyLedgerService = {
+  async getStatement(partyId, fromDate, toDate) {
+    const party = await db.parties.get(partyId);
+    if (!party) throw new AppError('NOT_FOUND', 'Party not found');
+    const entries = await db.journal_entries.where('partyId').equals(partyId).toArray();
+    const journals = await db.journals.toArray();
+    const jMap = Object.fromEntries(journals.map(j => [j.id, j]));
+    let rows = entries.map(e => ({ date: jMap[e.journalId]?.date, voucher: jMap[e.journalId]?.refNo, type: jMap[e.journalId]?.type, particulars: e.account + (e.narration ? ` — ${e.narration}` : ''), narration: jMap[e.journalId]?.narration || '', dr: Number(e.dr) || 0, cr: Number(e.cr) || 0, account: e.account, journalId: e.journalId })).filter(r => r.date);
+    if (fromDate) rows = rows.filter(r => r.date >= fromDate);
+    if (toDate) rows = rows.filter(r => r.date <= toDate);
+    rows.sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+    let balance = Number(party.openingBalance) || 0;
+    const drSign = party.type === 'CUSTOMER' ? 1 : -1;
+    for (const r of rows) { balance += drSign * (r.dr - r.cr); r.balance = money(balance); }
+    return { party, opening: Number(party.openingBalance) || 0, rows, closing: money(balance) };
+  }
+};
+
+const PaymentAllocationService = {
+  async allocate(receiptJournalId, invoiceJournalId, amount) { await db.payment_allocations.add({ id: UUID(), receiptJournalId, invoiceJournalId, amount: money(amount), allocatedAt: nowISO(), allocatedBy: currentUser?.id }); },
+  async ageing(partyType, asOfDate) {
+    asOfDate = asOfDate || today();
+    const parties = await db.parties.where('type').equals(partyType).toArray();
+    const allocs = await db.payment_allocations.toArray();
+    const result = [];
+    for (const p of parties) {
+      const bills = await db.bills.where('partyId').equals(p.id).filter(b => b.type === (partyType === 'CUSTOMER' ? 'SALE' : 'PURCHASE')).toArray();
+      const buckets = { '0-30': 0, '31-60': 0, '61-90': 0, '90+': 0 };
+      let total = 0;
+      for (const b of bills) {
+        const allocated = allocs.filter(a => a.invoiceJournalId === b.txnId).reduce((s, a) => s + (Number(a.amount) || 0), 0);
+        const outstanding = money(Number(b.total) - (Number(b.paid) || 0) - allocated);
+        if (outstanding <= 0) continue;
+        const days = Math.floor((new Date(asOfDate) - new Date(b.date)) / 86400000);
+        const key = days <= 30 ? '0-30' : days <= 60 ? '31-60' : days <= 90 ? '61-90' : '90+';
+        buckets[key] += outstanding; total += outstanding;
+      }
+      if (total > 0) result.push({ party: p, buckets, total });
+    }
+    return result;
+  }
+};
+
+const ReportService = {
+  async trialBalance(fromDate, toDate) {
+    const entries = await db.journal_entries.toArray();
+    const journals = await db.journals.toArray();
+    const jMap = Object.fromEntries(journals.map(j => [j.id, j]));
+    const acc = {};
+    for (const e of entries) {
+      const j = jMap[e.journalId]; if (!j) continue;
+      if (fromDate && j.date < fromDate) continue;
+      if (toDate && j.date > toDate) continue;
+      acc[e.account] = acc[e.account] || { dr: 0, cr: 0 };
+      acc[e.account].dr += Number(e.dr) || 0;
+      acc[e.account].cr += Number(e.cr) || 0;
+    }
+    const rows = Object.entries(acc).map(([name, v]) => ({ account: name, dr: money(v.dr), cr: money(v.cr), net: money(v.dr - v.cr) }));
+    const totalDr = money(rows.reduce((s, r) => s + r.dr, 0));
+    const totalCr = money(rows.reduce((s, r) => s + r.cr, 0));
+    return { rows, totalDr, totalCr, balanced: Math.abs(totalDr - totalCr) < 0.5 };
+  },
+  async profitAndLoss(fromDate, toDate) {
+    const tb = await this.trialBalance(fromDate, toDate);
+    const accounts = await db.accounts.toArray();
+    const aMap = Object.fromEntries(accounts.map(a => [a.name, a]));
+    const byGroup = {};
+    for (const r of tb.rows) { const a = aMap[r.account]; if (!a) continue; byGroup[a.group] = byGroup[a.group] || { dr: 0, cr: 0 }; byGroup[a.group].dr += r.dr; byGroup[a.group].cr += r.cr; }
+    const salesCr = (byGroup.INCOME?.cr || 0);
+    const salesDr = (byGroup.INCOME?.dr || 0);
+    const sales = money(salesCr - salesDr);
+    const cogs = money((byGroup.COGS?.dr || 0) - (byGroup.COGS?.cr || 0));
+    const grossProfit = money(sales - cogs);
+    const opex = money((byGroup.EXPENSE?.dr || 0) - (byGroup.EXPENSE?.cr || 0));
+    const netProfit = money(grossProfit - opex);
+    return { sales, cogs, grossProfit, opex, netProfit };
+  },
+  async balanceSheet(asOfDate) {
+    const tb = await this.trialBalance(null, asOfDate);
+    const accounts = await db.accounts.toArray();
+    const aMap = Object.fromEntries(accounts.map(a => [a.name, a]));
+    const byGroup = {};
+    for (const r of tb.rows) { const a = aMap[r.account]; if (!a) continue; byGroup[a.group] = byGroup[a.group] || { accounts: [], dr: 0, cr: 0 }; byGroup[a.group].accounts.push({ ...r, group: a.group }); byGroup[a.group].dr += r.dr; byGroup[a.group].cr += r.cr; }
+    const assets = money((byGroup.ASSET?.dr || 0) - (byGroup.ASSET?.cr || 0));
+    const liabilities = money((byGroup.LIABILITY?.cr || 0) - (byGroup.LIABILITY?.dr || 0));
+    const capital = money((byGroup.CAPITAL?.cr || 0) - (byGroup.CAPITAL?.dr || 0));
+    const pnl = await this.profitAndLoss(null, asOfDate);
+    const totalLiabCap = money(liabilities + capital + pnl.netProfit);
+    return { assets, liabilities, capital, currentProfit: pnl.netProfit, totalLiabCap, balanced: Math.abs(assets - totalLiabCap) < 0.5, groups: byGroup };
+  }
+};
+
+/* ---------- ELEVATION / HEALTH / BACKUP / SYNC ---------- */
 const ElevationService = {
   pending: null,
-  request(perm, reason, payload) {
-    return new Promise((resolve, reject) => {
-      this.pending = { perm, reason, payload, resolve, reject };
-      document.getElementById('elevate-reason-label').innerText = `Requested: ${perm} — re-enter password.`;
-      document.getElementById('elevate-pass').value = '';
-      document.getElementById('elevate-reason').value = reason || '';
-      document.getElementById('elevate-modal').classList.remove('hidden');
-      setTimeout(() => document.getElementById('elevate-pass').focus(), 150);
-    });
-  },
+  request(perm, reason, payload) { return new Promise((resolve, reject) => { this.pending = { perm, reason, payload, resolve, reject }; document.getElementById('elevate-reason-label').innerText = `Requested: ${perm} — re-enter password.`; document.getElementById('elevate-pass').value = ''; document.getElementById('elevate-reason').value = reason || ''; document.getElementById('elevate-modal').classList.remove('hidden'); setTimeout(() => document.getElementById('elevate-pass').focus(), 150); }); },
   async confirm() {
     if (!this.pending) return;
     const pass = document.getElementById('elevate-pass').value;
@@ -1325,24 +1499,16 @@ const ElevationService = {
     if (!pass) return UI.toast('Password required', '', 'error');
     if (!reason) return UI.toast('Reason required', '', 'error');
     const rec = await db.users.get(currentUser.id);
-    if (!(await Crypto.verifyPassword(pass, rec))) {
-      await Security.log('ELEVATION_FAILED', { module: 'AUTH', severity: 'WARN', reason: 'Wrong password' });
-      return UI.toast('Denied', 'Incorrect password', 'error');
-    }
+    if (!(await Crypto.verifyPassword(pass, rec))) { await Security.log('ELEVATION_FAILED', { module: 'AUTH', severity: 'WARN', reason: 'Wrong password' }); return UI.toast('Denied', 'Incorrect password', 'error'); }
     elevatedUntil = Date.now() + 5 * 60 * 1000;
     await Security.log('ELEVATION_GRANTED', { module: 'AUTH', reason, details: { perm: this.pending.perm } });
     document.getElementById('elevate-modal').classList.add('hidden');
-    const { resolve, payload } = this.pending;
-    this.pending = null;
+    const { resolve, payload } = this.pending; this.pending = null;
     resolve({ ...payload, _elevatedReason: reason });
   },
-  cancel() {
-    if (this.pending) { this.pending.reject(new AppError(ErrCode.CANCELLED, 'Cancelled')); this.pending = null; }
-    document.getElementById('elevate-modal').classList.add('hidden');
-  }
+  cancel() { if (this.pending) { this.pending.reject(new AppError(ErrCode.CANCELLED, 'Cancelled')); this.pending = null; } document.getElementById('elevate-modal').classList.add('hidden'); }
 };
 
-/* ---------- HEALTH ---------- */
 const HealthService = {
   async run() {
     const r = [];
@@ -1354,11 +1520,7 @@ const HealthService = {
       const prods = await db.products.toArray();
       const moves = await db.stock_movements.toArray();
       let mm = 0;
-      for (const p of prods) {
-        const sum = moves.filter(m => m.productId === p.id).reduce((s, m) => s + (Number(m.qty) || 0), 0);
-        const row = await db.stock.where({ productId: p.id, location: 'MAIN' }).first();
-        if (Math.abs(sum - (row?.qty || 0)) > 0.5) mm++;
-      }
+      for (const p of prods) { const sum = moves.filter(m => m.productId === p.id).reduce((s, m) => s + (Number(m.qty) || 0), 0); const row = await db.stock.where({ productId: p.id, location: 'MAIN' }).first(); if (Math.abs(sum - (row?.qty || 0)) > 0.5) mm++; }
       r.push({ check: 'Stock vs Movements', status: mm === 0 ? 'PASS' : 'WARN', detail: `${mm} mismatch` });
       const stocks = await db.stock.toArray();
       r.push({ check: 'No negative stock', status: stocks.every(s => s.qty >= 0) ? 'PASS' : 'FAIL', detail: stocks.filter(s => s.qty < 0).length + ' negative' });
@@ -1366,22 +1528,26 @@ const HealthService = {
       const iset = new Set(), dup = [];
       for (const x of imeis) if (x.imei1) { if (iset.has(x.imei1)) dup.push(x.imei1); else iset.add(x.imei1); }
       r.push({ check: 'Unique IMEIs', status: dup.length === 0 ? 'PASS' : 'FAIL', detail: `${dup.length} dup` });
+      const layers = await db.cost_layers.toArray();
+      const negLayer = layers.filter(l => l.qtyRemaining < 0).length;
+      r.push({ check: 'Cost layers sane', status: negLayer === 0 ? 'PASS' : 'FAIL', detail: `${negLayer} negative` });
       const sessions = await db.sessions.toArray();
       r.push({ check: 'Active Sessions', status: 'INFO', detail: sessions.filter(s => s.status === 'ACTIVE' && new Date(s.expiryTime).getTime() > Date.now()).length });
       r.push({ check: 'Locked Accounts', status: 'INFO', detail: (await db.users.toArray()).filter(u => u.status === 'LOCKED').length });
+      const periods = await db.periods.toArray();
+      r.push({ check: 'Financial Periods', status: 'INFO', detail: periods.map(p => `${p.year}:${p.status}`).join(', ') || 'none' });
       return r;
     } catch (e) { return [...r, { check: 'Health crashed', status: 'ERROR', detail: String(e.message || e) }]; }
   }
 };
 
-/* ---------- BACKUP ---------- */
 const BackupService = {
   async exportAll() {
     await Guard.require(PERM.BACKUP_CREATE, { module: 'BACKUP' });
-    const tableNames = ['users','roles','permissions','products','parties','bills','bill_items','purchases','purchase_items','returns','return_items','payments','journals','journal_entries','stock','stock_movements','imei','accounts','audit_logs','security_events','sync_queue','sequences','settings','configs','finance'];
+    const tableNames = ['users','roles','permissions','products','parties','bills','bill_items','purchases','purchase_items','returns','return_items','payments','payment_allocations','journals','journal_entries','stock','stock_movements','cost_layers','imei','accounts','periods','audit_logs','security_events','sync_queue','sequences','settings','configs','finance'];
     const tables = {};
     for (const t of tableNames) tables[t] = await db.table(t).toArray();
-    const meta = { schemaVersion: 5, databaseVersion: DB_VERSION, applicationVersion: '9.0.5', timestamp: nowISO(), createdBy: currentUser?.user || 'system', counts: Object.fromEntries(Object.entries(tables).map(([k, v]) => [k, v.length])) };
+    const meta = { schemaVersion: 6, databaseVersion: DB_VERSION, applicationVersion: '9.0.6', timestamp: nowISO(), createdBy: currentUser?.user || 'system', counts: Object.fromEntries(Object.entries(tables).map(([k, v]) => [k, v.length])) };
     const body = JSON.stringify({ meta, tables });
     const checksum = await Crypto.sha256Hex(body);
     await Security.log('BACKUP_CREATED', { module: 'BACKUP', reason: `Checksum ${checksum.slice(0, 12)}` });
@@ -1393,19 +1559,7 @@ const BackupService = {
     if (!backup.schemaVersion) errs.push('Missing schemaVersion');
     if (backup.schemaVersion > DB_VERSION) errs.push(`Backup v${backup.schemaVersion} > app v${DB_VERSION}`);
     if (!backup.tables) errs.push('Missing tables');
-    if (backup.tables) {
-      for (const [n, rows] of Object.entries(backup.tables)) {
-        if (!Array.isArray(rows)) { errs.push(`Table ${n} not array`); continue; }
-        const ids = rows.map(r => r.id || r.key).filter(Boolean);
-        const dup = ids.filter((v, i, a) => a.indexOf(v) !== i);
-        if (dup.length) errs.push(`Table ${n} has ${dup.length} dup IDs`);
-      }
-    }
-    if (backup.checksum && backup.tables) {
-      const { checksum, ...rest } = backup;
-      const recompute = await Crypto.sha256Hex(JSON.stringify(rest));
-      if (recompute !== checksum) errs.push('Checksum mismatch');
-    }
+    if (backup.tables) for (const [n, rows] of Object.entries(backup.tables)) { if (!Array.isArray(rows)) { errs.push(`Table ${n} not array`); continue; } const ids = rows.map(r => r.id || r.key).filter(Boolean); const dup = ids.filter((v, i, a) => a.indexOf(v) !== i); if (dup.length) errs.push(`Table ${n} has ${dup.length} dup IDs`); }
     return { valid: errs.length === 0, errors: errs };
   },
   async restore(backup, reason) {
@@ -1414,37 +1568,19 @@ const BackupService = {
     if (!v.valid) throw new AppError(ErrCode.VALIDATION, 'Backup validation failed: ' + v.errors.join('; '));
     const snapshot = await this.exportAll();
     try {
-      await db.transaction('rw', [db.users, db.roles, db.permissions, db.products, db.parties, db.bills, db.bill_items, db.purchases, db.purchase_items, db.returns, db.return_items, db.payments, db.journals, db.journal_entries, db.stock, db.stock_movements, db.imei, db.accounts, db.audit_logs, db.security_events, db.sync_queue, db.sequences, db.settings, db.configs, db.finance], async () => {
-        for (const [n, rows] of Object.entries(backup.tables)) {
-          if (!db[n]) continue;
-          if (n === 'audit_logs' || n === 'security_events') continue;
-          await db[n].clear();
-          if (rows.length) await db[n].bulkAdd(rows);
-        }
-        await Security.log('BACKUP_RESTORED', { module: 'BACKUP', reason, severity: 'CRITICAL' });
-      });
+      const tablesToRestore = Object.keys(backup.tables).map(n => db[n]).filter(Boolean);
+      await db.transaction('rw', tablesToRestore, async () => { for (const [n, rows] of Object.entries(backup.tables)) { if (!db[n]) continue; if (n === 'audit_logs' || n === 'security_events') continue; await db[n].clear(); if (rows.length) await db[n].bulkAdd(rows); } });
+      await Security.log('BACKUP_RESTORED', { module: 'BACKUP', reason, severity: 'CRITICAL' });
     } catch (e) {
       console.error('Restore failed, rolling back…', e);
-      try {
-        await db.transaction('rw', db.tables.map(t => t.name), async () => {
-          for (const [n, rows] of Object.entries(snapshot.tables)) {
-            if (!db[n]) continue;
-            if (n === 'audit_logs' || n === 'security_events') continue;
-            await db[n].clear();
-            if (rows.length) await db[n].bulkAdd(rows);
-          }
-        });
-      } catch (re) { console.error('Rollback failed:', re); }
+      try { const allTables = Object.keys(snapshot.tables).map(n => db[n]).filter(Boolean); await db.transaction('rw', allTables, async () => { for (const [n, rows] of Object.entries(snapshot.tables)) { if (!db[n]) continue; if (n === 'audit_logs' || n === 'security_events') continue; await db[n].clear(); if (rows.length) await db[n].bulkAdd(rows); } }); } catch (re) { console.error('Rollback failed:', re); }
       throw new AppError(ErrCode.DB_ERROR, 'Restore failed & rolled back');
     }
   }
 };
 
-/* ---------- SYNC ---------- */
 const SyncService = {
-  async updateBadge() {
-    try { const n = await db.sync_queue.where('status').equals('PENDING').count(); const b = document.getElementById('sync-badge'); if (b) b.textContent = `(${n})`; } catch {}
-  },
+  async updateBadge() { try { const n = await db.sync_queue.where('status').equals('PENDING').count(); const b = document.getElementById('sync-badge'); if (b) b.textContent = `(${n})`; } catch {} },
   async flush() {
     if (!sysSettings.gas) return { uploaded: 0, failed: 0, reason: 'no-url' };
     const list = await db.sync_queue.where('status').equals('PENDING').toArray();
@@ -1462,9 +1598,9 @@ const SyncService = {
   }
 };
 
-/* ═══════════════════════════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════════════════
    UI LAYER
-   ═══════════════════════════════════════════════════════════════════════════ */
+   ═══════════════════════════════════════════════════════════════════════ */
 const UI = {
   toast(title, msg, type = 'success') {
     const c = document.getElementById('toast-container');
@@ -1474,44 +1610,18 @@ const UI = {
     c.appendChild(t);
     setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 300); }, 4000);
   },
-
-  pwMeter(inputId, meterId) {
-    const pw = document.getElementById(inputId).value;
-    const s = PasswordPolicy.score(pw);
-    const m = document.getElementById(meterId); if (!m) return;
-    const colors = ['#e2e8f0','#ef4444','#f59e0b','#eab308','#84cc16','#10b981'];
-    m.style.width = (s * 20) + '%';
-    m.style.background = colors[s];
-  },
-
-  showSetup() {
-    document.getElementById('setup-company-name').innerText = sysSettings.company;
-    document.getElementById('setup-logo-box').innerText = sysSettings.company.charAt(0);
-    document.getElementById('setup-screen').classList.remove('hidden');
-    setTimeout(() => document.getElementById('setup-user').focus(), 200);
-  },
-  showLogin() {
-    document.getElementById('login-company-name').innerText = sysSettings.company;
-    document.getElementById('login-logo-box').innerText = sysSettings.company.charAt(0);
-    document.getElementById('login-screen').classList.remove('hidden');
-    setTimeout(() => document.getElementById('login-user').focus(), 200);
-  },
-
+  pwMeter(inputId, meterId) { const pw = document.getElementById(inputId).value; const s = PasswordPolicy.score(pw); const m = document.getElementById(meterId); if (!m) return; const colors = ['#e2e8f0','#ef4444','#f59e0b','#eab308','#84cc16','#10b981']; m.style.width = (s * 20) + '%'; m.style.background = colors[s]; },
+  showSetup() { document.getElementById('setup-company-name').innerText = sysSettings.company; document.getElementById('setup-logo-box').innerText = sysSettings.company.charAt(0); document.getElementById('setup-screen').classList.remove('hidden'); setTimeout(() => document.getElementById('setup-user').focus(), 200); },
+  showLogin() { document.getElementById('login-company-name').innerText = sysSettings.company; document.getElementById('login-logo-box').innerText = sysSettings.company.charAt(0); document.getElementById('login-screen').classList.remove('hidden'); setTimeout(() => document.getElementById('login-user').focus(), 200); },
   async executeSetup() {
     try {
-      if (!document.getElementById('setup-agree').checked) return this.toast('Required', 'Acknowledge the warning', 'error');
-      const user = await UserService.createFirstAdmin({
-        user: document.getElementById('setup-user').value.trim(),
-        pass: document.getElementById('setup-pass').value,
-        fullName: document.getElementById('setup-fullname').value.trim(),
-        mobile: document.getElementById('setup-mobile').value.trim()
-      });
+      if (!document.getElementById('setup-agree').checked) return this.toast('Required', 'Acknowledge warning', 'error');
+      const user = await UserService.createFirstAdmin({ user: document.getElementById('setup-user').value.trim(), pass: document.getElementById('setup-pass').value, fullName: document.getElementById('setup-fullname').value.trim(), mobile: document.getElementById('setup-mobile').value.trim() });
       await Security.log('USER_CREATED', { module: 'AUTH', targetId: user.id, details: { role: 'SUPER_ADMIN' }, severity: 'CRITICAL' });
       await this._finishLogin(user);
       this.toast('Setup complete', `Welcome, ${user.user}`);
     } catch (e) { this.toast('Setup failed', e.message, 'error'); }
   },
-
   async executeLogin() {
     const errBox = document.getElementById('login-error');
     errBox.classList.add('hidden');
@@ -1537,7 +1647,6 @@ const UI = {
     } catch (e) { if (e.message !== 'AUTH') this.toast('Login failed', e.message, 'error'); }
     finally { btn.disabled = false; btn.innerText = 'Verify Identity'; }
   },
-
   async _finishLogin(user) {
     currentUser = user;
     currentSession = await SessionService.create(user);
@@ -1551,7 +1660,6 @@ const UI = {
     await this.bootstrap();
     this.startSessionTimers();
   },
-
   startSessionTimers() {
     if (sessionTimerHandle) clearInterval(sessionTimerHandle);
     sessionTimerHandle = setInterval(async () => {
@@ -1573,25 +1681,21 @@ const UI = {
       if (inactivityHandle) clearTimeout(inactivityHandle);
       inactivityHandle = setTimeout(async () => { this.toast('Auto-logout', 'Inactivity', 'warning'); await Security.log('SESSION_IDLE_TIMEOUT', { module: 'AUTH' }); executeLogout(); }, sysSettings.idleTimeoutMin * 60 * 1000);
     };
-    if (!activityBound) {
-      ['click','keypress','mousemove','touchstart'].forEach(ev => document.addEventListener(ev, resetIdle, { passive: true }));
-      activityBound = true;
-    }
+    if (!activityBound) { ['click','keypress','mousemove','touchstart'].forEach(ev => document.addEventListener(ev, resetIdle, { passive: true })); activityBound = true; }
     resetIdle();
   },
-
-  extendSession() {
-    SessionService.touch(currentSession.id);
-    document.getElementById('session-warning-container').innerHTML = '';
-    delete document.getElementById('session-warning-container').dataset.shown;
-    this.toast('Extended', 'Session extended');
-  },
-
+  extendSession() { SessionService.touch(currentSession.id); document.getElementById('session-warning-container').innerHTML = ''; delete document.getElementById('session-warning-container').dataset.shown; this.toast('Extended', 'Session extended'); },
   async bootstrap() {
-    try { this.applyBranding(); await this.buildSidebar(); await this.renderProducts(); await this.renderParties(); await this.loadDashboard('TODAY'); await SyncService.updateBadge(); this.showView('dashboard'); }
-    catch (e) { console.error(e); this.toast('Bootstrap', e.message, 'error'); }
+    try {
+      this.applyBranding();
+      await this.buildSidebar();
+      await this.renderProducts();
+      await this.renderParties();
+      await this.loadDashboard('TODAY');
+      await SyncService.updateBadge();
+      this.showView('dashboard');
+    } catch (e) { console.error(e); this.toast('Bootstrap', e.message, 'error'); }
   },
-
   applyBranding() {
     const set = (id, v) => { const e = document.getElementById(id); if (e) e.innerText = v; };
     set('header-company-name', sysSettings.company);
@@ -1601,12 +1705,9 @@ const UI = {
     set('app-window-title', sysSettings.company + ' - ERP');
     const h = document.getElementById('app-header'); if (h) h.style.background = sysSettings.theme;
     const s = document.getElementById('app-sidebar'); if (s) s.style.background = sysSettings.theme;
-    ['set-company','set-phone','set-gstin','set-address','set-prefix','set-theme','set-gas'].forEach((id, i) => {
-      const keys = ['company','phone','gstin','address','prefix','theme','gas'];
-      const e = document.getElementById(id); if (e) e.value = sysSettings[keys[i]] || '';
-    });
+    const keys = ['company','phone','gstin','address','prefix','theme','gas'];
+    ['set-company','set-phone','set-gstin','set-address','set-prefix','set-theme','set-gas'].forEach((id, i) => { const e = document.getElementById(id); if (e) e.value = sysSettings[keys[i]] || ''; });
   },
-
   async saveAdminSettings() {
     try {
       await Guard.require(PERM.PERMISSION_MANAGE, { module: 'ADMIN' });
@@ -1623,7 +1724,6 @@ const UI = {
       this.toast('Saved', 'Branding updated');
     } catch (e) { this.toast('Denied', e.message, 'error'); }
   },
-
   async buildSidebar() {
     const c = document.getElementById('sidebar-menu-container'); if (!c) return;
     const items = [];
@@ -1646,46 +1746,28 @@ const UI = {
     if (await Guard.has(PERM.SECURITY_VIEW)) items.push({ label: 'Security Center', icon: '🛡️', cls: 'text-rose-400', view: 'security' });
     if (await Guard.has(PERM.PERMISSION_MANAGE)) items.push({ label: 'Admin', icon: '👑', cls: 'text-rose-500', view: 'admin' });
     let h = '';
-    for (const it of items) {
-      if (it.sec) { h += `<p class="sidebar-category">${it.sec}</p>`; continue; }
-      const idAttr = it.id ? `id="${it.id}"` : '';
-      const onclick = it.fn ? it.fn : `UI.showView('${it.view}')`;
-      h += `<button onclick="${onclick}" class="sidebar-btn" ${idAttr}><span class="text-lg ${it.cls || ''}">${it.icon}</span> ${it.label}</button>`;
-    }
+    for (const it of items) { if (it.sec) { h += `<p class="sidebar-category">${it.sec}</p>`; continue; } const idAttr = it.id ? `id="${it.id}"` : ''; const onclick = it.fn ? it.fn : `UI.showView('${it.view}')`; h += `<button onclick="${onclick}" class="sidebar-btn" ${idAttr}><span class="text-lg ${it.cls || ''}">${it.icon}</span> ${it.label}</button>`; }
     c.innerHTML = h;
   },
-
   async showView(name) {
     const permMap = { admin: PERM.PERMISSION_MANAGE, security: PERM.SECURITY_VIEW, product: PERM.PRODUCT_VIEW, party: PERM.PARTY_VIEW, ledger: PERM.ACCOUNTING_VIEW, reports: PERM.REPORT_VIEW };
     if (permMap[name] && !(await Guard.has(permMap[name]))) return this.toast('Denied', 'Permission required', 'error');
     document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
     const v = document.getElementById('view-' + name);
     if (v) v.classList.remove('hidden');
-    if ((name === 'new-bill' || name === 'payment' || name === 'invoice') && v) v.classList.add('flex');
-    if (name === 'dashboard' && v) v.classList.add('flex');
-    if (name === 'security' && v) v.classList.add('flex');
-    if (name === 'admin' && v) v.classList.add('flex');
-    if (name === 'product' && v) v.classList.add('flex');
-    if (name === 'party' && v) v.classList.add('flex');
-    if (name === 'ledger' && v) v.classList.add('flex');
-    if (name === 'reports' && v) v.classList.add('flex');
-
+    if (['new-bill','payment','invoice','dashboard','security','admin','product','party','ledger','reports'].includes(name) && v) v.classList.add('flex');
     document.querySelectorAll('.sidebar-btn').forEach(el => el.classList.remove('active'));
     let navId = 'nav-' + name;
     if (name === 'new-bill') navId = UIState.currentMode === 'SALE' ? 'nav-sale' : UIState.currentMode === 'PURCHASE' ? 'nav-purchase' : UIState.currentMode === 'SALES_RETURN' ? 'nav-sreturn' : 'nav-preturn';
     if (name === 'payment') navId = UIState.currentPaymentType === 'IN' ? 'nav-receipt' : 'nav-payment-out';
     const n = document.getElementById(navId); if (n) n.classList.add('active');
-
     const titles = { dashboard:'ANALYTICS', product:'INVENTORY', party:'PARTIES', ledger:'LEDGER', reports:'REPORTS', admin:'SYSTEM CONTROL', security:'SECURITY CENTER', 'new-bill': UIState.currentMode + ' ENTRY', payment:'VOUCHER', invoice:'INVOICE' };
     const t = document.getElementById('header-module-title'); if (t) t.innerText = titles[name] || name.toUpperCase();
-
     if (name === 'dashboard') this.loadDashboard('TODAY');
     if (name === 'ledger' || name === 'reports') this.updateLedgerView();
     if (name === 'security') { this.loadSecurityKpis(); this.renderUsersTable(); this.renderSessionsTable(); this.loadSecurityEvents(); this.loadAuditTrail(); }
     UIState.currentActiveView = name;
   },
-
-  /* -------- PRODUCTS -------- */
   async renderProducts() {
     const tb = document.getElementById('product-table-body'); if (!tb) return;
     const s = (document.getElementById('prod-search')?.value || '').toUpperCase();
@@ -1697,7 +1779,7 @@ const UI = {
       f.map(p => `<tr class="hover:bg-blue-50/30">
         <td><p class="font-black text-xs text-blue-800 uppercase">${esc(p.name)}</p><p class="text-[9px] text-slate-500 font-bold">${esc(p.brand||'-')} · ${esc(p.category)}</p></td>
         <td class="font-mono text-[10px]">${esc(p.sku)}</td>
-        <td class="text-right">${canViewCost ? `<p class="font-black text-[10px] text-slate-500">P: ₹${p.pur}</p>` : ''}<p class="font-black text-sm text-blue-600">S: ₹${p.sale}</p></td>
+        <td class="text-right">${canViewCost ? `<p class="font-black text-[10px] text-slate-500">C: ₹${p.avgCost || p.pur || 0}</p>` : ''}<p class="font-black text-sm text-blue-600">S: ₹${p.sale}</p></td>
         <td class="text-center font-black text-base ${p.stock <= 0 ? 'text-rose-600' : 'text-emerald-600'}">${p.stock}</td>
         <td class="text-center">${canEdit ? `<button onclick="UI.editProduct('${p.id}')" class="btn-ghost px-3 py-1.5 text-[9px]">EDIT</button>` : ''}</td>
       </tr>`).join('');
@@ -1706,16 +1788,7 @@ const UI = {
   debouncedRenderProducts: debounce(() => UI.renderProducts(), 250),
   debouncedRenderParties: debounce(() => UI.renderParties(), 250),
   debouncedRenderLedger: debounce(() => UI.updateLedgerView(), 250),
-
-  openProductForm() {
-    document.getElementById('prod-form-title').innerText = '➕ Create Product';
-    UIState.editingProductId = null;
-    ['p-id','p-name','p-brand','p-sku','p-hsn','p-pur','p-sale'].forEach(i => document.getElementById(i).value = '');
-    document.getElementById('p-low').value = '5';
-    document.getElementById('p-gst').value = '18';
-    document.getElementById('add-product-form').classList.remove('hidden');
-    document.getElementById('p-name').focus();
-  },
+  openProductForm() { document.getElementById('prod-form-title').innerText = '➕ Create Product'; UIState.editingProductId = null; ['p-id','p-name','p-brand','p-sku','p-hsn','p-pur','p-sale'].forEach(i => document.getElementById(i).value = ''); document.getElementById('p-low').value = '5'; document.getElementById('p-gst').value = '18'; document.getElementById('add-product-form').classList.remove('hidden'); document.getElementById('p-name').focus(); },
   async saveProduct() {
     try {
       const data = { name: document.getElementById('p-name').value.trim(), brand: document.getElementById('p-brand').value.trim(), category: document.getElementById('p-category').value.trim() || 'General', sku: document.getElementById('p-sku').value.trim(), hsn: document.getElementById('p-hsn').value.trim(), lowStock: Number(document.getElementById('p-low').value) || 5, pur: Number(document.getElementById('p-pur').value) || 0, sale: Number(document.getElementById('p-sale').value) || 0, gst: Number(document.getElementById('p-gst').value) || 0 };
@@ -1746,8 +1819,8 @@ const UI = {
     if (!(await Guard.has(PERM.PRODUCT_VIEW))) return this.toast('Denied', 'No permission', 'error');
     const products = await db.products.toArray();
     const canSeeCost = await Guard.has(PERM.PURCHASE_COST_VIEW);
-    let csv = 'ID,Name,Brand,Category,SKU,HSN,Pur,Sale,GST,Stock\n';
-    products.forEach(p => csv += `"${p.id}","${(p.name||'').replace(/"/g,'""')}","${p.brand||''}","${p.category||''}","${p.sku||''}","${p.hsn||''}",${canSeeCost ? p.pur : ''},${p.sale},${p.gst},${p.stock}\n`);
+    let csv = 'ID,Name,Brand,Category,SKU,HSN,Cost,Sale,GST,Stock\n';
+    products.forEach(p => csv += `"${p.id}","${(p.name||'').replace(/"/g,'""')}","${p.brand||''}","${p.category||''}","${p.sku||''}","${p.hsn||''}",${canSeeCost ? (p.avgCost || p.pur || 0) : ''},${p.sale},${p.gst},${p.stock}\n`);
     download(csv, `SRE_Inventory_${today()}.csv`);
   },
   async importProductsCSV(e) {
@@ -1763,8 +1836,6 @@ const UI = {
     }
     await this.renderProducts(); this.toast('Imported', `${ok} products`); e.target.value = '';
   },
-
-  /* -------- PARTIES -------- */
   async renderParties() {
     const tb = document.getElementById('party-table-body'); if (!tb) return;
     const s = (document.getElementById('party-search')?.value || '').toUpperCase();
@@ -1775,7 +1846,7 @@ const UI = {
       f.map(p => `<tr class="hover:bg-purple-50/30">
         <td><p class="font-black text-xs text-slate-800 uppercase">${esc(p.name)}</p><span class="${p.type === 'CUSTOMER' ? 'text-blue-500' : 'text-purple-500'} text-[8px] font-black uppercase">${p.type}</span></td>
         <td class="font-mono text-[10px]">${esc(p.mobile||'-')}</td>
-        <td class="text-right font-black text-sm ${p.ob > 0 ? 'text-rose-600' : 'text-emerald-600'}">₹${(p.ob||0).toLocaleString('en-IN')}</td>
+        <td class="text-right font-black text-sm ${p.outstanding > 0 ? 'text-rose-600' : 'text-emerald-600'}">₹${(p.outstanding||0).toLocaleString('en-IN')}</td>
         <td class="text-center">${canEdit ? `<button onclick="UI.editParty('${p.id}')" class="btn-ghost px-3 py-1.5 text-[9px]">EDIT</button>` : ''}</td>
       </tr>`).join('');
     const dl = document.getElementById('party-list'); if (dl) dl.innerHTML = parties.map(p => `<option value="${esc(p.name)}">`).join('');
@@ -1798,8 +1869,6 @@ const UI = {
     document.getElementById('pt-address').value = p.address || '';
     document.getElementById('pt-gstin').value = p.gstin || '';
   },
-
-  /* -------- BILL -------- */
   async startBill(mode) {
     const perm = mode === 'SALE' || mode === 'SALES_RETURN' ? PERM.SALE_CREATE : PERM.PURCHASE_CREATE;
     if (!(await Guard.has(perm))) return this.toast('Denied', `No permission for ${mode}`, 'error');
@@ -1819,7 +1888,6 @@ const UI = {
     this.showView('new-bill');
     setTimeout(() => document.getElementById('master-item-scan')?.focus(), 100);
   },
-
   async handleMasterScan(e) {
     if (e.key !== 'Enter') return;
     e.preventDefault();
@@ -1834,7 +1902,6 @@ const UI = {
     else { this.addBillRow(prod, val); const first = rows[0]; if (first && !first.querySelector('.b-name').value) first.remove(); }
     this.calcBill(); e.target.value = '';
   },
-
   addBillRow(prod, scanVal, isFirst = false) {
     const tbody = document.getElementById('bill-items-body'); if (!tbody) return;
     const tr = document.createElement('tr');
@@ -1855,7 +1922,6 @@ const UI = {
       <td class="p-1.5 text-center">${!isFirst ? `<button onclick="this.closest('tr').remove(); UI.calcBill();" class="text-rose-400 font-black">✕</button>` : ''}</td>`;
     tbody.appendChild(tr); this.calcBill();
   },
-
   async autoFillRate(input) {
     const name = input.value.trim().toUpperCase();
     const prod = (await db.products.toArray()).find(p => p.name === name);
@@ -1871,7 +1937,6 @@ const UI = {
       this.calcBill();
     } else { tr._productId = null; this.calcBill(); }
   },
-
   updateImeiBadge(tr) {
     const btn = tr.querySelector('.row-imei-btn'); if (!btn || btn.dataset.untracked) return;
     const need = Number(tr.querySelector('.b-qty').value) || 1;
@@ -1879,7 +1944,6 @@ const UI = {
     if (tr._imeis.length === need) { btn.classList.remove('bg-blue-50','text-blue-600','border-blue-200'); btn.classList.add('bg-emerald-500','text-white','border-emerald-600'); }
     else { btn.classList.add('bg-blue-50','text-blue-600','border-blue-200'); btn.classList.remove('bg-emerald-500','text-white','border-emerald-600'); }
   },
-
   openImeiModal(btn) {
     const tr = btn.closest('tr');
     const nm = tr.querySelector('.b-name').value.trim();
@@ -1890,21 +1954,12 @@ const UI = {
     const c = document.getElementById('imei-modal-inputs');
     c.innerHTML = '';
     if (tr._imeis.length > qty) tr._imeis.length = qty;
-    for (let i = 0; i < qty; i++) {
-      const wrap = document.createElement('div'); wrap.className = 'relative';
-      wrap.innerHTML = `<span class="absolute left-3 top-2.5 text-[9px] font-black text-slate-400">#${i+1}</span><input type="text" class="premium-input font-mono font-bold text-xs !pl-8 uppercase imei-modal-val" oninput="UI.updateImeiModalCount()">`;
-      wrap.querySelector('input').value = tr._imeis[i] || '';
-      c.appendChild(wrap);
-    }
+    for (let i = 0; i < qty; i++) { const wrap = document.createElement('div'); wrap.className = 'relative'; wrap.innerHTML = `<span class="absolute left-3 top-2.5 text-[9px] font-black text-slate-400">#${i+1}</span><input type="text" class="premium-input font-mono font-bold text-xs !pl-8 uppercase imei-modal-val" oninput="UI.updateImeiModalCount()">`; wrap.querySelector('input').value = tr._imeis[i] || ''; c.appendChild(wrap); }
     document.getElementById('imei-modal').classList.remove('hidden');
     this.updateImeiModalCount();
     setTimeout(() => document.querySelector('.imei-modal-val')?.focus(), 100);
   },
-  updateImeiModalCount() {
-    const inputs = document.querySelectorAll('.imei-modal-val'); let n = 0;
-    inputs.forEach(i => { if (i.value.trim()) n++; });
-    const el = document.getElementById('imei-modal-count'); if (el) el.innerText = `${n} / ${inputs.length}`;
-  },
+  updateImeiModalCount() { const inputs = document.querySelectorAll('.imei-modal-val'); let n = 0; inputs.forEach(i => { if (i.value.trim()) n++; }); const el = document.getElementById('imei-modal-count'); if (el) el.innerText = `${n} / ${inputs.length}`; },
   closeImeiModal() { document.getElementById('imei-modal').classList.add('hidden'); UIState.activeImeiRowId = null; },
   applyImeiModal() {
     if (!UIState.activeImeiRowId) return;
@@ -1914,22 +1969,8 @@ const UI = {
     for (const i of inputs) { const v = i.value.trim().toUpperCase(); if (!v) continue; if (set.has(v)) return this.toast('Error', `Duplicate: ${v}`, 'error'); set.add(v); arr.push(v); }
     tr._imeis = arr; this.updateImeiBadge(tr); this.closeImeiModal();
   },
-
-  setMasterPayMode(mode) {
-    UIState.masterPayMode = mode;
-    ['mode-INSTANT','mode-CREDIT'].forEach(id => document.getElementById(id)?.classList.remove('active'));
-    document.getElementById('mode-' + mode)?.classList.add('active');
-    const inp = document.getElementById('bill-paid');
-    inp.readOnly = mode !== 'INSTANT';
-    this.calcBill();
-  },
-  setCombo(c) {
-    UIState.comboPayMode = c;
-    ['combo-CASH','combo-QR','combo-CARD'].forEach(id => document.getElementById(id)?.classList.remove('active'));
-    document.getElementById('combo-' + c)?.classList.add('active');
-    this.calcBill();
-  },
-
+  setMasterPayMode(mode) { UIState.masterPayMode = mode; ['mode-INSTANT','mode-CREDIT'].forEach(id => document.getElementById(id)?.classList.remove('active')); document.getElementById('mode-' + mode)?.classList.add('active'); const inp = document.getElementById('bill-paid'); inp.readOnly = mode !== 'INSTANT'; this.calcBill(); },
+  setCombo(c) { UIState.comboPayMode = c; ['combo-CASH','combo-QR','combo-CARD'].forEach(id => document.getElementById(id)?.classList.remove('active')); document.getElementById('combo-' + c)?.classList.add('active'); this.calcBill(); },
   calcBill(isTyping = false) {
     let tax = 0, gstAmt = 0, grand = 0, i = 1;
     document.querySelectorAll('#bill-items-body tr').forEach(row => {
@@ -1953,7 +1994,6 @@ const UI = {
     document.getElementById('bill-due').innerText = '₹' + Math.max(0, gTotal - paid).toLocaleString('en-IN');
     return { tax, gstAmt, grand: gTotal, paid, due: Math.max(0, gTotal - paid) };
   },
-
   async saveFinalBill() {
     if (UIState.isSaving) return;
     const party = document.getElementById('bill-party').value.trim().toUpperCase();
@@ -1968,7 +2008,7 @@ const UI = {
     if (!items.length) return this.toast('Empty', 'Add at least one item', 'error');
     const totals = this.calcBill(true);
     const mode = UIState.currentMode;
-    const payload = { party, items, date: document.getElementById('bill-date').value || today(), paid: totals.paid, paymentMode: UIState.comboPayMode, requestId: `${mode}-${UUID()}` };
+    const payload = { party, items, date: document.getElementById('bill-date').value || today(), paid: totals.paid, paymentMode: UIState.comboPayMode, payments: [{ mode: UIState.comboPayMode === 'QR' ? 'UPI' : UIState.comboPayMode, amount: totals.paid }], requestId: `${mode}-${UUID()}` };
     const p = await db.parties.where('name').equals(party).first(); if (p) payload.mobile = p.mobile || '';
     UIState.isSaving = true;
     const btn = document.getElementById('btn-save-bill'); btn.disabled = true; btn.innerText = '⏳ POSTING…';
@@ -1976,29 +2016,16 @@ const UI = {
       let result;
       if (mode === 'SALE') result = await SaleService.post(payload);
       else if (mode === 'PURCHASE') result = await PurchaseService.post(payload);
-      else { payload.returnType = mode; payload.originalRef = document.getElementById('bill-ref-inv').value.trim(); result = await ReturnService.post(payload); }
+      else { payload.returnType = mode; payload.originalRef = document.getElementById('bill-ref-inv').value.trim(); if (!payload.originalRef) throw new AppError('VALIDATION', 'Original invoice reference required'); result = await ReturnService.post(payload); }
       this.toast('Posted', `${mode} saved`);
       await this.renderProducts(); await this.renderParties(); await SyncService.updateBadge();
       if (result.bill) this.generateInvoiceHTML(result.bill);
       else this.showView('dashboard');
-    } catch (e) { this.toast(e.code || 'Failed', e.message, 'error'); }
+    } catch (e) { console.error(e); this.toast(e.code || 'Failed', e.message, 'error'); }
     finally { UIState.isSaving = false; btn.disabled = false; btn.innerText = '💾 POST (F9)'; }
   },
-
-  async onPartySelect(val) {
-    const v = val.trim().toUpperCase(); if (!v) return;
-    const p = await db.parties.where('name').equals(v).first();
-    if (p) document.getElementById('bill-party').value = p.name;
-  },
-
-  /* -------- PAYMENT -------- */
-  startPayment(type) {
-    UIState.currentPaymentType = type;
-    document.getElementById('pay-title').innerText = type === 'IN' ? 'RECEIPT' : 'PAYMENT';
-    document.getElementById('pay-party-lbl').innerText = type === 'IN' ? 'Customer *' : 'Supplier *';
-    ['pay-party','pay-amt','pay-remarks'].forEach(i => document.getElementById(i).value = '');
-    this.showView('payment');
-  },
+  async onPartySelect(val) { const v = val.trim().toUpperCase(); if (!v) return; const p = await db.parties.where('name').equals(v).first(); if (p) document.getElementById('bill-party').value = p.name; },
+  startPayment(type) { UIState.currentPaymentType = type; document.getElementById('pay-title').innerText = type === 'IN' ? 'RECEIPT' : 'PAYMENT'; document.getElementById('pay-party-lbl').innerText = type === 'IN' ? 'Customer *' : 'Supplier *'; ['pay-party','pay-amt','pay-remarks'].forEach(i => document.getElementById(i).value = ''); this.showView('payment'); },
   async savePayment() {
     try {
       const party = document.getElementById('pay-party').value.trim();
@@ -2014,70 +2041,42 @@ const UI = {
       this.showView('ledger');
     } catch (e) { this.toast(e.code || 'Failed', e.message, 'error'); }
   },
-
-  /* -------- LEDGER -------- */
-  async updateLedgerView(type = 'CUSTOMER') {
+  async updateLedgerView() {
     try {
-      const search = (document.getElementById('ledger-search')?.value || '').toUpperCase();
+      const tb = await ReportService.trialBalance();
+      const pnl = await ReportService.profitAndLoss();
+      const accounts = {};
+      for (const r of tb.rows) accounts[r.account] = r;
+      const tbBody = document.getElementById('tb-body');
+      if (tbBody) tbBody.innerHTML = tb.rows.map(r => `<tr><td class="font-bold text-xs uppercase px-2">${esc(r.account)}</td><td class="text-right text-rose-600 font-black">${r.dr ? r.dr.toLocaleString('en-IN') : '-'}</td><td class="text-right text-emerald-600 font-black">${r.cr ? r.cr.toLocaleString('en-IN') : '-'}</td></tr>`).join('');
+      const tfoot = document.getElementById('tb-foot');
+      if (tfoot) tfoot.innerHTML = `<tr><td class="text-right text-[10px] uppercase px-2">TOTAL</td><td class="text-right text-rose-700 font-black">${tb.totalDr.toLocaleString('en-IN')}</td><td class="text-right text-emerald-700 font-black">${tb.totalCr.toLocaleString('en-IN')}</td></tr>`;
+      const tbStat = document.getElementById('tb-status');
+      if (tbStat) { tbStat.innerText = tb.balanced ? 'MATCHED ✅' : 'MISMATCH ❌'; tbStat.className = 'px-3 py-1 rounded text-xs font-black ' + (tb.balanced ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'); }
+      const setV = (id, v) => { const e = document.getElementById(id); if (e) e.innerText = v; };
+      setV('ledger-ob', '₹' + (accounts['Opening Balance Suspense']?.cr || 0).toLocaleString('en-IN'));
+      setV('ledger-billed', '₹' + (accounts['Customer Receivable']?.dr || 0).toLocaleString('en-IN'));
+      setV('ledger-paid', '₹' + (accounts['Customer Receivable']?.cr || 0).toLocaleString('en-IN'));
+      setV('ledger-bal', '₹' + tb.totalDr.toLocaleString('en-IN'));
+      setV('rep-sale', '₹' + pnl.sales.toLocaleString('en-IN'));
+      setV('rep-pur', '₹' + pnl.cogs.toLocaleString('en-IN'));
+      setV('rep-exp', '₹' + pnl.opex.toLocaleString('en-IN'));
+      setV('rep-prof', '₹' + pnl.netProfit.toLocaleString('en-IN'));
       const entries = await db.journal_entries.toArray();
       const journals = await db.journals.toArray();
       const jMap = Object.fromEntries(journals.map(j => [j.id, j]));
-      const parties = await db.parties.toArray();
-      const isC = type === 'CUSTOMER';
-      let ob = parties.filter(p => p.type === (isC ? 'CUSTOMER' : 'SUPPLIER')).reduce((s, p) => s + (Number(p.ob)||0), 0);
       const grouped = {};
-      for (const e of entries) {
-        const j = jMap[e.journalId]; if (!j) continue;
-        if (search && !(j.refNo||'').includes(search) && !(e.account||'').includes(search) && !(j.narration||'').includes(search)) continue;
-        grouped[j.id] = grouped[j.id] || { journal: j, dr: 0, cr: 0 };
-        grouped[j.id].dr += Number(e.dr) || 0; grouped[j.id].cr += Number(e.cr) || 0;
-      }
+      for (const e of entries) { const j = jMap[e.journalId]; if (!j) continue; grouped[j.id] = grouped[j.id] || { journal: j, dr: 0, cr: 0 }; grouped[j.id].dr += Number(e.dr) || 0; grouped[j.id].cr += Number(e.cr) || 0; }
       const list = Object.values(grouped).sort((a, b) => (a.journal.date||'').localeCompare(b.journal.date||''));
-      let run = ob;
-      const rows = list.map(g => {
-        let dr = g.dr, cr = g.cr;
-        run += isC ? (dr - cr) : (cr - dr);
-        return `<tr class="hover:bg-indigo-50/30"><td class="font-mono text-[10px] px-2">${esc(g.journal.date)}</td><td class="text-[11px] font-bold">${esc(g.journal.refNo)}</td><td class="text-center"><span class="badge badge-gray">${esc(g.journal.type)}</span></td><td class="text-[11px]">${esc(g.journal.narration || '')}</td><td class="text-right text-rose-600 font-black text-sm">${dr ? dr.toLocaleString('en-IN') : '-'}</td><td class="text-right text-emerald-600 font-black text-sm">${cr ? cr.toLocaleString('en-IN') : '-'}</td><td class="text-right font-black text-sm text-indigo-700">${run.toLocaleString('en-IN')}</td></tr>`;
-      }).join('');
-      const tb = document.getElementById('ledger-table-body'); if (tb) tb.innerHTML = rows || `<tr><td colspan="7" class="text-center p-8 text-slate-400 text-xs uppercase font-bold">No entries</td></tr>`;
-      const tDr = list.reduce((s, g) => s + g.dr, 0), tCr = list.reduce((s, g) => s + g.cr, 0);
-      const setV = (id, v) => { const e = document.getElementById(id); if (e) e.innerText = v; };
-      setV('ledger-ob', '₹' + ob.toLocaleString('en-IN'));
-      setV('ledger-billed', '₹' + tDr.toLocaleString('en-IN'));
-      setV('ledger-paid', '₹' + tCr.toLocaleString('en-IN'));
-      setV('ledger-bal', '₹' + run.toLocaleString('en-IN'));
-
-      // Reports section
-      let sale = 0, pur = 0, exp = 0;
-      for (const e of entries) {
-        const j = jMap[e.journalId]; if (!j) continue;
-        if (e.account === 'Sales A/C') sale += Number(e.cr) || 0;
-        if (e.account === 'Purchase A/C') pur += Number(e.dr) || 0;
-        if (e.account === 'General Expense') exp += Number(e.dr) || 0;
-      }
-      setV('rep-sale', '₹' + sale.toLocaleString('en-IN'));
-      setV('rep-pur', '₹' + pur.toLocaleString('en-IN'));
-      setV('rep-exp', '₹' + exp.toLocaleString('en-IN'));
-      setV('rep-prof', '₹' + (sale - pur - exp).toLocaleString('en-IN'));
-
-      const accounts = {};
-      for (const e of entries) { accounts[e.account] = accounts[e.account] || { dr: 0, cr: 0 }; accounts[e.account].dr += Number(e.dr) || 0; accounts[e.account].cr += Number(e.cr) || 0; }
-      const tbBody = document.getElementById('tb-body');
-      if (tbBody) tbBody.innerHTML = Object.entries(accounts).map(([k, v]) => `<tr><td class="font-bold text-xs uppercase px-2">${esc(k)}</td><td class="text-right text-rose-600 font-black">${v.dr ? v.dr.toLocaleString('en-IN') : '-'}</td><td class="text-right text-emerald-600 font-black">${v.cr ? v.cr.toLocaleString('en-IN') : '-'}</td></tr>`).join('');
-      const tDr2 = money(Object.values(accounts).reduce((s, a) => s + a.dr, 0));
-      const tCr2 = money(Object.values(accounts).reduce((s, a) => s + a.cr, 0));
-      const tfoot = document.getElementById('tb-foot');
-      if (tfoot) tfoot.innerHTML = `<tr><td class="text-right text-[10px] uppercase px-2">TOTAL</td><td class="text-right text-rose-700 font-black">${tDr2.toLocaleString('en-IN')}</td><td class="text-right text-emerald-700 font-black">${tCr2.toLocaleString('en-IN')}</td></tr>`;
-      const tbStat = document.getElementById('tb-status');
-      if (tbStat) { const ok = Math.abs(tDr2 - tCr2) < 0.5; tbStat.innerText = ok ? 'MATCHED ✅' : 'MISMATCH ❌'; tbStat.className = 'px-3 py-1 rounded text-xs font-black ' + (ok ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'); }
+      let run = 0;
+      const rowsHtml = list.map(g => { run += g.dr - g.cr; return `<tr class="hover:bg-indigo-50/30"><td class="font-mono text-[10px] px-2">${esc(g.journal.date)}</td><td class="text-[11px] font-bold">${esc(g.journal.refNo)}</td><td class="text-center"><span class="badge badge-gray">${esc(g.journal.type)}</span></td><td class="text-[11px]">${esc(g.journal.narration || '')}</td><td class="text-right text-rose-600 font-black text-sm">${g.dr ? g.dr.toLocaleString('en-IN') : '-'}</td><td class="text-right text-emerald-600 font-black text-sm">${g.cr ? g.cr.toLocaleString('en-IN') : '-'}</td><td class="text-right font-black text-sm text-indigo-700">${run.toLocaleString('en-IN')}</td></tr>`; }).join('');
+      const ltb = document.getElementById('ledger-table-body');
+      if (ltb) ltb.innerHTML = rowsHtml || `<tr><td colspan="7" class="text-center p-8 text-slate-400 text-xs uppercase font-bold">No entries</td></tr>`;
     } catch (e) { console.error('Ledger:', e); }
   },
-
-  /* -------- DASHBOARD -------- */
   async loadDashboard(range) {
     try {
       document.querySelectorAll('.dash-filter').forEach(b => { b.classList.remove('bg-blue-600','text-white'); b.classList.add('text-slate-600'); });
-      const btn = document.getElementById('flt-' + range); if (btn) { btn.classList.add('bg-blue-600','text-white'); btn.classList.remove('text-slate-600'); }
       const todayStr = today();
       const start = new Date();
       if (range === 'TODAY') start.setTime(new Date(todayStr).getTime());
@@ -2088,7 +2087,7 @@ const UI = {
       let saleAmt = 0, purAmt = 0, profit = 0;
       for (const b of dBills) { if (b.type === 'SALE') { saleAmt += Number(b.total)||0; profit += Number(b.profit)||0; } if (b.type === 'PURCHASE') purAmt += Number(b.total)||0; }
       const parties = await db.parties.toArray();
-      const outAmt = parties.filter(p => p.type === 'CUSTOMER').reduce((s, p) => s + (Number(p.ob)||0), 0);
+      const outAmt = parties.filter(p => p.type === 'CUSTOMER').reduce((s, p) => s + (Number(p.outstanding)||0), 0);
       const canSeeCost = await Guard.has(PERM.PURCHASE_COST_VIEW);
       const kpis = document.getElementById('dashboard-kpis');
       if (kpis) kpis.innerHTML = `
@@ -2104,7 +2103,7 @@ const UI = {
       if (document.getElementById('trendChart')) charts.trend = new Chart(document.getElementById('trendChart'), { type:'line', data:{ labels: tK.length ? tK : ['No Data'], datasets:[{ label:'Sales', data: tK.length ? tK.map(k => trend[k]) : [0], borderColor:'#2563eb', backgroundColor:'rgba(37,99,235,.1)', borderWidth:3, tension:.4, fill:true }] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'top' } }, scales:{ y:{ beginAtZero:true } } } });
       const products = await db.products.toArray();
       let low = 0; for (const p of products) if (p.stock <= (p.lowStock || 5)) low++;
-      let cust = 0; for (const p of parties) if (p.ob > 0 && p.type === 'CUSTOMER') cust++;
+      let cust = 0; for (const p of parties) if (p.outstanding > 0 && p.type === 'CUSTOMER') cust++;
       const queuePending = await db.sync_queue.where('status').equals('PENDING').count();
       let html = '';
       if (low) html += `<div class="bg-rose-50 p-2.5 rounded mb-2 flex justify-between"><span class="text-[10px] font-black uppercase text-rose-700">📦 Low Stock</span><span class="bg-rose-200 text-rose-800 text-[10px] px-2 rounded font-black">${low}</span></div>`;
@@ -2113,8 +2112,6 @@ const UI = {
       const ac = document.getElementById('alerts-container'); if (ac) ac.innerHTML = html || `<div class="p-8 text-center opacity-50"><span class="text-4xl block mb-2">🛡️</span><p class="text-[10px] font-bold uppercase">All Stable</p></div>`;
     } catch (e) { console.error('Dashboard:', e); }
   },
-
-  /* -------- SECURITY CENTER -------- */
   async loadSecurityKpis() {
     const users = await db.users.toArray();
     const locked = users.filter(u => u.status === 'LOCKED').length;
@@ -2161,10 +2158,7 @@ const UI = {
     const events = await Security.recent(100, filter);
     const el = document.getElementById('security-events-list'); if (!el) return;
     el.innerHTML = events.length === 0 ? '<p class="text-slate-400 p-4 text-center">No events</p>' :
-      events.map(e => {
-        const colorMap = { INFO:'badge-blue', WARN:'badge-amber', CRITICAL:'badge-red' };
-        return `<div class="border-b border-slate-100 py-1.5 flex flex-wrap gap-2 items-center"><span class="text-slate-400">${new Date(e.date).toLocaleString('en-IN')}</span><span class="badge ${colorMap[e.severity] || 'badge-gray'}">${esc(e.type)}</span><span class="text-slate-500">${esc(e.username)}</span><span class="text-slate-400">${esc(e.module||'')}</span>${e.reason ? `<span class="text-slate-600">— ${esc(e.reason)}</span>` : ''}</div>`;
-      }).join('');
+      events.map(e => { const colorMap = { INFO:'badge-blue', WARN:'badge-amber', CRITICAL:'badge-red' }; return `<div class="border-b border-slate-100 py-1.5 flex flex-wrap gap-2 items-center"><span class="text-slate-400">${new Date(e.date).toLocaleString('en-IN')}</span><span class="badge ${colorMap[e.severity] || 'badge-gray'}">${esc(e.type)}</span><span class="text-slate-500">${esc(e.username)}</span><span class="text-slate-400">${esc(e.module||'')}</span>${e.reason ? `<span class="text-slate-600">— ${esc(e.reason)}</span>` : ''}</div>`; }).join('');
   },
   async loadAuditTrail() {
     const logs = await AuditService.recent(100);
@@ -2172,8 +2166,6 @@ const UI = {
     el.innerHTML = logs.length === 0 ? '<p class="text-slate-400 p-4 text-center">No audit</p>' :
       logs.map(l => `<div class="border-b border-slate-100 py-1.5 flex flex-wrap gap-2"><span class="text-slate-400">${new Date(l.date).toLocaleString('en-IN')}</span><span class="font-black text-blue-700">${esc(l.action)}</span><span class="text-slate-500">${esc(l.module)}</span><span>${esc(l.username||'')}</span>${l.invoiceNo ? `<span class="text-slate-400">${esc(l.invoiceNo)}</span>` : ''}</div>`).join('');
   },
-
-  /* -------- USER CRUD -------- */
   async openUserModal(id = null) {
     if (!(await Guard.has(PERM.USER_CREATE))) return this.toast('Denied', 'No permission', 'error');
     const md = document.getElementById('user-modal');
@@ -2224,7 +2216,6 @@ const UI = {
   async unlockUser(id) { try { await UserService.unlockAccount(id); this.renderUsersTable(); this.loadSecurityKpis(); this.toast('Unlocked', ''); } catch (e) { this.toast('Failed', e.message, 'error'); } },
   async disableUser(id) { const r = prompt('Reason:'); if (!r) return; try { await UserService.disableUser(id, r); this.renderUsersTable(); this.toast('Disabled', ''); } catch (e) { this.toast('Failed', e.message, 'error'); } },
   async killSession(id) { try { await SessionService.destroy(id, 'KILLED'); await Security.log('SESSION_KILLED', { module:'AUTH', targetId: id }); this.renderSessionsTable(); this.toast('Killed', ''); } catch (e) { this.toast('Failed', e.message, 'error'); } },
-
   openChangePassword() { ['cp-old','cp-new','cp-conf'].forEach(i => document.getElementById(i).value = ''); document.getElementById('pw-modal').classList.remove('hidden'); },
   async changeOwnPassword() {
     try {
@@ -2237,15 +2228,7 @@ const UI = {
       setTimeout(executeLogout, 2000);
     } catch (e) { this.toast('Failed', e.message, 'error'); }
   },
-
-  /* -------- BACKUP/RESTORE/RESET -------- */
-  async downloadBackup() {
-    try {
-      const backup = await BackupService.exportAll();
-      download(JSON.stringify(backup, null, 2), `SRE_BACKUP_${today()}_${Date.now()}.json`, 'application/json');
-      this.toast('Backup', 'Downloaded');
-    } catch (e) { this.toast(e.code || 'Failed', e.message, 'error'); }
-  },
+  async downloadBackup() { try { const backup = await BackupService.exportAll(); download(JSON.stringify(backup, null, 2), `SRE_BACKUP_${today()}_${Date.now()}.json`, 'application/json'); this.toast('Backup', 'Downloaded'); } catch (e) { this.toast(e.code || 'Failed', e.message, 'error'); } },
   async requestRestore() {
     if (!(await Guard.has(PERM.BACKUP_RESTORE))) return this.toast('Denied', 'No permission', 'error');
     const input = document.createElement('input');
@@ -2267,11 +2250,7 @@ const UI = {
     if (phrase !== 'DELETE ALL DATA') return this.toast('Cancelled', 'Phrase mismatch');
     const reason = prompt('Reason (mandatory):');
     if (!reason) return this.toast('Cancelled', 'Reason required');
-    try {
-      const backup = await BackupService.exportAll();
-      download(JSON.stringify(backup, null, 2), `SRE_PRE_RESET_${Date.now()}.json`, 'application/json');
-      await Security.log('PRE_RESET_BACKUP', { module: 'FACTORY_RESET', reason, severity: 'CRITICAL' });
-    } catch (e) { return this.toast('Aborted', 'Could not backup: ' + e.message, 'error'); }
+    try { const backup = await BackupService.exportAll(); download(JSON.stringify(backup, null, 2), `SRE_PRE_RESET_${Date.now()}.json`, 'application/json'); await Security.log('PRE_RESET_BACKUP', { module: 'FACTORY_RESET', reason, severity: 'CRITICAL' }); } catch (e) { return this.toast('Aborted', 'Could not backup: ' + e.message, 'error'); }
     const r = await ElevationService.request(PERM.FACTORY_RESET, reason, {}).catch(() => null);
     if (!r) return;
     if (!confirm('FINAL: Wipe ALL data now?')) return this.toast('Cancelled', '');
@@ -2280,46 +2259,15 @@ const UI = {
     localStorage.clear(); sessionStorage.clear();
     setTimeout(() => location.reload(), 800);
   },
-
-  async syncNow() {
-    if (!sysSettings.gas) return this.toast('Sync', 'URL not configured', 'warning');
-    const r = await SyncService.flush();
-    this.toast('Sync', `Uploaded: ${r.uploaded}, Failed: ${r.failed}`);
-  },
-  async runHealthCheck() {
-    const el = document.getElementById('health-report'); if (el) el.innerHTML = '<p class="text-slate-500">Running…</p>';
-    const report = await HealthService.run();
-    if (el) el.innerHTML = report.map(r => `<div class="flex justify-between p-2 rounded mb-1 ${r.status === 'PASS' ? 'bg-emerald-50 text-emerald-700' : r.status === 'FAIL' ? 'bg-rose-50 text-rose-700' : r.status === 'WARN' ? 'bg-amber-50 text-amber-700' : 'bg-slate-100'}"><span>${esc(r.check)}</span><span class="font-black">${esc(r.status)}</span></div><div class="text-[10px] text-slate-500 mb-2 pl-2">${esc(r.detail || '')}</div>`).join('');
-  },
-
-  /* -------- Modals/Shortcuts -------- */
+  async syncNow() { if (!sysSettings.gas) return this.toast('Sync', 'URL not configured', 'warning'); const r = await SyncService.flush(); this.toast('Sync', `Uploaded: ${r.uploaded}, Failed: ${r.failed}`); },
+  async runHealthCheck() { const el = document.getElementById('health-report'); if (el) el.innerHTML = '<p class="text-slate-500">Running…</p>'; const report = await HealthService.run(); if (el) el.innerHTML = report.map(r => `<div class="flex justify-between p-2 rounded mb-1 ${r.status === 'PASS' ? 'bg-emerald-50 text-emerald-700' : r.status === 'FAIL' ? 'bg-rose-50 text-rose-700' : r.status === 'WARN' ? 'bg-amber-50 text-amber-700' : 'bg-slate-100'}"><span>${esc(r.check)}</span><span class="font-black">${esc(r.status)}</span></div><div class="text-[10px] text-slate-500 mb-2 pl-2">${esc(r.detail || '')}</div>`).join(''); },
   closeProductModal() { document.getElementById('product-popup').classList.add('hidden'); },
   closePartyModal() { document.getElementById('party-popup').classList.add('hidden'); },
-  async saveQuickProduct() {
-    try {
-      const p = await ProductService.create({ name: document.getElementById('qm-item-name').value, sale: Number(document.getElementById('qm-item-sale').value)||0, pur: Number(document.getElementById('qm-item-pur').value)||0, gst: Number(document.getElementById('qm-item-gst').value)||0, track: document.getElementById('qm-item-track').checked });
-      await this.renderProducts(); this.closeProductModal(); this.toast('Saved', p.name);
-    } catch (e) { this.toast('Error', e.message, 'error'); }
-  },
-  async saveQuickParty() {
-    try {
-      const p = await PartyService.create({ name: document.getElementById('q-party-name').value, mobile: document.getElementById('q-party-phone').value, type: document.getElementById('q-party-type')?.value || 'CUSTOMER' });
-      this.closePartyModal(); await this.renderParties(); this.toast('Saved', p.name);
-    } catch (e) { this.toast('Error', e.message, 'error'); }
-  },
+  async saveQuickProduct() { try { const p = await ProductService.create({ name: document.getElementById('qm-item-name').value, sale: Number(document.getElementById('qm-item-sale').value)||0, pur: Number(document.getElementById('qm-item-pur').value)||0, gst: Number(document.getElementById('qm-item-gst').value)||0, track: document.getElementById('qm-item-track').checked }); await this.renderProducts(); this.closeProductModal(); this.toast('Saved', p.name); } catch (e) { this.toast('Error', e.message, 'error'); } },
+  async saveQuickParty() { try { const p = await PartyService.create({ name: document.getElementById('q-party-name').value, mobile: document.getElementById('q-party-phone').value, type: document.getElementById('q-party-type')?.value || 'CUSTOMER' }); this.closePartyModal(); await this.renderParties(); this.toast('Saved', p.name); } catch (e) { this.toast('Error', e.message, 'error'); } },
   cancelElevate() { ElevationService.cancel(); },
   async confirmElevate() { try { await ElevationService.confirm(); } catch (e) { this.toast('Elevate', e.message, 'error'); } },
-  async saveFinanceCompany() {
-    try {
-      const nm = document.getElementById('q-fin-name').value.trim().toUpperCase(); if (!nm) return;
-      await db.finance.add({ id: 'FIN-' + UUID(), name: nm, status: 'ACTIVE' });
-      document.getElementById('finance-modal').classList.add('hidden');
-      document.getElementById('q-fin-name').value = '';
-      this.toast('Saved', 'Finance company added');
-    } catch (e) { this.toast('Failed', e.message, 'error'); }
-  },
-
-  /* -------- Invoice -------- */
+  async saveFinanceCompany() { try { const nm = document.getElementById('q-fin-name').value.trim().toUpperCase(); if (!nm) return; await db.finance.add({ id: 'FIN-' + UUID(), name: nm, status: 'ACTIVE' }); document.getElementById('finance-modal').classList.add('hidden'); document.getElementById('q-fin-name').value = ''; this.toast('Saved', 'Finance company added'); } catch (e) { this.toast('Failed', e.message, 'error'); } },
   generateInvoiceHTML(rec) {
     try {
       const set = (id, v) => { const e = document.getElementById(id); if (e) e.innerText = v == null ? '' : v; };
@@ -2354,12 +2302,12 @@ const UI = {
     } catch (e) { this.toast('PDF error', e.message, 'error'); }
   },
   exportReport: async (type) => {
-    let csv = 'Date,Ref,Party,Type,Total,Paid,Due\n';
+    let csv = 'Date,Ref,Party,Type,Total,Paid,Due,CGST,SGST,IGST\n';
     const bills = await db.bills.toArray();
     for (const b of bills) {
       if (type === 'SALE' && b.type !== 'SALE') continue;
       if (type === 'PURCHASE' && b.type !== 'PURCHASE') continue;
-      csv += `${b.date},${b.invNo},"${(b.party||'').replace(/"/g,'""')}",${b.type},${b.total},${b.paid},${b.due}\n`;
+      csv += `${b.date},${b.invNo},"${(b.party||'').replace(/"/g,'""')}",${b.type},${b.total},${b.paid},${b.due},${b.cgst||0},${b.sgst||0},${b.igst||0}\n`;
     }
     download(csv, `SRE_${type}_${today()}.csv`);
   }
@@ -2398,9 +2346,11 @@ async function bootLoader() {
     if (status) status.innerText = 'Opening database…';
     initDb();
     try { await db.open(); }
-    catch (e) { if (e.name === 'VersionError' || e.name === 'UpgradeError') { if (confirm('DB schema conflict. Reset?')) { await Dexie.delete(DB_NAME); location.reload(); return; } } throw e; }
+    catch (e) { if (e.name === 'VersionError' || e.name === 'UpgradeError') { if (confirm('DB schema conflict. Reset all data?')) { await Dexie.delete(DB_NAME); location.reload(); return; } } throw e; }
     await AccountService.ensureSeeded();
+    await PeriodService.ensureCurrentYear();
     const cSet = await db.configs.get('sysSettings'); if (cSet) sysSettings = { ...sysSettings, ...(cSet.value || {}) };
+    const invMethod = await db.configs.get('inventoryMethod'); if (invMethod) UIState.inventoryMethod = invMethod.value;
     hideBoot();
     const userCount = await db.users.count();
     if (userCount === 0) { UI.showSetup(); return; }
