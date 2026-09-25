@@ -16,14 +16,14 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#f1f5f9;color:#0f172a
 ::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px}
 .glass-panel{background:#fff;border:1px solid rgba(226,232,240,.9);box-shadow:0 4px 15px rgba(0,0,0,.03);border-radius:12px}
 .glass-nav{background:var(--theme-bg,#0f172a);box-shadow:0 4px 20px rgba(0,0,0,.1);border-bottom:1px solid rgba(255,255,255,.05)}
-.premium-input{font-size:12px!important;padding:0 12px;border-radius:8px;border:1px solid #cbd5e1;width:100%;outline:none;font-weight:600;color:#0f172a;background:#f8fafc}
+.premium-input{font-size:12px!important;padding:0 12px;border-radius:8px;border:1px solid #cbd5e1;width:100%;outline:none;font-weight:600;color:#0f172a;background:#f8fafc;transition:all .15s}
 .premium-input:focus{border-color:#2563eb;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.1)}
 select.premium-input,input.premium-input:not([type="checkbox"]){height:38px}
 textarea.premium-input{padding:8px 12px!important;font-size:12px!important}
-.btn-primary{background:linear-gradient(to right,#2563eb,#1d4ed8);color:#fff;box-shadow:0 2px 8px rgba(37,99,235,.2);border-radius:8px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;cursor:pointer;border:none}
-.btn-primary:hover:not(:disabled){transform:translateY(-1px)}
+.btn-primary{background:linear-gradient(to right,#2563eb,#1d4ed8);color:#fff;box-shadow:0 2px 8px rgba(37,99,235,.2);border-radius:8px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;cursor:pointer;border:none;transition:all .15s}
+.btn-primary:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 4px 12px rgba(37,99,235,.3)}
 .btn-primary:disabled{opacity:.6;cursor:not-allowed}
-.btn-ghost{background:transparent;border:1px solid #cbd5e1;color:#475569;border-radius:8px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;cursor:pointer}
+.btn-ghost{background:transparent;border:1px solid #cbd5e1;color:#475569;border-radius:8px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;cursor:pointer;transition:all .15s}
 .btn-ghost:hover{border-color:#3b82f6;color:#2563eb;background:#eff6ff}
 .sidebar-category{font-size:10px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin:16px 0 4px 16px;opacity:.8}
 .sidebar-btn{width:100%;display:flex;align-items:center;gap:12px;padding:10px 16px;color:#94a3b8;font-weight:600;font-size:13px;transition:all .2s;border-left:3px solid transparent;background:transparent;text-align:left;cursor:pointer}
@@ -33,6 +33,8 @@ th.standard-th{text-transform:uppercase;font-size:10px;color:#475569;font-weight
 td.standard-td{padding:10px;font-size:12px;border-bottom:1px solid #f1f5f9;font-weight:600;color:#1e293b}
 .bill-table th{position:sticky;top:0;background:#f8fafc;color:#475569;font-size:10px;font-weight:800;text-transform:uppercase;padding:12px 10px;z-index:10;border-bottom:1px solid #e2e8f0;text-align:left}
 .bill-table td{padding:8px 10px;background:#fff;border-bottom:1px solid #f1f5f9;vertical-align:middle}
+.bill-table tr.item-row{transition:background .15s}
+.bill-table tr.item-row:hover td{background:#f8fafc}
 #login-screen,#setup-screen{position:fixed;inset:0;background:#0f172a;z-index:9999;display:flex;align-items:center;justify-content:center;overflow:auto;padding:1rem}
 #login-screen.hidden,#setup-screen.hidden{display:none!important}
 #boot-screen{position:fixed;inset:0;background:#0f172a;z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff}
@@ -52,10 +54,11 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
 .badge-amber{background:#fef3c7;color:#92400e}
 .badge-blue{background:#dbeafe;color:#1e40af}
 .badge-gray{background:#e2e8f0;color:#475569}
-.pay-master-btn{flex:1;padding:8px;font-size:10px;font-weight:800;color:#64748b;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;text-transform:uppercase;cursor:pointer}
-.pay-master-btn.active{background:#eff6ff;border-color:#2563eb;color:#1d4ed8}
-.pay-combo-btn{padding:6px 8px;font-size:9px;font-weight:800;color:#475569;background:#fff;border:1px solid #cbd5e1;border-radius:6px;text-transform:uppercase;cursor:pointer;text-align:center}
-.pay-combo-btn.active{background:#1e293b;border-color:#0f172a;color:#fff}
+.pay-master-btn{flex:1;padding:8px;font-size:10px;font-weight:800;color:#64748b;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;text-transform:uppercase;cursor:pointer;transition:all .15s}
+.pay-master-btn.active{background:#eff6ff;border-color:#2563eb;color:#1d4ed8;box-shadow:0 2px 6px rgba(37,99,235,.15)}
+.pay-combo-btn{padding:6px 8px;font-size:9px;font-weight:800;color:#475569;background:#fff;border:1px solid #cbd5e1;border-radius:6px;text-transform:uppercase;cursor:pointer;text-align:center;transition:all .15s}
+.pay-combo-btn:hover{border-color:#94a3b8}
+.pay-combo-btn.active{background:#1e293b;border-color:#0f172a;color:#fff;box-shadow:0 2px 6px rgba(15,23,42,.25)}
 .session-warning{position:fixed;top:60px;right:20px;background:#fef3c7;border-left:4px solid #f59e0b;padding:12px 16px;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.15);z-index:500;font-size:12px;font-weight:700;color:#92400e;max-width:320px}
 @media print{body *{visibility:hidden}#print-container,#print-container *{visibility:visible}#print-container{position:absolute;left:0;top:0;width:100%;background:#fff}.no-print{display:none!important}}
 </style>
@@ -138,40 +141,6 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
   </div>
 </div>
 
-<div id="product-popup" class="modal-backdrop hidden">
-  <div class="glass-panel p-6 w-full max-w-lg bg-white" style="border-top:4px solid #f59e0b">
-    <h3 class="text-sm font-black uppercase mb-4">Quick Add Product</h3>
-    <div class="grid grid-cols-2 gap-3">
-      <div class="col-span-2"><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Item Name *</label><input type="text" id="qm-item-name" class="premium-input uppercase text-blue-800"></div>
-      <div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Sale Rate *</label><input type="number" id="qm-item-sale" class="premium-input text-blue-700 font-black"></div>
-      <div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Purchase Rate</label><input type="number" id="qm-item-pur" class="premium-input text-rose-700"></div>
-      <div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">GST %</label><select id="qm-item-gst" class="premium-input"><option value="0">0%</option><option value="5">5%</option><option value="12">12%</option><option value="18" selected>18%</option><option value="28">28%</option></select></div>
-      <div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Track IMEI</label><label class="flex items-center gap-2 cursor-pointer mt-2"><input type="checkbox" id="qm-item-track" checked class="w-4 h-4"><span class="text-[10px] font-bold">Yes</span></label></div>
-    </div>
-    <div class="flex gap-3 mt-6"><button onclick="UI.closeProductModal()" class="btn-ghost flex-1 py-2.5 text-[10px]">Cancel</button><button onclick="UI.saveQuickProduct()" class="btn-primary flex-1 py-2.5 text-[10px]">Save</button></div>
-  </div>
-</div>
-
-<div id="party-popup" class="modal-backdrop hidden">
-  <div class="glass-panel p-6 w-full max-w-sm bg-white" style="border-top:4px solid #9333ea">
-    <h3 class="text-sm font-black uppercase mb-4">Quick Party</h3>
-    <input type="hidden" id="q-party-type">
-    <div class="space-y-3">
-      <div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Name *</label><input type="text" id="q-party-name" class="premium-input uppercase text-blue-800"></div>
-      <div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Mobile</label><input type="tel" id="q-party-phone" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'')" class="premium-input font-mono"></div>
-    </div>
-    <div class="flex gap-3 mt-6"><button onclick="UI.closePartyModal()" class="btn-ghost flex-1 py-2.5 text-[10px]">Cancel</button><button onclick="UI.saveQuickParty()" class="btn-primary flex-1 py-2.5 text-[10px]">Save</button></div>
-  </div>
-</div>
-
-<div id="finance-modal" class="modal-backdrop hidden">
-  <div class="glass-panel p-6 w-full max-w-sm bg-white" style="border-top:4px solid #4f46e5">
-    <h3 class="text-sm font-black uppercase mb-4">Add Finance Company</h3>
-    <input type="text" id="q-fin-name" class="premium-input uppercase">
-    <div class="flex gap-3 mt-6"><button onclick="document.getElementById('finance-modal').classList.add('hidden')" class="btn-ghost flex-1 py-2.5 text-[10px]">Cancel</button><button onclick="UI.saveFinanceCompany()" class="btn-primary flex-1 py-2.5 text-[10px]">Save</button></div>
-  </div>
-</div>
-
 <div id="pw-modal" class="modal-backdrop hidden">
   <div class="glass-panel p-6 w-full max-w-sm bg-white">
     <h3 class="text-sm font-black uppercase mb-4">🔐 Change Password</h3>
@@ -205,7 +174,7 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
       </div>
       <div><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1" id="u-pass-label">Password * (min 6)</label><input type="password" id="u-pass" class="premium-input" autocomplete="new-password" oninput="UI.pwMeter('u-pass','u-pw-meter')"></div>
       <div class="pw-meter"><div id="u-pw-meter"></div></div>
-      <div class="pt-2 border-t"><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Custom Permissions (grants extra perms)</label><div id="u-perm-container" class="grid grid-cols-2 gap-1 max-h-[200px] overflow-y-auto text-[10px] p-2 bg-slate-50 rounded"></div></div>
+      <div class="pt-2 border-t"><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Custom Permissions</label><div id="u-perm-container" class="grid grid-cols-2 gap-1 max-h-[200px] overflow-y-auto text-[10px] p-2 bg-slate-50 rounded"></div></div>
     </div>
     <div class="flex gap-3 mt-6">
       <button onclick="document.getElementById('user-modal').classList.add('hidden')" class="btn-ghost flex-1 py-2.5 text-[10px]">Cancel</button>
@@ -245,7 +214,7 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
     <span id="header-module-title" class="text-[11px] font-black tracking-widest uppercase">DASHBOARD</span>
   </div>
   <div class="flex items-center space-x-3 z-20 ml-auto">
-    <div class="hidden md:flex items-center gap-1 text-[9px] font-bold text-slate-400 bg-white/5 px-2 py-1 rounded" title="Session expires in">
+    <div class="hidden md:flex items-center gap-1 text-[9px] font-bold text-slate-400 bg-white/5 px-2 py-1 rounded">
       <span>⏱</span><span id="session-timer">--:--</span>
     </div>
     <button onclick="UI.openChangePassword()" class="hidden sm:flex items-center gap-1 px-2 py-1.5 bg-white/10 rounded-md text-[9px] font-black uppercase" title="Change Password">🔑</button>
@@ -267,7 +236,6 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
   </aside>
 
   <main class="flex-1 flex flex-col overflow-hidden w-full relative pb-16 lg:pb-0">
-
     <div id="view-dashboard" class="view-section hidden flex-col space-y-4 max-w-7xl mx-auto w-full p-4 sm:p-6 overflow-y-auto">
       <div class="flex justify-between items-end mb-2">
         <h2 class="text-2xl font-black uppercase tracking-widest flex items-center gap-3"><span class="w-1.5 h-8 bg-blue-600 rounded-full"></span> Analytics</h2>
@@ -324,9 +292,9 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
         <div class="glass-panel p-6" style="border-top:4px solid #059669">
           <h3 class="font-black text-sm uppercase border-b pb-2 text-emerald-600 mb-4">Database Operations</h3>
           <div class="space-y-3 mb-4">
-            <button onclick="UI.downloadBackup()" class="btn-primary w-full py-3 text-xs" style="background:#059669">💾 Export Backup (hashed)</button>
-            <button onclick="UI.requestRestore()" class="btn-ghost w-full py-3 text-xs" style="border-color:#10b981;color:#047857">📥 Restore (elevated)</button>
-            <button onclick="UI.requestFactoryReset()" class="btn-primary w-full py-3 text-xs" style="background:#e11d48">⚠️ Factory Reset (elevated)</button>
+            <button onclick="UI.downloadBackup()" class="btn-primary w-full py-3 text-xs" style="background:#059669">💾 Export Backup</button>
+            <button onclick="UI.requestRestore()" class="btn-ghost w-full py-3 text-xs" style="border-color:#10b981;color:#047857">📥 Restore</button>
+            <button onclick="UI.requestFactoryReset()" class="btn-primary w-full py-3 text-xs" style="background:#e11d48">⚠️ Factory Reset</button>
           </div>
           <div class="pt-4 border-t"><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Cloud Sync URL</label><div class="flex gap-2"><input type="text" id="set-gas" class="premium-input text-blue-700 font-mono text-xs"><button onclick="UI.saveAdminSettings()" class="btn-primary px-4 text-xs" style="background:#0f172a">SAVE</button></div></div>
         </div>
@@ -451,14 +419,21 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
       <div class="glass-panel px-4 py-2.5 flex flex-wrap items-center justify-between bg-white gap-3">
         <div class="flex items-center gap-3"><h2 id="bill-title" class="text-xs sm:text-sm font-black uppercase">SALE ENTRY</h2><span id="form-entry-type" class="badge badge-blue">SALE</span></div>
         <div class="flex items-center gap-3 flex-wrap">
-          <div id="bill-ref-container" class="hidden items-center gap-2"><label class="text-[9px] font-bold text-rose-500 uppercase">Orig Ref:</label><input type="text" id="bill-ref-inv" class="bg-rose-50 border border-rose-200 text-[11px] font-mono font-bold text-rose-700 w-24 rounded px-1.5 py-0.5"></div>
+          <div id="bill-ref-container" class="hidden items-center gap-2"><label class="text-[9px] font-bold text-rose-500 uppercase">Orig Ref:</label><input type="text" id="bill-ref-inv" class="bg-rose-50 border border-rose-200 text-[11px] font-mono font-bold text-rose-700 w-32 rounded px-1.5 py-0.5" placeholder="INV NO"></div>
           <label class="text-[9px] font-bold text-slate-400 uppercase">Date:</label><input type="date" id="bill-date" class="bg-transparent border-none outline-none text-[11px] font-mono font-bold w-[105px]">
           <input type="text" id="bill-inv" class="bg-transparent border-none outline-none text-[11px] font-mono font-bold text-blue-600 w-20" value="AUTO" readonly>
         </div>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-3 shrink-0">
-        <div class="glass-panel p-3 bg-white"><label class="text-[9px] font-black text-slate-500 uppercase block mb-1.5" id="lbl-party-type">CUSTOMER</label><input type="text" id="bill-party" list="party-list" oninput="UI.onPartySelect(this.value)" class="premium-input uppercase font-black text-blue-800 text-sm"></div>
-        <div class="glass-panel p-3 bg-white"><label class="text-[9px] font-black text-slate-500 uppercase block mb-1.5">SCAN PRODUCT</label><input type="text" id="master-item-scan" list="item-list" onkeydown="UI.handleMasterScan(event)" class="premium-input uppercase font-black text-sm border-amber-200 bg-amber-50/50" placeholder="Barcode / SKU / IMEI"></div>
+        <div class="glass-panel p-3 bg-white"><label class="text-[9px] font-black text-slate-500 uppercase block mb-1.5" id="lbl-party-type">CUSTOMER</label><input type="text" id="bill-party" list="party-list" oninput="UI.onPartySelect(this.value)" class="premium-input uppercase font-black text-blue-800 text-sm !h-[42px] bg-slate-50"></div>
+        <div class="glass-panel p-3 bg-white" id="scan-container-sale">
+          <label class="text-[9px] font-black text-amber-600 uppercase block mb-1.5 flex items-center gap-1"><span>🔍</span> SCAN BARCODE / IMEI</label>
+          <input type="text" id="master-item-scan" list="item-list" onkeydown="UI.handleMasterScan(event)" class="premium-input uppercase font-black text-sm border-amber-200 bg-amber-50/50 !h-[42px]" placeholder="Scan barcode / IMEI / product">
+        </div>
+        <div class="glass-panel p-3 bg-white hidden" id="scan-container-purchase">
+          <label class="text-[9px] font-black text-emerald-600 uppercase block mb-1.5 flex items-center gap-1"><span>📦</span> SELECT PRODUCT</label>
+          <input type="text" id="purchase-item-input" list="item-list" onkeydown="UI.handlePurchaseAdd(event)" class="premium-input uppercase font-black text-sm border-emerald-200 bg-emerald-50/50 !h-[42px]" placeholder="Type product name or SKU">
+        </div>
       </div>
       <div class="flex-1 glass-panel flex flex-col overflow-hidden bg-white">
         <div class="overflow-y-auto flex-1">
@@ -467,12 +442,27 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
             <tbody id="bill-items-body"></tbody>
           </table>
         </div>
-        <div class="p-2 border-t bg-slate-50 flex justify-center"><button onclick="UI.addBillRow()" class="h-7 px-6 text-blue-600 font-bold uppercase text-[9px] rounded border border-dashed border-blue-300 bg-white">➕ Add Row</button></div>
+        <div class="p-2 border-t bg-gradient-to-r from-slate-50 to-blue-50/40 flex justify-center">
+          <button onclick="UI.addBillRow()" class="group flex items-center gap-2 px-8 py-2.5 text-blue-600 hover:text-white font-black uppercase text-[10px] rounded-xl border-2 border-dashed border-blue-300 hover:border-blue-600 bg-white hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-sm hover:shadow-lg">
+            <span class="text-xl leading-none group-hover:scale-125 transition-transform">＋</span>
+            <span class="tracking-wider">Add Another Item</span>
+          </button>
+        </div>
       </div>
       <div class="flex flex-col lg:flex-row gap-3 shrink-0" id="payment-engine-strip">
         <div class="flex-1 glass-panel p-3 bg-white flex flex-col gap-3">
           <div class="flex gap-2"><button class="pay-master-btn active" id="mode-INSTANT" onclick="UI.setMasterPayMode('INSTANT')">Instant</button><button class="pay-master-btn" id="mode-CREDIT" onclick="UI.setMasterPayMode('CREDIT')">Credit</button></div>
-          <div class="grid grid-cols-3 gap-1.5"><button class="pay-combo-btn active" id="combo-CASH" onclick="UI.setCombo('CASH')">CASH</button><button class="pay-combo-btn" id="combo-QR" onclick="UI.setCombo('QR')">QR/UPI</button><button class="pay-combo-btn" id="combo-CARD" onclick="UI.setCombo('CARD')">CARD</button></div>
+          <div class="grid grid-cols-4 gap-1.5">
+            <button class="pay-combo-btn active" id="combo-CASH" onclick="UI.setCombo('CASH')">CASH</button>
+            <button class="pay-combo-btn" id="combo-QR" onclick="UI.setCombo('QR')">QR/UPI</button>
+            <button class="pay-combo-btn" id="combo-CARD" onclick="UI.setCombo('CARD')">CARD</button>
+            <button class="pay-combo-btn" id="combo-MIXED" onclick="UI.setCombo('MIXED')">SPLIT</button>
+          </div>
+          <div id="split-payment-inputs" class="hidden grid grid-cols-3 gap-2 pt-2 border-t border-slate-100">
+            <input type="number" id="split-cash" placeholder="Cash ₹" class="premium-input !h-[30px] text-[11px]" oninput="UI.calcBill(true)">
+            <input type="number" id="split-qr" placeholder="UPI ₹" class="premium-input !h-[30px] text-[11px]" oninput="UI.calcBill(true)">
+            <input type="number" id="split-card" placeholder="Card ₹" class="premium-input !h-[30px] text-[11px]" oninput="UI.calcBill(true)">
+          </div>
         </div>
         <div class="w-full lg:w-[260px] bg-[#0f172a] rounded-xl p-4 text-white shrink-0">
           <div class="flex justify-between text-[10px] text-slate-400 font-bold mb-1.5"><span>Subtotal</span><span id="bill-taxable">₹ 0</span></div>
@@ -538,11 +528,9 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
 
 <script>
 /* ==========================================================================
-   SRE ERP v9.0 — FULL ACCOUNTING ENGINE (Step 3 FIXED + GITHUB PAGES READY)
-   Single file. HTML+CSS above. Script below. Keep them together.
+   SRE ERP v9.0 — COMPLETE ACCOUNTING ENGINE — ALL FIXES APPLIED
    ========================================================================== */
 
-/* ---------- UTILITIES ---------- */
 const UUID = () => (crypto.randomUUID ? crypto.randomUUID() : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => { const r = Math.random()*16|0, v = c==='x'?r:(r&0x3|0x8); return v.toString(16); }));
 const nowISO = () => new Date().toISOString();
 const today = () => { const d = new Date(); return new Date(d.getTime() - d.getTimezoneOffset()*60000).toISOString().split('T')[0]; };
@@ -552,7 +540,6 @@ const debounce = (fn, ms) => { let t; return (...a) => { clearTimeout(t); t = se
 function luhnValid(input) { const s = String(input || '').replace(/\D/g, ''); if (s.length !== 15) return false; let sum = 0, alt = false; for (let i = s.length - 1; i >= 0; i--) { let n = parseInt(s[i], 10); if (alt) { n *= 2; if (n > 9) n -= 9; } sum += n; alt = !alt; } return sum % 10 === 0; }
 function download(text, filename, mime = 'text/csv') { const blob = new Blob([text], { type: mime }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = filename; a.click(); URL.revokeObjectURL(url); }
 
-/* ---------- CRYPTO ---------- */
 const Crypto = {
   async hashPassword(password, saltHex = null) { const enc = new TextEncoder(); const salt = saltHex ? this.hexToBuf(saltHex) : crypto.getRandomValues(new Uint8Array(16)); const km = await crypto.subtle.importKey('raw', enc.encode(password), { name: 'PBKDF2' }, false, ['deriveBits']); const bits = await crypto.subtle.deriveBits({ name: 'PBKDF2', salt, iterations: 100000, hash: 'SHA-256' }, km, 256); return { hash: this.bufToHex(bits), salt: this.bufToHex(salt), iterations: 100000 }; },
   async verifyPassword(password, record) { if (!record || !record.hash || !record.salt) return false; const { hash } = await this.hashPassword(password, record.salt); return timingSafeEqualHex(hash, record.hash); },
@@ -562,7 +549,6 @@ const Crypto = {
 };
 function timingSafeEqualHex(a, b) { if (a.length !== b.length) return false; let d = 0; for (let i = 0; i < a.length; i++) d |= a.charCodeAt(i) ^ b.charCodeAt(i); return d === 0; }
 
-/* ---------- PERMISSIONS ---------- */
 const PERM = Object.freeze({
   PRODUCT_VIEW:'PRODUCT_VIEW', PRODUCT_CREATE:'PRODUCT_CREATE', PRODUCT_EDIT:'PRODUCT_EDIT', PRODUCT_DELETE:'PRODUCT_DELETE',
   PARTY_VIEW:'PARTY_VIEW', PARTY_CREATE:'PARTY_CREATE', PARTY_EDIT:'PARTY_EDIT', PARTY_DELETE:'PARTY_DELETE',
@@ -578,8 +564,7 @@ const PERM = Object.freeze({
   USER_VIEW:'USER_VIEW', USER_CREATE:'USER_CREATE', USER_EDIT:'USER_EDIT', USER_DISABLE:'USER_DISABLE',
   PERMISSION_MANAGE:'PERMISSION_MANAGE',
   SECURITY_VIEW:'SECURITY_VIEW', SESSION_KILL:'SESSION_KILL',
-  FACTORY_RESET:'FACTORY_RESET',
-  FINANCE_MANAGE:'FINANCE_MANAGE'
+  FACTORY_RESET:'FACTORY_RESET', FINANCE_MANAGE:'FINANCE_MANAGE'
 });
 
 const ROLE_PERMISSIONS = {
@@ -594,7 +579,6 @@ const ROLE_PERMISSIONS = {
   CUSTOMER: []
 };
 
-/* ---------- ERRORS ---------- */
 const ErrCode = Object.freeze({
   VALIDATION:'VALIDATION', NOT_FOUND:'NOT_FOUND', STOCK_INSUFFICIENT:'STOCK_INSUFFICIENT',
   IMEI_INVALID:'IMEI_INVALID', IMEI_UNAVAILABLE:'IMEI_UNAVAILABLE', IMEI_DUPLICATE:'IMEI_DUPLICATE',
@@ -607,7 +591,6 @@ class AppError extends Error {
   constructor(code, message, opts = {}) { super(message); this.name = 'AppError'; this.code = code; this.module = opts.module || ''; this.txnId = opts.txnId || ''; this.recoverable = opts.recoverable !== false; }
 }
 
-/* ---------- STATE ---------- */
 let db = null;
 let currentUser = null;
 let currentSession = null;
@@ -621,20 +604,16 @@ let charts = { trend:null };
 const DB_NAME = 'SRE_ERP_Enterprise_V9';
 const DB_VERSION = 6;
 
-/* ---------- DATABASE (SCHEMA v6) ---------- */
 function initDb() {
   db = new Dexie(DB_NAME);
   const schema = {
     users:'id, user, role, status, lastLogin, failedAttempts, lockedUntil',
-    roles:'id, name',
-    permissions:'id, userId, perm',
-    sessions:'id, userId, status, loginTime',
+    roles:'id, name', permissions:'id, userId, perm', sessions:'id, userId, status, loginTime',
     security_events:'id, type, userId, module, date',
     products:'id, name, sku, category, status',
     parties:'id, name, mobile, type, status',
     imei:'id, imei1, imei2, serial, productId, status, billId',
-    stock:'id, productId, location',
-    stock_movements:'id, productId, txnId, txnType, date',
+    stock:'id, productId, location', stock_movements:'id, productId, txnId, txnType, date',
     cost_layers:'id, productId, acquiredAt',
     bills:'id, invNo, date, type, partyId, party, status, requestId, txnId',
     bill_items:'id, billId, productId, imei',
@@ -651,8 +630,7 @@ function initDb() {
     audit_logs:'id, userId, action, module, txnId, date',
     sync_queue:'id, entity, operation, status',
     request_log:'id, service, date',
-    settings:'key', sequences:'key', configs:'key',
-    finance:'id, name, status'
+    settings:'key', sequences:'key', configs:'key', finance:'id, name, status'
   };
   db.version(6).stores(schema).upgrade(async tx => {
     const parties = await tx.table('parties').toArray();
@@ -663,42 +641,24 @@ function initDb() {
   return db;
 }
 
-/* ---------- AUDIT + SECURITY ---------- */
 const AuditService = {
-  async log(action, module, payload = {}) {
-    try { await db.audit_logs.add({ id: UUID(), action, module, userId: currentUser?.id || null, username: currentUser?.user || 'system', date: nowISO(), txnId: payload.txnId || '', invoiceNo: payload.invoiceNo || '', oldValue: payload.oldValue ? JSON.stringify(payload.oldValue).slice(0, 4000) : null, newValue: payload.newValue ? JSON.stringify(payload.newValue).slice(0, 4000) : null, reason: payload.reason || '', sessionId: currentSession?.id || '' }); } catch(e){ console.error('Audit log failed:', e); }
-  },
+  async log(action, module, payload = {}) { try { await db.audit_logs.add({ id: UUID(), action, module, userId: currentUser?.id || null, username: currentUser?.user || 'system', date: nowISO(), txnId: payload.txnId || '', invoiceNo: payload.invoiceNo || '', oldValue: payload.oldValue ? JSON.stringify(payload.oldValue).slice(0, 4000) : null, newValue: payload.newValue ? JSON.stringify(payload.newValue).slice(0, 4000) : null, reason: payload.reason || '', sessionId: currentSession?.id || '' }); } catch(e){ console.error('Audit log failed:', e); } },
   async recent(n = 100) { const all = await db.audit_logs.toArray(); return all.sort((a, b) => (b.date || '').localeCompare(a.date || '')).slice(0, n); }
 };
 const Security = {
-  async log(type, payload = {}) {
-    try { await db.security_events.add({ id: UUID(), type, userId: currentUser?.id || null, username: currentUser?.user || 'anonymous', module: payload.module || '', action: payload.action || '', targetId: payload.targetId || '', reason: payload.reason || '', severity: payload.severity || 'INFO', date: nowISO(), sessionId: currentSession?.id || '', details: payload.details ? JSON.stringify(payload.details).slice(0, 2000) : '' }); } catch(e){ console.error('Security log failed:', e); }
-  },
+  async log(type, payload = {}) { try { await db.security_events.add({ id: UUID(), type, userId: currentUser?.id || null, username: currentUser?.user || 'anonymous', module: payload.module || '', action: payload.action || '', targetId: payload.targetId || '', reason: payload.reason || '', severity: payload.severity || 'INFO', date: nowISO(), sessionId: currentSession?.id || '', details: payload.details ? JSON.stringify(payload.details).slice(0, 2000) : '' }); } catch(e){ console.error('Security log failed:', e); } },
   async recent(n = 100, filter = '') { const all = await db.security_events.toArray(); let list = all.sort((a, b) => (b.date || '').localeCompare(a.date || '')); if (filter) { const f = filter.toUpperCase(); list = list.filter(e => (e.type||'').includes(f) || (e.username || '').toUpperCase().includes(f) || (e.module || '').toUpperCase().includes(f)); } return list.slice(0, n); }
 };
 
-/* ---------- GUARD ---------- */
 const Guard = {
   _cache: new Map(),
-  async getUserPermissions(userId) {
-    if (!userId) return new Set();
-    if (this._cache.has(userId)) return this._cache.get(userId);
-    const user = await db.users.get(userId);
-    if (!user) return new Set();
-    const rolePerms = ROLE_PERMISSIONS[user.role] || [];
-    const overrides = await db.permissions.where('userId').equals(userId).toArray();
-    const set = new Set(rolePerms);
-    for (const o of overrides) { if (o.granted) set.add(o.perm); else set.delete(o.perm); }
-    this._cache.set(userId, set);
-    return set;
-  },
+  async getUserPermissions(userId) { if (!userId) return new Set(); if (this._cache.has(userId)) return this._cache.get(userId); const user = await db.users.get(userId); if (!user) return new Set(); const rolePerms = ROLE_PERMISSIONS[user.role] || []; const overrides = await db.permissions.where('userId').equals(userId).toArray(); const set = new Set(rolePerms); for (const o of overrides) { if (o.granted) set.add(o.perm); else set.delete(o.perm); } this._cache.set(userId, set); return set; },
   invalidate(userId) { if (userId) this._cache.delete(userId); else this._cache.clear(); },
   async has(perm) { if (!currentUser) return false; return (await this.getUserPermissions(currentUser.id)).has(perm); },
   async require(perm, opts = {}) { if (!currentUser) { await Security.log('UNAUTHORIZED_ACTION', { module: opts.module || '', action: perm, reason: 'No session', severity: 'WARN' }); throw new AppError(ErrCode.UNAUTHENTICATED, 'Please log in', { module: opts.module }); } if (!(await this.has(perm))) { await Security.log('UNAUTHORIZED_ACTION', { module: opts.module || '', action: perm, reason: opts.reason || `Missing ${perm}`, severity: 'WARN', targetId: opts.targetId || '' }); throw new AppError(ErrCode.PERMISSION_DENIED, `Permission denied: ${perm}`, { module: opts.module }); } return true; },
   async requireElevated(perm, opts = {}) { await this.require(perm, opts); if (Date.now() > elevatedUntil) throw new AppError(ErrCode.ELEVATION_REQUIRED, 'Password confirmation required', { module: opts.module }); return true; }
 };
 
-/* ---------- SESSION ---------- */
 const SessionService = {
   async create(user) { const id = 'SESS-' + UUID(); const now = Date.now(); const sess = { id, userId: user.id, username: user.user, role: user.role, loginTime: nowISO(), lastActivity: nowISO(), expiryTime: new Date(now + sysSettings.sessionTimeoutMin * 60 * 1000).toISOString(), device: navigator.userAgent.slice(0, 120), status: 'ACTIVE' }; await db.sessions.add(sess); return sess; },
   async touch(sessionId) { const s = await db.sessions.get(sessionId); if (!s || s.status !== 'ACTIVE') return false; await db.sessions.update(sessionId, { lastActivity: nowISO(), expiryTime: new Date(Date.now() + sysSettings.sessionTimeoutMin * 60 * 1000).toISOString() }); return true; },
@@ -708,13 +668,11 @@ const SessionService = {
   async killOtherSessions(userId, keepId) { const all = await db.sessions.where('userId').equals(userId).toArray(); let c = 0; for (const s of all) if (s.id !== keepId && s.status === 'ACTIVE') { await db.sessions.update(s.id, { status: 'KILLED' }); c++; } return c; }
 };
 
-/* ---------- PASSWORD POLICY ---------- */
 const PasswordPolicy = {
   score(pw) { let s = 0; if (!pw) return 0; if (pw.length >= 6) s++; if (pw.length >= 10) s++; if (/[A-Z]/.test(pw)) s++; if (/[a-z]/.test(pw)) s++; if (/[0-9]/.test(pw)) s++; if (/[^A-Za-z0-9]/.test(pw)) s++; return Math.min(s, 5); },
   validate(pw) { if (!pw || pw.length < (sysSettings.pwMinLen || 6)) throw new AppError(ErrCode.VALIDATION, `Password must be at least ${sysSettings.pwMinLen || 6} characters`); const weak = ['password','123456','12345678','qwerty','admin','letmein']; if (weak.includes(pw.toLowerCase())) throw new AppError(ErrCode.VALIDATION, 'Password is too common'); return true; }
 };
 
-/* ---------- SEQUENCES + IDEMPOTENCY ---------- */
 const SequenceService = {
   async next(type) {
     const key = 'seq_' + type;
@@ -731,53 +689,49 @@ const Idempotency = {
   async checkOrRegisterInTxn(service, requestId) { if (!requestId) return false; const existing = await db.request_log.get(requestId); if (existing) return true; await db.request_log.add({ id: requestId, service, date: nowISO() }); return false; }
 };
 
-/* ═══════════════════════════════════════════════════════════════════════
-   CHART OF ACCOUNTS
-   ═══════════════════════════════════════════════════════════════════════ */
 const DEFAULT_ACCOUNTS = [
-  { code:'1000', name:'Cash A/C',              group:'ASSET',     type:'LEAF' },
-  { code:'1010', name:'Bank A/C',              group:'ASSET',     type:'LEAF' },
-  { code:'1020', name:'UPI A/C',               group:'ASSET',     type:'LEAF' },
-  { code:'1030', name:'Card Receivable',       group:'ASSET',     type:'LEAF' },
-  { code:'1100', name:'Customer Receivable',   group:'ASSET',     type:'LEAF' },
-  { code:'1200', name:'Inventory A/C',         group:'ASSET',     type:'LEAF' },
-  { code:'1210', name:'Fixed Assets',          group:'ASSET',     type:'LEAF' },
-  { code:'1220', name:'Other Assets',          group:'ASSET',     type:'LEAF' },
-  { code:'1300', name:'GST Input CGST',        group:'ASSET',     type:'LEAF' },
-  { code:'1310', name:'GST Input SGST',        group:'ASSET',     type:'LEAF' },
-  { code:'1320', name:'GST Input IGST',        group:'ASSET',     type:'LEAF' },
-  { code:'2000', name:'Supplier Payable',      group:'LIABILITY', type:'LEAF' },
-  { code:'2100', name:'GST Output CGST',       group:'LIABILITY', type:'LEAF' },
-  { code:'2110', name:'GST Output SGST',       group:'LIABILITY', type:'LEAF' },
-  { code:'2120', name:'GST Output IGST',       group:'LIABILITY', type:'LEAF' },
-  { code:'2200', name:'Loans',                 group:'LIABILITY', type:'LEAF' },
-  { code:'2300', name:'Other Liabilities',     group:'LIABILITY', type:'LEAF' },
-  { code:'2400', name:'Customer Advance',      group:'LIABILITY', type:'LEAF' },
-  { code:'3000', name:'Owner Capital',         group:'CAPITAL',   type:'LEAF' },
-  { code:'3010', name:'Drawings',              group:'CAPITAL',   type:'LEAF' },
-  { code:'3020', name:'Retained Earnings',     group:'CAPITAL',   type:'LEAF' },
-  { code:'4000', name:'Sales A/C',             group:'INCOME',    type:'LEAF' },
-  { code:'4010', name:'Sales Return A/C',      group:'INCOME',    type:'LEAF' },
-  { code:'4100', name:'Other Income',          group:'INCOME',    type:'LEAF' },
-  { code:'4200', name:'Commission Income',     group:'INCOME',    type:'LEAF' },
-  { code:'4300', name:'Discount Received',     group:'INCOME',    type:'LEAF' },
-  { code:'5000', name:'Purchase A/C',          group:'EXPENSE',   type:'LEAF' },
-  { code:'5010', name:'Purchase Return A/C',   group:'EXPENSE',   type:'LEAF' },
-  { code:'5100', name:'Salary',                group:'EXPENSE',   type:'LEAF' },
-  { code:'5110', name:'Rent',                  group:'EXPENSE',   type:'LEAF' },
-  { code:'5120', name:'Electricity',           group:'EXPENSE',   type:'LEAF' },
-  { code:'5130', name:'Transport',             group:'EXPENSE',   type:'LEAF' },
-  { code:'5140', name:'Repair',                group:'EXPENSE',   type:'LEAF' },
-  { code:'5150', name:'Marketing',             group:'EXPENSE',   type:'LEAF' },
-  { code:'5160', name:'Bank Charges',          group:'EXPENSE',   type:'LEAF' },
-  { code:'5170', name:'Discount Allowed',      group:'EXPENSE',   type:'LEAF' },
-  { code:'5900', name:'General Expense',       group:'EXPENSE',   type:'LEAF' },
-  { code:'5999', name:'Round-Off',             group:'EXPENSE',   type:'LEAF' },
-  { code:'6000', name:'COGS',                  group:'COGS',      type:'LEAF' },
+  { code:'1000', name:'Cash A/C', group:'ASSET', type:'LEAF' },
+  { code:'1010', name:'Bank A/C', group:'ASSET', type:'LEAF' },
+  { code:'1020', name:'UPI A/C', group:'ASSET', type:'LEAF' },
+  { code:'1030', name:'Card Receivable', group:'ASSET', type:'LEAF' },
+  { code:'1100', name:'Customer Receivable', group:'ASSET', type:'LEAF' },
+  { code:'1200', name:'Inventory A/C', group:'ASSET', type:'LEAF' },
+  { code:'1210', name:'Fixed Assets', group:'ASSET', type:'LEAF' },
+  { code:'1220', name:'Other Assets', group:'ASSET', type:'LEAF' },
+  { code:'1300', name:'GST Input CGST', group:'ASSET', type:'LEAF' },
+  { code:'1310', name:'GST Input SGST', group:'ASSET', type:'LEAF' },
+  { code:'1320', name:'GST Input IGST', group:'ASSET', type:'LEAF' },
+  { code:'2000', name:'Supplier Payable', group:'LIABILITY', type:'LEAF' },
+  { code:'2100', name:'GST Output CGST', group:'LIABILITY', type:'LEAF' },
+  { code:'2110', name:'GST Output SGST', group:'LIABILITY', type:'LEAF' },
+  { code:'2120', name:'GST Output IGST', group:'LIABILITY', type:'LEAF' },
+  { code:'2200', name:'Loans', group:'LIABILITY', type:'LEAF' },
+  { code:'2300', name:'Other Liabilities', group:'LIABILITY', type:'LEAF' },
+  { code:'2400', name:'Customer Advance', group:'LIABILITY', type:'LEAF' },
+  { code:'3000', name:'Owner Capital', group:'CAPITAL', type:'LEAF' },
+  { code:'3010', name:'Drawings', group:'CAPITAL', type:'LEAF' },
+  { code:'3020', name:'Retained Earnings', group:'CAPITAL', type:'LEAF' },
+  { code:'4000', name:'Sales A/C', group:'INCOME', type:'LEAF' },
+  { code:'4010', name:'Sales Return A/C', group:'INCOME', type:'LEAF' },
+  { code:'4100', name:'Other Income', group:'INCOME', type:'LEAF' },
+  { code:'4200', name:'Commission Income', group:'INCOME', type:'LEAF' },
+  { code:'4300', name:'Discount Received', group:'INCOME', type:'LEAF' },
+  { code:'5000', name:'Purchase A/C', group:'EXPENSE', type:'LEAF' },
+  { code:'5010', name:'Purchase Return A/C', group:'EXPENSE', type:'LEAF' },
+  { code:'5100', name:'Salary', group:'EXPENSE', type:'LEAF' },
+  { code:'5110', name:'Rent', group:'EXPENSE', type:'LEAF' },
+  { code:'5120', name:'Electricity', group:'EXPENSE', type:'LEAF' },
+  { code:'5130', name:'Transport', group:'EXPENSE', type:'LEAF' },
+  { code:'5140', name:'Repair', group:'EXPENSE', type:'LEAF' },
+  { code:'5150', name:'Marketing', group:'EXPENSE', type:'LEAF' },
+  { code:'5160', name:'Bank Charges', group:'EXPENSE', type:'LEAF' },
+  { code:'5170', name:'Discount Allowed', group:'EXPENSE', type:'LEAF' },
+  { code:'5900', name:'General Expense', group:'EXPENSE', type:'LEAF' },
+  { code:'5999', name:'Round-Off', group:'EXPENSE', type:'LEAF' },
+  { code:'6000', name:'COGS', group:'COGS', type:'LEAF' },
   { code:'9999', name:'Opening Balance Suspense', group:'CAPITAL', type:'LEAF' }
 ];
 
-/* ---------- ✅ FIXED: ensureSeeded now adds missing accounts even if DB exists ---------- */
 const AccountService = {
   async ensureSeeded() {
     const existingCodes = new Set((await db.accounts.toArray()).map(a => a.code));
@@ -791,9 +745,6 @@ const AccountService = {
   async isValidAccount(name) { const a = await this.byName(name); return !!(a && a.status === 'ACTIVE' && a.accountType === 'LEAF'); }
 };
 
-/* ═══════════════════════════════════════════════════════════════════════
-   INVENTORY VALUATION (FIFO + WAVG)
-   ═══════════════════════════════════════════════════════════════════════ */
 const InventoryValuation = {
   async getMethod() { const c = await db.configs.get('inventoryMethod'); return (c && c.value) || 'WAVG'; },
   async setMethod(method) { const posted = await db.stock_movements.count(); if (posted > 0) throw new AppError('VALIDATION', 'Cannot change valuation method after stock movements exist'); await db.configs.put({ key: 'inventoryMethod', value: method }); },
@@ -834,9 +785,6 @@ const InventoryValuation = {
   }
 };
 
-/* ═══════════════════════════════════════════════════════════════════════
-   PERIOD SERVICE (LOCK / UNLOCK)
-   ═══════════════════════════════════════════════════════════════════════ */
 const PeriodService = {
   async ensureCurrentYear() { const y = new Date().getFullYear(); const existing = await db.periods.where('year').equals(y).first(); if (existing) return existing; const p = { id: 'PER-' + y, year: y, startDate: `${y}-04-01`, endDate: `${y + 1}-03-31`, status: 'OPEN', createdAt: nowISO() }; await db.periods.add(p); return p; },
   async findContaining(date) { const all = await db.periods.toArray(); return all.find(p => date >= p.startDate && date <= p.endDate) || null; },
@@ -844,9 +792,6 @@ const PeriodService = {
   async unlock(year, reason) { await Guard.requireElevated(PERM.PERMISSION_MANAGE, { module: 'PERIOD' }); const p = await db.periods.where('year').equals(year).first(); if (!p) throw new AppError('NOT_FOUND', 'Period not found'); await db.periods.update(p.id, { status: 'OPEN', unlockedAt: nowISO(), unlockReason: reason }); await Security.log('PERIOD_UNLOCKED', { module:'PERIOD', targetId: p.id, reason, severity:'CRITICAL' }); }
 };
 
-/* ═══════════════════════════════════════════════════════════════════════
-   JOURNAL ENGINE (VALIDATION + ROUND-OFF + REVERSAL)
-   ═══════════════════════════════════════════════════════════════════════ */
 const JournalService = {
   async postInTxn({ refNo, date, type, narration, txnId, entries, sourceModule = 'MANUAL', reversalOf = null }) {
     const period = await PeriodService.findContaining(date);
@@ -890,7 +835,6 @@ const JournalService = {
   }
 };
 
-/* ---------- STOCK + IMEI ---------- */
 const StockService = {
   async getQty(productId, location='MAIN') { const r = await db.stock.where({ productId, location }).first(); return r ? r.qty : 0; },
   async setQty(productId, newQty, location='MAIN') { const r = await db.stock.where({ productId, location }).first(); if (r) await db.stock.update(r.id, { qty: newQty }); else await db.stock.add({ id: UUID(), productId, location, qty: newQty }); },
@@ -925,7 +869,6 @@ const ImeiService = {
   }
 };
 
-/* ---------- USER SERVICE ---------- */
 const UserService = {
   async createFirstAdmin({ user, pass, fullName, mobile, email }) {
     if (await db.users.count() > 0) throw new AppError(ErrCode.VALIDATION, 'System already configured');
@@ -952,7 +895,6 @@ const UserService = {
     if (Array.isArray(data.customPerms) && data.customPerms.length) for (const p of data.customPerms) await db.permissions.add({ id: UUID(), userId: rec.id, perm: p, granted: true });
     Guard.invalidate(rec.id);
     await AuditService.log('USER_CREATED', 'USER', { txnId: rec.id, newValue: { user: rec.user, role: rec.role } });
-    await Security.log('USER_CREATED', { module: 'USER', targetId: rec.id, severity: 'INFO' });
     return rec;
   },
   async updateUser(id, patch) {
@@ -1001,7 +943,6 @@ const UserService = {
   }
 };
 
-/* ---------- PRODUCT + PARTY ---------- */
 const ProductService = {
   async create(data) {
     await Guard.require(PERM.PRODUCT_CREATE, { module: 'PRODUCT' });
@@ -1050,9 +991,6 @@ const PartyService = {
   }
 };
 
-/* ═══════════════════════════════════════════════════════════════════════
-   ✅ SALE SERVICE — FIXED: transaction includes db.accounts, db.configs
-   ═══════════════════════════════════════════════════════════════════════ */
 const SaleService = {
   async post(payload) {
     await Guard.require(PERM.SALE_CREATE, { module: 'SALE' });
@@ -1095,7 +1033,7 @@ const SaleService = {
         const lineTotal = money(taxable + cgst + sgst + igst);
 
         const available = await StockService.getQty(prod.id);
-        if (available < qty) throw new AppError(ErrCode.STOCK_INSUFFICIENT, `Insufficient stock for ${prod.name}`);
+        if (available < qty) throw new AppError(ErrCode.STOCK_INSUFFICIENT, `Insufficient stock for ${prod.name} (need ${qty}, have ${available})`);
 
         const imeiList = raw.imeiList || [];
         if (prod.track) {
@@ -1162,9 +1100,6 @@ const SaleService = {
   }
 };
 
-/* ═══════════════════════════════════════════════════════════════════════
-   ✅ PURCHASE SERVICE — FIXED
-   ═══════════════════════════════════════════════════════════════════════ */
 const PurchaseService = {
   async post(payload) {
     await Guard.require(PERM.PURCHASE_CREATE, { module: 'PURCHASE' });
@@ -1226,1163 +1161,4 @@ const PurchaseService = {
       await db.purchases.add(purchaseRec);
 
       for (const c of computed) {
-        for (let i = 0; i < c.qty; i++) await db.purchase_items.add({ id: UUID(), purchaseId, productId: c.prod.id, name: c.prod.name, qty: 1, rate: c.rate, gst: c.gstPct, amount: money(c.lineTotal / c.qty), imei: c.imeiList[i] || '' });
-        await StockService.move({ productId: c.prod.id, qty: c.qty, txnId, txnType: 'PURCHASE', date: bDate, reason: `Purchased on ${invNo}` });
-        await InventoryValuation.onPurchase(c.prod.id, c.qty, c.rate, txnId);
-        if (c.prod.track) for (const im of c.imeiList) await ImeiService.addInTxn({ productId: c.prod.id, imei1: im, purchaseId, txnId });
-      }
-
-      const je = [{ account: 'Inventory A/C', dr: taxableTotal, cr: 0 }];
-      if (cgstTotal > 0) je.push({ account: 'GST Input CGST', dr: cgstTotal, cr: 0 });
-      if (sgstTotal > 0) je.push({ account: 'GST Input SGST', dr: sgstTotal, cr: 0 });
-      if (igstTotal > 0) je.push({ account: 'GST Input IGST', dr: igstTotal, cr: 0 });
-      je.push({ account: 'Supplier Payable', dr: 0, cr: grandTotal, partyType: 'SUPPLIER', partyId: party.id });
-
-      for (const p of payments) {
-        const amt = Number(p.amount) || 0;
-        if (amt <= 0) continue;
-        const capped = Math.min(amt, grandTotal);
-        const acc = p.mode === 'BANK' ? 'Bank A/C' : p.mode === 'CARD' ? 'Card Receivable' : p.mode === 'UPI' ? 'UPI A/C' : 'Cash A/C';
-        je.push({ account: 'Supplier Payable', dr: capped, cr: 0, partyType: 'SUPPLIER', partyId: party.id });
-        je.push({ account: acc, dr: 0, cr: capped });
-      }
-
-      await JournalService.postInTxn({ refNo: invNo, date: bDate, type: 'PURCHASE', txnId, narration: `Purchase from ${party.name}`, entries: je, sourceModule: 'PURCHASE' });
-      if (due > 0) await db.parties.update(party.id, { outstanding: money((party.outstanding || 0) - due) });
-      await db.sync_queue.add({ id: UUID(), entity: 'purchases', operation: 'INSERT', payload: purchaseRec, txnId, createdAt: nowISO(), retryCount: 0, status: 'PENDING', errorMessage: '' });
-      await AuditService.log('PURCHASE_POSTED', 'PURCHASE', { txnId, invoiceNo: invNo });
-      return { bill: purchaseRec, txnId };
-    });
-  }
-};
-
-/* ═══════════════════════════════════════════════════════════════════════
-   ✅ PAYMENT SERVICE — FIXED
-   ═══════════════════════════════════════════════════════════════════════ */
-const PaymentService = {
-  async post(payload) {
-    await Guard.require(PERM.PAYMENT_CREATE, { module: 'PAYMENT' });
-    const requestId = payload.requestId || ('PAY-' + UUID());
-    const amount = money(Number(payload.amount));
-    if (amount <= 0) throw new AppError(ErrCode.VALIDATION, 'Amount must be positive');
-    if (!payload.party) throw new AppError(ErrCode.VALIDATION, 'Party required');
-
-    return db.transaction('rw', [db.payments, db.parties, db.journals, db.journal_entries, db.audit_logs, db.sync_queue, db.sequences, db.request_log, db.periods, db.accounts], async () => {
-      if (await Idempotency.checkOrRegisterInTxn('PaymentService.post', requestId)) throw new AppError(ErrCode.DUPLICATE_REQUEST, 'Duplicate payment');
-
-      const txnId = 'TXN-PAY-' + UUID();
-      const bDate = payload.date || today();
-      const refNo = await SequenceService.next('VOUCHER');
-      const type = payload.type;
-      const party = type !== 'EXPENSE' ? await db.parties.where('name').equals(payload.party.toUpperCase()).first() : null;
-      if (type !== 'EXPENSE' && !party) throw new AppError(ErrCode.NOT_FOUND, 'Party not found');
-
-      const payId = 'PAY-' + UUID();
-      await db.payments.add({ id: payId, date: bDate, refNo, amount, mode: payload.mode || 'CASH', party: payload.party.toUpperCase(), partyId: party?.id || null, type, narration: payload.narration || '', status:'POSTED', txnId, requestId, createdAt: nowISO() });
-
-      const cashAcc = payload.mode === 'BANK' ? 'Bank A/C' : payload.mode === 'CARD' ? 'Card Receivable' : payload.mode === 'UPI' ? 'UPI A/C' : 'Cash A/C';
-      const je = [];
-      if (type === 'RECEIPT') { je.push({ account: cashAcc, dr: amount, cr: 0 }); je.push({ account: 'Customer Receivable', dr: 0, cr: amount, partyType: 'CUSTOMER', partyId: party.id }); }
-      else if (type === 'PAYMENT') { je.push({ account: 'Supplier Payable', dr: amount, cr: 0, partyType: 'SUPPLIER', partyId: party.id }); je.push({ account: cashAcc, dr: 0, cr: amount }); }
-      else { je.push({ account: 'General Expense', dr: amount, cr: 0 }); je.push({ account: cashAcc, dr: 0, cr: amount }); }
-      await JournalService.postInTxn({ refNo, date: bDate, type, txnId, narration: payload.narration || type, entries: je, sourceModule: 'PAYMENT' });
-
-      if (party) { const delta = type === 'RECEIPT' ? -amount : amount; await db.parties.update(party.id, { outstanding: money((party.outstanding || 0) + delta) }); }
-      await db.sync_queue.add({ id: UUID(), entity: 'payments', operation: 'INSERT', payload: { id: payId, refNo, amount, party: payload.party, type }, txnId, createdAt: nowISO(), retryCount: 0, status: 'PENDING', errorMessage: '' });
-      return { payId, refNo, txnId };
-    });
-  }
-};
-
-/* ═══════════════════════════════════════════════════════════════════════
-   ✅ RETURN SERVICE — FIXED (GST + COGS reversal)
-   ═══════════════════════════════════════════════════════════════════════ */
-const ReturnService = {
-  async post(payload) {
-    const perm = payload.returnType === 'SALES_RETURN' ? PERM.SALE_CREATE : PERM.PURCHASE_CREATE;
-    await Guard.require(perm, { module: 'RETURN' });
-    if (!payload.party) throw new AppError(ErrCode.VALIDATION, 'Party required');
-    if (!payload.originalRef) throw new AppError(ErrCode.VALIDATION, 'Original invoice reference required');
-    if (!payload.items || !payload.items.length) throw new AppError(ErrCode.VALIDATION, 'No items');
-
-    return db.transaction('rw', [db.returns, db.return_items, db.products, db.stock, db.stock_movements, db.cost_layers, db.imei, db.parties, db.journals, db.journal_entries, db.bills, db.bill_items, db.audit_logs, db.sync_queue, db.sequences, db.request_log, db.periods, db.accounts, db.configs], async () => {
-      const requestId = payload.requestId || ('RET-' + UUID());
-      if (await Idempotency.checkOrRegisterInTxn('ReturnService.post', requestId)) throw new AppError(ErrCode.DUPLICATE_REQUEST, 'Return already posted');
-
-      const txnId = 'TXN-RET-' + UUID();
-      const bDate = payload.date || today();
-      const retType = payload.returnType;
-      const refNo = await SequenceService.next(retType);
-
-      const party = await db.parties.where('name').equals(payload.party.toUpperCase()).first();
-      if (!party) throw new AppError(ErrCode.NOT_FOUND, 'Party not found');
-
-      const origBill = await db.bills.where('invNo').equals(payload.originalRef).first();
-      const origItems = origBill ? await db.bill_items.where('billId').equals(origBill.id).toArray() : [];
-
-      let subtotal = 0, taxableTotal = 0, cgstTotal = 0, sgstTotal = 0, igstTotal = 0;
-      let grandTotal = 0, cogsReversal = 0;
-      const computed = [];
-
-      for (const raw of payload.items) {
-        const prod = await db.products.get(raw.productId);
-        if (!prod) throw new AppError(ErrCode.NOT_FOUND, `Product not found: ${raw.name}`);
-        const qty = Math.max(1, Number(raw.qty) || 1);
-        const rate = Number(raw.rate) || (retType === 'SALES_RETURN' ? prod.sale : prod.pur);
-        const gstPct = raw.gst !== undefined ? Number(raw.gst) : prod.gst;
-        const origLine = origItems.find(oi => oi.productId === prod.id);
-        const origGst = origLine ? Number(origLine.gst) : gstPct;
-        const isInterState = raw.igst === true;
-
-        const gross = money(rate * qty);
-        let disc = 0;
-        if (raw.discountPct) disc = money(gross * Number(raw.discountPct) / 100);
-        else if (raw.discount) disc = money(Number(raw.discount));
-        const taxable = money(gross - disc);
-        const cgst = isInterState ? 0 : money(taxable * (origGst / 2) / 100);
-        const sgst = isInterState ? 0 : money(taxable * (origGst / 2) / 100);
-        const igst = isInterState ? money(taxable * origGst / 100) : 0;
-        const lineTotal = money(taxable + cgst + sgst + igst);
-
-        const origUnitCost = origLine ? Number(origLine.cogs) : Number(prod.avgCost) || Number(prod.pur) || 0;
-        let lineCogs = 0;
-        if (retType === 'SALES_RETURN') lineCogs = await InventoryValuation.restoreForReturn(prod.id, qty, origUnitCost);
-        else { const avg = Number(prod.avgCost) || Number(prod.pur) || 0; lineCogs = money(avg * qty); }
-
-        subtotal = money(subtotal + gross); taxableTotal = money(taxableTotal + taxable);
-        cgstTotal = money(cgstTotal + cgst); sgstTotal = money(sgstTotal + sgst); igstTotal = money(igstTotal + igst);
-        grandTotal = money(grandTotal + lineTotal); cogsReversal = money(cogsReversal + lineCogs);
-        computed.push({ prod, qty, rate, gstPct: origGst, disc, gross, taxable, cgst, sgst, igst, lineTotal, lineCogs, imeiList: raw.imeiList || [] });
-      }
-
-      const returnId = 'RET-' + UUID();
-      await db.returns.add({ id: returnId, refNo, date: bDate, type: retType, party: party.name, partyId: party.id, originalBillId: origBill?.id || null, originalRef: payload.originalRef, items: computed.map(c => ({ name: c.prod.name, rate: c.rate, qty: c.qty, gst: c.gstPct, discount: c.disc, imei: c.imeiList.join(', '), amt: c.lineTotal })), basic: taxableTotal, gross: subtotal, discount: money(subtotal - taxableTotal), cgst: cgstTotal, sgst: sgstTotal, igst: igstTotal, gst: money(cgstTotal + sgstTotal + igstTotal), total: grandTotal, cogs: cogsReversal, status: 'POSTED', requestId, txnId, createdAt: nowISO(), createdBy: currentUser.id });
-
-      for (const c of computed) {
-        for (let i = 0; i < c.qty; i++) await db.return_items.add({ id: UUID(), returnId, productId: c.prod.id, name: c.prod.name, qty: 1, rate: c.rate, gst: c.gstPct, amount: money(c.lineTotal / c.qty), cogs: money(c.lineCogs / c.qty), imei: c.imeiList[i] || '' });
-        const delta = retType === 'SALES_RETURN' ? +c.qty : -c.qty;
-        await StockService.move({ productId: c.prod.id, qty: delta, txnId, txnType: retType, date: bDate, reason: `Return ref ${payload.originalRef}` });
-        for (const im of c.imeiList) { const r = await db.imei.where('imei1').equals(String(im).toUpperCase()).first(); if (r) { if (retType === 'SALES_RETURN') await db.imei.update(r.id, { status: 'IN_STOCK', billId: '', returnedAt: nowISO() }); else await db.imei.update(r.id, { status: 'RETURNED', returnedAt: nowISO() }); } }
-      }
-
-      const partyDelta = retType === 'SALES_RETURN' ? -grandTotal : grandTotal;
-      await db.parties.update(party.id, { outstanding: money((party.outstanding || 0) + partyDelta) });
-
-      const je = [];
-      if (retType === 'SALES_RETURN') {
-        je.push({ account: 'Sales Return A/C', dr: taxableTotal, cr: 0, partyType: 'CUSTOMER', partyId: party.id });
-        if (cgstTotal > 0) je.push({ account: 'GST Output CGST', dr: cgstTotal, cr: 0 });
-        if (sgstTotal > 0) je.push({ account: 'GST Output SGST', dr: sgstTotal, cr: 0 });
-        if (igstTotal > 0) je.push({ account: 'GST Output IGST', dr: igstTotal, cr: 0 });
-        je.push({ account: 'Inventory A/C', dr: cogsReversal, cr: 0 });
-        je.push({ account: 'COGS', dr: 0, cr: cogsReversal });
-        je.push({ account: 'Customer Receivable', dr: 0, cr: grandTotal, partyType: 'CUSTOMER', partyId: party.id });
-      } else {
-        je.push({ account: 'Supplier Payable', dr: grandTotal, cr: 0, partyType: 'SUPPLIER', partyId: party.id });
-        je.push({ account: 'Inventory A/C', dr: 0, cr: taxableTotal });
-        if (cgstTotal > 0) je.push({ account: 'GST Input CGST', dr: 0, cr: cgstTotal });
-        if (sgstTotal > 0) je.push({ account: 'GST Input SGST', dr: 0, cr: sgstTotal });
-        if (igstTotal > 0) je.push({ account: 'GST Input IGST', dr: 0, cr: igstTotal });
-        je.push({ account: 'Purchase Return A/C', dr: 0, cr: taxableTotal });
-      }
-
-      await JournalService.postInTxn({ refNo, date: bDate, type: retType, txnId, narration: `Return for ${payload.originalRef}`, entries: je, sourceModule: 'RETURN' });
-      await db.sync_queue.add({ id: UUID(), entity: 'returns', operation: 'INSERT', payload: { id: returnId, refNo, total: grandTotal, party: party.name, type: retType }, txnId, createdAt: nowISO(), retryCount: 0, status: 'PENDING', errorMessage: '' });
-      await AuditService.log('RETURN_POSTED', 'RETURN', { txnId, invoiceNo: refNo });
-
-      return { bill: { id: returnId, invNo: refNo, refNo, date: bDate, party: party.name, items: computed.map(c => ({ name: c.prod.name, rate: c.rate, qty: c.qty, gst: c.gstPct, imei: c.imeiList.join(', '), amt: c.lineTotal })), basic: taxableTotal, gst: money(cgstTotal + sgstTotal + igstTotal), total: grandTotal, paid: 0, due: 0, type: retType, mobile: party.mobile || '' }, txnId };
-    });
-  }
-};
-
-/* ---------- PARTY LEDGER + PAYMENT ALLOCATION + REPORTS ---------- */
-const PartyLedgerService = {
-  async getStatement(partyId, fromDate, toDate) {
-    const party = await db.parties.get(partyId);
-    if (!party) throw new AppError('NOT_FOUND', 'Party not found');
-    const entries = await db.journal_entries.where('partyId').equals(partyId).toArray();
-    const journals = await db.journals.toArray();
-    const jMap = Object.fromEntries(journals.map(j => [j.id, j]));
-    let rows = entries.map(e => ({ date: jMap[e.journalId]?.date, voucher: jMap[e.journalId]?.refNo, type: jMap[e.journalId]?.type, particulars: e.account + (e.narration ? ` — ${e.narration}` : ''), narration: jMap[e.journalId]?.narration || '', dr: Number(e.dr) || 0, cr: Number(e.cr) || 0, account: e.account, journalId: e.journalId })).filter(r => r.date);
-    if (fromDate) rows = rows.filter(r => r.date >= fromDate);
-    if (toDate) rows = rows.filter(r => r.date <= toDate);
-    rows.sort((a, b) => (a.date || '').localeCompare(b.date || ''));
-    let balance = Number(party.openingBalance) || 0;
-    const drSign = party.type === 'CUSTOMER' ? 1 : -1;
-    for (const r of rows) { balance += drSign * (r.dr - r.cr); r.balance = money(balance); }
-    return { party, opening: Number(party.openingBalance) || 0, rows, closing: money(balance) };
-  }
-};
-
-const PaymentAllocationService = {
-  async allocate(receiptJournalId, invoiceJournalId, amount) { await db.payment_allocations.add({ id: UUID(), receiptJournalId, invoiceJournalId, amount: money(amount), allocatedAt: nowISO(), allocatedBy: currentUser?.id }); },
-  async ageing(partyType, asOfDate) {
-    asOfDate = asOfDate || today();
-    const parties = await db.parties.where('type').equals(partyType).toArray();
-    const allocs = await db.payment_allocations.toArray();
-    const result = [];
-    for (const p of parties) {
-      const bills = await db.bills.where('partyId').equals(p.id).filter(b => b.type === (partyType === 'CUSTOMER' ? 'SALE' : 'PURCHASE')).toArray();
-      const buckets = { '0-30': 0, '31-60': 0, '61-90': 0, '90+': 0 };
-      let total = 0;
-      for (const b of bills) {
-        const allocated = allocs.filter(a => a.invoiceJournalId === b.txnId).reduce((s, a) => s + (Number(a.amount) || 0), 0);
-        const outstanding = money(Number(b.total) - (Number(b.paid) || 0) - allocated);
-        if (outstanding <= 0) continue;
-        const days = Math.floor((new Date(asOfDate) - new Date(b.date)) / 86400000);
-        const key = days <= 30 ? '0-30' : days <= 60 ? '31-60' : days <= 90 ? '61-90' : '90+';
-        buckets[key] += outstanding; total += outstanding;
-      }
-      if (total > 0) result.push({ party: p, buckets, total });
-    }
-    return result;
-  }
-};
-
-const ReportService = {
-  async trialBalance(fromDate, toDate) {
-    const entries = await db.journal_entries.toArray();
-    const journals = await db.journals.toArray();
-    const jMap = Object.fromEntries(journals.map(j => [j.id, j]));
-    const acc = {};
-    for (const e of entries) {
-      const j = jMap[e.journalId]; if (!j) continue;
-      if (fromDate && j.date < fromDate) continue;
-      if (toDate && j.date > toDate) continue;
-      acc[e.account] = acc[e.account] || { dr: 0, cr: 0 };
-      acc[e.account].dr += Number(e.dr) || 0;
-      acc[e.account].cr += Number(e.cr) || 0;
-    }
-    const rows = Object.entries(acc).map(([name, v]) => ({ account: name, dr: money(v.dr), cr: money(v.cr), net: money(v.dr - v.cr) }));
-    const totalDr = money(rows.reduce((s, r) => s + r.dr, 0));
-    const totalCr = money(rows.reduce((s, r) => s + r.cr, 0));
-    return { rows, totalDr, totalCr, balanced: Math.abs(totalDr - totalCr) < 0.5 };
-  },
-  async profitAndLoss(fromDate, toDate) {
-    const tb = await this.trialBalance(fromDate, toDate);
-    const accounts = await db.accounts.toArray();
-    const aMap = Object.fromEntries(accounts.map(a => [a.name, a]));
-    const byGroup = {};
-    for (const r of tb.rows) { const a = aMap[r.account]; if (!a) continue; byGroup[a.group] = byGroup[a.group] || { dr: 0, cr: 0 }; byGroup[a.group].dr += r.dr; byGroup[a.group].cr += r.cr; }
-    const salesCr = (byGroup.INCOME?.cr || 0);
-    const salesDr = (byGroup.INCOME?.dr || 0);
-    const sales = money(salesCr - salesDr);
-    const cogs = money((byGroup.COGS?.dr || 0) - (byGroup.COGS?.cr || 0));
-    const grossProfit = money(sales - cogs);
-    const opex = money((byGroup.EXPENSE?.dr || 0) - (byGroup.EXPENSE?.cr || 0));
-    const netProfit = money(grossProfit - opex);
-    return { sales, cogs, grossProfit, opex, netProfit };
-  },
-  async balanceSheet(asOfDate) {
-    const tb = await this.trialBalance(null, asOfDate);
-    const accounts = await db.accounts.toArray();
-    const aMap = Object.fromEntries(accounts.map(a => [a.name, a]));
-    const byGroup = {};
-    for (const r of tb.rows) { const a = aMap[r.account]; if (!a) continue; byGroup[a.group] = byGroup[a.group] || { accounts: [], dr: 0, cr: 0 }; byGroup[a.group].accounts.push({ ...r, group: a.group }); byGroup[a.group].dr += r.dr; byGroup[a.group].cr += r.cr; }
-    const assets = money((byGroup.ASSET?.dr || 0) - (byGroup.ASSET?.cr || 0));
-    const liabilities = money((byGroup.LIABILITY?.cr || 0) - (byGroup.LIABILITY?.dr || 0));
-    const capital = money((byGroup.CAPITAL?.cr || 0) - (byGroup.CAPITAL?.dr || 0));
-    const pnl = await this.profitAndLoss(null, asOfDate);
-    const totalLiabCap = money(liabilities + capital + pnl.netProfit);
-    return { assets, liabilities, capital, currentProfit: pnl.netProfit, totalLiabCap, balanced: Math.abs(assets - totalLiabCap) < 0.5, groups: byGroup };
-  }
-};
-
-/* ---------- ELEVATION / HEALTH / BACKUP / SYNC ---------- */
-const ElevationService = {
-  pending: null,
-  request(perm, reason, payload) { return new Promise((resolve, reject) => { this.pending = { perm, reason, payload, resolve, reject }; document.getElementById('elevate-reason-label').innerText = `Requested: ${perm} — re-enter password.`; document.getElementById('elevate-pass').value = ''; document.getElementById('elevate-reason').value = reason || ''; document.getElementById('elevate-modal').classList.remove('hidden'); setTimeout(() => document.getElementById('elevate-pass').focus(), 150); }); },
-  async confirm() {
-    if (!this.pending) return;
-    const pass = document.getElementById('elevate-pass').value;
-    const reason = document.getElementById('elevate-reason').value.trim();
-    if (!pass) return UI.toast('Password required', '', 'error');
-    if (!reason) return UI.toast('Reason required', '', 'error');
-    const rec = await db.users.get(currentUser.id);
-    if (!(await Crypto.verifyPassword(pass, rec))) { await Security.log('ELEVATION_FAILED', { module: 'AUTH', severity: 'WARN', reason: 'Wrong password' }); return UI.toast('Denied', 'Incorrect password', 'error'); }
-    elevatedUntil = Date.now() + 5 * 60 * 1000;
-    await Security.log('ELEVATION_GRANTED', { module: 'AUTH', reason, details: { perm: this.pending.perm } });
-    document.getElementById('elevate-modal').classList.add('hidden');
-    const { resolve, payload } = this.pending; this.pending = null;
-    resolve({ ...payload, _elevatedReason: reason });
-  },
-  cancel() { if (this.pending) { this.pending.reject(new AppError(ErrCode.CANCELLED, 'Cancelled')); this.pending = null; } document.getElementById('elevate-modal').classList.add('hidden'); }
-};
-
-const HealthService = {
-  async run() {
-    const r = [];
-    try {
-      const entries = await db.journal_entries.toArray();
-      const dr = money(entries.reduce((s, e) => s + (Number(e.dr) || 0), 0));
-      const cr = money(entries.reduce((s, e) => s + (Number(e.cr) || 0), 0));
-      r.push({ check: 'Journal Dr = Cr', status: Math.abs(dr - cr) < 0.5 ? 'PASS' : 'FAIL', detail: `Dr ${dr} / Cr ${cr}` });
-      const prods = await db.products.toArray();
-      const moves = await db.stock_movements.toArray();
-      let mm = 0;
-      for (const p of prods) { const sum = moves.filter(m => m.productId === p.id).reduce((s, m) => s + (Number(m.qty) || 0), 0); const row = await db.stock.where({ productId: p.id, location: 'MAIN' }).first(); if (Math.abs(sum - (row?.qty || 0)) > 0.5) mm++; }
-      r.push({ check: 'Stock vs Movements', status: mm === 0 ? 'PASS' : 'WARN', detail: `${mm} mismatch` });
-      const stocks = await db.stock.toArray();
-      r.push({ check: 'No negative stock', status: stocks.every(s => s.qty >= 0) ? 'PASS' : 'FAIL', detail: stocks.filter(s => s.qty < 0).length + ' negative' });
-      const imeis = await db.imei.toArray();
-      const iset = new Set(), dup = [];
-      for (const x of imeis) if (x.imei1) { if (iset.has(x.imei1)) dup.push(x.imei1); else iset.add(x.imei1); }
-      r.push({ check: 'Unique IMEIs', status: dup.length === 0 ? 'PASS' : 'FAIL', detail: `${dup.length} dup` });
-      const layers = await db.cost_layers.toArray();
-      const negLayer = layers.filter(l => l.qtyRemaining < 0).length;
-      r.push({ check: 'Cost layers sane', status: negLayer === 0 ? 'PASS' : 'FAIL', detail: `${negLayer} negative` });
-      const sessions = await db.sessions.toArray();
-      r.push({ check: 'Active Sessions', status: 'INFO', detail: sessions.filter(s => s.status === 'ACTIVE' && new Date(s.expiryTime).getTime() > Date.now()).length });
-      r.push({ check: 'Locked Accounts', status: 'INFO', detail: (await db.users.toArray()).filter(u => u.status === 'LOCKED').length });
-      const periods = await db.periods.toArray();
-      r.push({ check: 'Financial Periods', status: 'INFO', detail: periods.map(p => `${p.year}:${p.status}`).join(', ') || 'none' });
-      return r;
-    } catch (e) { return [...r, { check: 'Health crashed', status: 'ERROR', detail: String(e.message || e) }]; }
-  }
-};
-
-const BackupService = {
-  async exportAll() {
-    await Guard.require(PERM.BACKUP_CREATE, { module: 'BACKUP' });
-    const tableNames = ['users','roles','permissions','products','parties','bills','bill_items','purchases','purchase_items','returns','return_items','payments','payment_allocations','journals','journal_entries','stock','stock_movements','cost_layers','imei','accounts','periods','audit_logs','security_events','sync_queue','sequences','settings','configs','finance'];
-    const tables = {};
-    for (const t of tableNames) tables[t] = await db.table(t).toArray();
-    const meta = { schemaVersion: 6, databaseVersion: DB_VERSION, applicationVersion: '9.0.6', timestamp: nowISO(), createdBy: currentUser?.user || 'system', counts: Object.fromEntries(Object.entries(tables).map(([k, v]) => [k, v.length])) };
-    const body = JSON.stringify({ meta, tables });
-    const checksum = await Crypto.sha256Hex(body);
-    await Security.log('BACKUP_CREATED', { module: 'BACKUP', reason: `Checksum ${checksum.slice(0, 12)}` });
-    return { ...meta, checksum, tables };
-  },
-  async validate(backup) {
-    const errs = [];
-    if (!backup || typeof backup !== 'object') errs.push('Not an object');
-    if (!backup.schemaVersion) errs.push('Missing schemaVersion');
-    if (backup.schemaVersion > DB_VERSION) errs.push(`Backup v${backup.schemaVersion} > app v${DB_VERSION}`);
-    if (!backup.tables) errs.push('Missing tables');
-    if (backup.tables) for (const [n, rows] of Object.entries(backup.tables)) { if (!Array.isArray(rows)) { errs.push(`Table ${n} not array`); continue; } const ids = rows.map(r => r.id || r.key).filter(Boolean); const dup = ids.filter((v, i, a) => a.indexOf(v) !== i); if (dup.length) errs.push(`Table ${n} has ${dup.length} dup IDs`); }
-    return { valid: errs.length === 0, errors: errs };
-  },
-  async restore(backup, reason) {
-    await Guard.requireElevated(PERM.BACKUP_RESTORE, { module: 'BACKUP' });
-    const v = await this.validate(backup);
-    if (!v.valid) throw new AppError(ErrCode.VALIDATION, 'Backup validation failed: ' + v.errors.join('; '));
-    const snapshot = await this.exportAll();
-    try {
-      const tablesToRestore = Object.keys(backup.tables).map(n => db[n]).filter(Boolean);
-      await db.transaction('rw', tablesToRestore, async () => { for (const [n, rows] of Object.entries(backup.tables)) { if (!db[n]) continue; if (n === 'audit_logs' || n === 'security_events') continue; await db[n].clear(); if (rows.length) await db[n].bulkAdd(rows); } });
-      await Security.log('BACKUP_RESTORED', { module: 'BACKUP', reason, severity: 'CRITICAL' });
-    } catch (e) {
-      console.error('Restore failed, rolling back…', e);
-      try { const allTables = Object.keys(snapshot.tables).map(n => db[n]).filter(Boolean); await db.transaction('rw', allTables, async () => { for (const [n, rows] of Object.entries(snapshot.tables)) { if (!db[n]) continue; if (n === 'audit_logs' || n === 'security_events') continue; await db[n].clear(); if (rows.length) await db[n].bulkAdd(rows); } }); } catch (re) { console.error('Rollback failed:', re); }
-      throw new AppError(ErrCode.DB_ERROR, 'Restore failed & rolled back');
-    }
-  }
-};
-
-const SyncService = {
-  async updateBadge() { try { const n = await db.sync_queue.where('status').equals('PENDING').count(); const b = document.getElementById('sync-badge'); if (b) b.textContent = `(${n})`; } catch {} },
-  async flush() {
-    if (!sysSettings.gas) return { uploaded: 0, failed: 0, reason: 'no-url' };
-    const list = await db.sync_queue.where('status').equals('PENDING').toArray();
-    let ok = 0, bad = 0;
-    for (const rec of list) {
-      try {
-        await db.sync_queue.update(rec.id, { status: 'SYNCING', lastAttempt: nowISO() });
-        const res = await fetch(sysSettings.gas, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: 'sync', entity: rec.entity, operation: rec.operation, payload: rec.payload, txnId: rec.txnId }) });
-        const j = await res.json().catch(() => ({}));
-        if (j.status === 'success') { await db.sync_queue.update(rec.id, { status: 'SYNCED' }); ok++; } else throw new Error(j.message || 'Server rejected');
-      } catch (e) { await db.sync_queue.update(rec.id, { status: 'FAILED', errorMessage: String(e.message || e), retryCount: (rec.retryCount || 0) + 1 }); bad++; }
-    }
-    await this.updateBadge();
-    return { uploaded: ok, failed: bad };
-  }
-};
-
-/* ═══════════════════════════════════════════════════════════════════════
-   UI LAYER
-   ═══════════════════════════════════════════════════════════════════════ */
-const UI = {
-  toast(title, msg, type = 'success') {
-    const c = document.getElementById('toast-container');
-    const t = document.createElement('div');
-    t.className = `glass-panel p-3 flex items-start gap-3 border-l-4 ${type === 'error' ? 'border-rose-500' : type === 'warning' ? 'border-amber-500' : 'border-emerald-500'} toast-enter bg-white max-w-sm pointer-events-auto`;
-    t.innerHTML = `<div class="text-xl">${type === 'error' ? '❌' : type === 'warning' ? '⚠️' : '✅'}</div><div><h4 class="font-black text-[10px] uppercase text-slate-800">${esc(title)}</h4><p class="text-[10px] font-bold text-slate-500 mt-0.5">${esc(msg)}</p></div>`;
-    c.appendChild(t);
-    setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 300); }, 4000);
-  },
-  pwMeter(inputId, meterId) { const pw = document.getElementById(inputId).value; const s = PasswordPolicy.score(pw); const m = document.getElementById(meterId); if (!m) return; const colors = ['#e2e8f0','#ef4444','#f59e0b','#eab308','#84cc16','#10b981']; m.style.width = (s * 20) + '%'; m.style.background = colors[s]; },
-  showSetup() { document.getElementById('setup-company-name').innerText = sysSettings.company; document.getElementById('setup-logo-box').innerText = sysSettings.company.charAt(0); document.getElementById('setup-screen').classList.remove('hidden'); setTimeout(() => document.getElementById('setup-user').focus(), 200); },
-  showLogin() { document.getElementById('login-company-name').innerText = sysSettings.company; document.getElementById('login-logo-box').innerText = sysSettings.company.charAt(0); document.getElementById('login-screen').classList.remove('hidden'); setTimeout(() => document.getElementById('login-user').focus(), 200); },
-  async executeSetup() {
-    try {
-      if (!document.getElementById('setup-agree').checked) return this.toast('Required', 'Acknowledge warning', 'error');
-      const user = await UserService.createFirstAdmin({ user: document.getElementById('setup-user').value.trim(), pass: document.getElementById('setup-pass').value, fullName: document.getElementById('setup-fullname').value.trim(), mobile: document.getElementById('setup-mobile').value.trim() });
-      await Security.log('USER_CREATED', { module: 'AUTH', targetId: user.id, details: { role: 'SUPER_ADMIN' }, severity: 'CRITICAL' });
-      await this._finishLogin(user);
-      this.toast('Setup complete', `Welcome, ${user.user}`);
-    } catch (e) { this.toast('Setup failed', e.message, 'error'); }
-  },
-  async executeLogin() {
-    const errBox = document.getElementById('login-error');
-    errBox.classList.add('hidden');
-    const btn = document.getElementById('btn-login');
-    btn.disabled = true; btn.innerText = '⏳ Verifying…';
-    try {
-      const u = document.getElementById('login-user').value.trim();
-      const p = document.getElementById('login-pass').value;
-      if (!u || !p) throw new AppError('VALIDATION', 'Enter username and password');
-      const res = await UserService.authenticate(u, p);
-      if (!res.ok) {
-        let msg = 'Invalid credentials';
-        if (res.reason === 'ACCOUNT_LOCKED') msg = `Account locked. Try again in ${sysSettings.lockMinutes} min.`;
-        if (res.reason === 'ACCOUNT_DISABLED') msg = 'Account disabled.';
-        if (res.attempts) msg += ` (${res.attempts}/${res.maxAttempts})`;
-        errBox.innerText = msg; errBox.classList.remove('hidden');
-        throw new AppError('AUTH', msg);
-      }
-      document.getElementById('login-pass').value = '';
-      await Security.log('LOGIN_SUCCESS', { module: 'AUTH', targetId: res.user.id });
-      await this._finishLogin(res.user);
-      this.toast('Welcome', `Logged in as ${res.user.role}`);
-    } catch (e) { if (e.message !== 'AUTH') this.toast('Login failed', e.message, 'error'); }
-    finally { btn.disabled = false; btn.innerText = 'Verify Identity'; }
-  },
-  async _finishLogin(user) {
-    currentUser = user;
-    currentSession = await SessionService.create(user);
-    sessionStorage.setItem('sre_session_id', currentSession.id);
-    sessionStorage.setItem('sre_user_id', user.id);
-    document.getElementById('setup-screen').classList.add('hidden');
-    document.getElementById('login-screen').classList.add('hidden');
-    document.getElementById('user-role-text').innerText = user.role;
-    document.getElementById('user-avatar').innerText = (user.user || 'U').charAt(0).toUpperCase();
-    await AuditService.log('LOGIN', 'AUTH', { txnId: currentSession.id });
-    await this.bootstrap();
-    this.startSessionTimers();
-  },
-  startSessionTimers() {
-    if (sessionTimerHandle) clearInterval(sessionTimerHandle);
-    sessionTimerHandle = setInterval(async () => {
-      const s = await SessionService.validate(currentSession.id);
-      if (!s) { this.toast('Session expired', 'Logging out…', 'warning'); setTimeout(executeLogout, 1500); return; }
-      const remaining = Math.max(0, new Date(s.expiryTime).getTime() - Date.now());
-      const m = Math.floor(remaining / 60000), sec = Math.floor((remaining % 60000) / 1000);
-      const el = document.getElementById('session-timer');
-      if (el) el.innerText = `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
-      if (remaining < 5 * 60 * 1000 && remaining > 0 && !document.getElementById('session-warning-container').dataset.shown) {
-        document.getElementById('session-warning-container').dataset.shown = '1';
-        document.getElementById('session-warning-container').innerHTML = `<div class="session-warning">⏱ Session expires in ${m}m ${sec}s. <button onclick="UI.extendSession()" class="ml-2 underline font-black">Extend</button></div>`;
-      }
-    }, 1000);
-    const resetIdle = async () => {
-      await SessionService.touch(currentSession.id);
-      document.getElementById('session-warning-container').innerHTML = '';
-      delete document.getElementById('session-warning-container').dataset.shown;
-      if (inactivityHandle) clearTimeout(inactivityHandle);
-      inactivityHandle = setTimeout(async () => { this.toast('Auto-logout', 'Inactivity', 'warning'); await Security.log('SESSION_IDLE_TIMEOUT', { module: 'AUTH' }); executeLogout(); }, sysSettings.idleTimeoutMin * 60 * 1000);
-    };
-    if (!activityBound) { ['click','keypress','mousemove','touchstart'].forEach(ev => document.addEventListener(ev, resetIdle, { passive: true })); activityBound = true; }
-    resetIdle();
-  },
-  extendSession() { SessionService.touch(currentSession.id); document.getElementById('session-warning-container').innerHTML = ''; delete document.getElementById('session-warning-container').dataset.shown; this.toast('Extended', 'Session extended'); },
-  async bootstrap() {
-    try {
-      this.applyBranding();
-      await this.buildSidebar();
-      await this.renderProducts();
-      await this.renderParties();
-      await this.loadDashboard('TODAY');
-      await SyncService.updateBadge();
-      this.showView('dashboard');
-    } catch (e) { console.error(e); this.toast('Bootstrap', e.message, 'error'); }
-  },
-  applyBranding() {
-    const set = (id, v) => { const e = document.getElementById(id); if (e) e.innerText = v; };
-    set('header-company-name', sysSettings.company);
-    set('sidebar-company-name', sysSettings.company);
-    set('header-logo-box', sysSettings.company.charAt(0));
-    set('sidebar-logo-box', sysSettings.company.charAt(0));
-    set('app-window-title', sysSettings.company + ' - ERP');
-    const h = document.getElementById('app-header'); if (h) h.style.background = sysSettings.theme;
-    const s = document.getElementById('app-sidebar'); if (s) s.style.background = sysSettings.theme;
-    const keys = ['company','phone','gstin','address','prefix','theme','gas'];
-    ['set-company','set-phone','set-gstin','set-address','set-prefix','set-theme','set-gas'].forEach((id, i) => { const e = document.getElementById(id); if (e) e.value = sysSettings[keys[i]] || ''; });
-  },
-  async saveAdminSettings() {
-    try {
-      await Guard.require(PERM.PERMISSION_MANAGE, { module: 'ADMIN' });
-      sysSettings.company = document.getElementById('set-company').value.trim();
-      sysSettings.phone = document.getElementById('set-phone').value.trim();
-      sysSettings.gstin = document.getElementById('set-gstin').value.trim();
-      sysSettings.address = document.getElementById('set-address').value.trim();
-      sysSettings.prefix = document.getElementById('set-prefix').value.trim();
-      sysSettings.theme = document.getElementById('set-theme').value;
-      sysSettings.gas = document.getElementById('set-gas').value.trim();
-      await db.configs.put({ key: 'sysSettings', value: sysSettings });
-      this.applyBranding();
-      await AuditService.log('SETTINGS_UPDATED', 'ADMIN', { newValue: sysSettings });
-      this.toast('Saved', 'Branding updated');
-    } catch (e) { this.toast('Denied', e.message, 'error'); }
-  },
-  async buildSidebar() {
-    const c = document.getElementById('sidebar-menu-container'); if (!c) return;
-    const items = [];
-    items.push({ sec: 'MAIN' }, { label: 'Dashboard', icon: '📊', view: 'dashboard' });
-    items.push({ sec: 'TRANSACTIONS' });
-    if (await Guard.has(PERM.SALE_CREATE)) items.push({ label: 'Sales', icon: '🛒', cls: 'text-blue-400', fn: "UI.startBill('SALE')", id: 'nav-sale' });
-    if (await Guard.has(PERM.PURCHASE_CREATE)) items.push({ label: 'Purchase', icon: '📦', cls: 'text-emerald-400', fn: "UI.startBill('PURCHASE')", id: 'nav-purchase' });
-    if (await Guard.has(PERM.SALE_CREATE)) items.push({ label: 'Sales Return', icon: '↩️', cls: 'text-rose-400', fn: "UI.startBill('SALES_RETURN')", id: 'nav-sreturn' });
-    if (await Guard.has(PERM.PURCHASE_CREATE)) items.push({ label: 'Purch Return', icon: '↪️', cls: 'text-teal-400', fn: "UI.startBill('PURCHASE_RETURN')", id: 'nav-preturn' });
-    if (await Guard.has(PERM.PAYMENT_CREATE)) {
-      items.push({ label: 'Receipt', icon: '📥', cls: 'text-teal-400', fn: "UI.startPayment('IN')", id: 'nav-receipt' });
-      items.push({ label: 'Payment', icon: '📤', cls: 'text-rose-400', fn: "UI.startPayment('OUT')", id: 'nav-payment-out' });
-    }
-    items.push({ sec: 'MASTER' });
-    if (await Guard.has(PERM.PRODUCT_VIEW)) items.push({ label: 'Inventory', icon: '🏷️', cls: 'text-amber-400', view: 'product' });
-    if (await Guard.has(PERM.PARTY_VIEW)) items.push({ label: 'Parties', icon: '👥', cls: 'text-purple-400', view: 'party' });
-    items.push({ sec: 'ACCOUNTS' });
-    if (await Guard.has(PERM.ACCOUNTING_VIEW)) items.push({ label: 'Ledger', icon: '📒', cls: 'text-indigo-400', view: 'ledger' });
-    if (await Guard.has(PERM.REPORT_VIEW)) items.push({ label: 'Reports', icon: '📈', cls: 'text-cyan-400', view: 'reports' });
-    if (await Guard.has(PERM.SECURITY_VIEW)) items.push({ label: 'Security Center', icon: '🛡️', cls: 'text-rose-400', view: 'security' });
-    if (await Guard.has(PERM.PERMISSION_MANAGE)) items.push({ label: 'Admin', icon: '👑', cls: 'text-rose-500', view: 'admin' });
-    let h = '';
-    for (const it of items) { if (it.sec) { h += `<p class="sidebar-category">${it.sec}</p>`; continue; } const idAttr = it.id ? `id="${it.id}"` : ''; const onclick = it.fn ? it.fn : `UI.showView('${it.view}')`; h += `<button onclick="${onclick}" class="sidebar-btn" ${idAttr}><span class="text-lg ${it.cls || ''}">${it.icon}</span> ${it.label}</button>`; }
-    c.innerHTML = h;
-  },
-  async showView(name) {
-    const permMap = { admin: PERM.PERMISSION_MANAGE, security: PERM.SECURITY_VIEW, product: PERM.PRODUCT_VIEW, party: PERM.PARTY_VIEW, ledger: PERM.ACCOUNTING_VIEW, reports: PERM.REPORT_VIEW };
-    if (permMap[name] && !(await Guard.has(permMap[name]))) return this.toast('Denied', 'Permission required', 'error');
-    document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
-    const v = document.getElementById('view-' + name);
-    if (v) v.classList.remove('hidden');
-    if (['new-bill','payment','invoice','dashboard','security','admin','product','party','ledger','reports'].includes(name) && v) v.classList.add('flex');
-    document.querySelectorAll('.sidebar-btn').forEach(el => el.classList.remove('active'));
-    let navId = 'nav-' + name;
-    if (name === 'new-bill') navId = UIState.currentMode === 'SALE' ? 'nav-sale' : UIState.currentMode === 'PURCHASE' ? 'nav-purchase' : UIState.currentMode === 'SALES_RETURN' ? 'nav-sreturn' : 'nav-preturn';
-    if (name === 'payment') navId = UIState.currentPaymentType === 'IN' ? 'nav-receipt' : 'nav-payment-out';
-    const n = document.getElementById(navId); if (n) n.classList.add('active');
-    const titles = { dashboard:'ANALYTICS', product:'INVENTORY', party:'PARTIES', ledger:'LEDGER', reports:'REPORTS', admin:'SYSTEM CONTROL', security:'SECURITY CENTER', 'new-bill': UIState.currentMode + ' ENTRY', payment:'VOUCHER', invoice:'INVOICE' };
-    const t = document.getElementById('header-module-title'); if (t) t.innerText = titles[name] || name.toUpperCase();
-    if (name === 'dashboard') this.loadDashboard('TODAY');
-    if (name === 'ledger' || name === 'reports') this.updateLedgerView();
-    if (name === 'security') { this.loadSecurityKpis(); this.renderUsersTable(); this.renderSessionsTable(); this.loadSecurityEvents(); this.loadAuditTrail(); }
-    UIState.currentActiveView = name;
-  },
-  async renderProducts() {
-    const tb = document.getElementById('product-table-body'); if (!tb) return;
-    const s = (document.getElementById('prod-search')?.value || '').toUpperCase();
-    const canViewCost = await Guard.has(PERM.PURCHASE_COST_VIEW);
-    const canEdit = await Guard.has(PERM.PRODUCT_EDIT);
-    const products = await db.products.toArray();
-    const f = products.filter(p => !s || p.name.includes(s) || p.sku.includes(s));
-    tb.innerHTML = f.length === 0 ? `<tr><td colspan="5" class="text-center p-8 text-slate-400 text-xs uppercase font-bold">No products</td></tr>` :
-      f.map(p => `<tr class="hover:bg-blue-50/30">
-        <td><p class="font-black text-xs text-blue-800 uppercase">${esc(p.name)}</p><p class="text-[9px] text-slate-500 font-bold">${esc(p.brand||'-')} · ${esc(p.category)}</p></td>
-        <td class="font-mono text-[10px]">${esc(p.sku)}</td>
-        <td class="text-right">${canViewCost ? `<p class="font-black text-[10px] text-slate-500">C: ₹${p.avgCost || p.pur || 0}</p>` : ''}<p class="font-black text-sm text-blue-600">S: ₹${p.sale}</p></td>
-        <td class="text-center font-black text-base ${p.stock <= 0 ? 'text-rose-600' : 'text-emerald-600'}">${p.stock}</td>
-        <td class="text-center">${canEdit ? `<button onclick="UI.editProduct('${p.id}')" class="btn-ghost px-3 py-1.5 text-[9px]">EDIT</button>` : ''}</td>
-      </tr>`).join('');
-    const dl = document.getElementById('item-list'); if (dl) dl.innerHTML = products.map(p => `<option value="${esc(p.name)}">`).join('');
-  },
-  debouncedRenderProducts: debounce(() => UI.renderProducts(), 250),
-  debouncedRenderParties: debounce(() => UI.renderParties(), 250),
-  debouncedRenderLedger: debounce(() => UI.updateLedgerView(), 250),
-  openProductForm() { document.getElementById('prod-form-title').innerText = '➕ Create Product'; UIState.editingProductId = null; ['p-id','p-name','p-brand','p-sku','p-hsn','p-pur','p-sale'].forEach(i => document.getElementById(i).value = ''); document.getElementById('p-low').value = '5'; document.getElementById('p-gst').value = '18'; document.getElementById('add-product-form').classList.remove('hidden'); document.getElementById('p-name').focus(); },
-  async saveProduct() {
-    try {
-      const data = { name: document.getElementById('p-name').value.trim(), brand: document.getElementById('p-brand').value.trim(), category: document.getElementById('p-category').value.trim() || 'General', sku: document.getElementById('p-sku').value.trim(), hsn: document.getElementById('p-hsn').value.trim(), lowStock: Number(document.getElementById('p-low').value) || 5, pur: Number(document.getElementById('p-pur').value) || 0, sale: Number(document.getElementById('p-sale').value) || 0, gst: Number(document.getElementById('p-gst').value) || 0 };
-      if (UIState.editingProductId) await ProductService.update(UIState.editingProductId, data);
-      else await ProductService.create(data);
-      document.getElementById('add-product-form').classList.add('hidden');
-      await this.renderProducts();
-      this.toast('Saved', 'Product saved');
-    } catch (e) { this.toast(e.code || 'Error', e.message, 'error'); }
-  },
-  async editProduct(id) {
-    const p = await db.products.get(id); if (!p) return;
-    UIState.editingProductId = id;
-    document.getElementById('prod-form-title').innerText = '✏️ Edit Product';
-    document.getElementById('p-name').value = p.name;
-    document.getElementById('p-brand').value = p.brand || '';
-    document.getElementById('p-category').value = p.category || '';
-    document.getElementById('p-sku').value = p.sku || '';
-    document.getElementById('p-hsn').value = p.hsn || '';
-    document.getElementById('p-low').value = p.lowStock || 5;
-    document.getElementById('p-pur').value = p.pur || '';
-    document.getElementById('p-sale').value = p.sale || '';
-    document.getElementById('p-gst').value = p.gst || 18;
-    document.getElementById('add-product-form').classList.remove('hidden');
-    document.getElementById('p-name').focus();
-  },
-  async exportProductsCSV() {
-    if (!(await Guard.has(PERM.PRODUCT_VIEW))) return this.toast('Denied', 'No permission', 'error');
-    const products = await db.products.toArray();
-    const canSeeCost = await Guard.has(PERM.PURCHASE_COST_VIEW);
-    let csv = 'ID,Name,Brand,Category,SKU,HSN,Cost,Sale,GST,Stock\n';
-    products.forEach(p => csv += `"${p.id}","${(p.name||'').replace(/"/g,'""')}","${p.brand||''}","${p.category||''}","${p.sku||''}","${p.hsn||''}",${canSeeCost ? (p.avgCost || p.pur || 0) : ''},${p.sale},${p.gst},${p.stock}\n`);
-    download(csv, `SRE_Inventory_${today()}.csv`);
-  },
-  async importProductsCSV(e) {
-    const file = e.target.files?.[0]; if (!file) return;
-    const text = await file.text();
-    const lines = text.replace(/^\uFEFF/,'').split(/\r?\n/).filter(l => l.trim());
-    if (lines.length < 2) return this.toast('CSV', 'Empty', 'error');
-    let ok = 0;
-    for (let i = 1; i < lines.length; i++) {
-      const cols = lines[i].split(',').map(s => s.replace(/^"|"$/g,'').trim());
-      if (cols.length < 8) continue;
-      try { await ProductService.create({ name: cols[1], brand: cols[2], category: cols[3], sku: cols[4], hsn: cols[5], pur: Number(cols[6])||0, sale: Number(cols[7])||0, gst: Number(cols[8])||0 }); ok++; } catch {}
-    }
-    await this.renderProducts(); this.toast('Imported', `${ok} products`); e.target.value = '';
-  },
-  async renderParties() {
-    const tb = document.getElementById('party-table-body'); if (!tb) return;
-    const s = (document.getElementById('party-search')?.value || '').toUpperCase();
-    const canEdit = await Guard.has(PERM.PARTY_EDIT);
-    const parties = await db.parties.toArray();
-    const f = parties.filter(p => !s || p.name.includes(s) || (p.mobile||'').includes(s));
-    tb.innerHTML = f.length === 0 ? `<tr><td colspan="4" class="text-center p-8 text-slate-400 text-xs uppercase font-bold">No parties</td></tr>` :
-      f.map(p => `<tr class="hover:bg-purple-50/30">
-        <td><p class="font-black text-xs text-slate-800 uppercase">${esc(p.name)}</p><span class="${p.type === 'CUSTOMER' ? 'text-blue-500' : 'text-purple-500'} text-[8px] font-black uppercase">${p.type}</span></td>
-        <td class="font-mono text-[10px]">${esc(p.mobile||'-')}</td>
-        <td class="text-right font-black text-sm ${p.outstanding > 0 ? 'text-rose-600' : 'text-emerald-600'}">₹${(p.outstanding||0).toLocaleString('en-IN')}</td>
-        <td class="text-center">${canEdit ? `<button onclick="UI.editParty('${p.id}')" class="btn-ghost px-3 py-1.5 text-[9px]">EDIT</button>` : ''}</td>
-      </tr>`).join('');
-    const dl = document.getElementById('party-list'); if (dl) dl.innerHTML = parties.map(p => `<option value="${esc(p.name)}">`).join('');
-  },
-  clearPartyForm() { ['pt-id','pt-name','pt-mobile','pt-address','pt-gstin'].forEach(i => document.getElementById(i).value = ''); document.getElementById('pt-type').value = 'CUSTOMER'; UIState.editingPartyId = null; },
-  async saveParty() {
-    try {
-      const data = { type: document.getElementById('pt-type').value, name: document.getElementById('pt-name').value.trim(), mobile: document.getElementById('pt-mobile').value.trim(), address: document.getElementById('pt-address').value.trim(), gstin: document.getElementById('pt-gstin').value.trim() };
-      if (UIState.editingPartyId) await PartyService.update(UIState.editingPartyId, data);
-      else await PartyService.create(data);
-      this.clearPartyForm(); await this.renderParties(); this.toast('Saved', 'Party saved');
-    } catch (e) { this.toast(e.code || 'Error', e.message, 'error'); }
-  },
-  async editParty(id) {
-    const p = await db.parties.get(id); if (!p) return;
-    UIState.editingPartyId = id;
-    document.getElementById('pt-type').value = p.type;
-    document.getElementById('pt-name').value = p.name;
-    document.getElementById('pt-mobile').value = p.mobile || '';
-    document.getElementById('pt-address').value = p.address || '';
-    document.getElementById('pt-gstin').value = p.gstin || '';
-  },
-  async startBill(mode) {
-    const perm = mode === 'SALE' || mode === 'SALES_RETURN' ? PERM.SALE_CREATE : PERM.PURCHASE_CREATE;
-    if (!(await Guard.has(perm))) return this.toast('Denied', `No permission for ${mode}`, 'error');
-    UIState.currentMode = mode;
-    document.getElementById('bill-title').innerText = mode.replace('_', ' ') + ' ENTRY';
-    document.getElementById('form-entry-type').innerText = mode.replace('_', ' ');
-    document.getElementById('lbl-party-type').innerText = mode.includes('SALE') ? 'CUSTOMER' : 'SUPPLIER';
-    ['bill-party','master-item-scan','bill-ref-inv'].forEach(i => { const e = document.getElementById(i); if (e) e.value = ''; });
-    document.getElementById('bill-date').value = today();
-    document.getElementById('bill-inv').value = 'AUTO';
-    document.getElementById('bill-items-body').innerHTML = '';
-    document.getElementById('payment-engine-strip').classList.toggle('hidden', mode.includes('RETURN'));
-    document.getElementById('bill-ref-container').classList.toggle('hidden', !mode.includes('RETURN'));
-    document.getElementById('bill-ref-container').classList.toggle('flex', mode.includes('RETURN'));
-    this.setMasterPayMode('INSTANT');
-    this.addBillRow(null, null, true);
-    this.showView('new-bill');
-    setTimeout(() => document.getElementById('master-item-scan')?.focus(), 100);
-  },
-  async handleMasterScan(e) {
-    if (e.key !== 'Enter') return;
-    e.preventDefault();
-    const val = e.target.value.trim().toUpperCase();
-    if (!val) return;
-    const products = await db.products.toArray();
-    const prod = products.find(p => p.sku === val || p.name === val);
-    if (!prod) { this.toast('Not Found', `"${val}"`, 'error'); e.target.value = ''; return; }
-    const rows = document.querySelectorAll('#bill-items-body tr');
-    let found = Array.from(rows).find(r => { const n = r.querySelector('.b-name'); return n && n.value.toUpperCase() === prod.name; });
-    if (found) { found.querySelector('.b-qty').value = Number(found.querySelector('.b-qty').value) + 1; }
-    else { this.addBillRow(prod, val); const first = rows[0]; if (first && !first.querySelector('.b-name').value) first.remove(); }
-    this.calcBill(); e.target.value = '';
-  },
-  addBillRow(prod, scanVal, isFirst = false) {
-    const tbody = document.getElementById('bill-items-body'); if (!tbody) return;
-    const tr = document.createElement('tr');
-    tr.dataset.rowId = 'ROW-' + UUID();
-    tr._productId = prod ? prod.id : null;
-    tr._imeis = [];
-    const isSale = UIState.currentMode.includes('SALE');
-    const rate = prod ? (isSale ? prod.sale : prod.pur) : '';
-    const gst = prod ? prod.gst : 18;
-    const trackerHtml = (prod && prod.track) ? `<button onclick="UI.openImeiModal(this)" class="bg-blue-50 text-blue-600 px-3 py-1.5 rounded-lg text-[9px] font-black border border-blue-200 row-imei-btn">Manage (0)</button>` : `<span class="text-[9px] text-slate-400 row-imei-btn" data-untracked="true">-</span>`;
-    tr.innerHTML = `<td class="p-1.5 text-center"><span class="text-[10px] font-black text-slate-400 row-sl"></span></td>
-      <td class="p-1.5"><input type="text" list="item-list" onchange="UI.autoFillRate(this)" class="premium-input uppercase text-[11px] font-black b-name !px-2 !h-[34px]" value="${esc(prod?.name || '')}"></td>
-      <td class="p-1.5"><input type="number" min="1" value="1" oninput="UI.calcBill()" class="premium-input text-center b-qty !px-1 !h-[34px] font-black text-blue-700"></td>
-      <td class="p-1.5 text-center">${trackerHtml}</td>
-      <td class="p-1.5"><input type="number" value="${rate}" oninput="UI.calcBill()" class="premium-input text-[12px] text-right b-rate !px-2 !h-[34px] font-bold"></td>
-      <td class="p-1.5"><select onchange="UI.calcBill()" class="premium-input text-center b-gst !px-1 !h-[34px]">${[0,5,12,18,28].map(v => `<option value="${v}" ${v == gst ? 'selected' : ''}>${v}</option>`).join('')}</select></td>
-      <td class="p-1.5 text-right"><span class="font-black text-[12px] row-amt">₹0</span></td>
-      <td class="p-1.5 text-center">${!isFirst ? `<button onclick="this.closest('tr').remove(); UI.calcBill();" class="text-rose-400 font-black">✕</button>` : ''}</td>`;
-    tbody.appendChild(tr); this.calcBill();
-  },
-  async autoFillRate(input) {
-    const name = input.value.trim().toUpperCase();
-    const prod = (await db.products.toArray()).find(p => p.name === name);
-    const tr = input.closest('tr');
-    if (prod) {
-      tr._productId = prod.id;
-      const isSale = UIState.currentMode.includes('SALE');
-      tr.querySelector('.b-rate').value = isSale ? prod.sale : prod.pur;
-      tr.querySelector('.b-gst').value = prod.gst;
-      const cell = tr.querySelectorAll('td')[3];
-      if (prod.track) { cell.innerHTML = `<button onclick="UI.openImeiModal(this)" class="bg-blue-50 text-blue-600 px-3 py-1.5 rounded-lg text-[9px] font-black border border-blue-200 row-imei-btn">Manage (0)</button>`; tr._imeis = []; }
-      else cell.innerHTML = `<span class="text-[9px] text-slate-400 row-imei-btn" data-untracked="true">-</span>`;
-      this.calcBill();
-    } else { tr._productId = null; this.calcBill(); }
-  },
-  updateImeiBadge(tr) {
-    const btn = tr.querySelector('.row-imei-btn'); if (!btn || btn.dataset.untracked) return;
-    const need = Number(tr.querySelector('.b-qty').value) || 1;
-    btn.innerText = `Manage (${tr._imeis.length})`;
-    if (tr._imeis.length === need) { btn.classList.remove('bg-blue-50','text-blue-600','border-blue-200'); btn.classList.add('bg-emerald-500','text-white','border-emerald-600'); }
-    else { btn.classList.add('bg-blue-50','text-blue-600','border-blue-200'); btn.classList.remove('bg-emerald-500','text-white','border-emerald-600'); }
-  },
-  openImeiModal(btn) {
-    const tr = btn.closest('tr');
-    const nm = tr.querySelector('.b-name').value.trim();
-    const qty = Math.max(1, Number(tr.querySelector('.b-qty').value) || 1);
-    if (!nm) return this.toast('Warning', 'Select product first', 'warning');
-    UIState.activeImeiRowId = tr.dataset.rowId;
-    document.getElementById('imei-modal-sub').innerText = `${nm} | Required: ${qty}`;
-    const c = document.getElementById('imei-modal-inputs');
-    c.innerHTML = '';
-    if (tr._imeis.length > qty) tr._imeis.length = qty;
-    for (let i = 0; i < qty; i++) { const wrap = document.createElement('div'); wrap.className = 'relative'; wrap.innerHTML = `<span class="absolute left-3 top-2.5 text-[9px] font-black text-slate-400">#${i+1}</span><input type="text" class="premium-input font-mono font-bold text-xs !pl-8 uppercase imei-modal-val" oninput="UI.updateImeiModalCount()">`; wrap.querySelector('input').value = tr._imeis[i] || ''; c.appendChild(wrap); }
-    document.getElementById('imei-modal').classList.remove('hidden');
-    this.updateImeiModalCount();
-    setTimeout(() => document.querySelector('.imei-modal-val')?.focus(), 100);
-  },
-  updateImeiModalCount() { const inputs = document.querySelectorAll('.imei-modal-val'); let n = 0; inputs.forEach(i => { if (i.value.trim()) n++; }); const el = document.getElementById('imei-modal-count'); if (el) el.innerText = `${n} / ${inputs.length}`; },
-  closeImeiModal() { document.getElementById('imei-modal').classList.add('hidden'); UIState.activeImeiRowId = null; },
-  applyImeiModal() {
-    if (!UIState.activeImeiRowId) return;
-    const tr = document.querySelector(`tr[data-row-id="${UIState.activeImeiRowId}"]`); if (!tr) return;
-    const inputs = document.querySelectorAll('.imei-modal-val');
-    const arr = [], set = new Set();
-    for (const i of inputs) { const v = i.value.trim().toUpperCase(); if (!v) continue; if (set.has(v)) return this.toast('Error', `Duplicate: ${v}`, 'error'); set.add(v); arr.push(v); }
-    tr._imeis = arr; this.updateImeiBadge(tr); this.closeImeiModal();
-  },
-  setMasterPayMode(mode) { UIState.masterPayMode = mode; ['mode-INSTANT','mode-CREDIT'].forEach(id => document.getElementById(id)?.classList.remove('active')); document.getElementById('mode-' + mode)?.classList.add('active'); const inp = document.getElementById('bill-paid'); inp.readOnly = mode !== 'INSTANT'; this.calcBill(); },
-  setCombo(c) { UIState.comboPayMode = c; ['combo-CASH','combo-QR','combo-CARD'].forEach(id => document.getElementById(id)?.classList.remove('active')); document.getElementById('combo-' + c)?.classList.add('active'); this.calcBill(); },
-  calcBill(isTyping = false) {
-    let tax = 0, gstAmt = 0, grand = 0, i = 1;
-    document.querySelectorAll('#bill-items-body tr').forEach(row => {
-      const sl = row.querySelector('.row-sl'); if (sl) sl.innerText = i++;
-      const name = row.querySelector('.b-name').value.trim();
-      const r = Number(row.querySelector('.b-rate').value) || 0;
-      const q = Number(row.querySelector('.b-qty').value) || 0;
-      const g = Number(row.querySelector('.b-gst').value) || 0;
-      const lt = r * q, lg = lt * g / 100, rt = lt + lg;
-      const amt = row.querySelector('.row-amt'); if (amt) amt.innerText = '₹' + Math.round(rt).toLocaleString('en-IN');
-      if (!name) return;
-      tax += lt; gstAmt += lg; grand += rt;
-    });
-    const gTotal = Math.round(grand);
-    document.getElementById('bill-taxable').innerText = '₹' + tax.toLocaleString('en-IN', { minimumFractionDigits: 2 });
-    document.getElementById('bill-gst').innerText = '₹' + gstAmt.toLocaleString('en-IN', { minimumFractionDigits: 2 });
-    document.getElementById('bill-grand-total').innerText = '₹' + gTotal.toLocaleString('en-IN');
-    const pIn = document.getElementById('bill-paid');
-    let paid = Number(pIn.value) || 0;
-    if (UIState.masterPayMode === 'INSTANT' && !isTyping) { pIn.value = gTotal; paid = gTotal; }
-    document.getElementById('bill-due').innerText = '₹' + Math.max(0, gTotal - paid).toLocaleString('en-IN');
-    return { tax, gstAmt, grand: gTotal, paid, due: Math.max(0, gTotal - paid) };
-  },
-  async saveFinalBill() {
-    if (UIState.isSaving) return;
-    const party = document.getElementById('bill-party').value.trim().toUpperCase();
-    if (!party) return this.toast('Required', 'Party required', 'error');
-    const rows = document.querySelectorAll('#bill-items-body tr');
-    const items = [];
-    for (const row of rows) {
-      const name = row.querySelector('.b-name').value.trim().toUpperCase(); if (!name) continue;
-      if (!row._productId) return this.toast('Invalid', `${name} not matched`, 'error');
-      items.push({ productId: row._productId, name, rate: Number(row.querySelector('.b-rate').value)||0, qty: Number(row.querySelector('.b-qty').value)||1, gst: Number(row.querySelector('.b-gst').value)||0, imeiList: row._imeis || [] });
-    }
-    if (!items.length) return this.toast('Empty', 'Add at least one item', 'error');
-    const totals = this.calcBill(true);
-    const mode = UIState.currentMode;
-    const payload = { party, items, date: document.getElementById('bill-date').value || today(), paid: totals.paid, paymentMode: UIState.comboPayMode, payments: [{ mode: UIState.comboPayMode === 'QR' ? 'UPI' : UIState.comboPayMode, amount: totals.paid }], requestId: `${mode}-${UUID()}` };
-    const p = await db.parties.where('name').equals(party).first(); if (p) payload.mobile = p.mobile || '';
-    UIState.isSaving = true;
-    const btn = document.getElementById('btn-save-bill'); btn.disabled = true; btn.innerText = '⏳ POSTING…';
-    try {
-      let result;
-      if (mode === 'SALE') result = await SaleService.post(payload);
-      else if (mode === 'PURCHASE') result = await PurchaseService.post(payload);
-      else { payload.returnType = mode; payload.originalRef = document.getElementById('bill-ref-inv').value.trim(); if (!payload.originalRef) throw new AppError('VALIDATION', 'Original invoice reference required'); result = await ReturnService.post(payload); }
-      this.toast('Posted', `${mode} saved`);
-      await this.renderProducts(); await this.renderParties(); await SyncService.updateBadge();
-      if (result.bill) this.generateInvoiceHTML(result.bill);
-      else this.showView('dashboard');
-    } catch (e) { console.error(e); this.toast(e.code || 'Failed', e.message, 'error'); }
-    finally { UIState.isSaving = false; btn.disabled = false; btn.innerText = '💾 POST (F9)'; }
-  },
-  async onPartySelect(val) { const v = val.trim().toUpperCase(); if (!v) return; const p = await db.parties.where('name').equals(v).first(); if (p) document.getElementById('bill-party').value = p.name; },
-  startPayment(type) { UIState.currentPaymentType = type; document.getElementById('pay-title').innerText = type === 'IN' ? 'RECEIPT' : 'PAYMENT'; document.getElementById('pay-party-lbl').innerText = type === 'IN' ? 'Customer *' : 'Supplier *'; ['pay-party','pay-amt','pay-remarks'].forEach(i => document.getElementById(i).value = ''); this.showView('payment'); },
-  async savePayment() {
-    try {
-      const party = document.getElementById('pay-party').value.trim();
-      const amount = Number(document.getElementById('pay-amt').value) || 0;
-      const mode = document.getElementById('pay-mode').value;
-      const narration = document.getElementById('pay-remarks').value.trim();
-      if (!party) return this.toast('Required', 'Party required', 'error');
-      if (amount <= 0) return this.toast('Required', 'Amount must be positive', 'error');
-      const type = UIState.currentPaymentType === 'IN' ? 'RECEIPT' : 'PAYMENT';
-      await PaymentService.post({ party, amount, mode, narration, type, requestId: `PAY-${UUID()}` });
-      this.toast('Posted', 'Voucher saved');
-      await this.renderParties(); await SyncService.updateBadge();
-      this.showView('ledger');
-    } catch (e) { this.toast(e.code || 'Failed', e.message, 'error'); }
-  },
-  async updateLedgerView() {
-    try {
-      const tb = await ReportService.trialBalance();
-      const pnl = await ReportService.profitAndLoss();
-      const accounts = {};
-      for (const r of tb.rows) accounts[r.account] = r;
-      const tbBody = document.getElementById('tb-body');
-      if (tbBody) tbBody.innerHTML = tb.rows.map(r => `<tr><td class="font-bold text-xs uppercase px-2">${esc(r.account)}</td><td class="text-right text-rose-600 font-black">${r.dr ? r.dr.toLocaleString('en-IN') : '-'}</td><td class="text-right text-emerald-600 font-black">${r.cr ? r.cr.toLocaleString('en-IN') : '-'}</td></tr>`).join('');
-      const tfoot = document.getElementById('tb-foot');
-      if (tfoot) tfoot.innerHTML = `<tr><td class="text-right text-[10px] uppercase px-2">TOTAL</td><td class="text-right text-rose-700 font-black">${tb.totalDr.toLocaleString('en-IN')}</td><td class="text-right text-emerald-700 font-black">${tb.totalCr.toLocaleString('en-IN')}</td></tr>`;
-      const tbStat = document.getElementById('tb-status');
-      if (tbStat) { tbStat.innerText = tb.balanced ? 'MATCHED ✅' : 'MISMATCH ❌'; tbStat.className = 'px-3 py-1 rounded text-xs font-black ' + (tb.balanced ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'); }
-      const setV = (id, v) => { const e = document.getElementById(id); if (e) e.innerText = v; };
-      setV('ledger-ob', '₹' + (accounts['Opening Balance Suspense']?.cr || 0).toLocaleString('en-IN'));
-      setV('ledger-billed', '₹' + (accounts['Customer Receivable']?.dr || 0).toLocaleString('en-IN'));
-      setV('ledger-paid', '₹' + (accounts['Customer Receivable']?.cr || 0).toLocaleString('en-IN'));
-      setV('ledger-bal', '₹' + tb.totalDr.toLocaleString('en-IN'));
-      setV('rep-sale', '₹' + pnl.sales.toLocaleString('en-IN'));
-      setV('rep-pur', '₹' + pnl.cogs.toLocaleString('en-IN'));
-      setV('rep-exp', '₹' + pnl.opex.toLocaleString('en-IN'));
-      setV('rep-prof', '₹' + pnl.netProfit.toLocaleString('en-IN'));
-      const entries = await db.journal_entries.toArray();
-      const journals = await db.journals.toArray();
-      const jMap = Object.fromEntries(journals.map(j => [j.id, j]));
-      const grouped = {};
-      for (const e of entries) { const j = jMap[e.journalId]; if (!j) continue; grouped[j.id] = grouped[j.id] || { journal: j, dr: 0, cr: 0 }; grouped[j.id].dr += Number(e.dr) || 0; grouped[j.id].cr += Number(e.cr) || 0; }
-      const list = Object.values(grouped).sort((a, b) => (a.journal.date||'').localeCompare(b.journal.date||''));
-      let run = 0;
-      const rowsHtml = list.map(g => { run += g.dr - g.cr; return `<tr class="hover:bg-indigo-50/30"><td class="font-mono text-[10px] px-2">${esc(g.journal.date)}</td><td class="text-[11px] font-bold">${esc(g.journal.refNo)}</td><td class="text-center"><span class="badge badge-gray">${esc(g.journal.type)}</span></td><td class="text-[11px]">${esc(g.journal.narration || '')}</td><td class="text-right text-rose-600 font-black text-sm">${g.dr ? g.dr.toLocaleString('en-IN') : '-'}</td><td class="text-right text-emerald-600 font-black text-sm">${g.cr ? g.cr.toLocaleString('en-IN') : '-'}</td><td class="text-right font-black text-sm text-indigo-700">${run.toLocaleString('en-IN')}</td></tr>`; }).join('');
-      const ltb = document.getElementById('ledger-table-body');
-      if (ltb) ltb.innerHTML = rowsHtml || `<tr><td colspan="7" class="text-center p-8 text-slate-400 text-xs uppercase font-bold">No entries</td></tr>`;
-    } catch (e) { console.error('Ledger:', e); }
-  },
-  async loadDashboard(range) {
-    try {
-      document.querySelectorAll('.dash-filter').forEach(b => { b.classList.remove('bg-blue-600','text-white'); b.classList.add('text-slate-600'); });
-      const todayStr = today();
-      const start = new Date();
-      if (range === 'TODAY') start.setTime(new Date(todayStr).getTime());
-      if (range === '30D') start.setDate(start.getDate() - 30);
-      const startStr = start.toISOString().split('T')[0];
-      const bills = await db.bills.toArray();
-      const dBills = bills.filter(b => b.date >= startStr && b.date <= todayStr);
-      let saleAmt = 0, purAmt = 0, profit = 0;
-      for (const b of dBills) { if (b.type === 'SALE') { saleAmt += Number(b.total)||0; profit += Number(b.profit)||0; } if (b.type === 'PURCHASE') purAmt += Number(b.total)||0; }
-      const parties = await db.parties.toArray();
-      const outAmt = parties.filter(p => p.type === 'CUSTOMER').reduce((s, p) => s + (Number(p.outstanding)||0), 0);
-      const canSeeCost = await Guard.has(PERM.PURCHASE_COST_VIEW);
-      const kpis = document.getElementById('dashboard-kpis');
-      if (kpis) kpis.innerHTML = `
-        <div class="glass-panel p-5" style="border-top:4px solid #2563eb"><p class="text-[10px] text-slate-500 font-black uppercase">Sales</p><h3 class="text-2xl font-black mt-1">₹${saleAmt.toLocaleString('en-IN')}</h3></div>
-        ${canSeeCost ? `<div class="glass-panel p-5" style="border-top:4px solid #7c3aed"><p class="text-[10px] text-slate-500 font-black uppercase">Purchase</p><h3 class="text-2xl font-black mt-1">₹${purAmt.toLocaleString('en-IN')}</h3></div>
-        <div class="glass-panel p-5 bg-emerald-50/20" style="border-top:4px solid #059669"><p class="text-[10px] text-emerald-600 font-black uppercase">Gross Profit</p><h3 class="text-2xl font-black text-emerald-700 mt-1">₹${profit.toLocaleString('en-IN')}</h3></div>` : ''}
-        <div class="glass-panel p-5" style="border-top:4px solid #e11d48"><p class="text-[10px] text-slate-500 font-black uppercase">Receivables</p><h3 class="text-2xl font-black text-rose-600 mt-1">₹${outAmt.toLocaleString('en-IN')}</h3></div>
-      `;
-      const trend = {};
-      for (const b of dBills.filter(x => x.type === 'SALE')) trend[b.date] = (trend[b.date] || 0) + (Number(b.total) || 0);
-      const tK = Object.keys(trend).sort();
-      if (charts.trend) charts.trend.destroy();
-      if (document.getElementById('trendChart')) charts.trend = new Chart(document.getElementById('trendChart'), { type:'line', data:{ labels: tK.length ? tK : ['No Data'], datasets:[{ label:'Sales', data: tK.length ? tK.map(k => trend[k]) : [0], borderColor:'#2563eb', backgroundColor:'rgba(37,99,235,.1)', borderWidth:3, tension:.4, fill:true }] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'top' } }, scales:{ y:{ beginAtZero:true } } } });
-      const products = await db.products.toArray();
-      let low = 0; for (const p of products) if (p.stock <= (p.lowStock || 5)) low++;
-      let cust = 0; for (const p of parties) if (p.outstanding > 0 && p.type === 'CUSTOMER') cust++;
-      const queuePending = await db.sync_queue.where('status').equals('PENDING').count();
-      let html = '';
-      if (low) html += `<div class="bg-rose-50 p-2.5 rounded mb-2 flex justify-between"><span class="text-[10px] font-black uppercase text-rose-700">📦 Low Stock</span><span class="bg-rose-200 text-rose-800 text-[10px] px-2 rounded font-black">${low}</span></div>`;
-      if (cust) html += `<div class="bg-amber-50 p-2.5 rounded mb-2 flex justify-between"><span class="text-[10px] font-black uppercase text-amber-700">👥 Customer Dues</span><span class="bg-amber-200 text-amber-800 text-[10px] px-2 rounded font-black">${cust}</span></div>`;
-      if (queuePending) html += `<div class="bg-blue-50 p-2.5 rounded mb-2 flex justify-between"><span class="text-[10px] font-black uppercase text-blue-700">⏳ Sync Queue</span><span class="bg-blue-200 text-blue-800 text-[10px] px-2 rounded font-black">${queuePending}</span></div>`;
-      const ac = document.getElementById('alerts-container'); if (ac) ac.innerHTML = html || `<div class="p-8 text-center opacity-50"><span class="text-4xl block mb-2">🛡️</span><p class="text-[10px] font-bold uppercase">All Stable</p></div>`;
-    } catch (e) { console.error('Dashboard:', e); }
-  },
-  async loadSecurityKpis() {
-    const users = await db.users.toArray();
-    const locked = users.filter(u => u.status === 'LOCKED').length;
-    const sessions = await SessionService.active();
-    const events = await db.security_events.toArray();
-    const failed = events.filter(e => e.type === 'LOGIN_FAILED').length;
-    const kpis = document.getElementById('security-kpis');
-    if (kpis) kpis.innerHTML = `
-      <div class="glass-panel p-5" style="border-top:4px solid #2563eb"><p class="text-[10px] text-slate-500 font-black uppercase">Users</p><h3 class="text-2xl font-black mt-1">${users.length}</h3></div>
-      <div class="glass-panel p-5" style="border-top:4px solid #059669"><p class="text-[10px] text-slate-500 font-black uppercase">Active Sessions</p><h3 class="text-2xl font-black mt-1">${sessions.length}</h3></div>
-      <div class="glass-panel p-5" style="border-top:4px solid #e11d48"><p class="text-[10px] text-slate-500 font-black uppercase">Locked</p><h3 class="text-2xl font-black text-rose-600 mt-1">${locked}</h3></div>
-      <div class="glass-panel p-5" style="border-top:4px solid #f59e0b"><p class="text-[10px] text-slate-500 font-black uppercase">Failed Logins</p><h3 class="text-2xl font-black text-amber-600 mt-1">${failed}</h3></div>
-    `;
-  },
-  async renderUsersTable() {
-    const tb = document.getElementById('user-table-body'); if (!tb) return;
-    const users = await db.users.toArray();
-    tb.innerHTML = users.map(u => {
-      const canEdit = u.role !== 'SUPER_ADMIN' || currentUser.role === 'SUPER_ADMIN';
-      return `<tr>
-        <td><p class="font-black text-xs">${esc(u.fullName || u.user)}</p><span class="text-[9px] text-slate-500 font-mono">@${esc(u.user)}</span></td>
-        <td><span class="badge badge-blue">${esc(u.role)}</span></td>
-        <td><span class="badge ${u.status === 'ACTIVE' ? 'badge-green' : u.status === 'LOCKED' ? 'badge-red' : 'badge-gray'}">${esc(u.status)}</span></td>
-        <td class="text-right space-x-1">
-          ${u.status === 'LOCKED' ? `<button onclick="UI.unlockUser('${u.id}')" class="btn-ghost px-2 py-1 text-[9px]">🔓</button>` : ''}
-          ${canEdit ? `<button onclick="UI.openUserModal('${u.id}')" class="btn-ghost px-2 py-1 text-[9px]">Edit</button>` : ''}
-          ${canEdit && u.id !== currentUser.id ? `<button onclick="UI.disableUser('${u.id}')" class="btn-ghost px-2 py-1 text-[9px] text-rose-600">Disable</button>` : ''}
-        </td></tr>`;
-    }).join('');
-  },
-  async renderSessionsTable() {
-    const tb = document.getElementById('sessions-table-body'); if (!tb) return;
-    const sessions = await SessionService.active();
-    tb.innerHTML = sessions.length === 0 ? `<tr><td colspan="4" class="text-center p-4 text-slate-400 text-xs">No active sessions</td></tr>` :
-      sessions.map(s => `<tr>
-        <td><p class="font-black text-xs">${esc(s.username)}</p><span class="text-[9px] text-slate-500">${esc(s.role)}</span></td>
-        <td class="text-[10px] font-mono">${new Date(s.loginTime).toLocaleTimeString('en-IN')}</td>
-        <td class="text-[10px] font-mono">${new Date(s.lastActivity).toLocaleTimeString('en-IN')}</td>
-        <td class="text-right">${s.id !== currentSession?.id ? `<button onclick="UI.killSession('${s.id}')" class="btn-ghost px-2 py-1 text-[9px] text-rose-600">Kill</button>` : '<span class="text-[9px] text-slate-400">you</span>'}</td>
-      </tr>`).join('');
-  },
-  async loadSecurityEvents() {
-    const filter = (document.getElementById('sec-event-filter')?.value || '').toUpperCase();
-    const events = await Security.recent(100, filter);
-    const el = document.getElementById('security-events-list'); if (!el) return;
-    el.innerHTML = events.length === 0 ? '<p class="text-slate-400 p-4 text-center">No events</p>' :
-      events.map(e => { const colorMap = { INFO:'badge-blue', WARN:'badge-amber', CRITICAL:'badge-red' }; return `<div class="border-b border-slate-100 py-1.5 flex flex-wrap gap-2 items-center"><span class="text-slate-400">${new Date(e.date).toLocaleString('en-IN')}</span><span class="badge ${colorMap[e.severity] || 'badge-gray'}">${esc(e.type)}</span><span class="text-slate-500">${esc(e.username)}</span><span class="text-slate-400">${esc(e.module||'')}</span>${e.reason ? `<span class="text-slate-600">— ${esc(e.reason)}</span>` : ''}</div>`; }).join('');
-  },
-  async loadAuditTrail() {
-    const logs = await AuditService.recent(100);
-    const el = document.getElementById('audit-trail-list'); if (!el) return;
-    el.innerHTML = logs.length === 0 ? '<p class="text-slate-400 p-4 text-center">No audit</p>' :
-      logs.map(l => `<div class="border-b border-slate-100 py-1.5 flex flex-wrap gap-2"><span class="text-slate-400">${new Date(l.date).toLocaleString('en-IN')}</span><span class="font-black text-blue-700">${esc(l.action)}</span><span class="text-slate-500">${esc(l.module)}</span><span>${esc(l.username||'')}</span>${l.invoiceNo ? `<span class="text-slate-400">${esc(l.invoiceNo)}</span>` : ''}</div>`).join('');
-  },
-  async openUserModal(id = null) {
-    if (!(await Guard.has(PERM.USER_CREATE))) return this.toast('Denied', 'No permission', 'error');
-    const md = document.getElementById('user-modal');
-    const roles = Object.keys(ROLE_PERMISSIONS).filter(r => r !== 'CUSTOMER');
-    document.getElementById('u-role').innerHTML = roles.map(r => `<option value="${r}">${r}</option>`).join('');
-    const pc = document.getElementById('u-perm-container');
-    pc.innerHTML = Object.values(PERM).map(p => `<label class="flex items-center gap-1 cursor-pointer"><input type="checkbox" class="u-perm-cb" value="${p}"><span>${p}</span></label>`).join('');
-    if (id) {
-      const u = await db.users.get(id);
-      document.getElementById('user-modal-title').innerText = '✏️ Edit User';
-      document.getElementById('u-id').value = u.id;
-      document.getElementById('u-fullname').value = u.fullName || '';
-      document.getElementById('u-username').value = u.user;
-      document.getElementById('u-username').disabled = true;
-      document.getElementById('u-mobile').value = u.mobile || '';
-      document.getElementById('u-email').value = u.email || '';
-      document.getElementById('u-role').value = u.role;
-      document.getElementById('u-status').value = u.status || 'ACTIVE';
-      document.getElementById('u-pass').value = '';
-      document.getElementById('u-pass-label').innerText = 'New Password (blank = keep)';
-      const overrides = await db.permissions.where('userId').equals(id).toArray();
-      const granted = new Set(overrides.filter(o => o.granted).map(o => o.perm));
-      document.querySelectorAll('.u-perm-cb').forEach(cb => { cb.checked = granted.has(cb.value); });
-    } else {
-      document.getElementById('user-modal-title').innerText = '👤 New User';
-      document.getElementById('u-id').value = '';
-      ['u-fullname','u-username','u-mobile','u-email','u-pass'].forEach(i => document.getElementById(i).value = '');
-      document.getElementById('u-username').disabled = false;
-      document.getElementById('u-role').value = 'CASHIER';
-      document.getElementById('u-status').value = 'ACTIVE';
-      document.getElementById('u-pass-label').innerText = 'Password * (min 6)';
-      document.querySelectorAll('.u-perm-cb').forEach(cb => cb.checked = false);
-    }
-    md.classList.remove('hidden');
-  },
-  async saveUser() {
-    try {
-      const id = document.getElementById('u-id').value;
-      const customPerms = Array.from(document.querySelectorAll('.u-perm-cb:checked')).map(cb => cb.value);
-      const data = { fullName: document.getElementById('u-fullname').value.trim(), user: document.getElementById('u-username').value.trim(), mobile: document.getElementById('u-mobile').value.trim(), email: document.getElementById('u-email').value.trim(), role: document.getElementById('u-role').value, status: document.getElementById('u-status').value, pass: document.getElementById('u-pass').value, customPerms };
-      if (id) { if (!data.pass) delete data.pass; await UserService.updateUser(id, data); }
-      else { if (!data.pass) throw new AppError('VALIDATION', 'Password required'); await UserService.createUser(data); }
-      document.getElementById('user-modal').classList.add('hidden');
-      await this.renderUsersTable();
-      this.toast('Saved', 'User saved');
-    } catch (e) { this.toast(e.code || 'Failed', e.message, 'error'); }
-  },
-  async unlockUser(id) { try { await UserService.unlockAccount(id); this.renderUsersTable(); this.loadSecurityKpis(); this.toast('Unlocked', ''); } catch (e) { this.toast('Failed', e.message, 'error'); } },
-  async disableUser(id) { const r = prompt('Reason:'); if (!r) return; try { await UserService.disableUser(id, r); this.renderUsersTable(); this.toast('Disabled', ''); } catch (e) { this.toast('Failed', e.message, 'error'); } },
-  async killSession(id) { try { await SessionService.destroy(id, 'KILLED'); await Security.log('SESSION_KILLED', { module:'AUTH', targetId: id }); this.renderSessionsTable(); this.toast('Killed', ''); } catch (e) { this.toast('Failed', e.message, 'error'); } },
-  openChangePassword() { ['cp-old','cp-new','cp-conf'].forEach(i => document.getElementById(i).value = ''); document.getElementById('pw-modal').classList.remove('hidden'); },
-  async changeOwnPassword() {
-    try {
-      const o = document.getElementById('cp-old').value, n = document.getElementById('cp-new').value, c = document.getElementById('cp-conf').value;
-      if (n !== c) return this.toast('Validation', 'Passwords do not match', 'error');
-      await UserService.changePassword(currentUser.id, o, n);
-      document.getElementById('pw-modal').classList.add('hidden');
-      await SessionService.killOtherSessions(currentUser.id, currentSession.id);
-      this.toast('Changed', 'Please log in again.');
-      setTimeout(executeLogout, 2000);
-    } catch (e) { this.toast('Failed', e.message, 'error'); }
-  },
-  async downloadBackup() { try { const backup = await BackupService.exportAll(); download(JSON.stringify(backup, null, 2), `SRE_BACKUP_${today()}_${Date.now()}.json`, 'application/json'); this.toast('Backup', 'Downloaded'); } catch (e) { this.toast(e.code || 'Failed', e.message, 'error'); } },
-  async requestRestore() {
-    if (!(await Guard.has(PERM.BACKUP_RESTORE))) return this.toast('Denied', 'No permission', 'error');
-    const input = document.createElement('input');
-    input.type = 'file'; input.accept = '.json';
-    input.onchange = async (e) => {
-      const f = e.target.files[0]; if (!f) return;
-      const text = await f.text();
-      let backup; try { backup = JSON.parse(text); } catch { return this.toast('Invalid', 'Not JSON', 'error'); }
-      const r = await ElevationService.request(PERM.BACKUP_RESTORE, 'Restore database', { backup }).catch(() => null);
-      if (!r) return;
-      try { await BackupService.restore(r.backup, r._elevatedReason); this.toast('Restored', 'Reloading…'); setTimeout(() => location.reload(), 1200); }
-      catch (err) { this.toast('Restore failed', err.message, 'error'); }
-    };
-    input.click();
-  },
-  async requestFactoryReset() {
-    if (!(await Guard.has(PERM.FACTORY_RESET))) return this.toast('Denied', 'SUPER_ADMIN only', 'error');
-    const phrase = prompt("Type exactly: DELETE ALL DATA");
-    if (phrase !== 'DELETE ALL DATA') return this.toast('Cancelled', 'Phrase mismatch');
-    const reason = prompt('Reason (mandatory):');
-    if (!reason) return this.toast('Cancelled', 'Reason required');
-    try { const backup = await BackupService.exportAll(); download(JSON.stringify(backup, null, 2), `SRE_PRE_RESET_${Date.now()}.json`, 'application/json'); await Security.log('PRE_RESET_BACKUP', { module: 'FACTORY_RESET', reason, severity: 'CRITICAL' }); } catch (e) { return this.toast('Aborted', 'Could not backup: ' + e.message, 'error'); }
-    const r = await ElevationService.request(PERM.FACTORY_RESET, reason, {}).catch(() => null);
-    if (!r) return;
-    if (!confirm('FINAL: Wipe ALL data now?')) return this.toast('Cancelled', '');
-    await Security.log('FACTORY_RESET', { module: 'FACTORY_RESET', reason, severity: 'CRITICAL' });
-    await db.delete();
-    localStorage.clear(); sessionStorage.clear();
-    setTimeout(() => location.reload(), 800);
-  },
-  async syncNow() { if (!sysSettings.gas) return this.toast('Sync', 'URL not configured', 'warning'); const r = await SyncService.flush(); this.toast('Sync', `Uploaded: ${r.uploaded}, Failed: ${r.failed}`); },
-  async runHealthCheck() { const el = document.getElementById('health-report'); if (el) el.innerHTML = '<p class="text-slate-500">Running…</p>'; const report = await HealthService.run(); if (el) el.innerHTML = report.map(r => `<div class="flex justify-between p-2 rounded mb-1 ${r.status === 'PASS' ? 'bg-emerald-50 text-emerald-700' : r.status === 'FAIL' ? 'bg-rose-50 text-rose-700' : r.status === 'WARN' ? 'bg-amber-50 text-amber-700' : 'bg-slate-100'}"><span>${esc(r.check)}</span><span class="font-black">${esc(r.status)}</span></div><div class="text-[10px] text-slate-500 mb-2 pl-2">${esc(r.detail || '')}</div>`).join(''); },
-  closeProductModal() { document.getElementById('product-popup').classList.add('hidden'); },
-  closePartyModal() { document.getElementById('party-popup').classList.add('hidden'); },
-  async saveQuickProduct() { try { const p = await ProductService.create({ name: document.getElementById('qm-item-name').value, sale: Number(document.getElementById('qm-item-sale').value)||0, pur: Number(document.getElementById('qm-item-pur').value)||0, gst: Number(document.getElementById('qm-item-gst').value)||0, track: document.getElementById('qm-item-track').checked }); await this.renderProducts(); this.closeProductModal(); this.toast('Saved', p.name); } catch (e) { this.toast('Error', e.message, 'error'); } },
-  async saveQuickParty() { try { const p = await PartyService.create({ name: document.getElementById('q-party-name').value, mobile: document.getElementById('q-party-phone').value, type: document.getElementById('q-party-type')?.value || 'CUSTOMER' }); this.closePartyModal(); await this.renderParties(); this.toast('Saved', p.name); } catch (e) { this.toast('Error', e.message, 'error'); } },
-  cancelElevate() { ElevationService.cancel(); },
-  async confirmElevate() { try { await ElevationService.confirm(); } catch (e) { this.toast('Elevate', e.message, 'error'); } },
-  async saveFinanceCompany() { try { const nm = document.getElementById('q-fin-name').value.trim().toUpperCase(); if (!nm) return; await db.finance.add({ id: 'FIN-' + UUID(), name: nm, status: 'ACTIVE' }); document.getElementById('finance-modal').classList.add('hidden'); document.getElementById('q-fin-name').value = ''; this.toast('Saved', 'Finance company added'); } catch (e) { this.toast('Failed', e.message, 'error'); } },
-  generateInvoiceHTML(rec) {
-    try {
-      const set = (id, v) => { const e = document.getElementById(id); if (e) e.innerText = v == null ? '' : v; };
-      set('print-co-name', sysSettings.company);
-      set('print-co-address', sysSettings.address);
-      set('print-co-gst', sysSettings.gstin);
-      set('print-co-phone', sysSettings.phone);
-      set('inv-party', rec.party);
-      set('inv-phone', rec.mobile || '-');
-      set('inv-no', rec.invNo || rec.refNo);
-      set('inv-date', rec.date);
-      set('inv-type-title', (rec.type||'').includes('PURCHASE') ? 'PURCHASE' : (rec.type||'').includes('RETURN') ? 'CREDIT NOTE' : 'TAX INVOICE');
-      document.getElementById('inv-items').innerHTML = (rec.items || []).map((it, i) => `<tr><td class="p-2 border text-center">${i+1}</td><td class="p-2 border">${esc(it.name)} <span class="text-[8px] text-slate-500">[GST ${it.gst}%]</span></td><td class="p-2 border font-mono text-[9px]">${esc(it.imei || '-')}</td><td class="p-2 border text-center">${it.qty}</td><td class="p-2 border text-right">${it.rate}</td><td class="p-2 border text-right">${it.amt}</td></tr>`).join('');
-      set('inv-taxable-print', '₹' + (rec.basic||0).toLocaleString('en-IN'));
-      set('inv-gst-print', '₹' + (rec.gst||0).toLocaleString('en-IN'));
-      set('inv-total-print', '₹' + (rec.total||0).toLocaleString('en-IN'));
-      set('inv-paid', '₹' + (rec.paid||0).toLocaleString('en-IN'));
-      set('inv-bal', '₹' + (rec.due||0).toLocaleString('en-IN'));
-      this.showView('invoice');
-    } catch (e) { console.error('Invoice:', e); }
-  },
-  printFormat() { window.print(); },
-  downloadPDF() {
-    try {
-      const { jsPDF } = window.jspdf; const doc = new jsPDF('p','mm','a4');
-      doc.setFontSize(20); doc.text(sysSettings.company, 105, 25, null, null, 'center');
-      doc.setFontSize(8); doc.text(`${sysSettings.address} | Ph: ${sysSettings.phone}`, 105, 32, null, null, 'center');
-      doc.setFontSize(11); doc.text(`Bill To: ${document.getElementById('inv-party').innerText}`, 15, 52);
-      doc.text(`Inv: ${document.getElementById('inv-no').innerText}`, 195, 52, null, null, 'right');
-      doc.text(`Total: ${document.getElementById('inv-total-print').innerText}`, 195, 70, null, null, 'right');
-      doc.save(`${document.getElementById('inv-no').innerText}.pdf`);
-    } catch (e) { this.toast('PDF error', e.message, 'error'); }
-  },
-  exportReport: async (type) => {
-    let csv = 'Date,Ref,Party,Type,Total,Paid,Due,CGST,SGST,IGST\n';
-    const bills = await db.bills.toArray();
-    for (const b of bills) {
-      if (type === 'SALE' && b.type !== 'SALE') continue;
-      if (type === 'PURCHASE' && b.type !== 'PURCHASE') continue;
-      csv += `${b.date},${b.invNo},"${(b.party||'').replace(/"/g,'""')}",${b.type},${b.total},${b.paid},${b.due},${b.cgst||0},${b.sgst||0},${b.igst||0}\n`;
-    }
-    download(csv, `SRE_${type}_${today()}.csv`);
-  }
-};
-
-/* ---------- GLOBAL DELEGATES ---------- */
-function closePopup() { document.getElementById('center-popup').classList.add('hidden'); }
-function executeLogin() { UI.executeLogin(); }
-function executeSetup() { UI.executeSetup(); }
-async function executeLogout() {
-  if (currentSession?.id) { await SessionService.destroy(currentSession.id, 'LOGOUT'); await Security.log('LOGOUT', { module: 'AUTH' }); }
-  if (currentUser?.id) await db.users.update(currentUser.id, { lastLogout: nowISO() }).catch(() => {});
-  sessionStorage.clear();
-  location.reload();
-}
-function emergencyWipe() {
-  localStorage.clear(); sessionStorage.clear();
-  if ('serviceWorker' in navigator) navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => r.unregister()));
-  if (typeof Dexie !== 'undefined') Dexie.delete(DB_NAME).then(() => location.reload());
-  else location.reload();
-}
-
-/* ---------- BOOT ---------- */
-async function bootLoader() {
-  const status = document.getElementById('boot-status');
-  const emergency = document.getElementById('btn-emergency');
-  const fail = (m) => { console.error(m); if (status) { status.innerText = 'HALTED: ' + m; status.className = 'text-[12px] font-black text-white bg-rose-600 p-2 rounded mt-4'; } if (emergency) emergency.classList.remove('hidden'); };
-  const hideBoot = () => { const b = document.getElementById('boot-screen'); if (b) { b.classList.add('hidden'); b.style.display = 'none'; } };
-  try {
-    if (status) status.innerText = 'Loading libraries…';
-    const t0 = Date.now();
-    while (typeof Dexie === 'undefined' || typeof Chart === 'undefined') {
-      if (Date.now() - t0 > 15000) throw new Error('CDN libraries failed to load');
-      await new Promise(r => setTimeout(r, 100));
-    }
-    if (status) status.innerText = 'Opening database…';
-    initDb();
-    try { await db.open(); }
-    catch (e) { if (e.name === 'VersionError' || e.name === 'UpgradeError') { if (confirm('DB schema conflict. Reset all data?')) { await Dexie.delete(DB_NAME); location.reload(); return; } } throw e; }
-    await AccountService.ensureSeeded();
-    await PeriodService.ensureCurrentYear();
-    const cSet = await db.configs.get('sysSettings'); if (cSet) sysSettings = { ...sysSettings, ...(cSet.value || {}) };
-    const invMethod = await db.configs.get('inventoryMethod'); if (invMethod) UIState.inventoryMethod = invMethod.value;
-    hideBoot();
-    const userCount = await db.users.count();
-    if (userCount === 0) { UI.showSetup(); return; }
-    const sid = sessionStorage.getItem('sre_session_id');
-    if (sid) {
-      const s = await SessionService.validate(sid);
-      if (s) {
-        const u = await db.users.get(s.userId);
-        if (u && u.status === 'ACTIVE') {
-          currentUser = u; currentSession = s;
-          document.getElementById('user-role-text').innerText = u.role;
-          document.getElementById('user-avatar').innerText = u.user.charAt(0).toUpperCase();
-          await UI.bootstrap();
-          UI.startSessionTimers();
-          return;
-        }
-      }
-    }
-    UI.showLogin();
-  } catch (e) { console.error(e); fail(e.message || String(e)); }
-}
-
-if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bootLoader);
-else bootLoader();
-
-window.addEventListener('online', () => { const d = document.getElementById('net-dot'), t = document.getElementById('net-text'); if (d) d.style.background = '#10b981'; if (t) { t.innerText = 'ONLINE'; t.className = 'text-[9px] text-emerald-400 font-black uppercase'; } });
-window.addEventListener('offline', () => { const d = document.getElementById('net-dot'), t = document.getElementById('net-text'); if (d) d.style.background = '#f43f5e'; if (t) { t.innerText = 'OFFLINE'; t.className = 'text-[9px] text-rose-400 font-black uppercase'; } });
-
-window.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') { document.querySelectorAll('.modal-backdrop').forEach(m => m.classList.add('hidden')); }
-  if (e.key === 'F9') { const v = document.getElementById('view-new-bill'); if (v && !v.classList.contains('hidden')) { e.preventDefault(); UI.saveFinalBill(); } }
-});
-</script>
-</body>
-</html>
+        for (let i = 0; i < c.q
