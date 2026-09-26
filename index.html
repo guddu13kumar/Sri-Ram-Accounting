@@ -222,12 +222,36 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
     <div class="pb-10 flex-1" id="sidebar-menu-container"></div>
   </aside>
   <main class="flex-1 flex flex-col overflow-hidden w-full relative pb-16 lg:pb-0">
+
+<!-- ================================================================
+     DASHBOARD PAGE — डैशबोर्ड पेज
+     START
+     ↓
+     इस हिस्से में केवल डैशबोर्ड का code है।
+     ================================================================ -->
     <div id="view-dashboard" class="view-section hidden flex-col space-y-4 max-w-7xl mx-auto w-full p-4 sm:p-6 overflow-y-auto">
+
+<!-- ================================================================
+     DASHBOARD PAGE — डैशबोर्ड पेज
+     END
+     ================================================================ -->
       <div class="flex justify-between items-end mb-2"><h2 class="text-2xl font-black uppercase tracking-widest flex items-center gap-3"><span class="w-1.5 h-8 bg-blue-600 rounded-full"></span> Analytics</h2><div class="bg-white p-1 rounded-lg flex gap-1 shadow-sm border border-slate-200"><button class="dash-filter px-3 py-1.5 text-[10px] font-black uppercase rounded-md bg-blue-600 text-white" onclick="UI.loadDashboard('TODAY')">Today</button><button class="dash-filter px-3 py-1.5 text-[10px] font-black uppercase text-slate-600" onclick="UI.loadDashboard('30D')">30D</button></div></div>
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-4" id="dashboard-kpis"></div>
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-4"><div class="lg:col-span-2 glass-panel p-5"><h3 class="font-black text-[11px] uppercase mb-4">Sales Trend</h3><div class="h-[250px]"><canvas id="trendChart"></canvas></div></div><div class="glass-panel p-0" style="border-top:4px solid #fbbf24"><div class="p-4 bg-amber-50 border-b"><h3 class="font-black text-[11px] uppercase text-amber-800">⚠️ Alerts</h3></div><div class="overflow-y-auto p-2 max-h-[280px]" id="alerts-container"></div></div></div>
     </div>
+
+<!-- ================================================================
+     SECURITY PAGE — सिक्योरिटी पेज
+     START
+     ↓
+     इस हिस्से में केवल सिक्योरिटी का code है।
+     ================================================================ -->
     <div id="view-security" class="view-section hidden flex-col space-y-4 max-w-6xl mx-auto w-full p-4 sm:p-6 overflow-y-auto">
+
+<!-- ================================================================
+     SECURITY PAGE — सिक्योरिटी पेज
+     END
+     ================================================================ -->
       <h2 class="text-2xl font-black uppercase tracking-widest flex items-center gap-3"><span class="w-1.5 h-8 bg-rose-600 rounded-full"></span> Security Center</h2>
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-4" id="security-kpis"></div>
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -236,14 +260,38 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
         <div class="glass-panel p-5 lg:col-span-2"><div class="flex justify-between items-center border-b pb-2 mb-3"><h3 class="font-black text-sm uppercase">🧾 Audit Trail</h3><button onclick="UI.loadAuditTrail()" class="btn-primary px-3 py-1 text-[10px]">Refresh</button></div><div id="audit-trail-list" class="overflow-y-auto max-h-[400px] text-[10px] font-mono"></div></div>
       </div>
     </div>
+
+<!-- ================================================================
+     SYSTEM CONTROL PAGE — सिस्टम कंट्रोल पेज
+     START
+     ↓
+     इस हिस्से में केवल सिस्टम कंट्रोल का code है।
+     ================================================================ -->
     <div id="view-admin" class="view-section hidden flex-col space-y-4 max-w-5xl mx-auto p-4 sm:p-6 overflow-y-auto w-full">
+
+<!-- ================================================================
+     SYSTEM CONTROL PAGE — सिस्टम कंट्रोल पेज
+     END
+     ================================================================ -->
       <h2 class="text-2xl font-black uppercase tracking-widest flex items-center gap-3"><span class="w-1.5 h-8 bg-rose-600 rounded-full"></span> System Control</h2>
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div class="glass-panel p-6" style="border-top:4px solid #2563eb"><h3 class="font-black text-sm uppercase border-b pb-2 text-blue-600 mb-4">Branding</h3><div class="grid grid-cols-2 gap-4 mb-4"><div class="col-span-2"><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Company</label><input type="text" id="set-company" class="premium-input uppercase font-black text-blue-800"></div><div><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Phone</label><input type="text" id="set-phone" class="premium-input font-mono"></div><div><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">GSTIN</label><input type="text" id="set-gstin" class="premium-input uppercase font-mono"></div><div class="col-span-2"><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Address</label><input type="text" id="set-address" class="premium-input uppercase"></div><div><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Prefix</label><input type="text" id="set-prefix" class="premium-input uppercase font-mono"></div><div><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Theme</label><input type="color" id="set-theme" class="h-10 w-full rounded border"></div></div><button onclick="UI.saveAdminSettings()" class="btn-primary w-full py-2.5 text-xs">Save</button></div>
         <div class="glass-panel p-6" style="border-top:4px solid #059669"><h3 class="font-black text-sm uppercase border-b pb-2 text-emerald-600 mb-4">Database</h3><div class="space-y-3 mb-4"><button onclick="UI.downloadBackup()" class="btn-primary w-full py-3 text-xs" style="background:#059669">💾 Export Backup</button><button onclick="UI.requestRestore()" class="btn-ghost w-full py-3 text-xs" style="border-color:#10b981;color:#047857">📥 Restore</button><button onclick="UI.requestFactoryReset()" class="btn-primary w-full py-3 text-xs" style="background:#e11d48">⚠️ Factory Reset</button></div></div>
       </div>
     </div>
+
+<!-- ================================================================
+     PRODUCT / INVENTORY PAGE — प्रोडक्ट / इन्वेंटरी पेज
+     START
+     ↓
+     इस हिस्से में केवल प्रोडक्ट / इन्वेंटरी का code है।
+     ================================================================ -->
     <div id="view-product" class="view-section hidden flex-col h-full w-full p-4 overflow-y-auto">
+
+<!-- ================================================================
+     PRODUCT / INVENTORY PAGE — प्रोडक्ट / इन्वेंटरी पेज
+     END
+     ================================================================ -->
       <div class="flex justify-between gap-4 pb-4 shrink-0"><h2 class="text-2xl font-black uppercase tracking-widest flex items-center gap-3"><span class="w-1.5 h-8 bg-amber-500 rounded-full"></span> Inventory</h2><div class="flex gap-2"><button onclick="UI.openProductForm()" class="btn-primary px-5 h-9 text-[11px]">➕ New</button></div></div>
       <div class="glass-panel mb-4 shrink-0"><div class="p-3 border-b flex gap-3"><input type="text" id="prod-search" oninput="UI.debouncedRenderProducts()" placeholder="Search…" class="premium-input text-xs bg-slate-50"></div><div class="overflow-x-auto max-h-[50vh]"><table class="w-full text-left min-w-[900px]"><thead class="bg-slate-50 sticky top-0 z-10"><tr><th class="standard-th">Product</th><th class="standard-th">SKU</th><th class="standard-th text-right">Pricing</th><th class="standard-th text-center">Stock</th><th class="standard-th text-center">Actions</th></tr></thead><tbody id="product-table-body"></tbody></table></div></div>
       <div id="add-product-form" class="glass-panel p-5 hidden bg-white" style="border-top:4px solid #f59e0b">
@@ -252,26 +300,86 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
         <div class="flex justify-end gap-3 mt-5 pt-4 border-t"><button onclick="document.getElementById('add-product-form').classList.add('hidden')" class="btn-ghost px-6 py-2 text-xs">Cancel</button><button onclick="UI.saveProduct()" class="btn-primary px-8 py-2 text-xs">💾 Save</button></div>
       </div>
     </div>
+
+<!-- ================================================================
+     PARTY PAGE — पार्टी पेज
+     START
+     ↓
+     इस हिस्से में केवल पार्टी का code है।
+     ================================================================ -->
     <div id="view-party" class="view-section hidden flex-col h-full w-full p-4 overflow-y-auto">
+
+<!-- ================================================================
+     PARTY PAGE — पार्टी पेज
+     END
+     ================================================================ -->
       <h2 class="text-2xl font-black uppercase tracking-widest pb-4 flex items-center gap-3"><span class="w-1.5 h-8 bg-purple-600 rounded-full"></span> Parties</h2>
       <div class="glass-panel p-5 mb-4 bg-white" style="border-top:4px solid #9333ea"><div class="grid grid-cols-1 sm:grid-cols-4 gap-3"><div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Type</label><select id="pt-type" class="premium-input"><option>CUSTOMER</option><option>SUPPLIER</option></select></div><div class="col-span-2"><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Name *</label><input type="text" id="pt-name" class="premium-input uppercase text-blue-800"></div><div><label class="text-[9px] font-bold text-slate-500 uppercase block mb-1">Mobile</label><input type="tel" id="pt-mobile" maxlength="10" class="premium-input font-mono"></div></div><div class="mt-3 flex justify-end"><button onclick="UI.saveParty()" class="btn-primary px-8 py-2 text-xs">Save</button></div></div>
       <div class="glass-panel flex flex-col flex-1 overflow-hidden"><div class="p-3 border-b bg-white"><input type="text" id="party-search" oninput="UI.debouncedRenderParties()" placeholder="Search…" class="premium-input text-xs bg-slate-50"></div><div class="overflow-y-auto flex-1"><table class="w-full text-left min-w-[800px]"><thead class="bg-slate-50 sticky top-0 z-10"><tr><th class="standard-th">Party</th><th class="standard-th">Mobile</th><th class="standard-th text-right">Balance</th></tr></thead><tbody id="party-table-body"></tbody></table></div></div>
     </div>
+
+<!-- ================================================================
+     PAYMENT PAGE — भुगतान पेज
+     START
+     ↓
+     इस हिस्से में केवल भुगतान का code है।
+     ================================================================ -->
     <div id="view-payment" class="view-section hidden max-w-lg mx-auto pt-10 w-full h-full px-4">
+
+<!-- ================================================================
+     PAYMENT PAGE — भुगतान पेज
+     END
+     ================================================================ -->
       <div class="glass-panel p-8 bg-white" style="border-top:4px solid #14b8a6">
         <h2 id="pay-title" class="text-xl font-black uppercase text-center mb-6">VOUCHER</h2>
         <div class="space-y-4"><div><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1" id="pay-party-lbl">Party *</label><input type="text" id="pay-party" list="party-list" class="premium-input uppercase font-black text-blue-800"></div><div class="grid grid-cols-2 gap-4"><div><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Amount *</label><input type="number" id="pay-amt" class="premium-input border-emerald-300 bg-emerald-50 text-xl font-black text-emerald-700 text-center"></div><div><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Mode *</label><select id="pay-mode" class="premium-input font-bold"><option>CASH</option><option>BANK</option><option>CARD</option><option>UPI</option></select></div></div><div><label class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Narration</label><input type="text" id="pay-remarks" class="premium-input text-xs"></div><button onclick="UI.savePayment()" class="btn-primary w-full py-3.5 text-sm">Post Journal</button></div>
       </div>
     </div>
+
+<!-- ================================================================
+     LEDGER PAGE — लेजर पेज
+     START
+     ↓
+     इस हिस्से में केवल लेजर का code है।
+     ================================================================ -->
     <div id="view-ledger" class="view-section hidden flex-col h-full w-full p-4 overflow-y-auto">
+
+<!-- ================================================================
+     LEDGER PAGE — लेजर पेज
+     END
+     ================================================================ -->
       <h2 class="text-2xl font-black uppercase tracking-widest pb-3 flex items-center gap-3"><span class="w-1.5 h-8 bg-indigo-500 rounded-full"></span> Ledger</h2>
       <div class="glass-panel mb-4 bg-white"><div class="p-4 border-b flex justify-between items-center"><h3 class="font-black text-sm uppercase">Trial Balance</h3><span id="tb-status" class="px-3 py-1 rounded text-xs font-black"></span></div><div class="overflow-y-auto max-h-[500px]"><table class="w-full text-left min-w-[600px]"><thead class="bg-white sticky top-0 z-10"><tr><th class="standard-th">Account</th><th class="standard-th text-right">Debit</th><th class="standard-th text-right">Credit</th></tr></thead><tbody id="tb-body" class="divide-y divide-slate-100 bg-white"></tbody><tfoot class="bg-slate-50 font-black" id="tb-foot"></tfoot></table></div></div>
     </div>
+
+<!-- ================================================================
+     REPORTS PAGE — रिपोर्ट पेज
+     START
+     ↓
+     इस हिस्से में केवल रिपोर्ट का code है।
+     ================================================================ -->
     <div id="view-reports" class="view-section hidden flex-col h-full w-full p-4 overflow-y-auto">
+
+<!-- ================================================================
+     REPORTS PAGE — रिपोर्ट पेज
+     END
+     ================================================================ -->
       <h2 class="text-2xl font-black uppercase tracking-widest pb-4 flex items-center gap-3"><span class="w-1.5 h-8 bg-cyan-500 rounded-full"></span> Reports</h2>
       <div class="glass-panel p-6 mb-4 bg-white" style="border-top:4px solid #059669"><div class="grid grid-cols-2 sm:grid-cols-4 gap-4"><div class="bg-blue-50 p-4 rounded-lg"><p class="text-[10px] font-bold text-blue-600 uppercase">Sales</p><h3 class="text-xl font-black text-blue-700 mt-1" id="rep-sale">₹0</h3></div><div class="bg-rose-50 p-4 rounded-lg"><p class="text-[10px] font-bold text-rose-600 uppercase">COGS</p><h3 class="text-xl font-black text-rose-700 mt-1" id="rep-pur">₹0</h3></div><div class="bg-orange-50 p-4 rounded-lg"><p class="text-[10px] font-bold text-orange-600 uppercase">Expense</p><h3 class="text-xl font-black text-orange-700 mt-1" id="rep-exp">₹0</h3></div><div class="bg-emerald-50 p-4 rounded-lg"><p class="text-[10px] font-bold text-emerald-700 uppercase">Net Profit</p><h3 class="text-xl font-black text-emerald-700 mt-1" id="rep-prof">₹0</h3></div></div></div>
     </div>
+
+<!-- ================================================================
+     SALE / PURCHASE PAGE — बिक्री / खरीद पेज
+     START
+     ↓
+     इस हिस्से में केवल बिक्री / खरीद का code है।
+     ================================================================ -->
     <div id="view-new-bill" class="view-section hidden h-full w-full flex-col p-2 sm:p-3 gap-3">
+
+<!-- ================================================================
+     SALE / PURCHASE PAGE — बिक्री / खरीद पेज
+     END
+     ================================================================ -->
       <div class="glass-panel px-4 py-2.5 flex flex-wrap items-center justify-between bg-white gap-3">
         <div class="flex items-center gap-3"><h2 id="bill-title" class="text-xs sm:text-sm font-black uppercase">SALE ENTRY</h2><span id="form-entry-type" class="badge badge-blue">SALE</span></div>
         <div class="flex items-center gap-3 flex-wrap"><div id="bill-ref-container" class="hidden items-center gap-2"><label class="text-[9px] font-bold text-rose-500 uppercase">Orig Ref:</label><input type="text" id="bill-ref-inv" class="bg-rose-50 border border-rose-200 text-[11px] font-mono font-bold text-rose-700 w-32 rounded px-1.5 py-0.5" placeholder="INV NO"></div><label class="text-[9px] font-bold text-slate-400 uppercase">Date:</label><input type="date" id="bill-date" class="bg-transparent border-none outline-none text-[11px] font-mono font-bold w-[105px]"><input type="text" id="bill-inv" class="bg-transparent border-none outline-none text-[11px] font-mono font-bold text-blue-600 w-20" value="AUTO" readonly></div>
@@ -302,6 +410,13 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
         </div>
       </div>
     </div>
+
+<!-- ================================================================
+     INVOICE PAGE — इनवॉइस पेज
+     START
+     ↓
+     इस हिस्से में केवल इनवॉइस का code है।
+     ================================================================ -->
     <div id="view-invoice" class="view-section hidden flex-col h-full w-full p-4 overflow-y-auto bg-slate-200/80">
       <div class="max-w-4xl mx-auto w-full">
         <div class="glass-panel flex flex-wrap justify-between items-center p-4 mb-4 gap-4 bg-white no-print"><button onclick="UI.showView('dashboard')" class="btn-ghost px-5 py-2 text-[10px]">Back</button><div class="flex flex-wrap gap-2"><button onclick="UI.printFormat()" class="bg-slate-800 text-white px-4 py-2 rounded text-[10px] font-black uppercase">🖨️ Print</button></div></div>
@@ -313,7 +428,12 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
         </div></div>
       </div>
     </div>
-  </main>
+  
+<!-- ================================================================
+     INVOICE PAGE — इनवॉइस पेज
+     END
+     ================================================================ -->
+</main>
 </div>
 
 <nav class="lg:hidden fixed bottom-0 w-full bg-white shadow-[0_-10px_30px_rgba(0,0,0,0.1)] flex justify-between z-[100] border-t border-slate-200 pt-2 px-1 pb-2">
